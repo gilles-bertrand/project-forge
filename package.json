@@ -1,0 +1,30 @@
+{
+  "name": "project-forge",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "pnpm turbo run lint",
+    "lint:fix": "pnpm turbo run lint:fix",
+    "format": "pnpm turbo run format",
+    "lint:format": "pnpm turbo run lint:format",
+    "dev:front": "pnpm --filter run --filter=@apps/front start:with-back",
+    "dev:back": "pnpm --filter run --filter=@apps/backend dev",
+    "dev": "concurrently \"pnpm:dev:*\" --names \"dev:\" --prefixColors auto",
+    "pack:tuto": "node scripts/pack-tuto.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@11.0.8",
+  "devDependencies": {
+    "git-conventional-commits": "catalog:",
+    "lefthook": "catalog:",
+    "turbo": "catalog:",
+    "concurrently": "catalog:"
+  },
+  "volta": {
+    "node": "24.15.0",
+    "pnpm": "11.0.8"
+  }
+}
