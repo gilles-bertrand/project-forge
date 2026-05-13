@@ -20,6 +20,8 @@ import { appRouter } from "./app.router.js";
 import type { ApplicationContext } from "./application.context.js";
 import { logger } from "./logger.js";
 import { UserModule, AuthModule } from "@libs/users-backend";
+import { ScrumModule } from "@libs/scrum-backend";
+import { TimeTrackingModule } from "@libs/time-tracking-backend";
 
 export type FastifyInstanceType = FastifyInstance<
   RawServerDefault,
@@ -143,6 +145,18 @@ export class App {
         em: this.context.orm.em.fork(),
       }),
       userModule: UserModule.init({
+        em: this.context.orm.em.fork(),
+        configuration: {
+          jwtSecret: this.context.configuration.JWT_SECRET,
+        },
+      }),
+      scrumModule: ScrumModule.init({
+        em: this.context.orm.em.fork(),
+        configuration: {
+          jwtSecret: this.context.configuration.JWT_SECRET,
+        },
+      }),
+      timeTrackingModule: TimeTrackingModule.init({
         em: this.context.orm.em.fork(),
         configuration: {
           jwtSecret: this.context.configuration.JWT_SECRET,
