@@ -715,6 +715,9 @@ importers:
       '@glint/template':
         specifier: 1.7.7
         version: 1.7.7
+      '@libs/shared-front':
+        specifier: workspace:^
+        version: link:../../@libs/shared-front
       '@libs/users-front':
         specifier: workspace:^
         version: link:../../@libs/users-front
@@ -6363,7 +6366,7 @@ packages:
       ember-power-select: ^8.12.0
 
   ember-power-select@https://codeload.github.com/ember-power-addons/ember-power-select/tar.gz/af844f6df8fe5f579f83400c2b6d7fffd592bcfa:
-    resolution: {gitHosted: true, integrity: sha512-iI7RsfhHbZGg/4SZAC5pCNbUIqu25leLeQy2zEcfVUNfBm563wUlbpyIOCB6mId0Tf1oT9fl6mMvKmNLLiyKRw==, tarball: https://codeload.github.com/ember-power-addons/ember-power-select/tar.gz/af844f6df8fe5f579f83400c2b6d7fffd592bcfa}
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/ember-power-addons/ember-power-select/tar.gz/af844f6df8fe5f579f83400c2b6d7fffd592bcfa}
     version: 8.12.1
     peerDependencies:
       '@ember/test-helpers': ^5.0.0
