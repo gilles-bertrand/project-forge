@@ -1,5 +1,6 @@
 /* Ember supports plain CSS out of the box. More info: https://cli.emberjs.com/release/advanced-use/stylesheets/ */
 @import 'tailwindcss';
+@import '@libs/shared-front/styles/theme.css';
 @import '@triptyk/ember-input/dist/app.css';
 @import '@triptyk/ember-ui/dist/app.css';
 @import '@triptyk/ember-input-validation/dist/app.css';
@@ -20,4 +21,4 @@
 @source "../../node_modules/@triptyk/ember-input";
 @source "../../node_modules/@triptyk/ember-input-validation";
 @source "../../node_modules/@libs/users-front";
-@source "../../node_modules/@libs/todos-front";
+@source "../../node_modules/@libs/shared-front";

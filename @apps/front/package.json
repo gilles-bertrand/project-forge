@@ -58,7 +58,6 @@
     "@glimmer/component": "catalog:",
     "@glint/ember-tsc": "catalog:",
     "@glint/template": "catalog:",
-    "@libs/todos-front": "workspace:^",
     "@libs/users-front": "workspace:^",
     "@playwright/test": "catalog:",
     "@rollup/plugin-babel": "^7.0.0",
