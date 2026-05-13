@@ -1,8 +1,6 @@
-import { entities as usersEntities } from "@libs/users-backend";
-import { entities as scrumEntities } from "@libs/scrum-backend";
-import { entities as timeTrackingEntities } from "@libs/time-tracking-backend";
+import { entities } from "#src/index.js";
 import { MikroORM } from "@mikro-orm/postgresql";
-import { PostgreSqlContainer, StartedPostgreSqlContainer } from "@testcontainers/postgresql";
+import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testcontainers/postgresql";
 
 let container: StartedPostgreSqlContainer;
 
@@ -16,13 +14,11 @@ export async function setup() {
   process.env.TEST_DATABASE_URL = container.getConnectionUri();
 
   const orm = await MikroORM.init({
-    entities: [...usersEntities, ...scrumEntities, ...timeTrackingEntities],
+    entities: [...entities],
     clientUrl: process.env.TEST_DATABASE_URL,
-    driver: await import("@mikro-orm/postgresql").then((m) => m.PostgreSqlDriver),
   });
 
   await orm.schema.refresh();
-
   await orm.close();
 }
 

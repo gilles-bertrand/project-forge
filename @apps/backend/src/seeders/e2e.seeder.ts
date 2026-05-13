@@ -10,38 +10,16 @@ export class E2ESeeder extends Seeder {
   async run(em: EntityManager) {
     const hashedPassword = await hashPassword("123456789");
 
-    // Login user for e2e tests
+    // Utilisateur principal SprintForge — identité par défaut pour les E2E
     em.create(UserEntity, {
-      id: "e2e-login-user",
-      email: "deflorenne.amaury@triptyk.eu",
-      firstName: "Amaury",
-      lastName: "Deflorenne",
+      id: "user-claire",
+      email: "claire.dubois@sprintforge.com",
+      firstName: "Claire",
+      lastName: "Dubois",
       password: hashedPassword,
-    });
-
-    // Mock users that match the MSW mock data
-    em.create(UserEntity, {
-      id: "1",
-      email: "john.doe@example.com",
-      firstName: "John",
-      lastName: "Doe",
-      password: hashedPassword,
-    });
-
-    em.create(UserEntity, {
-      id: "2",
-      email: "jane.smith@example.com",
-      firstName: "Jane",
-      lastName: "Smith",
-      password: hashedPassword,
-    });
-
-    em.create(UserEntity, {
-      id: "3",
-      email: "bob.johnson@example.com",
-      firstName: "Bob Johnson",
-      lastName: "Johnson",
-      password: hashedPassword,
+      role: "Developer",
+      color: "#66C7B8",
+      avatar: null,
     });
   }
 }

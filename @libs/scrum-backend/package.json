@@ -1,0 +1,50 @@
+{
+  "name": "@libs/scrum-backend",
+  "version": "1.0.0",
+  "description": "Bounded context Scrum — Project, Epic, UserStory, Task, Sprint",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "dist/index.mjs",
+  "types": "dist/index.d.mts",
+  "imports": {
+    "#src/*": "./src/*"
+  },
+  "scripts": {
+    "test": "pnpm vitest run",
+    "build": "tsdown",
+    "build:watch": "tsdown --watch",
+    "lint": "pnpm concurrently \"pnpm:lint:*(!fix)\" --names \"lint:\"",
+    "lint:js": "oxlint --type-aware --type-check",
+    "lint:format": "oxfmt check src tests",
+    "lint:format:fix": "oxfmt fix src tests",
+    "format": "pnpm lint:format:fix",
+    "lint:fix": "oxlint --type-aware --type-check --fix"
+  },
+  "dependencies": {
+    "@libs/backend-shared": "workspace:*",
+    "@mikro-orm/core": "catalog:",
+    "@mikro-orm/postgresql": "catalog:",
+    "@mikro-orm/seeder": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@libs/repo-utils": "workspace:*",
+    "@testcontainers/postgresql": "catalog:",
+    "@types/node": "^25.2.0",
+    "@typescript/native-preview": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "concurrently": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "oxlint-tsgolint": "catalog:",
+    "tsdown": "catalog:",
+    "vite": "catalog:",
+    "vite-tsconfig-paths": "catalog:",
+    "vitest": "catalog:"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

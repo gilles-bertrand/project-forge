@@ -23,12 +23,18 @@ export async function setup() {
   await orm.schema.refresh();
 
   const hashedPassword = await hash("testpassword");
+  const now = new Date();
   await orm.em.getRepository(UserEntity).insert({
     id: TestModule.TEST_USER_ID,
     email: "a@test.com",
     firstName: "Test",
     lastName: "User",
     password: hashedPassword,
+    role: "Developer",
+    color: "#66C7B8",
+    avatar: null,
+    createdAt: now,
+    updatedAt: now,
   });
 
   await orm.close();
