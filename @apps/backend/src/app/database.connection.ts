@@ -1,6 +1,8 @@
 import { defineConfig, MikroORM } from "@mikro-orm/postgresql";
 import type { AppConfiguration } from "../configuration.js";
-import { RefreshTokenEntity, UserEntity } from "@libs/users-backend";
+import { entities as usersEntities } from "@libs/users-backend";
+import { entities as scrumEntities } from "@libs/scrum-backend";
+import { entities as timeTrackingEntities } from "@libs/time-tracking-backend";
 
 export function databaseConfig(config: Pick<AppConfiguration, "DATABASE_URI">) {
   return defineConfig({
@@ -8,7 +10,7 @@ export function databaseConfig(config: Pick<AppConfiguration, "DATABASE_URI">) {
       pathTs: "./src/seeders",
     },
     clientUrl: config.DATABASE_URI,
-    entities: [UserEntity, RefreshTokenEntity],
+    entities: [...usersEntities, ...scrumEntities, ...timeTrackingEntities],
   });
 }
 
