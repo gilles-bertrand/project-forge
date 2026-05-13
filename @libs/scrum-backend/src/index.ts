@@ -83,6 +83,7 @@ export * from "#src/sprint/routes/relationships.routes.js";
 
 export * from "#src/search/search.route.js";
 export * from "#src/dashboard/dashboard.route.js";
+export * from "#src/dashboard/time-tracking.port.js";
 
 export const entities = [
   ProjectEntity,

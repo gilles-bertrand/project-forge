@@ -993,9 +993,6 @@ importers:
       '@libs/repo-utils':
         specifier: workspace:*
         version: link:../repo-utils
-      '@libs/time-tracking-backend':
-        specifier: workspace:*
-        version: link:../time-tracking-backend
       '@testcontainers/postgresql':
         specifier: 'catalog:'
         version: 11.14.0

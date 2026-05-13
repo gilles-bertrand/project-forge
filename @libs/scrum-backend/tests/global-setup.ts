@@ -1,6 +1,5 @@
 import { entities } from "#src/index.js";
 import { entities as usersEntities, UserEntity } from "@libs/users-backend";
-import { entities as timeTrackingEntities } from "@libs/time-tracking-backend";
 import { MikroORM } from "@mikro-orm/postgresql";
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from "@testcontainers/postgresql";
 import { ScrumTestModule } from "./utils/setup-module.js";
@@ -17,7 +16,7 @@ export async function setup() {
   process.env.TEST_DATABASE_URL = container.getConnectionUri();
 
   const orm = await MikroORM.init({
-    entities: [...usersEntities, ...entities, ...timeTrackingEntities],
+    entities: [...usersEntities, ...entities],
     clientUrl: process.env.TEST_DATABASE_URL,
   });
 

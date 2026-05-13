@@ -1,6 +1,6 @@
 import { afterAll, aroundEach, beforeAll, expect, test } from "vitest";
 import { randomUUID } from "crypto";
-import { ScrumTestModule } from "#tests/utils/setup-module.js";
+import { ScrumTestModule, StubTimeTrackingPort } from "#tests/utils/setup-module.js";
 import { TaskEntity } from "#src/task/task.entity.js";
 import { TaskAssigneeEntity } from "#src/task/task-assignee.entity.js";
 
@@ -127,5 +127,21 @@ test("GET /dashboard aggregates tasks for project/sprint", async () => {
   expect(attrs.pointsTotal).toBe(10);
   // myTasks: A (assigned) + B (createdBy test-user-id) = 2 tasks
   expect(attrs.myTasks.length).toBe(2);
-  expect(attrs.hoursTotal).toBe(0); // pas de TimeEntry
+  expect(attrs.hoursTotal).toBe(0); // stub par défaut retourne 0
+});
+
+test("GET /dashboard hoursTotal proviennent du TimeTrackingPort injecté", async () => {
+  // Module dédié avec un port qui retourne 17h (KPI Figma Claire)
+  const mod = await ScrumTestModule.init(new StubTimeTrackingPort(17));
+  try {
+    const response = await mod.fastifyInstance.inject({
+      method: "GET",
+      url: "/dashboard?projectId=p-x&sprintId=s-x",
+      headers: { authorization: mod.generateBearerToken() },
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.json().data.attributes.hoursTotal).toBe(17);
+  } finally {
+    await mod.close();
+  }
 });
