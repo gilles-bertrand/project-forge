@@ -67,6 +67,8 @@ test("CreateRoute works correctly", async () => {
           firstName: "New",
           lastName: "User",
           password: "testpassword",
+          role: "Developer",
+          color: "#66C7B8",
         },
       },
     },
@@ -81,6 +83,9 @@ test("CreateRoute works correctly", async () => {
         email: "new@test.com",
         firstName: "New",
         lastName: "User",
+        role: "Developer",
+        color: "#66C7B8",
+        avatar: null,
       },
     },
   });
