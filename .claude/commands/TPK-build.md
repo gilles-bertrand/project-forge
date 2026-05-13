@@ -51,13 +51,23 @@ PATH_TO_PLAN: $ARGUMENTS
    - Follow the plan's phases step by step
    - Create/modify files as specified
    - Run any build/lint checks if applicable
+   - **Commit-as-you-go** : si le plan définit une stratégie de commits (ex. "1 commit par sous-phase"), commiter à la fin de chaque sous-phase plutôt que de tout stager à la fin. Produit un historique plus propre et facilite les rollbacks.
 
-5. **Validate (if applicable)**
-   - If project has tests, run them
-   - If frontend project, run build to check for errors
-   - Fix any issues before proceeding
+5. **Validate**
+   - `pnpm lint` — vérifier lint explicitement
+   - Si le projet a des tests, les lancer : `pnpm test` (ou la commande appropriée)
+   - Si frontend : `pnpm build` pour détecter les erreurs TypeScript
+   - Corriger tous les problèmes avant de continuer
+
+5b. **Verify success criteria** ← étape obligatoire avant de déplacer vers done/
+   - Lire la section "Critères de succès" du plan
+   - Pour chaque critère, confirmer son statut (✅ ou ❌) explicitement
+   - Si le plan exige des tests d'intégration, les lancer — un smoke test manuel n'est PAS un substitut
+   - Si un critère est ❌, corriger avant de continuer
+   - Ne jamais sauter cette étape silencieusement
 
 6. **Move plan to done**
+   - Seulement quand tous les critères sont ✅
    - On success: `mkdir -p specs/done && mv [PATH_TO_PLAN] specs/done/`
    - On failure: leave in `specs/todo/` for retry
 

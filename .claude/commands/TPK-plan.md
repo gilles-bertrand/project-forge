@@ -48,8 +48,8 @@ PLAN_OUTPUT_DIR: specs/todo/
      - Problem statement and objectives
      - Technical approach
      - Step-by-step implementation guide
-     - Testing strategy
-     - Success criteria
+     - Testing strategy (si le plan inclut des tests d'intégration, les lister explicitement comme critère de succès bloquant — ils ne peuvent pas être substitués par un smoke test manuel)
+     - Success criteria (numérotés, vérifiables — chacun sera checké par `/TPK-build` avant `done/`)
 
 6. **Save and report**
    - Generate descriptive filename
