@@ -962,9 +962,15 @@ importers:
 
   '@libs/scrum-backend':
     dependencies:
+      '@fastify/cookie':
+        specifier: 'catalog:'
+        version: 11.0.2
       '@libs/backend-shared':
         specifier: workspace:*
         version: link:../backend-shared
+      '@libs/users-backend':
+        specifier: workspace:*
+        version: link:../users-backend
       '@mikro-orm/core':
         specifier: 7.0.14
         version: 7.0.14
@@ -974,6 +980,12 @@ importers:
       '@mikro-orm/seeder':
         specifier: 'catalog:'
         version: 7.0.14(@mikro-orm/core@7.0.14)
+      fastify:
+        specifier: 5.8.5
+        version: 5.8.5
+      fastify-type-provider-zod:
+        specifier: 'catalog:'
+        version: 6.1.0(@fastify/swagger@9.7.0)(fastify@5.8.5)(openapi-types@12.1.3)(zod@4.3.6)
       zod:
         specifier: 'catalog:'
         version: 4.3.6
@@ -981,9 +993,15 @@ importers:
       '@libs/repo-utils':
         specifier: workspace:*
         version: link:../repo-utils
+      '@libs/time-tracking-backend':
+        specifier: workspace:*
+        version: link:../time-tracking-backend
       '@testcontainers/postgresql':
         specifier: 'catalog:'
         version: 11.14.0
+      '@types/jsonwebtoken':
+        specifier: 'catalog:'
+        version: 9.0.10
       '@types/node':
         specifier: ^25.2.0
         version: 25.6.0
@@ -996,6 +1014,9 @@ importers:
       concurrently:
         specifier: 'catalog:'
         version: 9.2.1
+      jsonwebtoken:
+        specifier: 'catalog:'
+        version: 9.0.3
       oxfmt:
         specifier: 'catalog:'
         version: 0.48.0
@@ -1231,9 +1252,15 @@ importers:
 
   '@libs/time-tracking-backend':
     dependencies:
+      '@fastify/cookie':
+        specifier: 'catalog:'
+        version: 11.0.2
       '@libs/backend-shared':
         specifier: workspace:*
         version: link:../backend-shared
+      '@libs/users-backend':
+        specifier: workspace:*
+        version: link:../users-backend
       '@mikro-orm/core':
         specifier: 7.0.14
         version: 7.0.14
@@ -1243,6 +1270,12 @@ importers:
       '@mikro-orm/seeder':
         specifier: 'catalog:'
         version: 7.0.14(@mikro-orm/core@7.0.14)
+      fastify:
+        specifier: 5.8.5
+        version: 5.8.5
+      fastify-type-provider-zod:
+        specifier: 'catalog:'
+        version: 6.1.0(@fastify/swagger@9.7.0)(fastify@5.8.5)(openapi-types@12.1.3)(zod@4.3.6)
       zod:
         specifier: 'catalog:'
         version: 4.3.6
@@ -1253,6 +1286,9 @@ importers:
       '@testcontainers/postgresql':
         specifier: 'catalog:'
         version: 11.14.0
+      '@types/jsonwebtoken':
+        specifier: 'catalog:'
+        version: 9.0.10
       '@types/node':
         specifier: ^25.2.0
         version: 25.6.0
@@ -1265,6 +1301,9 @@ importers:
       concurrently:
         specifier: 'catalog:'
         version: 9.2.1
+      jsonwebtoken:
+        specifier: 'catalog:'
+        version: 9.0.3
       oxfmt:
         specifier: 'catalog:'
         version: 0.48.0
