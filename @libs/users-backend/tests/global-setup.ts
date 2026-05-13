@@ -29,6 +29,9 @@ export async function setup() {
     firstName: "Test",
     lastName: "User",
     password: hashedPassword,
+    role: "Developer",
+    color: "#66C7B8",
+    avatar: null,
   });
 
   await orm.close();

@@ -123,11 +123,17 @@ export class TestModule {
     firstName: string;
     lastName: string;
     password: string;
+    role?: string;
+    color?: string;
+    avatar?: string | null;
   }) {
     const hashedPassword = await hash(data.password);
     await this.em.getRepository(UserEntity).insert({
       ...data,
       password: hashedPassword,
+      role: data.role ?? "Developer",
+      color: data.color ?? "#66C7B8",
+      avatar: data.avatar ?? null,
     });
   }
 

@@ -14,6 +14,11 @@ describe("user.serializer", () => {
     firstName: "John",
     lastName: "Doe",
     password: "hashedpassword",
+    role: "Developer",
+    color: "#66C7B8",
+    avatar: null,
+    createdAt: new Date("2025-01-01"),
+    updatedAt: new Date("2025-01-01"),
   };
 
   const mockUsers: UserEntityType[] = [
@@ -24,11 +29,16 @@ describe("user.serializer", () => {
       firstName: "Jane",
       lastName: "Smith",
       password: "hashedpassword2",
+      role: "Product Owner",
+      color: "#F48FB1",
+      avatar: null,
+      createdAt: new Date("2025-01-02"),
+      updatedAt: new Date("2025-01-02"),
     },
   ];
 
   describe("jsonApiSerializeUser", () => {
-    it("should serialize a user to JSON:API format", () => {
+    it("should serialize a user to JSON:API format with new fields", () => {
       const result = jsonApiSerializeUser(mockUser);
 
       expect(result).toEqual({
@@ -38,6 +48,9 @@ describe("user.serializer", () => {
           email: "test@example.com",
           firstName: "John",
           lastName: "Doe",
+          role: "Developer",
+          color: "#66C7B8",
+          avatar: null,
         },
       });
     });
@@ -55,20 +68,12 @@ describe("user.serializer", () => {
       const result = jsonApiSerializeManyUsers(mockUsers);
 
       expect(result).toHaveLength(2);
-      expect(result[0]).toMatchObject({
-        id: "user-1",
-        type: "users",
-      });
-      expect(result[1]).toMatchObject({
-        id: "user-2",
-        type: "users",
-      });
+      expect(result[0]).toMatchObject({ id: "user-1", type: "users" });
+      expect(result[1]).toMatchObject({ id: "user-2", type: "users" });
     });
 
     it("should return empty array for empty input", () => {
-      const result = jsonApiSerializeManyUsers([]);
-
-      expect(result).toEqual([]);
+      expect(jsonApiSerializeManyUsers([])).toEqual([]);
     });
   });
 
@@ -80,11 +85,7 @@ describe("user.serializer", () => {
       expect(result.data).toMatchObject({
         id: "user-1",
         type: "users",
-        attributes: {
-          email: "test@example.com",
-          firstName: "John",
-          lastName: "Doe",
-        },
+        attributes: { email: "test@example.com", role: "Developer", color: "#66C7B8" },
       });
     });
   });
@@ -99,9 +100,7 @@ describe("user.serializer", () => {
     });
 
     it("should return empty data array for empty input", () => {
-      const result = jsonApiSerializeManyUsersDocument([]);
-
-      expect(result).toEqual({ data: [] });
+      expect(jsonApiSerializeManyUsersDocument([])).toEqual({ data: [] });
     });
   });
 });
