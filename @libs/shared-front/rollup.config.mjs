@@ -3,6 +3,7 @@ import { Addon } from '@embroider/addon-dev/rollup';
 import { fileURLToPath } from 'node:url';
 import { resolve, dirname } from 'node:path';
 import alias from '@rollup/plugin-alias';
+import copy from 'rollup-plugin-copy';
 import {
   moveRouteTemplatesPlugin,
   fileNameMapper,
@@ -90,6 +91,12 @@ export default {
     // addons are allowed to contain imports of .css files, which we want rollup
     // to leave alone and keep in the published output.
     addon.keepAssets(['**/*.css']),
+
+    // Copy standalone CSS assets (not imported from JS) to dist/
+    copy({
+      targets: [{ src: 'src/styles/*.css', dest: 'dist/styles' }],
+      hook: 'writeBundle',
+    }),
 
     // Remove leftover build artifacts when starting a new build.
     addon.clean(),

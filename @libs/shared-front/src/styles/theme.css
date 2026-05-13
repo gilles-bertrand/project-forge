@@ -1,0 +1,127 @@
+/*
+ * Design tokens SprintForge — issus du prototype Figma Make VISlgCFh1GHyahMpAfDoOT.
+ * Variables CSS scopées sur :root (dark par défaut) et :root.light (mode clair).
+ * Exposés à Tailwind v4 via @theme inline → utilisables comme `bg-card`, `text-foreground`, etc.
+ */
+
+:root {
+  --radius: 0.5rem;
+
+  /* Dark mode — défaut */
+  --background: #0a1929;
+  --foreground: #e3f2fd;
+  --card: #132f4c;
+  --card-foreground: #e3f2fd;
+  --popover: #132f4c;
+  --popover-foreground: #e3f2fd;
+  --primary: #7fdbca;
+  --primary-foreground: #0a1929;
+  --secondary: #1e3a5f;
+  --secondary-foreground: #b0bec5;
+  --muted: #1e3a5f;
+  --muted-foreground: #90a4ae;
+  --accent: #7fdbca;
+  --accent-foreground: #0a1929;
+  --destructive: #f48fb1;
+  --destructive-foreground: #0a1929;
+  --border: #1e3a5f;
+  --input: #132f4c;
+  --input-background: #132f4c;
+  --ring: #7fdbca;
+  --chart-1: #7fdbca;
+  --chart-2: #66c7b8;
+  --chart-3: #4db3a3;
+  --chart-4: #339f8f;
+  --chart-5: #f48fb1;
+
+  /* Sidebar */
+  --sidebar: #0b1e2e;
+  --sidebar-foreground: #e3f2fd;
+  --sidebar-primary: #7fdbca;
+  --sidebar-primary-foreground: #0a1929;
+  --sidebar-accent: #1e3a5f;
+  --sidebar-accent-foreground: #b0bec5;
+  --sidebar-border: #1e3a5f;
+  --sidebar-ring: #7fdbca;
+  --logo-color: #7fdbca;
+}
+
+:root.light {
+  --background: #f8fafb;
+  --foreground: #0a1929;
+  --card: #ffffff;
+  --card-foreground: #0a1929;
+  --popover: #ffffff;
+  --popover-foreground: #0a1929;
+  --primary: #339f8f;
+  --primary-foreground: #ffffff;
+  --secondary: #e3f2fd;
+  --secondary-foreground: #0a1929;
+  --muted: #e3f2fd;
+  --muted-foreground: #546e7a;
+  --accent: #339f8f;
+  --accent-foreground: #ffffff;
+  --destructive: #ef5350;
+  --destructive-foreground: #ffffff;
+  --border: #cfd8dc;
+  --input: #ffffff;
+  --input-background: #ffffff;
+  --ring: #339f8f;
+  --chart-1: #339f8f;
+  --chart-2: #4db3a3;
+  --chart-3: #66c7b8;
+  --chart-4: #7fdbca;
+  --chart-5: #ef5350;
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0a1929;
+  --sidebar-primary: #339f8f;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e3f2fd;
+  --sidebar-accent-foreground: #0a1929;
+  --sidebar-border: #cfd8dc;
+  --sidebar-ring: #339f8f;
+  --logo-color: #0a1929;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-input-background: var(--input-background);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
