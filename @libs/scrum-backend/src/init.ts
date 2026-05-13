@@ -52,7 +52,7 @@ export class ScrumModule implements ModuleInterface<FastifyInstanceTypeForModule
       await mountTasks(f, this.context.em);
       await mountSprints(f, this.context.em);
       await mountSearch(f, this.context.em);
-      await mountDashboard(f, this.context.em);
+      await mountDashboard(f, this.context.em, this.context.timeTrackingPort);
     });
   }
 }

@@ -1,6 +1,10 @@
-import { ScrumModule, type FastifyInstanceTypeForModule, entities } from "#src/index.js";
+import {
+  ScrumModule,
+  type FastifyInstanceTypeForModule,
+  entities,
+  type TimeTrackingPort,
+} from "#src/index.js";
 import { entities as usersEntities, UserEntity } from "@libs/users-backend";
-import { entities as timeTrackingEntities } from "@libs/time-tracking-backend";
 import { MikroORM } from "@mikro-orm/postgresql";
 import { fastify } from "fastify";
 import {
@@ -9,6 +13,18 @@ import {
   type ZodTypeProvider,
 } from "fastify-type-provider-zod";
 import { sign } from "jsonwebtoken";
+
+/**
+ * Stub TimeTrackingPort utilisable par défaut dans les tests scrum-backend.
+ * Retourne 0 pour toute requête, ce qui suffit pour la majorité des tests
+ * (ceux qui veulent une valeur précise injectent leur propre stub).
+ */
+export class StubTimeTrackingPort implements TimeTrackingPort {
+  public constructor(private fixedHours = 0) {}
+  public async sumHoursByUserAndSprint(_userId: string, _sprintId: string): Promise<number> {
+    return this.fixedHours;
+  }
+}
 
 export class ScrumTestModule {
   public static JWT_SECRET = "testSecret";
@@ -21,7 +37,7 @@ export class ScrumTestModule {
     private orm: MikroORM,
   ) {}
 
-  public static async init() {
+  public static async init(timeTrackingPort: TimeTrackingPort = new StubTimeTrackingPort()) {
     const connectionUrl = process.env.TEST_DATABASE_URL;
     if (!connectionUrl) {
       throw new Error(
@@ -30,7 +46,7 @@ export class ScrumTestModule {
     }
 
     const orm = await MikroORM.init({
-      entities: [...usersEntities, ...entities, ...timeTrackingEntities],
+      entities: [...usersEntities, ...entities],
       clientUrl: connectionUrl,
     });
 
@@ -48,6 +64,7 @@ export class ScrumTestModule {
     const module = ScrumModule.init({
       em: sharedEm,
       configuration: { jwtSecret: ScrumTestModule.JWT_SECRET },
+      timeTrackingPort,
     });
 
     const testModule = new ScrumTestModule(module, orm);

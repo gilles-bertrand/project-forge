@@ -1,30 +1,22 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import type { EntityManager } from "@mikro-orm/core";
-import type { SqlEntityManager } from "@mikro-orm/postgresql";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { array, number, object, string } from "zod";
 import { TaskEntity } from "#src/task/task.entity.js";
 import { TaskAssigneeEntity } from "#src/task/task-assignee.entity.js";
 import { jsonApiSerializeManyTasks, SerializedTaskSchema } from "#src/task/task.serializer.js";
 import { jsonApiErrorDocumentSchema, makeJsonApiError, type Route } from "@libs/backend-shared";
+import type { TimeTrackingPort } from "#src/dashboard/time-tracking.port.js";
 
 interface DashboardUser {
   id?: string;
 }
 
-async function sumHours(em: SqlEntityManager, userId: string, sprintId: string): Promise<number> {
-  const result = (await em.getConnection().execute(
-    `SELECT COALESCE(SUM(t.hours), 0) AS total
-       FROM time_entries t
-       JOIN tasks tk ON tk.id = t.task_id
-       WHERE t.user_id = ? AND tk.sprint_id = ?`,
-    [userId, sprintId],
-  )) as Array<{ total: string | number }>;
-  return Number(result[0]?.total ?? 0);
-}
-
 export class DashboardRoute implements Route {
-  public constructor(private em: EntityManager) {}
+  public constructor(
+    private em: EntityManager,
+    private timeTrackingPort: TimeTrackingPort,
+  ) {}
 
   private async handle(
     request: FastifyRequest<{
@@ -56,7 +48,7 @@ export class DashboardRoute implements Route {
       (t) => myAssignedIds.has(t.id) || t.createdById === currentUserId,
     );
 
-    const hoursTotal = await sumHours(this.em as SqlEntityManager, currentUserId, sprintId);
+    const hoursTotal = await this.timeTrackingPort.sumHoursByUserAndSprint(currentUserId, sprintId);
 
     return reply.send({
       data: {

@@ -2,6 +2,7 @@ import type { EntityManager } from "@mikro-orm/core";
 import type { SqlEntityManager } from "@mikro-orm/postgresql";
 import type { Route } from "@libs/backend-shared";
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
+import type { TimeTrackingPort } from "#src/dashboard/time-tracking.port.js";
 
 import { ProjectEntity } from "#src/project/project.entity.js";
 import { EpicEntity } from "#src/epic/epic.entity.js";
@@ -192,6 +193,7 @@ export async function mountSearch(
 export async function mountDashboard(
   parent: FastifyInstanceTypeForModule,
   em: EntityManager,
+  timeTrackingPort: TimeTrackingPort,
 ): Promise<void> {
-  await mountRoutes(parent, "/dashboard", [new DashboardRoute(em)]);
+  await mountRoutes(parent, "/dashboard", [new DashboardRoute(em, timeTrackingPort)]);
 }
