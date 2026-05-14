@@ -1,14 +1,18 @@
 /*
  * Design tokens SprintForge — issus du prototype Figma Make VISlgCFh1GHyahMpAfDoOT.
- * Variables CSS scopées sur :root (dark par défaut) et :root.light (mode clair).
- * Exposés à Tailwind v4 via @theme inline → utilisables comme `bg-card`, `text-foreground`, etc.
+ * Variables CSS scopées sur [data-theme='sprintforge-dark'] (dark défaut) et
+ * [data-theme='sprintforge-light'] (mode clair).
+ * Contient à la fois nos tokens SprintForge custom ET les tokens DaisyUI --color-*
+ * pour que les composants Triptyk (qui utilisent bg-base-100, bg-primary, etc.)
+ * reçoivent les couleurs Figma SprintForge.
  */
 
-[data-theme='dark'],
+[data-theme='sprintforge-dark'],
 :root {
+  color-scheme: dark;
   --radius: 0.5rem;
 
-  /* Dark mode — défaut */
+  /* ─── SprintForge tokens ─── */
   --background: #0a1929;
   --foreground: #e3f2fd;
   --card: #132f4c;
@@ -45,9 +49,39 @@
   --sidebar-border: #1e3a5f;
   --sidebar-ring: #7fdbca;
   --logo-color: #7fdbca;
+
+  /* ─── DaisyUI 5 tokens — mappés sur palette SprintForge ─── */
+  --color-base-100: #0a1929;
+  --color-base-200: #132f4c;
+  --color-base-300: #1e3a5f;
+  --color-base-content: #e3f2fd;
+  --color-primary: #7fdbca;
+  --color-primary-content: #0a1929;
+  --color-secondary: #1e3a5f;
+  --color-secondary-content: #b0bec5;
+  --color-accent: #7fdbca;
+  --color-accent-content: #0a1929;
+  --color-neutral: #0b1e2e;
+  --color-neutral-content: #e3f2fd;
+  --color-info: #7fdbca;
+  --color-info-content: #0a1929;
+  --color-success: #66c7b8;
+  --color-success-content: #0a1929;
+  --color-warning: #f48fb1;
+  --color-warning-content: #0a1929;
+  --color-error: #f48fb1;
+  --color-error-content: #0a1929;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
 }
 
-[data-theme='light'] {
+[data-theme='sprintforge-light'] {
+  color-scheme: light;
+
+  /* ─── SprintForge tokens ─── */
   --background: #f8fafb;
   --foreground: #0a1929;
   --card: #ffffff;
@@ -83,6 +117,33 @@
   --sidebar-border: #cfd8dc;
   --sidebar-ring: #339f8f;
   --logo-color: #0a1929;
+
+  /* ─── DaisyUI 5 tokens — mappés sur palette SprintForge light ─── */
+  --color-base-100: #f8fafb;
+  --color-base-200: #ffffff;
+  --color-base-300: #e3f2fd;
+  --color-base-content: #0a1929;
+  --color-primary: #339f8f;
+  --color-primary-content: #ffffff;
+  --color-secondary: #e3f2fd;
+  --color-secondary-content: #0a1929;
+  --color-accent: #339f8f;
+  --color-accent-content: #ffffff;
+  --color-neutral: #f0f5f9;
+  --color-neutral-content: #0a1929;
+  --color-info: #339f8f;
+  --color-info-content: #ffffff;
+  --color-success: #4db3a3;
+  --color-success-content: #ffffff;
+  --color-warning: #ef5350;
+  --color-warning-content: #ffffff;
+  --color-error: #ef5350;
+  --color-error-content: #ffffff;
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
 }
 
 @theme inline {

@@ -1,10 +1,10 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 
-export type ThemeMode = 'dark' | 'light';
+export type ThemeMode = 'sprintforge-dark' | 'sprintforge-light';
 
 const STORAGE_KEY = 'sprintforge:theme';
-const DEFAULT_MODE: ThemeMode = 'dark';
+const DEFAULT_MODE: ThemeMode = 'sprintforge-dark';
 
 export default class ThemeService extends Service {
   @tracked mode: ThemeMode = DEFAULT_MODE;
@@ -15,13 +15,16 @@ export default class ThemeService extends Service {
   }
 
   toggle(): void {
-    this.apply(this.mode === 'dark' ? 'light' : 'dark');
+    this.apply(
+      this.mode === 'sprintforge-dark'
+        ? 'sprintforge-light'
+        : 'sprintforge-dark'
+    );
   }
 
   apply(mode: ThemeMode): void {
     this.mode = mode;
-    const root = document.documentElement;
-    root.setAttribute('data-theme', mode);
+    document.documentElement.setAttribute('data-theme', mode);
     try {
       localStorage.setItem(STORAGE_KEY, mode);
     } catch {
@@ -32,7 +35,11 @@ export default class ThemeService extends Service {
   private readSavedMode(): ThemeMode | null {
     try {
       const v = localStorage.getItem(STORAGE_KEY);
-      return v === 'dark' || v === 'light' ? v : null;
+      // Migration P3 → P3.5 : ancien format 'dark'/'light' → nouveau format
+      if (v === 'dark') return 'sprintforge-dark';
+      if (v === 'light') return 'sprintforge-light';
+      if (v === 'sprintforge-dark' || v === 'sprintforge-light') return v;
+      return null;
     } catch {
       return null;
     }

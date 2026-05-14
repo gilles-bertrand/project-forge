@@ -6,22 +6,30 @@ describe('Service | Theme | Unit', () => {
   // eslint-disable-next-line no-empty-pattern
   test.scoped({ app: ({}, use) => use(TestApp) });
 
-  test('apply("light") ajoute la classe sur <html>', async ({ context }) => {
+  test('apply("sprintforge-light") set data-theme sur <html>', async ({
+    context,
+  }) => {
     await initializeTestApp(context.owner, 'fr-fr');
     const theme = context.owner.lookup('service:theme');
-    theme.apply('light');
-    expect(document.documentElement.classList.contains('light')).toBe(true);
-    theme.apply('dark');
-    expect(document.documentElement.classList.contains('light')).toBe(false);
+    theme.apply('sprintforge-light');
+    expect(document.documentElement.getAttribute('data-theme')).toBe(
+      'sprintforge-light'
+    );
+    theme.apply('sprintforge-dark');
+    expect(document.documentElement.getAttribute('data-theme')).toBe(
+      'sprintforge-dark'
+    );
   });
 
-  test('toggle bascule entre dark et light', async ({ context }) => {
+  test('toggle bascule entre sprintforge-dark et sprintforge-light', async ({
+    context,
+  }) => {
     await initializeTestApp(context.owner, 'fr-fr');
     const theme = context.owner.lookup('service:theme');
-    theme.apply('dark');
+    theme.apply('sprintforge-dark');
     theme.toggle();
-    expect(theme.mode).toBe('light');
+    expect(theme.mode).toBe('sprintforge-light');
     theme.toggle();
-    expect(theme.mode).toBe('dark');
+    expect(theme.mode).toBe('sprintforge-dark');
   });
 });
