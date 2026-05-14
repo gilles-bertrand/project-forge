@@ -59,6 +59,7 @@
     "@glint/ember-tsc": "catalog:",
     "@glint/template": "catalog:",
     "@libs/shared-front": "workspace:^",
+    "@libs/shell-front": "workspace:^",
     "@libs/users-front": "workspace:^",
     "@playwright/test": "catalog:",
     "@rollup/plugin-babel": "^7.0.0",
