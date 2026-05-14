@@ -13,6 +13,7 @@ table:
 forms:
   login:
     title: 'Login'
+    forgotPassword: 'Forgot password?'
     validation:
       invalidEmail: 'Please enter a valid email address'
       passwordTooShort: 'Password must be at least 8 characters'

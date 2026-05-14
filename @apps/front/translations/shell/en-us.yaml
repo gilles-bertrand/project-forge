@@ -1,0 +1,19 @@
+sidebar:
+  dashboard: 'Dashboard'
+  projects: 'Projects'
+  backlog: 'Backlog'
+  kanban: 'Kanban'
+  userStoryMap: 'User Story Map'
+  sprints: 'Sprints'
+  timeTracking: 'Time Tracking'
+  users: 'Users'
+  settings: 'Settings'
+  groups:
+    navigation: 'Navigation'
+    administration: 'Administration'
+header:
+  searchPlaceholder: 'Search...'
+  recordTime: 'Log time'
+  add: 'Add'
+placeholder:
+  underConstruction: 'Under construction'
