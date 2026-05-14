@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import type { TOC } from '@ember/component/template-only';
-import type { Project } from '@libs/projects-front/schemas/projects';
+import type { Project } from '../schemas/projects.ts';
 import StatusBadge from './status-badge.gts';
 import MemberAvatarStack, {
   type MemberLite,

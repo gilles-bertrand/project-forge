@@ -52,10 +52,11 @@ export default class ProjectsService extends Service {
       data: this.store.cache.peek(cacheKeyFor(project)),
     });
 
-    const { content } = await this.store.request<{ data: Project }>(request);
-    const created = content.data;
-    this.list = [...this.list, created];
-    return created;
+    await this.store.request<{ data: Project }>(request);
+    // Reload pour avoir les données correctement désérialisées (content.data
+    // de createRecord retourne l'enveloppe JSON:API brute, pas un Project flat)
+    await this.loadAll();
+    return this.list[this.list.length - 1]!;
   }
 }
 

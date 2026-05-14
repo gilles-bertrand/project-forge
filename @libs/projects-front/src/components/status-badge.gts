@@ -1,5 +1,5 @@
 import type { TOC } from '@ember/component/template-only';
-import type { ProjectStatus } from '@libs/projects-front/schemas/projects';
+import type { ProjectStatus } from '../schemas/projects.ts';
 
 interface StatusBadgeSignature {
   Args: { status: ProjectStatus };

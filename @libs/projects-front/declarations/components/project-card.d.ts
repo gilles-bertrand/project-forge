@@ -1,5 +1,5 @@
 import Component from '@glimmer/component';
-import type { Project } from '@libs/projects-front/schemas/projects';
+import type { Project } from '../schemas/projects.ts';
 import { type MemberLite } from './member-avatar-stack';
 interface ProjectCardSignature {
     Args: {
