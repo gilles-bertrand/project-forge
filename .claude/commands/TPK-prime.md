@@ -1,6 +1,6 @@
 ---
 description: Gain a general understanding of the codebase
-allowed-tools: Bash, Read, Glob
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
 ---
 
@@ -17,7 +17,8 @@ Quickly understand any codebase by reading key files and summarizing the project
 3. Identify the main technology stack from package.json, requirements.txt, or similar
 4. Note the folder structure and key directories
 5. Identify entry points (main.py, index.ts, app.js, etc.)
-
+6. Identify each folder and sub folder you think necessary to create a claude.md file
+6. Create a claude.md file in those files after asking my validation
 ## Report
 
 Summarize your understanding:

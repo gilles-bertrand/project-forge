@@ -42,6 +42,13 @@ HANDOFF_DIR: specs/handoffs/
    - Read the handoff file
    - Present in the summary format below
 
+4.5. **Architectural anchors (advisory, skip silently if absent)**
+   - Check if `graphify-out/GRAPH_REPORT.md` exists. If not, skip this step.
+   - Check freshness : if `graphify-out/graph.json` is older than the latest commit (`git log -1 --format=%ct`), print `[pickup] graph is stale (last update: <date>) — anchors may be outdated, consider /graphify --update` and continue anyway.
+   - Extract from the report only these sections : **God Nodes** (top 10), **Surprising Connections** (top 5).
+   - Surface them in the pickup summary under a new heading `## Architectural Anchors` so the next session starts with global context, not just the handoff scope.
+   - **Advisory rule** : these are pointers for orientation, not facts to act on. Confirm with a Read before any edit.
+
 5. **Offer next steps**
    - Based on handoff content, suggest where to start
 
@@ -71,6 +78,15 @@ Date: [date from handoff]
 
 ## Notes
 - [from Blockers/Notes if any]
+
+## Architectural Anchors
+_(only present if `graphify-out/GRAPH_REPORT.md` was found)_
+
+**God Nodes** (most-connected nodes — touch with care)
+- [top 10 from report]
+
+**Surprising Connections** (hidden coupling)
+- [top 5 from report]
 
 ---
 
