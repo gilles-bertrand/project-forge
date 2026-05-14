@@ -125,8 +125,13 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {
+      "./components/project-card.js": "./dist/_app_/components/project-card.js",
+      "./components/status-badge.js": "./dist/_app_/components/status-badge.js",
+      "./components/member-avatar-stack.js": "./dist/_app_/components/member-avatar-stack.js",
+      "./routes/dashboard/projects.js": "./dist/_app_/routes/dashboard/projects.js",
       "./schemas/projects.js": "./dist/_app_/schemas/projects.js",
-      "./services/projects.js": "./dist/_app_/services/projects.js"
+      "./services/projects.js": "./dist/_app_/services/projects.js",
+      "./templates/dashboard/projects.js": "./dist/_app_/templates/dashboard/projects.js"
     }
   }
 }

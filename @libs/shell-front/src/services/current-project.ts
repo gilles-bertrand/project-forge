@@ -1,7 +1,7 @@
-import Service from '@ember/service';
-import { tracked } from '@glimmer/tracking';
+import Service from "@ember/service";
+import { tracked } from "@glimmer/tracking";
 
-const STORAGE_KEY = 'sprintforge:current-project';
+const STORAGE_KEY = "sprintforge:current-project";
 
 export default class CurrentProjectService extends Service {
   @tracked currentProjectId: string | null = null;
@@ -25,8 +25,8 @@ export default class CurrentProjectService extends Service {
   }
 }
 
-declare module '@ember/service' {
+declare module "@ember/service" {
   interface Registry {
-    'current-project': CurrentProjectService;
+    "current-project": CurrentProjectService;
   }
 }

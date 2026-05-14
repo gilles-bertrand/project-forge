@@ -17,3 +17,5 @@
 @source "../../node_modules/@triptyk/ember-input-validation";
 @source "../../node_modules/@libs/users-front";
 @source "../../node_modules/@libs/shared-front";
+@source "../../node_modules/@libs/shell-front";
+@source "../../node_modules/@libs/projects-front";

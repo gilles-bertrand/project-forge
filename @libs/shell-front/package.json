@@ -2,7 +2,9 @@
   "name": "@libs/shell-front",
   "version": "0.0.0",
   "description": "SprintForge shell — layout, sidebar, header, auth UI.",
-  "keywords": ["ember-addon"],
+  "keywords": [
+    "ember-addon"
+  ],
   "license": "MIT",
   "imports": {
     "#src/*": "./src/*"
@@ -118,13 +120,12 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {
-      "./components/shell/layout.js": "./dist/_app_/components/shell/layout.js",
-      "./components/shell/header.js": "./dist/_app_/components/shell/header.js",
-      "./components/shell/project-selector.js": "./dist/_app_/components/shell/project-selector.js",
       "./components/placeholder-page.js": "./dist/_app_/components/placeholder-page.js",
+      "./components/shell/header.js": "./dist/_app_/components/shell/header.js",
+      "./components/shell/layout.js": "./dist/_app_/components/shell/layout.js",
+      "./components/shell/project-selector.js": "./dist/_app_/components/shell/project-selector.js",
       "./routes/dashboard/backlog.js": "./dist/_app_/routes/dashboard/backlog.js",
       "./routes/dashboard/kanban.js": "./dist/_app_/routes/dashboard/kanban.js",
-      "./routes/dashboard/projects.js": "./dist/_app_/routes/dashboard/projects.js",
       "./routes/dashboard/settings.js": "./dist/_app_/routes/dashboard/settings.js",
       "./routes/dashboard/sprints.js": "./dist/_app_/routes/dashboard/sprints.js",
       "./routes/dashboard/time-tracking.js": "./dist/_app_/routes/dashboard/time-tracking.js",
@@ -133,7 +134,6 @@
       "./templates/dashboard/backlog.js": "./dist/_app_/templates/dashboard/backlog.js",
       "./templates/dashboard/index.js": "./dist/_app_/templates/dashboard/index.js",
       "./templates/dashboard/kanban.js": "./dist/_app_/templates/dashboard/kanban.js",
-      "./templates/dashboard/projects.js": "./dist/_app_/templates/dashboard/projects.js",
       "./templates/dashboard/settings.js": "./dist/_app_/templates/dashboard/settings.js",
       "./templates/dashboard/sprints.js": "./dist/_app_/templates/dashboard/sprints.js",
       "./templates/dashboard/time-tracking.js": "./dist/_app_/templates/dashboard/time-tracking.js",
