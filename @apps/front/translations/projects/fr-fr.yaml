@@ -1,0 +1,43 @@
+title: 'Projets'
+subtitle: 'Gérez tous vos projets Scrum'
+newProject: 'Nouveau projet'
+emptyState: 'Aucun projet pour le moment.'
+card:
+  userStories: 'User Stories'
+  currentSprint: 'Sprint en cours'
+  createdOn: 'Créé le'
+status:
+  planned: 'Planifié'
+  active: 'Actif'
+  paused: 'En pause'
+  completed: 'Terminé'
+  cancelled: 'Annulé'
+  archived: 'Archivé'
+modal:
+  add:
+    title: 'Nouveau projet'
+    name: 'Nom du projet'
+    namePlaceholder: 'Ex: E-Commerce Platform'
+    status: 'Statut initial'
+    description: 'Description'
+    descriptionPlaceholder: 'Description du projet...'
+    lead: 'Responsable du projet'
+    leadPlaceholder: 'Sélectionner un responsable'
+    members: "Membres de l'équipe"
+    cancel: 'Annuler'
+    submit: 'Créer le projet'
+    submitting: 'Création...'
+  detail:
+    description: 'Description'
+    progress: 'Progression du projet'
+    stats:
+      title: 'Statistiques'
+      epics: 'Épiques'
+      userStories: 'User Stories'
+      tasks: 'Tâches'
+      sprints: 'Sprints'
+      hint: 'Statistiques détaillées disponibles en P10'
+    team: 'Équipe'
+    teamPlaceholder: 'Liste des membres disponible quand la lib P5+ sera prête.'
+    close: 'Fermer'
+    viewKanban: 'Voir le Kanban'
