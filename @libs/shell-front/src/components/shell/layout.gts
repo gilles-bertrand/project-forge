@@ -96,7 +96,7 @@ export default class ShellLayout extends Component<ShellLayoutSignature> {
   @tracked sidebarCollapsed = false;
 
   get themeOptions() {
-    return ['dark', 'light'];
+    return ['sprintforge-dark', 'sprintforge-light'];
   }
 
   get userForNav() {
