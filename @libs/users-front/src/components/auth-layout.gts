@@ -13,10 +13,10 @@ export default <template>
     ...attributes
   >
     <div class="text-center">
-      <h1 class="text-3xl font-bold" style="color: var(--primary)">SprintForge</h1>
+      <h1 class="text-3xl font-bold text-primary">SprintForge</h1>
       <p class="mt-2 opacity-60">Outil de gestion de projets Scrum</p>
     </div>
-    <div class="card w-full max-w-md shadow-xl" style="background: var(--card)">
+    <div class="card bg-card w-full max-w-md shadow-xl">
       <div class="card-body">
         {{yield}}
       </div>
@@ -25,4 +25,4 @@ export default <template>
       SprintForge © 2026 - Gestion de projets Scrum
     </footer>
   </div>
-</template> as TOC<AuthLayoutSignature>;
+</template> as TOC<AuthLayoutSignature>

@@ -42,7 +42,10 @@ export default class LoginForm extends Component {
         class="tpk-login-form"
       />
       <div class="mt-3 text-center">
-        <LinkTo @route="forgot-password" class="text-sm opacity-60 hover:opacity-100">
+        <LinkTo
+          @route="forgot-password"
+          class="text-sm opacity-60 hover:opacity-100"
+        >
           {{t "users.forms.login.forgotPassword"}}
         </LinkTo>
       </div>
