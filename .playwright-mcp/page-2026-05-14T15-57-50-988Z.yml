@@ -1,0 +1,211 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - navigation [ref=e4]:
+      - button "toggle sidebar" [ref=e6] [cursor=pointer]:
+        - img [ref=e7]
+      - list [ref=e10]
+      - button "John Doe" [ref=e13] [cursor=pointer]:
+        - generic [ref=e14]: John Doe
+        - img [ref=e15]
+    - generic [ref=e17]:
+      - generic [ref=e18]: Projet
+      - combobox "Projet" [ref=e20]: Sélectionner un projet
+      - generic [ref=e23]:
+        - button [ref=e24]:
+          - img [ref=e25]
+        - searchbox [ref=e27]
+      - button "Log time" [disabled] [ref=e28]
+      - button "Add" [disabled] [ref=e29]
+    - main [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]:
+            - heading "Projets" [level=1] [ref=e34]
+            - paragraph [ref=e35]: Gérez tous vos projets Scrum
+          - button "+ Nouveau projet" [ref=e36]
+        - generic [ref=e37]:
+          - button "EP E-Commerce Platform Actif Plateforme de vente en ligne complète avec gestion des stocks User Stories 0/0 0 Sprint en cours 0/0 0 Créé le 01 janv 2025 —" [active] [ref=e38] [cursor=pointer]:
+            - generic [ref=e39]:
+              - generic [ref=e42]: EP
+              - generic [ref=e43]:
+                - heading "E-Commerce Platform" [level=3] [ref=e44]
+                - generic [ref=e46]: Actif
+              - paragraph [ref=e47]: Plateforme de vente en ligne complète avec gestion des stocks
+              - generic [ref=e48]:
+                - generic [ref=e49]:
+                  - generic [ref=e50]: User Stories
+                  - generic [ref=e51]: 0/0
+                - progressbar [ref=e52]
+              - generic [ref=e53]:
+                - generic [ref=e54]:
+                  - generic [ref=e55]: Sprint en cours
+                  - generic [ref=e56]: 0/0
+                - progressbar [ref=e57]
+              - generic [ref=e58]:
+                - generic [ref=e59]:
+                  - img [ref=e60]
+                  - text: Créé le 01 janv 2025
+                - generic [ref=e62]:
+                  - img [ref=e63]
+                  - img [ref=e65]
+              - generic [ref=e68]:
+                - img [ref=e69]
+                - text: —
+          - button "MB Mobile Banking App Actif Application mobile de gestion bancaire User Stories 0/0 0 Sprint en cours 0/0 0 Créé le 05 janv 2025 —" [ref=e71] [cursor=pointer]:
+            - generic [ref=e72]:
+              - generic [ref=e75]: MB
+              - generic [ref=e76]:
+                - heading "Mobile Banking App" [level=3] [ref=e77]
+                - generic [ref=e79]: Actif
+              - paragraph [ref=e80]: Application mobile de gestion bancaire
+              - generic [ref=e81]:
+                - generic [ref=e82]:
+                  - generic [ref=e83]: User Stories
+                  - generic [ref=e84]: 0/0
+                - progressbar [ref=e85]
+              - generic [ref=e86]:
+                - generic [ref=e87]:
+                  - generic [ref=e88]: Sprint en cours
+                  - generic [ref=e89]: 0/0
+                - progressbar [ref=e90]
+              - generic [ref=e91]:
+                - generic [ref=e92]:
+                  - img [ref=e93]
+                  - text: Créé le 05 janv 2025
+                - generic [ref=e95]:
+                  - img [ref=e96]
+                  - img [ref=e98]
+              - generic [ref=e101]:
+                - img [ref=e102]
+                - text: —
+          - button "CS CRM System Planifié Système de gestion de la relation client User Stories 0/0 0 Sprint en cours 0/0 0 Créé le 10 janv 2025 —" [ref=e104] [cursor=pointer]:
+            - generic [ref=e105]:
+              - generic [ref=e108]: CS
+              - generic [ref=e109]:
+                - heading "CRM System" [level=3] [ref=e110]
+                - generic [ref=e112]: Planifié
+              - paragraph [ref=e113]: Système de gestion de la relation client
+              - generic [ref=e114]:
+                - generic [ref=e115]:
+                  - generic [ref=e116]: User Stories
+                  - generic [ref=e117]: 0/0
+                - progressbar [ref=e118]
+              - generic [ref=e119]:
+                - generic [ref=e120]:
+                  - generic [ref=e121]: Sprint en cours
+                  - generic [ref=e122]: 0/0
+                - progressbar [ref=e123]
+              - generic [ref=e124]:
+                - generic [ref=e125]:
+                  - img [ref=e126]
+                  - text: Créé le 10 janv 2025
+                - generic [ref=e128]:
+                  - img [ref=e129]
+                  - img [ref=e131]
+              - generic [ref=e134]:
+                - img [ref=e135]
+                - text: —
+        - dialog [ref=e137]:
+          - generic [ref=e138]:
+            - generic [ref=e139]:
+              - generic [ref=e140]:
+                - generic [ref=e142]: EP
+                - generic [ref=e143]:
+                  - heading "E-Commerce Platform" [level=2] [ref=e144]
+                  - generic [ref=e145]:
+                    - generic [ref=e146]: Actif
+                    - generic [ref=e147]: "Responsable: user-2"
+              - button "Fermer" [ref=e148] [cursor=pointer]: ✕
+            - generic [ref=e149]:
+              - heading "Description" [level=3] [ref=e150]
+              - paragraph [ref=e151]: Plateforme de vente en ligne complète avec gestion des stocks
+            - generic [ref=e152]:
+              - heading "Progression du projet" [level=3] [ref=e153]
+              - generic [ref=e154]:
+                - generic [ref=e155]:
+                  - generic [ref=e156]: User Stories complétées
+                  - generic [ref=e157]: 0%
+                - progressbar [ref=e158]
+                - paragraph [ref=e159]: 0 / 0 User Stories
+            - generic [ref=e160]:
+              - heading "Statistiques" [level=3] [ref=e161]
+              - generic [ref=e162]:
+                - generic [ref=e163]:
+                  - generic [ref=e164]: Épiques
+                  - generic [ref=e165]: 0/0
+                - generic [ref=e166]:
+                  - generic [ref=e167]: User Stories
+                  - generic [ref=e168]: 0/0
+                - generic [ref=e169]:
+                  - generic [ref=e170]: Tâches
+                  - generic [ref=e171]: 0/0
+                - generic [ref=e172]:
+                  - generic [ref=e173]: Sprints
+                  - generic [ref=e174]: 0/0
+              - paragraph [ref=e175]: ⓘ Statistiques détaillées disponibles en P10
+            - generic [ref=e176]:
+              - heading "Équipe" [level=3] [ref=e177]
+              - paragraph [ref=e178]: Liste des membres disponible quand la lib P5+ sera prête.
+            - generic [ref=e179]:
+              - button "Fermer" [ref=e180] [cursor=pointer]
+              - button "Voir le Kanban" [ref=e181] [cursor=pointer]
+  - generic [ref=e184]:
+    - generic [ref=e186]: SprintForge
+    - list [ref=e187]:
+      - listitem [ref=e188]:
+        - group [ref=e189]:
+          - generic "Navigation" [ref=e190]
+          - list [ref=e191]:
+            - listitem [ref=e192]:
+              - link "Tableau de bord" [ref=e193] [cursor=pointer]:
+                - /url: /
+                - img [ref=e194]
+                - generic [ref=e196]: Tableau de bord
+            - listitem [ref=e197]:
+              - link "Projets" [ref=e198] [cursor=pointer]:
+                - /url: /projects
+                - img [ref=e199]
+                - generic [ref=e201]: Projets
+            - listitem [ref=e202]:
+              - link "Backlog" [ref=e203] [cursor=pointer]:
+                - /url: /backlog
+                - img [ref=e204]
+                - generic [ref=e206]: Backlog
+            - listitem [ref=e207]:
+              - link "Kanban" [ref=e208] [cursor=pointer]:
+                - /url: /kanban
+                - img [ref=e209]
+                - generic [ref=e211]: Kanban
+            - listitem [ref=e212]:
+              - link "User Story Map" [ref=e213] [cursor=pointer]:
+                - /url: /user-story-map
+                - img [ref=e214]
+                - generic [ref=e216]: User Story Map
+            - listitem [ref=e217]:
+              - link "Sprints" [ref=e218] [cursor=pointer]:
+                - /url: /sprints
+                - img [ref=e219]
+                - generic [ref=e223]: Sprints
+            - listitem [ref=e224]:
+              - link "Suivi du temps" [ref=e225] [cursor=pointer]:
+                - /url: /time-tracking
+                - img [ref=e226]
+                - generic [ref=e229]: Suivi du temps
+      - listitem [ref=e230]:
+        - group [ref=e231]:
+          - generic "Administration" [ref=e232]
+          - list [ref=e233]:
+            - listitem [ref=e234]:
+              - link "Utilisateurs" [ref=e235] [cursor=pointer]:
+                - /url: /users
+                - img [ref=e236]
+                - generic [ref=e238]: Utilisateurs
+            - listitem [ref=e239]:
+              - link "Paramètres" [ref=e240] [cursor=pointer]:
+                - /url: /settings
+                - img [ref=e241]
+                - generic [ref=e244]: Paramètres
+    - button "Theme" [ref=e247] [cursor=pointer]:
+      - img [ref=e248]
+      - generic [ref=e250]: Theme
+      - img [ref=e251]

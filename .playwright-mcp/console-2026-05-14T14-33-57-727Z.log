@@ -1,0 +1,106 @@
+[     110ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778769158112:24
+[     140ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[     140ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[     140ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[     140ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[     140ms] [LOG] Client ID: %s (%s) 29e50253-7615-49b6-aca5-587a7bba7f82 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[     247ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) @ http://localhost:4200/login:0
+[   56891ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778769294395:24
+[   56897ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[   56897ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[   56897ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[   56897ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[   56897ms] [LOG] Client ID: %s (%s) 702f1544-ddbe-4d85-9250-59aea7efdac8 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[   57002ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) @ http://localhost:4200/login:0
+[   58292ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778769295821:24
+[   58297ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[   58297ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[   58297ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[   58297ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[   58297ms] [LOG] Client ID: %s (%s) 621ac9d9-04db-431b-b8f1-1a9ede2e5d83 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[   58403ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) @ http://localhost:4200/login:0
+[   63803ms] [LOG] Request {url: URL, method: POST, headers: Object, body: {"email":"deflorenne.amaury@triptyk.eu","password":"123456789"}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[   63803ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[   63803ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"accessToken":"eyJhbGciOiJIUzUxMiIsInR5cC…FXva8Sv05iTGzETg","refreshToken":"mock-refresh"}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[   63805ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[   63805ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[   63805ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[   63805ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[   64496ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778769302124:24
+[   64504ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[   64504ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[   64504ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[   64504ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[   64504ms] [LOG] Client ID: %s (%s) a15e34f4-6d22-441a-9878-e9dbb4334e4e top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[   64506ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[   64506ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[   64506ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[   64507ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[  102645ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778769340155:24
+[  102652ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[  102652ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[  102652ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[  102652ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[  102652ms] [LOG] Client ID: %s (%s) 60746f5d-b503-4d82-a758-6c2a9d551266 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[  102657ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  102657ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  102657ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  102658ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[  114083ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778769351599:24
+[  114089ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[  114089ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[  114089ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[  114089ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[  114089ms] [LOG] Client ID: %s (%s) a08ccc50-166f-4480-98f7-4c80b87042d3 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[  114091ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  114091ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  114091ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  114092ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[  132661ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778769370207:24
+[  132667ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[  132667ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[  132667ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[  132667ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[  132667ms] [LOG] Client ID: %s (%s) c8003e0d-3740-426d-8f70-11b9b45a1678 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[  132669ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  132669ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  132669ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  132670ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[ 3703905ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778772941402:24
+[ 3703910ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[ 3703910ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[ 3703910ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[ 3703910ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[ 3703910ms] [LOG] Client ID: %s (%s) 365a6c89-fe3a-4db0-a584-173feba3007c top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[ 3703916ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[ 3703926ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[ 3703926ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[ 3703926ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[ 3706491ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/services/store.ts?t=1778772944078:0
+[ 3709519ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/services/store.ts?t=1778772947112:0
+[ 3716874ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/services/store.ts?t=1778772947112:0
+[ 3716874ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/routes/application.ts?t=1778772954433:0
+[ 3720339ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/services/store.ts?t=1778772947112:0
+[ 3720379ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/routes/application.ts?t=1778772957946:0
+[ 3723869ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/services/store.ts?t=1778772947112:0
+[ 3723912ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/routes/application.ts?t=1778772961470:0
+[ 3741672ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/services/store.ts?t=1778772947112:0
+[ 3741676ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/routes/application.ts?t=1778772979328:0
+[ 3741913ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/services/store.ts?t=1778772947112:0
+[ 3741913ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/routes/application.ts?t=1778772979328:0
+[ 3743664ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/routes/application.ts?t=1778772981302:0
+[ 3743664ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/services/store.ts?t=1778772981290:0
+[ 3743680ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/services/store.ts?t=1778772981290:0
+[ 3743685ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/routes/application.ts?t=1778772981302:0
+[ 3746070ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/services/store.ts?t=1778772981290:0
+[ 3746072ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/routes/application.ts?t=1778772983728:0
+[ 4049998ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/shell-front/dist/_app_/templates/dashboard/projects.js?t=1778773287610:0
+[ 4049998ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/shell-front/dist/_app_/routes/dashboard/projects.js?t=1778773287607:0
+[ 4054300ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/-embroider-entrypoint.js?t=1778773287610:0
+[ 4111906ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/-embroider-entrypoint.js?t=1778773349518:0
+[ 4118587ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/-embroider-entrypoint.js?t=1778773356229:0
+[ 4151403ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/-embroider-entrypoint.js?t=1778773389041:0
+[ 4205778ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/-embroider-entrypoint.js?t=1778773443416:0
+[ 4212992ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/-embroider-entrypoint.js?t=1778773450600:0
+[ 4228127ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/-embroider-entrypoint.js?t=1778773465749:0
+[ 4285018ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/-embroider-entrypoint.js?t=1778773522640:0

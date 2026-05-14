@@ -1,0 +1,212 @@
+- generic [ref=e26]:
+  - generic [ref=e27]:
+    - navigation [ref=e28]:
+      - button "toggle sidebar" [ref=e30] [cursor=pointer]:
+        - img [ref=e31]
+      - list [ref=e34]
+      - button "John Doe" [ref=e37] [cursor=pointer]:
+        - generic [ref=e38]: John Doe
+        - img [ref=e39]
+    - generic [ref=e41]:
+      - generic [ref=e42]: Projet
+      - combobox "Projet" [ref=e44]:
+        - generic [ref=e157]: E-Commerce Platform
+        - button "×" [ref=e158]
+      - generic [ref=e47]:
+        - button [ref=e48]:
+          - img [ref=e49]
+        - searchbox [ref=e51]
+      - button "Log time" [disabled] [ref=e52]
+      - button "Add" [disabled] [ref=e53]
+    - main [ref=e54]:
+      - generic [ref=e159]:
+        - generic [ref=e160]:
+          - generic [ref=e161]:
+            - heading "Projets" [level=1] [ref=e162]
+            - paragraph [ref=e163]: Gérez tous vos projets Scrum
+          - button "+ Nouveau projet" [active] [ref=e164]
+        - generic [ref=e165]:
+          - button "EP E-Commerce Platform Actif Plateforme de vente en ligne complète avec gestion des stocks User Stories 0/0 0 Sprint en cours 0/0 0 Créé le 01 janv 2025 —" [ref=e166] [cursor=pointer]:
+            - generic [ref=e167]:
+              - generic [ref=e170]: EP
+              - generic [ref=e171]:
+                - heading "E-Commerce Platform" [level=3] [ref=e172]
+                - generic [ref=e174]: Actif
+              - paragraph [ref=e175]: Plateforme de vente en ligne complète avec gestion des stocks
+              - generic [ref=e176]:
+                - generic [ref=e177]:
+                  - generic [ref=e178]: User Stories
+                  - generic [ref=e179]: 0/0
+                - progressbar [ref=e180]
+              - generic [ref=e181]:
+                - generic [ref=e182]:
+                  - generic [ref=e183]: Sprint en cours
+                  - generic [ref=e184]: 0/0
+                - progressbar [ref=e185]
+              - generic [ref=e186]:
+                - generic [ref=e187]:
+                  - img [ref=e188]
+                  - text: Créé le 01 janv 2025
+                - generic [ref=e190]:
+                  - img [ref=e191]
+                  - img [ref=e193]
+              - generic [ref=e196]:
+                - img [ref=e197]
+                - text: —
+          - button "MB Mobile Banking App Actif Application mobile de gestion bancaire User Stories 0/0 0 Sprint en cours 0/0 0 Créé le 05 janv 2025 —" [ref=e199] [cursor=pointer]:
+            - generic [ref=e200]:
+              - generic [ref=e203]: MB
+              - generic [ref=e204]:
+                - heading "Mobile Banking App" [level=3] [ref=e205]
+                - generic [ref=e207]: Actif
+              - paragraph [ref=e208]: Application mobile de gestion bancaire
+              - generic [ref=e209]:
+                - generic [ref=e210]:
+                  - generic [ref=e211]: User Stories
+                  - generic [ref=e212]: 0/0
+                - progressbar [ref=e213]
+              - generic [ref=e214]:
+                - generic [ref=e215]:
+                  - generic [ref=e216]: Sprint en cours
+                  - generic [ref=e217]: 0/0
+                - progressbar [ref=e218]
+              - generic [ref=e219]:
+                - generic [ref=e220]:
+                  - img [ref=e221]
+                  - text: Créé le 05 janv 2025
+                - generic [ref=e223]:
+                  - img [ref=e224]
+                  - img [ref=e226]
+              - generic [ref=e229]:
+                - img [ref=e230]
+                - text: —
+          - button "CS CRM System Planifié Système de gestion de la relation client User Stories 0/0 0 Sprint en cours 0/0 0 Créé le 10 janv 2025 —" [ref=e232] [cursor=pointer]:
+            - generic [ref=e233]:
+              - generic [ref=e236]: CS
+              - generic [ref=e237]:
+                - heading "CRM System" [level=3] [ref=e238]
+                - generic [ref=e240]: Planifié
+              - paragraph [ref=e241]: Système de gestion de la relation client
+              - generic [ref=e242]:
+                - generic [ref=e243]:
+                  - generic [ref=e244]: User Stories
+                  - generic [ref=e245]: 0/0
+                - progressbar [ref=e246]
+              - generic [ref=e247]:
+                - generic [ref=e248]:
+                  - generic [ref=e249]: Sprint en cours
+                  - generic [ref=e250]: 0/0
+                - progressbar [ref=e251]
+              - generic [ref=e252]:
+                - generic [ref=e253]:
+                  - img [ref=e254]
+                  - text: Créé le 10 janv 2025
+                - generic [ref=e256]:
+                  - img [ref=e257]
+                  - img [ref=e259]
+              - generic [ref=e262]:
+                - img [ref=e263]
+                - text: —
+        - dialog [ref=e265]:
+          - generic [ref=e266]:
+            - generic [ref=e267]:
+              - heading "Nouveau projet" [level=3] [ref=e268]
+              - button "Fermer" [ref=e269] [cursor=pointer]: ✕
+            - generic [ref=e270]:
+              - generic [ref=e271]:
+                - generic [ref=e272]:
+                  - generic [ref=e273]: Nom du projet *
+                  - textbox "Nom du projet *" [ref=e274]:
+                    - /placeholder: "Ex: E-Commerce Platform"
+                - generic [ref=e275]:
+                  - generic [ref=e276]: Statut initial
+                  - combobox "Statut initial" [ref=e277]:
+                    - option "Planifié" [selected]
+                    - option "Actif"
+                    - option "En pause"
+              - generic [ref=e278]:
+                - generic [ref=e279]: Description
+                - textbox "Description" [ref=e280]:
+                  - /placeholder: Description du projet...
+              - generic [ref=e281]:
+                - generic [ref=e282]: Responsable du projet *
+                - combobox "Responsable du projet *" [ref=e283]:
+                  - option "Sélectionner un responsable" [disabled] [selected]
+                  - option "John Doe"
+                  - option "Jane Smith"
+                  - option "Bob Johnson Johnson"
+              - generic [ref=e284]:
+                - generic [ref=e285]: Membres de l'équipe (0 sélectionnés)
+                - generic [ref=e286]:
+                  - generic [ref=e287] [cursor=pointer]:
+                    - checkbox "John Doe" [ref=e288]
+                    - generic [ref=e289]: John Doe
+                  - generic [ref=e290] [cursor=pointer]:
+                    - checkbox "Jane Smith" [ref=e291]
+                    - generic [ref=e292]: Jane Smith
+                  - generic [ref=e293] [cursor=pointer]:
+                    - checkbox "Bob Johnson Johnson" [ref=e294]
+                    - generic [ref=e295]: Bob Johnson Johnson
+              - generic [ref=e296]:
+                - button "Annuler" [ref=e297] [cursor=pointer]
+                - button "Créer le projet" [disabled]
+  - generic [ref=e78]:
+    - generic [ref=e80]: SprintForge
+    - list [ref=e81]:
+      - listitem [ref=e82]:
+        - group [ref=e83]:
+          - generic "Navigation" [ref=e84]
+          - list [ref=e85]:
+            - listitem [ref=e86]:
+              - link "Tableau de bord" [ref=e87] [cursor=pointer]:
+                - /url: /
+                - img [ref=e88]
+                - generic [ref=e90]: Tableau de bord
+            - listitem [ref=e91]:
+              - link "Projets" [ref=e92] [cursor=pointer]:
+                - /url: /projects
+                - img [ref=e93]
+                - generic [ref=e95]: Projets
+            - listitem [ref=e96]:
+              - link "Backlog" [ref=e97] [cursor=pointer]:
+                - /url: /backlog
+                - img [ref=e98]
+                - generic [ref=e100]: Backlog
+            - listitem [ref=e101]:
+              - link "Kanban" [ref=e102] [cursor=pointer]:
+                - /url: /kanban
+                - img [ref=e103]
+                - generic [ref=e105]: Kanban
+            - listitem [ref=e106]:
+              - link "User Story Map" [ref=e107] [cursor=pointer]:
+                - /url: /user-story-map
+                - img [ref=e108]
+                - generic [ref=e110]: User Story Map
+            - listitem [ref=e111]:
+              - link "Sprints" [ref=e112] [cursor=pointer]:
+                - /url: /sprints
+                - img [ref=e113]
+                - generic [ref=e117]: Sprints
+            - listitem [ref=e118]:
+              - link "Suivi du temps" [ref=e119] [cursor=pointer]:
+                - /url: /time-tracking
+                - img [ref=e120]
+                - generic [ref=e123]: Suivi du temps
+      - listitem [ref=e124]:
+        - group [ref=e125]:
+          - generic "Administration" [ref=e126]
+          - list [ref=e127]:
+            - listitem [ref=e128]:
+              - link "Utilisateurs" [ref=e129] [cursor=pointer]:
+                - /url: /users
+                - img [ref=e130]
+                - generic [ref=e132]: Utilisateurs
+            - listitem [ref=e133]:
+              - link "Paramètres" [ref=e134] [cursor=pointer]:
+                - /url: /settings
+                - img [ref=e135]
+                - generic [ref=e138]: Paramètres
+    - button "Theme" [ref=e141] [cursor=pointer]:
+      - img [ref=e142]
+      - generic [ref=e144]: Theme
+      - img [ref=e145]

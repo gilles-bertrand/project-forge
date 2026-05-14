@@ -1,0 +1,2 @@
+[     794ms] [LOG] [Hydrated] @ https://point-adjust-24664908.figma.site/_runtimes/sites-runtime.7749a918644260e2653ab0add1e58209bde4df7f9b482eb091f531d676b702a3.js:126
+[    3799ms] [WARNING] The resource https://point-adjust-24664908.figma.site/_json/573e3ea6-1e00-4669-af94-584e45e7a369/_index.json was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://point-adjust-24664908.figma.site/kanban:0
