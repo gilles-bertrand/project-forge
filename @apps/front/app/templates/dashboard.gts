@@ -1,7 +1,7 @@
-import ShellLayout from '@libs/shell-front/components/shell/layout';
+import ShellWithProjects from '@libs/projects-front/components/shell-with-projects';
 
 <template>
-  <ShellLayout>
+  <ShellWithProjects>
     {{outlet}}
-  </ShellLayout>
+  </ShellWithProjects>
 </template>
