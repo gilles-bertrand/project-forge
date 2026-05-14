@@ -159,10 +159,8 @@ export default class ShellLayout extends Component<ShellLayoutSignature> {
           <span class="text-lg font-bold" style="color: var(--primary)">SprintForge</span>
         </div>
       </:header>
-      <:menu>
-        <ShellHeader @projects={{@projects}} />
-      </:menu>
       <:content>
+        <ShellHeader @projects={{@projects}} />
         <main class="p-6">
           {{yield}}
         </main>

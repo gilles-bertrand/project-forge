@@ -30,7 +30,7 @@ export default class LoginForm extends Component {
   };
 
   <template>
-    <AuthLayout data-test-login-form ...attributes>
+    <AuthLayout data-test-login-form>
       <h2 class="card-title mb-4">{{t "users.forms.login.title"}}</h2>
       <TpkLoginForm
         @onSubmit={{this.onSubmit}}
