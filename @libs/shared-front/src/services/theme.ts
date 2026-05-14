@@ -21,15 +21,11 @@ export default class ThemeService extends Service {
   apply(mode: ThemeMode): void {
     this.mode = mode;
     const root = document.documentElement;
-    if (mode === 'light') {
-      root.classList.add('light');
-    } else {
-      root.classList.remove('light');
-    }
+    root.setAttribute('data-theme', mode);
     try {
       localStorage.setItem(STORAGE_KEY, mode);
     } catch {
-      // localStorage indisponible (mode privé) — silent
+      // localStorage indisponible — silent
     }
   }
 

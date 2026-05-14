@@ -30,8 +30,8 @@ export default class LoginForm extends Component {
   };
 
   <template>
-    <AuthLayout data-test-login-form>
-      <h1>{{t "users.forms.login.title"}}</h1>
+    <AuthLayout data-test-login-form ...attributes>
+      <h2 class="card-title mb-4">{{t "users.forms.login.title"}}</h2>
       <TpkLoginForm
         @onSubmit={{this.onSubmit}}
         @initialValues={{hash
@@ -41,9 +41,11 @@ export default class LoginForm extends Component {
         @loginSchema={{this.loginValidationSchema}}
         class="tpk-login-form"
       />
-      <LinkTo @route="forgot-password" class="forgot-password-link">
-        Forgot password?
-      </LinkTo>
+      <div class="mt-3 text-center">
+        <LinkTo @route="forgot-password" class="text-sm opacity-60 hover:opacity-100">
+          {{t "users.forms.login.forgotPassword"}}
+        </LinkTo>
+      </div>
     </AuthLayout>
   </template>
 }

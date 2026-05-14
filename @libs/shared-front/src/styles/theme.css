@@ -4,6 +4,7 @@
  * Exposés à Tailwind v4 via @theme inline → utilisables comme `bg-card`, `text-foreground`, etc.
  */
 
+[data-theme='dark'],
 :root {
   --radius: 0.5rem;
 
@@ -46,7 +47,7 @@
   --logo-color: #7fdbca;
 }
 
-:root.light {
+[data-theme='light'] {
   --background: #f8fafb;
   --foreground: #0a1929;
   --card: #ffffff;

@@ -8,14 +8,21 @@ interface AuthLayoutSignature {
 }
 
 export default <template>
-  <div class="auth-layout" ...attributes>
-    <img
-      src="/assets/img/boilerplate_logo.png"
-      alt="boilerplate"
-      class="w-32"
-    />
-    <div class="auth-layout-content">
-      {{yield}}
+  <div
+    class="min-h-screen flex flex-col items-center justify-center gap-8 p-6"
+    ...attributes
+  >
+    <div class="text-center">
+      <h1 class="text-3xl font-bold" style="color: var(--primary)">SprintForge</h1>
+      <p class="mt-2 opacity-60">Outil de gestion de projets Scrum</p>
     </div>
+    <div class="card w-full max-w-md shadow-xl" style="background: var(--card)">
+      <div class="card-body">
+        {{yield}}
+      </div>
+    </div>
+    <footer class="text-xs opacity-60">
+      SprintForge © 2026 - Gestion de projets Scrum
+    </footer>
   </div>
-</template> as TOC<AuthLayoutSignature>
+</template> as TOC<AuthLayoutSignature>;
