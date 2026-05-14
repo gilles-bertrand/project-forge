@@ -9,7 +9,7 @@ interface AuthLayoutSignature {
 
 export default <template>
   <div
-    class="min-h-screen flex flex-col items-center justify-center gap-8 p-6"
+    class="min-h-screen flex flex-col items-center justify-center gap-8 p-6 bg-background"
     ...attributes
   >
     <div class="text-center">

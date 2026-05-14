@@ -1,4 +1,4 @@
-import Service from '@ember/service';
+import Service from "@ember/service";
 export default class CurrentProjectService extends Service {
     currentProjectId: string | null;
     setup(): void;
@@ -6,9 +6,9 @@ export default class CurrentProjectService extends Service {
     clear(): void;
     get current(): string | null;
 }
-declare module '@ember/service' {
+declare module "@ember/service" {
     interface Registry {
-        'current-project': CurrentProjectService;
+        "current-project": CurrentProjectService;
     }
 }
 //# sourceMappingURL=current-project.d.ts.map
