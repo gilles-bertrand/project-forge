@@ -5,6 +5,7 @@ import { tracked } from '@glimmer/tracking';
 import TpkButton from '@triptyk/ember-input/components/tpk-button';
 import ProjectCard from '../../components/project-card.gts';
 import AddProjectModal from '../../components/add-project-modal.gts';
+import ProjectDetailModal from '../../components/project-detail-modal.gts';
 import type ProjectsService from '../../services/projects.ts';
 import type { Project } from '../../schemas/projects.ts';
 
@@ -57,6 +58,12 @@ export default class DashboardProjectsTemplate extends Component {
 
       {{#if this.addModalOpen}}
         <AddProjectModal @onClose={{this.closeAdd}} />
+      {{/if}}
+      {{#if this.detailProject}}
+        <ProjectDetailModal
+          @project={{this.detailProject}}
+          @onClose={{this.closeDetail}}
+        />
       {{/if}}
     </div>
   </template>

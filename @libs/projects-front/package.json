@@ -128,6 +128,7 @@
       "./components/add-project-modal.js": "./dist/_app_/components/add-project-modal.js",
       "./components/member-avatar-stack.js": "./dist/_app_/components/member-avatar-stack.js",
       "./components/project-card.js": "./dist/_app_/components/project-card.js",
+      "./components/project-detail-modal.js": "./dist/_app_/components/project-detail-modal.js",
       "./components/status-badge.js": "./dist/_app_/components/status-badge.js",
       "./routes/dashboard/projects.js": "./dist/_app_/routes/dashboard/projects.js",
       "./schemas/projects.js": "./dist/_app_/schemas/projects.js",
