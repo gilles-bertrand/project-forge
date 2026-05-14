@@ -8,12 +8,7 @@
 @import './flash.css';
 
 @plugin "daisyui" {
-  themes:
-    nord --default,
-    dracula,
-    cupcake,
-    corporate,
-    lemonade;
+  themes: false;
 }
 
 /* Additional global styles can be added below */
