@@ -2,6 +2,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
+import { t } from 'ember-intl';
 import TpkButton from '@triptyk/ember-input/components/tpk-button';
 import ProjectCard from '../../components/project-card.gts';
 import AddProjectModal from '../../components/add-project-modal.gts';
@@ -34,15 +35,15 @@ export default class DashboardProjectsTemplate extends Component {
     <div>
       <div class="flex items-start justify-between mb-6">
         <div>
-          <h1 class="text-3xl font-bold">Projets</h1>
-          <p class="opacity-70 mt-1">Gérez tous vos projets Scrum</p>
+          <h1 class="text-3xl font-bold">{{t "projects.title"}}</h1>
+          <p class="opacity-70 mt-1">{{t "projects.subtitle"}}</p>
         </div>
         <TpkButton
-          @label="+ Nouveau projet"
+          @label={{t "projects.newProject"}}
           @onClick={{this.openAdd}}
           class="btn-primary"
         >
-          + Nouveau projet
+          {{t "projects.newProject"}}
         </TpkButton>
       </div>
 
@@ -51,7 +52,7 @@ export default class DashboardProjectsTemplate extends Component {
           <ProjectCard @project={{p}} @onOpen={{this.openDetail}} />
         {{else}}
           <div class="col-span-full text-center opacity-60 py-12">
-            Aucun projet pour le moment.
+            {{t "projects.emptyState"}}
           </div>
         {{/each}}
       </div>

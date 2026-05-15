@@ -1,8 +1,12 @@
 import Component from '@glimmer/component';
 import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
+import { service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import { t, type IntlService } from 'ember-intl';
 import type { TOC } from '@ember/component/template-only';
 import type { Project } from '../schemas/projects.ts';
+import type ProjectsService from '../services/projects.ts';
 import StatusBadge from './status-badge.gts';
 import MemberAvatarStack, {
   type MemberLite,
@@ -72,7 +76,7 @@ const UserIcon: TOC<{ Element: SVGSVGElement }> = <template>
   </svg>
 </template>;
 
-function shortMonth(d: Date, locale = 'fr-FR'): string {
+function shortMonth(d: Date, locale: string): string {
   return d
     .toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' })
     .replace('.', '');
@@ -89,6 +93,28 @@ interface ProjectCardSignature {
 }
 
 export default class ProjectCard extends Component<ProjectCardSignature> {
+  @service declare intl: IntlService;
+  @service declare projects: ProjectsService;
+
+  @tracked private _fetchedMembers: MemberLite[] = [];
+
+  constructor(owner: unknown, args: ProjectCardSignature['Args']) {
+    super(owner as never, args);
+    if (!this.args.members) {
+      void this.loadMembers();
+    }
+  }
+
+  private async loadMembers(): Promise<void> {
+    const id = this.args.project.id;
+    if (!id) return;
+    try {
+      this._fetchedMembers = await this.projects.loadMembers(id);
+    } catch (e) {
+      console.error('[ProjectCard] loadMembers failed:', e);
+    }
+  }
+
   get initials(): string {
     const name = this.args.project.name;
     const parts = name.split(/\s+/).filter(Boolean);
@@ -100,18 +126,18 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
   get formattedDate(): string {
     const raw = this.args.project.createdAt;
     if (!raw) return '';
-    return shortMonth(new Date(raw));
+    const locale = this.intl.primaryLocale ?? 'fr-FR';
+    return shortMonth(new Date(raw), locale);
   }
 
   get members(): MemberLite[] {
-    return this.args.members ?? [];
+    return this.args.members ?? this._fetchedMembers;
   }
 
   get responsibleShortName(): string {
     return this.args.responsibleShortName ?? '—';
   }
 
-  // Placeholder progress (P10 will plug real aggregation)
   userStoriesDone = 0;
   userStoriesTotal = 0;
   sprintDone = 0;
@@ -146,7 +172,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
 
         <div class="mt-1">
           <div class="flex justify-between text-xs opacity-70 mb-1">
-            <span>User Stories</span>
+            <span>{{t "projects.card.userStories"}}</span>
             <span>{{this.userStoriesDone}}/{{this.userStoriesTotal}}</span>
           </div>
           <progress
@@ -158,7 +184,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
 
         <div>
           <div class="flex justify-between text-xs opacity-70 mb-1">
-            <span>Sprint en cours</span>
+            <span>{{t "projects.card.currentSprint"}}</span>
             <span>{{this.sprintDone}}/{{this.sprintTotal}}</span>
           </div>
           <progress
@@ -171,7 +197,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
         <div class="flex items-center justify-between mt-1 text-xs opacity-70">
           <span class="flex items-center gap-1">
             <CalendarIcon />
-            Créé le
+            {{t "projects.card.createdOn"}}
             {{this.formattedDate}}
           </span>
           <div class="flex items-center gap-1">

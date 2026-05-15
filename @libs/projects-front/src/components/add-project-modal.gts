@@ -3,6 +3,7 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
+import { t, type IntlService } from 'ember-intl';
 import type { Store } from '@warp-drive/core';
 import type CurrentUserService from '@libs/users-front/services/current-user';
 import type ProjectsService from '../services/projects.ts';
@@ -19,16 +20,13 @@ interface AddProjectModalSignature {
   Args: { onClose: () => void };
 }
 
-const STATUS_OPTIONS: { value: ProjectStatus; label: string }[] = [
-  { value: 'planned', label: 'Planifié' },
-  { value: 'active', label: 'Actif' },
-  { value: 'paused', label: 'En pause' },
-];
+const STATUS_VALUES: ProjectStatus[] = ['planned', 'active', 'paused'];
 
 export default class AddProjectModal extends Component<AddProjectModalSignature> {
   @service declare projects: ProjectsService;
   @service declare currentUser: CurrentUserService;
   @service declare store: Store;
+  @service declare intl: IntlService;
 
   @tracked name = '';
   @tracked description = '';
@@ -38,8 +36,6 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
   @tracked users: UserLite[] = [];
   @tracked submitting = false;
   @tracked error = '';
-
-  statusOptions = STATUS_OPTIONS;
 
   constructor(owner: unknown, args: AddProjectModalSignature['Args']) {
     super(owner as never, args);
@@ -61,6 +57,13 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
     } catch (e) {
       console.error('[AddProjectModal] loadUsers failed:', e);
     }
+  }
+
+  get statusOptions(): { value: ProjectStatus; label: string }[] {
+    return STATUS_VALUES.map((value) => ({
+      value,
+      label: this.intl.t(`projects.status.${value}`),
+    }));
   }
 
   get canSubmit(): boolean {
@@ -126,7 +129,9 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
       this.args.onClose();
     } catch (err: unknown) {
       this.error =
-        err instanceof Error ? err.message : 'Erreur lors de la création';
+        err instanceof Error
+          ? err.message
+          : this.intl.t('projects.modal.add.errorFallback');
     } finally {
       this.submitting = false;
     }
@@ -136,11 +141,11 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
     <dialog class="modal modal-open" data-test-add-project-modal>
       <div class="modal-box max-w-2xl bg-base-200">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-lg font-bold">Nouveau projet</h3>
+          <h3 class="text-lg font-bold">{{t "projects.modal.add.title"}}</h3>
           <button
             type="button"
             class="btn btn-sm btn-circle btn-ghost"
-            aria-label="Fermer"
+            aria-label={{t "projects.modal.add.closeAria"}}
             {{on "click" @onClose}}
           >✕</button>
         </div>
@@ -149,13 +154,14 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
           <div class="grid grid-cols-2 gap-4">
             <div>
               <label class="label text-sm font-medium" for="proj-name">
-                Nom du projet *
+                {{t "projects.modal.add.name"}}
+                *
               </label>
               <input
                 id="proj-name"
                 type="text"
                 class="input input-bordered w-full"
-                placeholder="Ex: E-Commerce Platform"
+                placeholder={{t "projects.modal.add.namePlaceholder"}}
                 value={{this.name}}
                 {{on "input" this.onNameInput}}
                 required
@@ -163,7 +169,7 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
             </div>
             <div>
               <label class="label text-sm font-medium" for="proj-status">
-                Statut initial
+                {{t "projects.modal.add.status"}}
               </label>
               <select
                 id="proj-status"
@@ -182,19 +188,20 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
 
           <div>
             <label class="label text-sm font-medium" for="proj-description">
-              Description
+              {{t "projects.modal.add.description"}}
             </label>
             <textarea
               id="proj-description"
               class="textarea textarea-bordered w-full h-24"
-              placeholder="Description du projet..."
+              placeholder={{t "projects.modal.add.descriptionPlaceholder"}}
               {{on "input" this.onDescriptionInput}}
             >{{this.description}}</textarea>
           </div>
 
           <div>
             <label class="label text-sm font-medium" for="proj-responsible">
-              Responsable du projet *
+              {{t "projects.modal.add.lead"}}
+              *
             </label>
             <select
               id="proj-responsible"
@@ -203,11 +210,12 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
               required
             >
               <option value="" disabled selected={{this.isNoResponsible}}>
-                Sélectionner un responsable
+                {{t "projects.modal.add.leadPlaceholder"}}
               </option>
               {{#each this.users as |u|}}
                 <option value={{u.id}}>
-                  {{u.firstName}} {{u.lastName}}
+                  {{u.firstName}}
+                  {{u.lastName}}
                 </option>
               {{/each}}
             </select>
@@ -215,8 +223,10 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
 
           <div>
             <span class="label text-sm font-medium">
-              Membres de l'équipe ({{this.selectedMemberIds.length}}
-              sélectionnés)
+              {{t
+                "projects.modal.add.membersWithCount"
+                count=this.selectedMemberIds.length
+              }}
             </span>
             <div
               class="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto mt-1 p-2 rounded bg-base-100"
@@ -250,13 +260,17 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
               class="btn"
               disabled={{this.submitting}}
               {{on "click" @onClose}}
-            >Annuler</button>
+            >{{t "projects.modal.add.cancel"}}</button>
             <button
               type="submit"
               class="btn btn-primary"
               disabled={{this.cannotSubmit}}
             >
-              {{if this.submitting "Création..." "Créer le projet"}}
+              {{if
+                this.submitting
+                (t "projects.modal.add.submitting")
+                (t "projects.modal.add.submit")
+              }}
             </button>
           </div>
         </form>

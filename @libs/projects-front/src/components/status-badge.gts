@@ -1,18 +1,11 @@
 import type { TOC } from '@ember/component/template-only';
+import { concat } from '@ember/helper';
+import { t } from 'ember-intl';
 import type { ProjectStatus } from '../schemas/projects.ts';
 
 interface StatusBadgeSignature {
   Args: { status: ProjectStatus };
 }
-
-const LABEL_FR: Record<ProjectStatus, string> = {
-  planned: 'Planifié',
-  active: 'Actif',
-  paused: 'En pause',
-  completed: 'Terminé',
-  cancelled: 'Annulé',
-  archived: 'Archivé',
-};
 
 const CLASS_FOR: Record<ProjectStatus, string> = {
   planned: 'badge-info badge-soft',
@@ -23,16 +16,14 @@ const CLASS_FOR: Record<ProjectStatus, string> = {
   archived: 'badge-ghost badge-soft',
 };
 
-const StatusBadge: TOC<StatusBadgeSignature> = <template>
-  <span class="badge {{classFor @status}}">{{labelFor @status}}</span>
-</template>;
-
-function labelFor(s: ProjectStatus): string {
-  return LABEL_FR[s] ?? s;
-}
-
 function classFor(s: ProjectStatus): string {
   return CLASS_FOR[s] ?? 'badge-ghost';
 }
+
+const StatusBadge: TOC<StatusBadgeSignature> = <template>
+  <span class="badge {{classFor @status}}">
+    {{t (concat "projects.status." @status)}}
+  </span>
+</template>;
 
 export default StatusBadge;
