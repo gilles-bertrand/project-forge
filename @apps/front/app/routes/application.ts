@@ -5,10 +5,12 @@ import { setupWorker } from 'msw/browser';
 import { initialize as initializeUserLib } from '@libs/users-front';
 import { initialize as initializeShellLib } from '@libs/shell-front';
 import { initialize as initializeProjectsLib } from '@libs/projects-front';
+import { initialize as initializeBacklogLib } from '@libs/backlog-front';
 import { getOwner } from '@ember/-internals/owner';
 import type SessionService from '@apps/front/services/session';
 import allUsersHandlers from '@libs/users-front/http-mocks/all';
 import allProjectsHandlers from '@libs/projects-front/http-mocks/all';
+import { allBacklogHandlers } from '@libs/backlog-front/http-mocks/all';
 import type ThemeService from '@libs/shared-front/services/theme';
 import translationsForFrFr from 'virtual:ember-intl/translations/fr-fr';
 import translationsForEnUs from 'virtual:ember-intl/translations/en-us';
@@ -28,7 +30,7 @@ export default class ApplicationRoute extends Route {
 
     // Skip MSW when running against real backend (e2e tests)
     if (import.meta.env.VITE_MOCK_API !== 'false') {
-      const worker = setupWorker(...allUsersHandlers, ...allProjectsHandlers);
+      const worker = setupWorker(...allUsersHandlers, ...allProjectsHandlers, ...allBacklogHandlers);
       this.worker = worker;
       await worker.start({
         onUnhandledRequest: 'bypass',
@@ -38,6 +40,7 @@ export default class ApplicationRoute extends Route {
     await initializeUserLib(getOwner(this)!);
     await initializeShellLib(getOwner(this)!);
     await initializeProjectsLib(getOwner(this)!);
+    await initializeBacklogLib(getOwner(this)!);
   }
 
   willDestroy() {
