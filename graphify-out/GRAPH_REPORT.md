@@ -1,12 +1,12 @@
-# Graph Report - /Users/gilles/www/projects/project-forge  (2026-05-14)
+# Graph Report - /Users/gilles/www/projects/project-forge  (2026-05-15)
 
 ## Corpus Check
-- 311 files · ~375,595 words
+- 342 files · ~394,096 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 995 nodes · 999 edges · 230 communities detected
-- Extraction: 83% EXTRACTED · 17% INFERRED · 0% AMBIGUOUS · INFERRED: 168 edges (avg confidence: 0.81)
+- 1059 nodes · 1053 edges · 253 communities detected
+- Extraction: 83% EXTRACTED · 16% INFERRED · 0% AMBIGUOUS · INFERRED: 173 edges (avg confidence: 0.81)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
@@ -240,6 +240,29 @@
 - [[_COMMUNITY_Community 227|Community 227]]
 - [[_COMMUNITY_Community 228|Community 228]]
 - [[_COMMUNITY_Community 229|Community 229]]
+- [[_COMMUNITY_Community 230|Community 230]]
+- [[_COMMUNITY_Community 231|Community 231]]
+- [[_COMMUNITY_Community 232|Community 232]]
+- [[_COMMUNITY_Community 233|Community 233]]
+- [[_COMMUNITY_Community 234|Community 234]]
+- [[_COMMUNITY_Community 235|Community 235]]
+- [[_COMMUNITY_Community 236|Community 236]]
+- [[_COMMUNITY_Community 237|Community 237]]
+- [[_COMMUNITY_Community 238|Community 238]]
+- [[_COMMUNITY_Community 239|Community 239]]
+- [[_COMMUNITY_Community 240|Community 240]]
+- [[_COMMUNITY_Community 241|Community 241]]
+- [[_COMMUNITY_Community 242|Community 242]]
+- [[_COMMUNITY_Community 243|Community 243]]
+- [[_COMMUNITY_Community 244|Community 244]]
+- [[_COMMUNITY_Community 245|Community 245]]
+- [[_COMMUNITY_Community 246|Community 246]]
+- [[_COMMUNITY_Community 247|Community 247]]
+- [[_COMMUNITY_Community 248|Community 248]]
+- [[_COMMUNITY_Community 249|Community 249]]
+- [[_COMMUNITY_Community 250|Community 250]]
+- [[_COMMUNITY_Community 251|Community 251]]
+- [[_COMMUNITY_Community 252|Community 252]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `makeSingleJsonApiTopDocument()` - 32 edges
@@ -249,9 +272,9 @@
 5. `TestModule` - 10 edges
 6. `log()` - 9 edges
 7. `main()` - 9 edges
-8. `makeJsonApiError()` - 9 edges
-9. `Modal: Planifier un sprint` - 9 edges
-10. `Modal: Nouvelle Épique` - 9 edges
+8. `initialize()` - 9 edges
+9. `makeJsonApiError()` - 9 edges
+10. `Modal: Planifier un sprint` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Boilerplate Logo (Hexagonal Gradient)` --legacy_brand_predecessor_of--> `SprintForge App Shell (Sidebar + Topbar + Content)`  [AMBIGUOUS]
@@ -289,15 +312,15 @@
 
 ### Community 0 - "Community 0"
 Cohesion: 0.02
-Nodes (27): DeleteTaskAttachmentRoute, ListTaskAttachmentsRoute, AddTaskCommentRoute, DeleteTaskCommentRoute, ListTaskCommentsRoute, CreateEpicRoute, CreateProjectRoute, CreateRoute (+19 more)
+Nodes (26): jsonApiSerializeComment(), AddTaskCommentRoute, DeleteTaskCommentRoute, ListTaskCommentsRoute, CreateEpicRoute, CreateProjectRoute, CreateRoute, CreateSprintRoute (+18 more)
 
 ### Community 1 - "Community 1"
-Cohesion: 0.04
-Nodes (11): App, appRouter(), ApplicationRoute, setup(), teardown(), setTheme(), ScrumTestModule, StubTimeTrackingPort (+3 more)
+Cohesion: 0.05
+Nodes (57): ADR - Keep Existing JWT + Refresh, ADR - Design Tokens in shared-front, ADR - i18n 100% FR at MVP, ADR 00 - SprintForge Migration, ADR - Theme Service in shared-front, Backend Bootstrap Architecture, Backend Auth JWT + Refresh, Backend Env Variables (+49 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.05
-Nodes (57): ADR - Keep Existing JWT + Refresh, ADR - Design Tokens in shared-front, ADR - i18n 100% FR at MVP, ADR 00 - SprintForge Migration, ADR - Theme Service in shared-front, Backend Bootstrap Architecture, Backend Auth JWT + Refresh, Backend Env Variables (+49 more)
+Nodes (9): ApplicationRoute, setup(), teardown(), ScrumModule, setTheme(), ScrumTestModule, TestModule, TimeTrackingTestModule (+1 more)
 
 ### Community 3 - "Community 3"
 Cohesion: 0.05
@@ -309,19 +332,19 @@ Nodes (46): Modal: Que voulez-vous ajouter ?, Épique - Créer une nouvelle épi
 
 ### Community 5 - "Community 5"
 Cohesion: 0.06
-Nodes (12): recomputeCompletedPoints(), StartSprintRoute, StopSprintRoute, jsonApiSerializeAttachment(), AddTaskAttachmentRoute, jsonApiSerializeComment(), makeJsonApiError(), AddProjectMemberRoute (+4 more)
+Nodes (12): recomputeCompletedPoints(), StartSprintRoute, StopSprintRoute, TimeTrackingModule, makeJsonApiError(), createJwtAuthMiddleware(), verifyAccessToken(), AddProjectMemberRoute (+4 more)
 
 ### Community 6 - "Community 6"
-Cohesion: 0.15
-Nodes (20): ErrorReporterService, HandleSaveService, buildAppendix(), collectLinks(), fileExists(), isExternal(), langFor(), main() (+12 more)
+Cohesion: 0.08
+Nodes (10): App, appRouter(), createApplicationContext(), createDatabaseConnection(), databaseConfig(), fastifyTestInstance(), logger(), SqlTimeTrackingAdapter (+2 more)
 
 ### Community 7 - "Community 7"
 Cohesion: 0.1
-Nodes (9): createApplicationContext(), createDatabaseConnection(), databaseConfig(), fastifyTestInstance(), ScrumModule, logger(), SqlTimeTrackingAdapter, testEnv() (+1 more)
+Nodes (11): initializeTestApp(), Router, TestApp, TestStore, CurrentProjectService, CurrentUserService, authRoutes(), forRouter() (+3 more)
 
 ### Community 8 - "Community 8"
-Cohesion: 0.1
-Nodes (11): initializeTestApp(), Router, TestApp, TestStore, CurrentProjectService, CurrentUserService, authRoutes(), forRouter() (+3 more)
+Cohesion: 0.15
+Nodes (20): ErrorReporterService, HandleSaveService, buildAppendix(), collectLinks(), fileExists(), isExternal(), langFor(), main() (+12 more)
 
 ### Community 9 - "Community 9"
 Cohesion: 0.1
@@ -332,172 +355,172 @@ Cohesion: 0.13
 Nodes (6): AuthHandler, hashPassword(), DatabaseSeeder, E2ESeeder, DatabaseSeeder, UserService
 
 ### Community 11 - "Community 11"
+Cohesion: 0.12
+Nodes (5): DashboardBacklogRoute, EpicsService, TasksService, UserStoriesService, DashboardUserStoryMapRoute
+
+### Community 12 - "Community 12"
 Cohesion: 0.11
 Nodes (4): AuthModule, UserModule, ListSprintsRoute, moduleRouter()
 
-### Community 12 - "Community 12"
-Cohesion: 0.13
-Nodes (6): CreateTaskRoute, DashboardRoute, getNextTaskNumber(), jsonApiSerializeManyTasks(), jsonApiSerializeSingleTaskDocument(), jsonApiSerializeTask()
-
 ### Community 13 - "Community 13"
+Cohesion: 0.11
+Nodes (7): CreateTaskRoute, DashboardRoute, StubTimeTrackingPort, getNextTaskNumber(), jsonApiSerializeManyTasks(), jsonApiSerializeSingleTaskDocument(), jsonApiSerializeTask()
+
+### Community 14 - "Community 14"
+Cohesion: 0.14
+Nodes (4): jsonApiSerializeAttachment(), AddTaskAttachmentRoute, DeleteTaskAttachmentRoute, ListTaskAttachmentsRoute
+
+### Community 15 - "Community 15"
 Cohesion: 0.14
 Nodes (4): AddTaskAssigneeRoute, ListTaskAssigneesRoute, RemoveTaskAssigneeRoute, jsonApiSerializeTaskAssignee()
 
-### Community 14 - "Community 14"
+### Community 16 - "Community 16"
+Cohesion: 0.18
+Nodes (3): DashboardIndexRoute, DashboardProjectsRoute, ProjectsService
+
+### Community 17 - "Community 17"
 Cohesion: 0.15
 Nodes (4): ListProjectEpicsRoute, ListProjectSprintsRoute, ListProjectTasksRoute, ListProjectUserStoriesRoute
 
-### Community 15 - "Community 15"
-Cohesion: 0.2
-Nodes (3): DashboardIndexRoute, DashboardProjectsRoute, ProjectsService
-
-### Community 16 - "Community 16"
+### Community 18 - "Community 18"
 Cohesion: 0.2
 Nodes (12): Project Selector Dropdown, Projects Grid (background context), Project Detail Modal, Bug: Temps (h) = NaN, User Stories Progress (0%), Stats Grid (Epiques/User Stories/Taches/Sprints), Task Detail Modal, Task Details left panel (+4 more)
 
-### Community 17 - "Community 17"
-Cohesion: 0.18
-Nodes (3): TimeTrackingModule, createJwtAuthMiddleware(), verifyAccessToken()
-
-### Community 18 - "Community 18"
+### Community 19 - "Community 19"
 Cohesion: 0.61
 Nodes (8): checkDockerRunning(), checkPostgresRunning(), error(), log(), main(), setupDatabase(), startPostgres(), success()
 
-### Community 19 - "Community 19"
+### Community 20 - "Community 20"
 Cohesion: 0.42
 Nodes (8): mountDashboard(), mountEpics(), mountProjects(), mountRoutes(), mountSearch(), mountSprints(), mountTasks(), mountUserStories()
 
-### Community 20 - "Community 20"
+### Community 21 - "Community 21"
 Cohesion: 0.62
 Nodes (6): getResponse(), handleRequest(), resolveMainClient(), respondWithMock(), sendToClient(), serializeRequest()
 
-### Community 21 - "Community 21"
+### Community 22 - "Community 22"
 Cohesion: 0.29
 Nodes (2): ListEpicTasksRoute, ListEpicUserStoriesRoute
 
-### Community 22 - "Community 22"
-Cohesion: 0.4
+### Community 23 - "Community 23"
+Cohesion: 0.33
 Nodes (1): callback()
 
-### Community 23 - "Community 23"
+### Community 24 - "Community 24"
 Cohesion: 0.6
 Nodes (4): jsonApiSerializeManyUsers(), jsonApiSerializeManyUsersDocument(), jsonApiSerializeSingleUserDocument(), jsonApiSerializeUser()
 
-### Community 24 - "Community 24"
+### Community 25 - "Community 25"
 Cohesion: 0.4
 Nodes (1): ListTimeEntriesRoute
 
-### Community 25 - "Community 25"
+### Community 26 - "Community 26"
 Cohesion: 0.8
 Nodes (3): parseFilters(), parseListQuery(), parseOrderBy()
 
-### Community 26 - "Community 26"
+### Community 27 - "Community 27"
 Cohesion: 0.4
 Nodes (1): SearchRoute
 
-### Community 27 - "Community 27"
+### Community 28 - "Community 28"
 Cohesion: 0.5
 Nodes (1): ApplicationEventEmitter
 
-### Community 28 - "Community 28"
+### Community 29 - "Community 29"
 Cohesion: 0.5
 Nodes (1): RefreshRoute
 
-### Community 29 - "Community 29"
+### Community 30 - "Community 30"
 Cohesion: 0.5
 Nodes (1): GetRoute
 
-### Community 30 - "Community 30"
+### Community 31 - "Community 31"
 Cohesion: 0.5
 Nodes (1): ProfileRoute
 
-### Community 31 - "Community 31"
+### Community 32 - "Community 32"
 Cohesion: 0.5
 Nodes (1): ListRoute
 
-### Community 32 - "Community 32"
+### Community 33 - "Community 33"
 Cohesion: 0.5
 Nodes (1): LoginRoute
 
-### Community 33 - "Community 33"
+### Community 34 - "Community 34"
 Cohesion: 0.5
 Nodes (1): LogoutRoute
 
-### Community 34 - "Community 34"
+### Community 35 - "Community 35"
 Cohesion: 0.67
 Nodes (2): jsonApiSerializeSingleTimeEntryDocument(), jsonApiSerializeTimeEntry()
 
-### Community 35 - "Community 35"
+### Community 36 - "Community 36"
 Cohesion: 0.5
 Nodes (1): GetTimeEntryRoute
 
-### Community 36 - "Community 36"
+### Community 37 - "Community 37"
 Cohesion: 0.67
 Nodes (2): jsonApiSerializeProject(), jsonApiSerializeSingleProjectDocument()
 
-### Community 37 - "Community 37"
+### Community 38 - "Community 38"
 Cohesion: 0.5
 Nodes (1): GetProjectRoute
 
-### Community 38 - "Community 38"
+### Community 39 - "Community 39"
 Cohesion: 0.5
 Nodes (1): ListProjectsRoute
 
-### Community 39 - "Community 39"
+### Community 40 - "Community 40"
 Cohesion: 0.67
 Nodes (2): jsonApiSerializeEpic(), jsonApiSerializeSingleEpicDocument()
 
-### Community 40 - "Community 40"
+### Community 41 - "Community 41"
 Cohesion: 0.5
 Nodes (1): GetEpicRoute
 
-### Community 41 - "Community 41"
+### Community 42 - "Community 42"
 Cohesion: 0.5
 Nodes (1): ListEpicsRoute
 
-### Community 42 - "Community 42"
+### Community 43 - "Community 43"
 Cohesion: 0.5
 Nodes (1): GetTaskRoute
 
-### Community 43 - "Community 43"
+### Community 44 - "Community 44"
 Cohesion: 0.5
 Nodes (1): ListTaskHistoryRoute
 
-### Community 44 - "Community 44"
+### Community 45 - "Community 45"
 Cohesion: 0.5
 Nodes (1): ListTasksRoute
 
-### Community 45 - "Community 45"
+### Community 46 - "Community 46"
 Cohesion: 0.67
 Nodes (2): jsonApiSerializeSingleUserStoryDocument(), jsonApiSerializeUserStory()
 
-### Community 46 - "Community 46"
+### Community 47 - "Community 47"
 Cohesion: 0.5
 Nodes (1): GetUserStoryRoute
 
-### Community 47 - "Community 47"
+### Community 48 - "Community 48"
 Cohesion: 0.5
 Nodes (1): ListUserStoryTasksRoute
 
-### Community 48 - "Community 48"
+### Community 49 - "Community 49"
 Cohesion: 0.5
 Nodes (1): ListUserStoriesRoute
 
-### Community 49 - "Community 49"
+### Community 50 - "Community 50"
 Cohesion: 0.5
 Nodes (1): GetSprintRoute
 
-### Community 50 - "Community 50"
+### Community 51 - "Community 51"
 Cohesion: 0.5
 Nodes (1): ListSprintTasksRoute
 
-### Community 51 - "Community 51"
-Cohesion: 0.67
-Nodes (1): MyStore
-
 ### Community 52 - "Community 52"
 Cohesion: 0.67
-Nodes (0): 
+Nodes (1): MyStore
 
 ### Community 53 - "Community 53"
 Cohesion: 0.67
@@ -509,11 +532,11 @@ Nodes (0):
 
 ### Community 55 - "Community 55"
 Cohesion: 0.67
-Nodes (1): stubRouter()
+Nodes (0): 
 
 ### Community 56 - "Community 56"
 Cohesion: 0.67
-Nodes (0): 
+Nodes (1): stubRouter()
 
 ### Community 57 - "Community 57"
 Cohesion: 0.67
@@ -521,155 +544,155 @@ Nodes (0):
 
 ### Community 58 - "Community 58"
 Cohesion: 0.67
-Nodes (1): LogoutRoute
+Nodes (0): 
 
 ### Community 59 - "Community 59"
 Cohesion: 0.67
-Nodes (0): 
+Nodes (1): LogoutRoute
 
 ### Community 60 - "Community 60"
+Cohesion: 0.67
+Nodes (0): 
+
+### Community 61 - "Community 61"
 Cohesion: 1.0
 Nodes (3): Sprint Form (shared create/edit pattern), Create Sprint Modal, Edit Sprint Modal
 
-### Community 61 - "Community 61"
+### Community 62 - "Community 62"
 Cohesion: 0.67
 Nodes (3): Conventional Commits + Lefthook, Ember Boilerplate v2, Tech Stack Table
 
-### Community 62 - "Community 62"
+### Community 63 - "Community 63"
 Cohesion: 1.0
 Nodes (1): Router
 
-### Community 63 - "Community 63"
+### Community 64 - "Community 64"
 Cohesion: 1.0
 Nodes (1): SessionStore
 
-### Community 64 - "Community 64"
-Cohesion: 1.0
-Nodes (0): 
-
 ### Community 65 - "Community 65"
 Cohesion: 1.0
-Nodes (1): ProjectSelector
+Nodes (0): 
 
 ### Community 66 - "Community 66"
 Cohesion: 1.0
-Nodes (1): ShellLayout
+Nodes (1): ProjectSelector
 
 ### Community 67 - "Community 67"
 Cohesion: 1.0
-Nodes (1): CurrentProjectService
+Nodes (1): ShellLayout
 
 ### Community 68 - "Community 68"
 Cohesion: 1.0
-Nodes (1): MemberAvatarStack
+Nodes (1): CurrentProjectService
 
 ### Community 69 - "Community 69"
 Cohesion: 1.0
-Nodes (1): AddProjectModal
+Nodes (1): MemberAvatarStack
 
 ### Community 70 - "Community 70"
 Cohesion: 1.0
-Nodes (1): ShellWithProjects
+Nodes (1): AddProjectModal
 
 ### Community 71 - "Community 71"
 Cohesion: 1.0
-Nodes (1): ProjectDetailModal
+Nodes (1): ShellWithProjects
 
 ### Community 72 - "Community 72"
 Cohesion: 1.0
-Nodes (1): ProjectCard
+Nodes (1): ProjectDetailModal
 
 ### Community 73 - "Community 73"
 Cohesion: 1.0
-Nodes (1): DashboardProjectsTemplate
+Nodes (1): ProjectCard
 
 ### Community 74 - "Community 74"
 Cohesion: 1.0
-Nodes (1): DashboardProjectsRoute
+Nodes (1): DashboardProjectsTemplate
 
 ### Community 75 - "Community 75"
 Cohesion: 1.0
-Nodes (1): ProjectsService
+Nodes (1): DashboardProjectsRoute
 
 ### Community 76 - "Community 76"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): ProjectsService
 
 ### Community 77 - "Community 77"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): TaskRow
 
 ### Community 78 - "Community 78"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): AddEpicModal
 
 ### Community 79 - "Community 79"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): BacklogFilters
 
 ### Community 80 - "Community 80"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): UserStoryRow
 
 ### Community 81 - "Community 81"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): EpicRow
 
 ### Community 82 - "Community 82"
 Cohesion: 1.0
-Nodes (1): UsersTable
+Nodes (1): AddUserStoryModal
 
 ### Community 83 - "Community 83"
 Cohesion: 1.0
-Nodes (1): UsersForm
+Nodes (1): DashboardBacklogTemplate
 
 ### Community 84 - "Community 84"
 Cohesion: 1.0
-Nodes (1): LoginForm
+Nodes (1): DashboardUserStoryMapTemplate
 
 ### Community 85 - "Community 85"
 Cohesion: 1.0
-Nodes (1): UserChangeset
+Nodes (1): DashboardBacklogRoute
 
 ### Community 86 - "Community 86"
 Cohesion: 1.0
-Nodes (1): LogoutRoute
+Nodes (1): DashboardUserStoryMapRoute
 
 ### Community 87 - "Community 87"
 Cohesion: 1.0
-Nodes (1): LoginRoute
+Nodes (1): EpicsService
 
 ### Community 88 - "Community 88"
 Cohesion: 1.0
-Nodes (1): UsersEditRouteTemplate
+Nodes (1): TasksService
 
 ### Community 89 - "Community 89"
 Cohesion: 1.0
-Nodes (1): UsersEditRoute
+Nodes (1): UserStoriesService
 
 ### Community 90 - "Community 90"
 Cohesion: 1.0
-Nodes (1): UsersCreateRoute
+Nodes (0): 
 
 ### Community 91 - "Community 91"
 Cohesion: 1.0
-Nodes (1): UsersCreateRouteTemplate
+Nodes (0): 
 
 ### Community 92 - "Community 92"
 Cohesion: 1.0
-Nodes (1): UsersIndexRoute
+Nodes (0): 
 
 ### Community 93 - "Community 93"
 Cohesion: 1.0
-Nodes (1): AuthHandler
+Nodes (0): 
 
 ### Community 94 - "Community 94"
 Cohesion: 1.0
-Nodes (1): CurrentUserService
+Nodes (0): 
 
 ### Community 95 - "Community 95"
 Cohesion: 1.0
-Nodes (1): UserService
+Nodes (0): 
 
 ### Community 96 - "Community 96"
 Cohesion: 1.0
@@ -677,103 +700,103 @@ Nodes (0):
 
 ### Community 97 - "Community 97"
 Cohesion: 1.0
-Nodes (1): UserChangeset
+Nodes (1): UsersTable
 
 ### Community 98 - "Community 98"
 Cohesion: 1.0
-Nodes (1): TodosTable
+Nodes (1): UsersForm
 
 ### Community 99 - "Community 99"
 Cohesion: 1.0
-Nodes (1): TodosForm
+Nodes (1): LoginForm
 
 ### Community 100 - "Community 100"
 Cohesion: 1.0
-Nodes (1): TodoChangeset
+Nodes (1): UserChangeset
 
 ### Community 101 - "Community 101"
 Cohesion: 1.0
-Nodes (1): TodosEditRouteTemplate
+Nodes (1): LogoutRoute
 
 ### Community 102 - "Community 102"
 Cohesion: 1.0
-Nodes (1): TodosEditRoute
+Nodes (1): LoginRoute
 
 ### Community 103 - "Community 103"
 Cohesion: 1.0
-Nodes (1): TodosCreateRoute
+Nodes (1): UsersEditRouteTemplate
 
 ### Community 104 - "Community 104"
 Cohesion: 1.0
-Nodes (1): TodosCreateRouteTemplate
+Nodes (1): UsersEditRoute
 
 ### Community 105 - "Community 105"
 Cohesion: 1.0
-Nodes (1): TodosIndexRoute
+Nodes (1): UsersCreateRoute
 
 ### Community 106 - "Community 106"
 Cohesion: 1.0
-Nodes (1): TodoService
+Nodes (1): UsersCreateRouteTemplate
 
 ### Community 107 - "Community 107"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): UsersIndexRoute
 
 ### Community 108 - "Community 108"
 Cohesion: 1.0
-Nodes (1): ThemeService
+Nodes (1): AuthHandler
 
 ### Community 109 - "Community 109"
 Cohesion: 1.0
-Nodes (1): ErrorReporterService
+Nodes (1): CurrentUserService
 
 ### Community 110 - "Community 110"
 Cohesion: 1.0
-Nodes (1): HandleSaveService
+Nodes (1): UserService
 
 ### Community 111 - "Community 111"
 Cohesion: 1.0
-Nodes (2): E2E GitHub Actions Workflow, E2E Conventions
+Nodes (0): 
 
 ### Community 112 - "Community 112"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): UserChangeset
 
 ### Community 113 - "Community 113"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): TodosTable
 
 ### Community 114 - "Community 114"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): TodosForm
 
 ### Community 115 - "Community 115"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): TodoChangeset
 
 ### Community 116 - "Community 116"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): TodosEditRouteTemplate
 
 ### Community 117 - "Community 117"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): TodosEditRoute
 
 ### Community 118 - "Community 118"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): TodosCreateRoute
 
 ### Community 119 - "Community 119"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): TodosCreateRouteTemplate
 
 ### Community 120 - "Community 120"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): TodosIndexRoute
 
 ### Community 121 - "Community 121"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): TodoService
 
 ### Community 122 - "Community 122"
 Cohesion: 1.0
@@ -781,19 +804,19 @@ Nodes (0):
 
 ### Community 123 - "Community 123"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): ThemeService
 
 ### Community 124 - "Community 124"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): ErrorReporterService
 
 ### Community 125 - "Community 125"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (1): HandleSaveService
 
 ### Community 126 - "Community 126"
 Cohesion: 1.0
-Nodes (0): 
+Nodes (2): E2E GitHub Actions Workflow, E2E Conventions
 
 ### Community 127 - "Community 127"
 Cohesion: 1.0
@@ -1197,13 +1220,105 @@ Nodes (0):
 
 ### Community 227 - "Community 227"
 Cohesion: 1.0
-Nodes (1): Layer Architecture (FR Naming)
+Nodes (0): 
 
 ### Community 228 - "Community 228"
 Cohesion: 1.0
-Nodes (1): Ember Frontend Dev Workflow
+Nodes (0): 
 
 ### Community 229 - "Community 229"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 230 - "Community 230"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 231 - "Community 231"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 232 - "Community 232"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 233 - "Community 233"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 234 - "Community 234"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 235 - "Community 235"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 236 - "Community 236"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 237 - "Community 237"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 238 - "Community 238"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 239 - "Community 239"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 240 - "Community 240"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 241 - "Community 241"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 242 - "Community 242"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 243 - "Community 243"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 244 - "Community 244"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 245 - "Community 245"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 246 - "Community 246"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 247 - "Community 247"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 248 - "Community 248"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 249 - "Community 249"
+Cohesion: 1.0
+Nodes (0): 
+
+### Community 250 - "Community 250"
+Cohesion: 1.0
+Nodes (1): Layer Architecture (FR Naming)
+
+### Community 251 - "Community 251"
+Cohesion: 1.0
+Nodes (1): Ember Frontend Dev Workflow
+
+### Community 252 - "Community 252"
 Cohesion: 1.0
 Nodes (1): Robots Allow All
 
@@ -1216,343 +1331,387 @@ Nodes (1): Robots Allow All
    · relation: references_sprint_context
 
 ## Knowledge Gaps
-- **97 isolated node(s):** `Router`, `SessionStore`, `ProjectSelector`, `ShellLayout`, `CurrentProjectService` (+92 more)
+- **110 isolated node(s):** `Router`, `SessionStore`, `ProjectSelector`, `ShellLayout`, `CurrentProjectService` (+105 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **Thin community `Community 62`** (2 nodes): `Router`, `router.ts`
+- **Thin community `Community 63`** (2 nodes): `Router`, `router.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 63`** (2 nodes): `SessionStore`, `application.ts`
+- **Thin community `Community 64`** (2 nodes): `SessionStore`, `application.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 64`** (2 nodes): `environmentConfig()`, `environment.ts`
+- **Thin community `Community 65`** (2 nodes): `environmentConfig()`, `environment.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 65`** (2 nodes): `ProjectSelector`, `project-selector.d.ts`
+- **Thin community `Community 66`** (2 nodes): `ProjectSelector`, `project-selector.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 66`** (2 nodes): `ShellLayout`, `layout.d.ts`
+- **Thin community `Community 67`** (2 nodes): `ShellLayout`, `layout.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 67`** (2 nodes): `CurrentProjectService`, `current-project.d.ts`
+- **Thin community `Community 68`** (2 nodes): `CurrentProjectService`, `current-project.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 68`** (2 nodes): `MemberAvatarStack`, `member-avatar-stack.d.ts`
+- **Thin community `Community 69`** (2 nodes): `MemberAvatarStack`, `member-avatar-stack.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 69`** (2 nodes): `AddProjectModal`, `add-project-modal.d.ts`
+- **Thin community `Community 70`** (2 nodes): `AddProjectModal`, `add-project-modal.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 70`** (2 nodes): `ShellWithProjects`, `shell-with-projects.d.ts`
+- **Thin community `Community 71`** (2 nodes): `ShellWithProjects`, `shell-with-projects.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 71`** (2 nodes): `ProjectDetailModal`, `project-detail-modal.d.ts`
+- **Thin community `Community 72`** (2 nodes): `ProjectDetailModal`, `project-detail-modal.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 72`** (2 nodes): `ProjectCard`, `project-card.d.ts`
+- **Thin community `Community 73`** (2 nodes): `ProjectCard`, `project-card.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 73`** (2 nodes): `DashboardProjectsTemplate`, `projects.d.ts`
+- **Thin community `Community 74`** (2 nodes): `DashboardProjectsTemplate`, `projects.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 74`** (2 nodes): `DashboardProjectsRoute`, `projects.d.ts`
+- **Thin community `Community 75`** (2 nodes): `DashboardProjectsRoute`, `projects.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 75`** (2 nodes): `ProjectsService`, `projects.d.ts`
+- **Thin community `Community 76`** (2 nodes): `ProjectsService`, `projects.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 76`** (2 nodes): `seedEntry()`, `time-entry.route.test.ts`
+- **Thin community `Community 77`** (2 nodes): `TaskRow`, `task-row.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 77`** (2 nodes): `seedEpic()`, `epic.route.test.ts`
+- **Thin community `Community 78`** (2 nodes): `AddEpicModal`, `add-epic-modal.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 78`** (2 nodes): `setupTree()`, `relationships.route.test.ts`
+- **Thin community `Community 79`** (2 nodes): `BacklogFilters`, `backlog-filters.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 79`** (2 nodes): `seedProject()`, `project.route.test.ts`
+- **Thin community `Community 80`** (2 nodes): `UserStoryRow`, `user-story-row.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 80`** (2 nodes): `seedSprint()`, `sprint.route.test.ts`
+- **Thin community `Community 81`** (2 nodes): `EpicRow`, `epic-row.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 81`** (2 nodes): `seedUserStory()`, `user-story.route.test.ts`
+- **Thin community `Community 82`** (2 nodes): `AddUserStoryModal`, `add-user-story-modal.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 82`** (2 nodes): `UsersTable`, `user-table.d.ts`
+- **Thin community `Community 83`** (2 nodes): `DashboardBacklogTemplate`, `backlog.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 83`** (2 nodes): `UsersForm`, `user-form.d.ts`
+- **Thin community `Community 84`** (2 nodes): `DashboardUserStoryMapTemplate`, `user-story-map.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 84`** (2 nodes): `LoginForm`, `login-form.d.ts`
+- **Thin community `Community 85`** (2 nodes): `DashboardBacklogRoute`, `backlog.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 85`** (2 nodes): `UserChangeset`, `user.d.ts`
+- **Thin community `Community 86`** (2 nodes): `DashboardUserStoryMapRoute`, `user-story-map.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 86`** (2 nodes): `LogoutRoute`, `logout.d.ts`
+- **Thin community `Community 87`** (2 nodes): `EpicsService`, `epics.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 87`** (2 nodes): `LoginRoute`, `login.d.ts`
+- **Thin community `Community 88`** (2 nodes): `TasksService`, `tasks.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 88`** (2 nodes): `UsersEditRouteTemplate`, `edit-template.d.ts`
+- **Thin community `Community 89`** (2 nodes): `UserStoriesService`, `user-stories.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 89`** (2 nodes): `UsersEditRoute`, `edit.d.ts`
+- **Thin community `Community 90`** (2 nodes): `notFound()`, `backlog.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 90`** (2 nodes): `UsersCreateRoute`, `create.d.ts`
+- **Thin community `Community 91`** (2 nodes): `seedEntry()`, `time-entry.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 91`** (2 nodes): `UsersCreateRouteTemplate`, `create-template.d.ts`
+- **Thin community `Community 92`** (2 nodes): `seedEpic()`, `epic.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 92`** (2 nodes): `UsersIndexRoute`, `index.d.ts`
+- **Thin community `Community 93`** (2 nodes): `setupTree()`, `relationships.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 93`** (2 nodes): `AuthHandler`, `auth.d.ts`
+- **Thin community `Community 94`** (2 nodes): `seedProject()`, `project.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 94`** (2 nodes): `CurrentUserService`, `current-user.d.ts`
+- **Thin community `Community 95`** (2 nodes): `seedSprint()`, `sprint.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 95`** (2 nodes): `UserService`, `user.d.ts`
+- **Thin community `Community 96`** (2 nodes): `seedUserStory()`, `user-story.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 96`** (2 nodes): `createLoginValidationSchema()`, `login-validation.ts`
+- **Thin community `Community 97`** (2 nodes): `UsersTable`, `user-table.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 97`** (2 nodes): `UserChangeset`, `user.ts`
+- **Thin community `Community 98`** (2 nodes): `UsersForm`, `user-form.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 98`** (2 nodes): `TodosTable`, `todo-table.d.ts`
+- **Thin community `Community 99`** (2 nodes): `LoginForm`, `login-form.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 99`** (2 nodes): `TodosForm`, `todo-form.d.ts`
+- **Thin community `Community 100`** (2 nodes): `UserChangeset`, `user.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 100`** (2 nodes): `TodoChangeset`, `todo.d.ts`
+- **Thin community `Community 101`** (2 nodes): `LogoutRoute`, `logout.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 101`** (2 nodes): `TodosEditRouteTemplate`, `edit-template.d.ts`
+- **Thin community `Community 102`** (2 nodes): `LoginRoute`, `login.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 102`** (2 nodes): `TodosEditRoute`, `edit.d.ts`
+- **Thin community `Community 103`** (2 nodes): `UsersEditRouteTemplate`, `edit-template.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 103`** (2 nodes): `TodosCreateRoute`, `create.d.ts`
+- **Thin community `Community 104`** (2 nodes): `UsersEditRoute`, `edit.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 104`** (2 nodes): `TodosCreateRouteTemplate`, `create-template.d.ts`
+- **Thin community `Community 105`** (2 nodes): `UsersCreateRoute`, `create.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 105`** (2 nodes): `TodosIndexRoute`, `index.d.ts`
+- **Thin community `Community 106`** (2 nodes): `UsersCreateRouteTemplate`, `create-template.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 106`** (2 nodes): `TodoService`, `todo.d.ts`
+- **Thin community `Community 107`** (2 nodes): `UsersIndexRoute`, `index.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 107`** (2 nodes): `handleJsonApiErrors()`, `error-handler.ts`
+- **Thin community `Community 108`** (2 nodes): `AuthHandler`, `auth.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 108`** (2 nodes): `ThemeService`, `theme.d.ts`
+- **Thin community `Community 109`** (2 nodes): `CurrentUserService`, `current-user.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 109`** (2 nodes): `ErrorReporterService`, `error-reporter.d.ts`
+- **Thin community `Community 110`** (2 nodes): `UserService`, `user.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 110`** (2 nodes): `HandleSaveService`, `handle-save.d.ts`
+- **Thin community `Community 111`** (2 nodes): `createLoginValidationSchema()`, `login-validation.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 111`** (2 nodes): `E2E GitHub Actions Workflow`, `E2E Conventions`
+- **Thin community `Community 112`** (2 nodes): `UserChangeset`, `user.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 112`** (1 nodes): `api-types.ts`
+- **Thin community `Community 113`** (2 nodes): `TodosTable`, `todo-table.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 113`** (1 nodes): `migration-fresh.ts`
+- **Thin community `Community 114`** (2 nodes): `TodosForm`, `todo-form.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 114`** (1 nodes): `schema-fresh.ts`
+- **Thin community `Community 115`** (2 nodes): `TodoChangeset`, `todo.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 115`** (1 nodes): `playwright.config.ts`
+- **Thin community `Community 116`** (2 nodes): `TodosEditRouteTemplate`, `edit-template.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 116`** (1 nodes): `login.spec.ts`
+- **Thin community `Community 117`** (2 nodes): `TodosEditRoute`, `edit.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 117`** (1 nodes): `ember-cli-build.js`
+- **Thin community `Community 118`** (2 nodes): `TodosCreateRoute`, `create.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 118`** (1 nodes): `playwright.config.ts`
+- **Thin community `Community 119`** (2 nodes): `TodosCreateRouteTemplate`, `create-template.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 119`** (1 nodes): `eslint.config.mjs`
+- **Thin community `Community 120`** (2 nodes): `TodosIndexRoute`, `index.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 120`** (1 nodes): `ember-intl.config.mjs`
+- **Thin community `Community 121`** (2 nodes): `TodoService`, `todo.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 121`** (1 nodes): `global.d.ts`
+- **Thin community `Community 122`** (2 nodes): `handleJsonApiErrors()`, `error-handler.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 122`** (1 nodes): `deprecation-workflow.ts`
+- **Thin community `Community 123`** (2 nodes): `ThemeService`, `theme.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 123`** (1 nodes): `targets.js`
+- **Thin community `Community 124`** (2 nodes): `ErrorReporterService`, `error-reporter.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 124`** (1 nodes): `environment.js`
+- **Thin community `Community 125`** (2 nodes): `HandleSaveService`, `handle-save.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 125`** (1 nodes): `rollup.config.mjs`
+- **Thin community `Community 126`** (2 nodes): `E2E GitHub Actions Workflow`, `E2E Conventions`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 126`** (1 nodes): `eslint.config.mjs`
+- **Thin community `Community 127`** (1 nodes): `api-types.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 127`** (1 nodes): `index.d.ts`
+- **Thin community `Community 128`** (1 nodes): `migration-fresh.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 128`** (1 nodes): `placeholder-page.d.ts`
+- **Thin community `Community 129`** (1 nodes): `schema-fresh.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 129`** (1 nodes): `header.d.ts`
+- **Thin community `Community 130`** (1 nodes): `playwright.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 130`** (1 nodes): `time-tracking.d.ts`
+- **Thin community `Community 131`** (1 nodes): `login.spec.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 131`** (1 nodes): `settings.d.ts`
+- **Thin community `Community 132`** (1 nodes): `ember-cli-build.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 132`** (1 nodes): `kanban.d.ts`
+- **Thin community `Community 133`** (1 nodes): `playwright.config.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 133`** (1 nodes): `projects.d.ts`
+- **Thin community `Community 134`** (1 nodes): `eslint.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 134`** (1 nodes): `backlog.d.ts`
+- **Thin community `Community 135`** (1 nodes): `ember-intl.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 135`** (1 nodes): `user-story-map.d.ts`
+- **Thin community `Community 136`** (1 nodes): `global.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 136`** (1 nodes): `sprints.d.ts`
+- **Thin community `Community 137`** (1 nodes): `deprecation-workflow.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 137`** (1 nodes): `index.d.ts`
+- **Thin community `Community 138`** (1 nodes): `targets.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 138`** (1 nodes): `time-tracking.d.ts`
+- **Thin community `Community 139`** (1 nodes): `environment.js`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 139`** (1 nodes): `settings.d.ts`
+- **Thin community `Community 140`** (1 nodes): `rollup.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 140`** (1 nodes): `kanban.d.ts`
+- **Thin community `Community 141`** (1 nodes): `eslint.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 141`** (1 nodes): `projects.d.ts`
+- **Thin community `Community 142`** (1 nodes): `index.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 142`** (1 nodes): `backlog.d.ts`
+- **Thin community `Community 143`** (1 nodes): `placeholder-page.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 143`** (1 nodes): `user-story-map.d.ts`
+- **Thin community `Community 144`** (1 nodes): `header.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 144`** (1 nodes): `sprints.d.ts`
+- **Thin community `Community 145`** (1 nodes): `time-tracking.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 145`** (1 nodes): `kanban.ts`
+- **Thin community `Community 146`** (1 nodes): `settings.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 146`** (1 nodes): `settings.ts`
+- **Thin community `Community 147`** (1 nodes): `kanban.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 147`** (1 nodes): `user-story-map.ts`
+- **Thin community `Community 148`** (1 nodes): `projects.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 148`** (1 nodes): `backlog.ts`
+- **Thin community `Community 149`** (1 nodes): `sprints.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 149`** (1 nodes): `sprints.ts`
+- **Thin community `Community 150`** (1 nodes): `index.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 150`** (1 nodes): `time-tracking.ts`
+- **Thin community `Community 151`** (1 nodes): `time-tracking.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 151`** (1 nodes): `rollup.config.mjs`
+- **Thin community `Community 152`** (1 nodes): `settings.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 152`** (1 nodes): `eslint.config.mjs`
-  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 153`** (1 nodes): `index.d.ts`
+- **Thin community `Community 153`** (1 nodes): `kanban.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 - **Thin community `Community 154`** (1 nodes): `projects.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 155`** (1 nodes): `status-badge.d.ts`
+- **Thin community `Community 155`** (1 nodes): `sprints.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 156`** (1 nodes): `projects.d.ts`
+- **Thin community `Community 156`** (1 nodes): `kanban.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 157`** (1 nodes): `all.d.ts`
+- **Thin community `Community 157`** (1 nodes): `settings.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 158`** (1 nodes): `projects.ts`
+- **Thin community `Community 158`** (1 nodes): `sprints.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 159`** (1 nodes): `delete.route.test.ts`
+- **Thin community `Community 159`** (1 nodes): `time-tracking.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 160`** (1 nodes): `jwt.utils.test.ts`
+- **Thin community `Community 160`** (1 nodes): `rollup.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 161`** (1 nodes): `auth.utils.test.ts`
+- **Thin community `Community 161`** (1 nodes): `eslint.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 162`** (1 nodes): `user.serializer.test.ts`
+- **Thin community `Community 162`** (1 nodes): `index.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 163`** (1 nodes): `update.route.test.ts`
+- **Thin community `Community 163`** (1 nodes): `projects.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 164`** (1 nodes): `list.route.test.ts`
+- **Thin community `Community 164`** (1 nodes): `status-badge.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 165`** (1 nodes): `refresh.route.test.ts`
+- **Thin community `Community 165`** (1 nodes): `projects.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 166`** (1 nodes): `create.route.test.ts`
+- **Thin community `Community 166`** (1 nodes): `all.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 167`** (1 nodes): `logout.route.test.ts`
+- **Thin community `Community 167`** (1 nodes): `projects.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 168`** (1 nodes): `delete.route.test.ts`
+- **Thin community `Community 168`** (1 nodes): `rollup.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 169`** (1 nodes): `profile.route.test.ts`
+- **Thin community `Community 169`** (1 nodes): `eslint.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 170`** (1 nodes): `update.route.test.ts`
+- **Thin community `Community 170`** (1 nodes): `index.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 171`** (1 nodes): `login.route.test.ts`
+- **Thin community `Community 171`** (1 nodes): `epics.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 172`** (1 nodes): `get.route.test.ts`
+- **Thin community `Community 172`** (1 nodes): `tasks.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 173`** (1 nodes): `serializer.test.ts`
+- **Thin community `Community 173`** (1 nodes): `user-stories.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 174`** (1 nodes): `time-entry.test.ts`
+- **Thin community `Community 174`** (1 nodes): `task-type-badge.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 175`** (1 nodes): `context.ts`
+- **Thin community `Community 175`** (1 nodes): `task-nature-badge.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 176`** (1 nodes): `index.ts`
+- **Thin community `Community 176`** (1 nodes): `backlog.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 177`** (1 nodes): `time-entry.entity.ts`
+- **Thin community `Community 177`** (1 nodes): `all.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 178`** (1 nodes): `entities.test.ts`
+- **Thin community `Community 178`** (1 nodes): `user-stories.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 179`** (1 nodes): `serializers.test.ts`
+- **Thin community `Community 179`** (1 nodes): `epics.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 180`** (1 nodes): `dashboard.route.test.ts`
+- **Thin community `Community 180`** (1 nodes): `tasks.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 181`** (1 nodes): `search.route.test.ts`
+- **Thin community `Community 181`** (1 nodes): `all.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 182`** (1 nodes): `context.ts`
+- **Thin community `Community 182`** (1 nodes): `delete.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 183`** (1 nodes): `types.ts`
+- **Thin community `Community 183`** (1 nodes): `jwt.utils.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 184`** (1 nodes): `index.ts`
+- **Thin community `Community 184`** (1 nodes): `auth.utils.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 185`** (1 nodes): `project.entity.ts`
+- **Thin community `Community 185`** (1 nodes): `user.serializer.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 186`** (1 nodes): `project-member.entity.ts`
+- **Thin community `Community 186`** (1 nodes): `update.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 187`** (1 nodes): `time-tracking.port.ts`
+- **Thin community `Community 187`** (1 nodes): `list.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 188`** (1 nodes): `epic.entity.ts`
+- **Thin community `Community 188`** (1 nodes): `refresh.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 189`** (1 nodes): `task-assignee.entity.ts`
+- **Thin community `Community 189`** (1 nodes): `create.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 190`** (1 nodes): `attachment.entity.ts`
+- **Thin community `Community 190`** (1 nodes): `logout.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 191`** (1 nodes): `task.entity.ts`
+- **Thin community `Community 191`** (1 nodes): `delete.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 192`** (1 nodes): `comment.entity.ts`
+- **Thin community `Community 192`** (1 nodes): `profile.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 193`** (1 nodes): `history-entry.entity.ts`
+- **Thin community `Community 193`** (1 nodes): `update.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 194`** (1 nodes): `user-story.entity.ts`
+- **Thin community `Community 194`** (1 nodes): `login.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 195`** (1 nodes): `sprint.entity.ts`
+- **Thin community `Community 195`** (1 nodes): `get.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 196`** (1 nodes): `rollup.config.mjs`
+- **Thin community `Community 196`** (1 nodes): `serializer.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 197`** (1 nodes): `eslint.config.mjs`
+- **Thin community `Community 197`** (1 nodes): `time-entry.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 198`** (1 nodes): `index.d.ts`
+- **Thin community `Community 198`** (1 nodes): `context.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 199`** (1 nodes): `users.d.ts`
+- **Thin community `Community 199`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 200`** (1 nodes): `auth-layout.d.ts`
+- **Thin community `Community 200`** (1 nodes): `time-entry.entity.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 201`** (1 nodes): `user-validation.d.ts`
+- **Thin community `Community 201`** (1 nodes): `entities.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 202`** (1 nodes): `login-validation.d.ts`
+- **Thin community `Community 202`** (1 nodes): `serializers.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 203`** (1 nodes): `users.d.ts`
+- **Thin community `Community 203`** (1 nodes): `dashboard.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 204`** (1 nodes): `login.d.ts`
+- **Thin community `Community 204`** (1 nodes): `search.route.test.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 205`** (1 nodes): `all.d.ts`
+- **Thin community `Community 205`** (1 nodes): `context.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 206`** (1 nodes): `delete.d.ts`
+- **Thin community `Community 206`** (1 nodes): `types.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 207`** (1 nodes): `edit.d.ts`
+- **Thin community `Community 207`** (1 nodes): `index.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 208`** (1 nodes): `login-template.d.ts`
+- **Thin community `Community 208`** (1 nodes): `project.entity.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 209`** (1 nodes): `index-template.d.ts`
+- **Thin community `Community 209`** (1 nodes): `project-member.entity.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 210`** (1 nodes): `index.d.ts`
+- **Thin community `Community 210`** (1 nodes): `time-tracking.port.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 211`** (1 nodes): `users.ts`
+- **Thin community `Community 211`** (1 nodes): `epic.entity.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 212`** (1 nodes): `index.d.ts`
+- **Thin community `Community 212`** (1 nodes): `task-assignee.entity.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 213`** (1 nodes): `todos.d.ts`
+- **Thin community `Community 213`** (1 nodes): `attachment.entity.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 214`** (1 nodes): `todo-validation.d.ts`
+- **Thin community `Community 214`** (1 nodes): `task.entity.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 215`** (1 nodes): `todos.d.ts`
+- **Thin community `Community 215`** (1 nodes): `comment.entity.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 216`** (1 nodes): `all.d.ts`
+- **Thin community `Community 216`** (1 nodes): `history-entry.entity.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 217`** (1 nodes): `delete.d.ts`
+- **Thin community `Community 217`** (1 nodes): `user-story.entity.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 218`** (1 nodes): `edit.d.ts`
+- **Thin community `Community 218`** (1 nodes): `sprint.entity.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 219`** (1 nodes): `completed.d.ts`
+- **Thin community `Community 219`** (1 nodes): `rollup.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 220`** (1 nodes): `index-template.d.ts`
+- **Thin community `Community 220`** (1 nodes): `eslint.config.mjs`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 221`** (1 nodes): `module.ts`
+- **Thin community `Community 221`** (1 nodes): `index.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 222`** (1 nodes): `index.ts`
+- **Thin community `Community 222`** (1 nodes): `users.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 223`** (1 nodes): `rollup.config.mjs`
+- **Thin community `Community 223`** (1 nodes): `auth-layout.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 224`** (1 nodes): `eslint.config.mjs`
+- **Thin community `Community 224`** (1 nodes): `user-validation.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 225`** (1 nodes): `index.d.ts`
+- **Thin community `Community 225`** (1 nodes): `login-validation.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 226`** (1 nodes): `index.d.ts`
+- **Thin community `Community 226`** (1 nodes): `users.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 227`** (1 nodes): `Layer Architecture (FR Naming)`
+- **Thin community `Community 227`** (1 nodes): `login.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 228`** (1 nodes): `Ember Frontend Dev Workflow`
+- **Thin community `Community 228`** (1 nodes): `all.d.ts`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
-- **Thin community `Community 229`** (1 nodes): `Robots Allow All`
+- **Thin community `Community 229`** (1 nodes): `delete.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 230`** (1 nodes): `edit.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 231`** (1 nodes): `login-template.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 232`** (1 nodes): `index-template.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 233`** (1 nodes): `index.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 234`** (1 nodes): `users.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 235`** (1 nodes): `index.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 236`** (1 nodes): `todos.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 237`** (1 nodes): `todo-validation.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 238`** (1 nodes): `todos.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 239`** (1 nodes): `all.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 240`** (1 nodes): `delete.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 241`** (1 nodes): `edit.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 242`** (1 nodes): `completed.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 243`** (1 nodes): `index-template.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 244`** (1 nodes): `module.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 245`** (1 nodes): `index.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 246`** (1 nodes): `rollup.config.mjs`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 247`** (1 nodes): `eslint.config.mjs`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 248`** (1 nodes): `index.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 249`** (1 nodes): `index.d.ts`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 250`** (1 nodes): `Layer Architecture (FR Naming)`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 251`** (1 nodes): `Ember Frontend Dev Workflow`
+  Too small to be a meaningful cluster - may be noise or needs more connections extracted.
+- **Thin community `Community 252`** (1 nodes): `Robots Allow All`
   Too small to be a meaningful cluster - may be noise or needs more connections extracted.
 
 ## Suggested Questions
@@ -1564,11 +1723,11 @@ _Questions this graph is uniquely positioned to answer:_
   _Edge tagged AMBIGUOUS (relation: navigates_to) - confidence is low._
 - **What is the exact relationship between `Task Meta right panel` and `Sprint History Modal`?**
   _Edge tagged AMBIGUOUS (relation: references_sprint_context) - confidence is low._
-- **Why does `makeSingleJsonApiTopDocument()` connect `Community 0` to `Community 13`, `Community 12`, `Community 5`?**
-  _High betweenness centrality (0.044) - this node is a cross-community bridge._
+- **Why does `makeSingleJsonApiTopDocument()` connect `Community 0` to `Community 13`, `Community 5`, `Community 14`, `Community 15`?**
+  _High betweenness centrality (0.039) - this node is a cross-community bridge._
+- **Why does `appRouter()` connect `Community 6` to `Community 2`?**
+  _High betweenness centrality (0.024) - this node is a cross-community bridge._
 - **Are the 31 inferred relationships involving `makeSingleJsonApiTopDocument()` (e.g. with `.routeDefinition()` and `.routeDefinition()`) actually correct?**
   _`makeSingleJsonApiTopDocument()` has 31 INFERRED edges - model-reasoned connections that need verification._
 - **Are the 8 inferred relationships involving `SprintForge App Shell (Sidebar + Topbar + Content)` (e.g. with `Dashboard Screen (Tableau de bord)` and `Projects Screen (Projets)`) actually correct?**
   _`SprintForge App Shell (Sidebar + Topbar + Content)` has 8 INFERRED edges - model-reasoned connections that need verification._
-- **Are the 5 inferred relationships involving `Modal: Nouvelle tâche` (e.g. with `Tâche - Créer une nouvelle tâche` and `Modal: Nouvelle User Story`) actually correct?**
-  _`Modal: Nouvelle tâche` has 5 INFERRED edges - model-reasoned connections that need verification._
