@@ -124,20 +124,16 @@
       "./components/shell/header.js": "./dist/_app_/components/shell/header.js",
       "./components/shell/layout.js": "./dist/_app_/components/shell/layout.js",
       "./components/shell/project-selector.js": "./dist/_app_/components/shell/project-selector.js",
-      "./routes/dashboard/backlog.js": "./dist/_app_/routes/dashboard/backlog.js",
       "./routes/dashboard/kanban.js": "./dist/_app_/routes/dashboard/kanban.js",
       "./routes/dashboard/settings.js": "./dist/_app_/routes/dashboard/settings.js",
       "./routes/dashboard/sprints.js": "./dist/_app_/routes/dashboard/sprints.js",
       "./routes/dashboard/time-tracking.js": "./dist/_app_/routes/dashboard/time-tracking.js",
-      "./routes/dashboard/user-story-map.js": "./dist/_app_/routes/dashboard/user-story-map.js",
       "./services/current-project.js": "./dist/_app_/services/current-project.js",
-      "./templates/dashboard/backlog.js": "./dist/_app_/templates/dashboard/backlog.js",
       "./templates/dashboard/index.js": "./dist/_app_/templates/dashboard/index.js",
       "./templates/dashboard/kanban.js": "./dist/_app_/templates/dashboard/kanban.js",
       "./templates/dashboard/settings.js": "./dist/_app_/templates/dashboard/settings.js",
       "./templates/dashboard/sprints.js": "./dist/_app_/templates/dashboard/sprints.js",
-      "./templates/dashboard/time-tracking.js": "./dist/_app_/templates/dashboard/time-tracking.js",
-      "./templates/dashboard/user-story-map.js": "./dist/_app_/templates/dashboard/user-story-map.js"
+      "./templates/dashboard/time-tracking.js": "./dist/_app_/templates/dashboard/time-tracking.js"
     }
   }
 }
