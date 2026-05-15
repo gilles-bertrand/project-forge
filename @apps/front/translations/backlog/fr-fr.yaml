@@ -1,0 +1,67 @@
+title: 'Backlog'
+subtitle: 'Tâches non assignées à un sprint ({count})'
+emptyState: 'Aucune tâche dans le backlog.'
+newTask: '+ Nouvelle tâche'
+newTaskDisabled: 'Disponible en P6'
+noProjectSelected: 'Sélectionnez un projet dans le header pour voir le backlog.'
+dragHint: 'Glissez une tâche vers un sprint pour la planifier (disponible en P8)'
+taskRow:
+  points: '{count} pts'
+  linkedToUS: '→ {title}'
+filters:
+  all: 'Tous'
+  nature:
+    Bug: 'Bug'
+    Feature: 'Feature'
+    Maintenance: 'Maintenance'
+    Hotfix: 'Hotfix'
+    Refacto: 'Refacto'
+    Techdebt: 'Techdebt'
+    Spike: 'Spike'
+    Review: 'Review'
+    Deployment: 'Deployment'
+    Infra: 'Infra'
+  type:
+    Frontend: 'Frontend'
+    Backend: 'Backend'
+    Database: 'Database'
+    UX: 'UX'
+    Analyse: 'Analyse'
+    DevOps: 'DevOps'
+    API: 'API'
+    Security: 'Security'
+    Testing: 'Testing'
+status:
+  todo: 'À faire'
+  in-progress: 'En cours'
+  done: 'Terminé'
+modal:
+  addEpic:
+    title: 'Nouvelle épique'
+    closeAria: 'Fermer'
+    project: 'Projet'
+    name: 'Titre'
+    namePlaceholder: "Ex: Système d'authentification"
+    description: 'Description'
+    descriptionPlaceholder: "Objectifs et périmètre de l'épique..."
+    status: 'Statut initial'
+    cancel: 'Annuler'
+    submit: "Créer l'épique"
+    submitting: 'Création...'
+    errorFallback: 'Erreur lors de la création'
+  addUserStory:
+    title: 'Nouvelle User Story'
+    closeAria: 'Fermer'
+    name: 'Titre'
+    namePlaceholder: 'En tant que... je veux... afin de...'
+    description: 'Description'
+    descriptionPlaceholder: "Détails et critères d'acceptation..."
+    parentEpic: 'Épique (optionnel)'
+    parentEpicPlaceholder: 'Aucune épique'
+    status: 'Statut'
+    points: 'Points'
+    priority: 'Priorité'
+    cancel: 'Annuler'
+    submit: 'Créer la User Story'
+    submitting: 'Création...'
+    errorFallback: 'Erreur lors de la création'

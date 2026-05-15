@@ -1,0 +1,63 @@
+import Component from '@glimmer/component';
+import { t } from 'ember-intl';
+import TaskNatureBadge from './task-nature-badge.gts';
+import TaskTypeBadge from './task-type-badge.gts';
+import type { Task } from '../schemas/tasks.ts';
+import type { UserStory } from '../schemas/user-stories.ts';
+
+interface TaskRowSignature {
+  Args: {
+    task: Task;
+    userStory?: UserStory | null;
+  };
+  Element: HTMLDivElement;
+}
+
+function initialsFor(createdById: string): string {
+  return createdById.replace('user-', 'U').toUpperCase().slice(0, 2);
+}
+
+export default class TaskRow extends Component<TaskRowSignature> {
+  get numberLabel(): string {
+    return `#${this.args.task.number}`;
+  }
+
+  get initials(): string {
+    return initialsFor(this.args.task.createdById);
+  }
+
+  <template>
+    <div
+      class="flex items-center justify-between gap-4 rounded-lg bg-base-200 px-4 py-3"
+      data-test-task-row
+      ...attributes
+    >
+      <div class="min-w-0 flex-1">
+        <div class="flex items-baseline gap-2">
+          <span class="text-xs font-mono opacity-50">{{this.numberLabel}}</span>
+          <span class="truncate font-medium">{{@task.title}}</span>
+        </div>
+        <div class="mt-1 flex flex-wrap items-center gap-1">
+          <TaskNatureBadge @nature={{@task.nature}} />
+          <TaskTypeBadge @type={{@task.type}} />
+          {{#if @userStory}}
+            <span class="text-xs opacity-50">
+              {{t "backlog.taskRow.linkedToUS" title=@userStory.title}}
+            </span>
+          {{/if}}
+        </div>
+      </div>
+
+      <div class="flex flex-shrink-0 items-center gap-3">
+        <div
+          class="flex size-7 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-content"
+        >
+          {{this.initials}}
+        </div>
+        <span class="text-xs opacity-70">
+          {{t "backlog.taskRow.points" count=@task.points}}
+        </span>
+      </div>
+    </div>
+  </template>
+}
