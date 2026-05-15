@@ -1,9 +1,18 @@
 import type { Project } from "#src/schemas/projects.ts";
+import type { MemberLite } from "#src/components/member-avatar-stack.gts";
 import { tracked } from "@glimmer/tracking";
 import Service from "@ember/service";
 import { service } from "@ember/service";
 import { cacheKeyFor, type Store } from "@warp-drive/core";
 import { createRecord } from "@warp-drive/utilities/json-api";
+
+type MemberResponse = {
+  data: Array<{
+    id: string;
+    type: "users";
+    attributes: { firstName: string; lastName: string; email: string };
+  }>;
+};
 
 export type NewProjectPayload = {
   name: string;
@@ -42,6 +51,18 @@ export default class ProjectsService extends Service {
       method: "GET",
     });
     return content.data;
+  }
+
+  public async loadMembers(projectId: string): Promise<MemberLite[]> {
+    const { content } = await this.store.request<MemberResponse>({
+      url: `/api/v1/projects/${projectId}/members`,
+      method: "GET",
+    });
+    return content.data.map((u) => ({
+      id: u.id,
+      firstName: u.attributes.firstName,
+      lastName: u.attributes.lastName,
+    }));
   }
 
   public async create(data: NewProjectPayload): Promise<Project> {

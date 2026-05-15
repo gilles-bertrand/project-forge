@@ -1,6 +1,6 @@
 title: 'Projets'
 subtitle: 'Gérez tous vos projets Scrum'
-newProject: 'Nouveau projet'
+newProject: '+ Nouveau projet'
 emptyState: 'Aucun projet pour le moment.'
 card:
   userStories: 'User Stories'
@@ -16,6 +16,7 @@ status:
 modal:
   add:
     title: 'Nouveau projet'
+    closeAria: 'Fermer'
     name: 'Nom du projet'
     namePlaceholder: 'Ex: E-Commerce Platform'
     status: 'Statut initial'
@@ -24,12 +25,18 @@ modal:
     lead: 'Responsable du projet'
     leadPlaceholder: 'Sélectionner un responsable'
     members: "Membres de l'équipe"
+    membersWithCount: "Membres de l'équipe ({count} sélectionnés)"
     cancel: 'Annuler'
     submit: 'Créer le projet'
     submitting: 'Création...'
+    errorFallback: 'Erreur lors de la création'
   detail:
+    closeAria: 'Fermer'
+    responsible: 'Responsable: {name}'
     description: 'Description'
     progress: 'Progression du projet'
+    userStoriesCompleted: 'User Stories complétées'
+    userStoriesRatio: '{done} / {total} User Stories'
     stats:
       title: 'Statistiques'
       epics: 'Épiques'

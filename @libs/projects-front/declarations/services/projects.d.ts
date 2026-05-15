@@ -1,4 +1,5 @@
 import type { Project } from "#src/schemas/projects.ts";
+import type { MemberLite } from '#src/components/member-avatar-stack';
 import Service from "@ember/service";
 import { type Store } from "@warp-drive/core";
 export type NewProjectPayload = {
@@ -16,6 +17,7 @@ export default class ProjectsService extends Service {
     loading: boolean;
     loadAll(): Promise<Project[]>;
     findById(id: string): Promise<Project>;
+    loadMembers(projectId: string): Promise<MemberLite[]>;
     create(data: NewProjectPayload): Promise<Project>;
 }
 declare module "@ember/service" {

@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import { type IntlService } from 'ember-intl';
 import type { Store } from '@warp-drive/core';
 import type CurrentUserService from '@libs/users-front/services/current-user';
 import type ProjectsService from '../services/projects.ts';
@@ -18,6 +19,7 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
     projects: ProjectsService;
     currentUser: CurrentUserService;
     store: Store;
+    intl: IntlService;
     name: string;
     description: string;
     status: ProjectStatus;
@@ -26,12 +28,12 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
     users: UserLite[];
     submitting: boolean;
     error: string;
-    statusOptions: {
+    constructor(owner: unknown, args: AddProjectModalSignature['Args']);
+    loadUsers(): Promise<void>;
+    get statusOptions(): {
         value: ProjectStatus;
         label: string;
     }[];
-    constructor(owner: unknown, args: AddProjectModalSignature['Args']);
-    loadUsers(): Promise<void>;
     get canSubmit(): boolean;
     get cannotSubmit(): boolean;
     get isNoResponsible(): boolean;
