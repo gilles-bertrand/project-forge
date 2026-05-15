@@ -30,7 +30,11 @@ export default class ApplicationRoute extends Route {
 
     // Skip MSW when running against real backend (e2e tests)
     if (import.meta.env.VITE_MOCK_API !== 'false') {
-      const worker = setupWorker(...allUsersHandlers, ...allProjectsHandlers, ...allBacklogHandlers);
+      const worker = setupWorker(
+        ...allUsersHandlers,
+        ...allProjectsHandlers,
+        ...allBacklogHandlers
+      );
       this.worker = worker;
       await worker.start({
         onUnhandledRequest: 'bypass',

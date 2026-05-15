@@ -41,12 +41,12 @@ modal:
     closeAria: 'Fermer'
     project: 'Projet'
     name: 'Titre'
-    namePlaceholder: 'Ex: Système d''authentification'
+    namePlaceholder: "Ex: Système d'authentification"
     description: 'Description'
-    descriptionPlaceholder: 'Objectifs et périmètre de l''épique...'
+    descriptionPlaceholder: "Objectifs et périmètre de l'épique..."
     status: 'Statut initial'
     cancel: 'Annuler'
-    submit: 'Créer l''épique'
+    submit: "Créer l'épique"
     submitting: 'Création...'
     errorFallback: 'Erreur lors de la création'
   addUserStory:
@@ -55,7 +55,7 @@ modal:
     name: 'Titre'
     namePlaceholder: 'En tant que... je veux... afin de...'
     description: 'Description'
-    descriptionPlaceholder: 'Détails et critères d''acceptation...'
+    descriptionPlaceholder: "Détails et critères d'acceptation..."
     parentEpic: 'Épique (optionnel)'
     parentEpicPlaceholder: 'Aucune épique'
     status: 'Statut'
