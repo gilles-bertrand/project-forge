@@ -108,6 +108,7 @@ const BACKLOG_FR = {
     newUserStory: '+ Nouvelle US',
     newTask: '+ Nouvelle tâche',
     epicLabel: 'Épique',
+    usLabel: 'US',
     usCount: 'US',
     taskCount: 'tâches',
     tasks: 'tâches',

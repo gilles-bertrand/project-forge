@@ -8,7 +8,24 @@ export default class TasksService extends Service {
   @service declare store: Store;
 
   @tracked backlog: Task[] = [];
+  @tracked all: Task[] = [];
   @tracked loading = false;
+
+  // Charge toutes les tasks du projet (pour USM — toutes les tasks, y compris en sprint).
+  async loadAllByProject(projectId: string): Promise<Task[]> {
+    this.loading = true;
+    try {
+      const { content } = await this.store.request<{ data: Task[] }>({
+        url: `/api/v1/projects/${projectId}/tasks`,
+        method: 'GET',
+        cacheOptions: { reload: true },
+      });
+      this.all = content.data;
+      return this.all;
+    } finally {
+      this.loading = false;
+    }
+  }
 
   // La route backend ne supporte pas ?filter[sprintId]=null — filtre côté client.
   async loadBacklog(projectId: string): Promise<Task[]> {

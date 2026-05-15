@@ -59,7 +59,7 @@ export default class UserStoryRow extends Component<UserStoryRowSignature> {
         <span
           class="badge badge-xs badge-primary badge-soft font-medium uppercase tracking-wider"
         >
-          US
+          {{t "userStoryMap.usLabel"}}
         </span>
 
         <span class="flex-1 min-w-0 truncate text-sm font-medium">
@@ -67,7 +67,7 @@ export default class UserStoryRow extends Component<UserStoryRowSignature> {
         </span>
 
         <span class="flex-shrink-0 flex items-center gap-2 text-xs opacity-50">
-          <span>{{@userStory.points}} pts</span>
+          <span>{{t "backlog.taskRow.points" count=@userStory.points}}</span>
           <span>{{this.storyTasks.length}} {{t "userStoryMap.tasks"}}</span>
         </span>
       </button>

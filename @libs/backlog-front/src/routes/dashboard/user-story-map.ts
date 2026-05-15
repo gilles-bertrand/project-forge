@@ -17,12 +17,12 @@ export default class DashboardUserStoryMapRoute extends Route {
     await Promise.all([
       this.epics.loadByProject(projectId),
       this.userStories.loadByProject(projectId),
-      this.tasks.loadBacklog(projectId),
+      this.tasks.loadAllByProject(projectId),
     ]);
     return {
       epics: this.epics.list,
       userStories: this.userStories.list,
-      tasks: this.tasks.backlog,
+      tasks: this.tasks.all,
     };
   }
 }
