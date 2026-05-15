@@ -1,0 +1,82 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - navigation [ref=e4]:
+      - button "toggle sidebar" [ref=e6] [cursor=pointer]:
+        - img [ref=e7]
+      - list [ref=e10]
+      - button "John Doe" [active] [ref=e13] [cursor=pointer]:
+        - generic [ref=e14]: John Doe
+        - img [ref=e15]
+    - generic [ref=e17]:
+      - generic [ref=e18]: Projet
+      - combobox "Projet" [ref=e20]: Sélectionner un projet
+      - generic [ref=e23]:
+        - button [ref=e24]:
+          - img [ref=e25]
+        - searchbox [ref=e27]
+      - button "Disponible en P9" [disabled]
+      - button "Disponible en P4" [disabled]
+    - main [ref=e28]:
+      - generic [ref=e123]:
+        - heading "Projets" [level=1] [ref=e124]
+        - paragraph [ref=e125]: Disponible en P4
+  - generic [ref=e52]:
+    - generic [ref=e54]: SprintForge
+    - list [ref=e55]:
+      - listitem [ref=e56]:
+        - group [ref=e57]:
+          - generic "Navigation" [ref=e58]
+          - list [ref=e59]:
+            - listitem [ref=e60]:
+              - link "Tableau de bord" [ref=e61] [cursor=pointer]:
+                - /url: /
+                - img [ref=e62]
+                - generic [ref=e64]: Tableau de bord
+            - listitem [ref=e65]:
+              - link "Projets" [ref=e66] [cursor=pointer]:
+                - /url: /projects
+                - img [ref=e67]
+                - generic [ref=e69]: Projets
+            - listitem [ref=e70]:
+              - link "Backlog" [ref=e71] [cursor=pointer]:
+                - /url: /backlog
+                - img [ref=e72]
+                - generic [ref=e74]: Backlog
+            - listitem [ref=e75]:
+              - link "Kanban" [ref=e76] [cursor=pointer]:
+                - /url: /kanban
+                - img [ref=e77]
+                - generic [ref=e79]: Kanban
+            - listitem [ref=e80]:
+              - link "User Story Map" [ref=e81] [cursor=pointer]:
+                - /url: /user-story-map
+                - img [ref=e82]
+                - generic [ref=e84]: User Story Map
+            - listitem [ref=e85]:
+              - link "Sprints" [ref=e86] [cursor=pointer]:
+                - /url: /sprints
+                - img [ref=e87]
+                - generic [ref=e91]: Sprints
+            - listitem [ref=e92]:
+              - link "Suivi du temps" [ref=e93] [cursor=pointer]:
+                - /url: /time-tracking
+                - img [ref=e94]
+                - generic [ref=e97]: Suivi du temps
+      - listitem [ref=e98]:
+        - group [ref=e99]:
+          - generic "Administration" [ref=e100]
+          - list [ref=e101]:
+            - listitem [ref=e102]:
+              - link "Utilisateurs" [ref=e103] [cursor=pointer]:
+                - /url: /users
+                - img [ref=e104]
+                - generic [ref=e106]: Utilisateurs
+            - listitem [ref=e107]:
+              - link "Paramètres" [ref=e108] [cursor=pointer]:
+                - /url: /settings
+                - img [ref=e109]
+                - generic [ref=e112]: Paramètres
+    - button "Theme" [ref=e115] [cursor=pointer]:
+      - img [ref=e116]
+      - generic [ref=e118]: Theme
+      - img [ref=e119]

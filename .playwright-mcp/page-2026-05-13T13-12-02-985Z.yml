@@ -1,0 +1,17 @@
+- generic [ref=e8]:
+  - generic [ref=e9]:
+    - heading "SprintForge" [level=1] [ref=e10]
+    - paragraph [ref=e11]: Outil de gestion de projets Scrum
+  - generic [ref=e12]:
+    - heading "Connexion" [level=2] [ref=e13]
+    - generic [ref=e14]:
+      - generic [ref=e15]:
+        - generic [ref=e16]: Email
+        - textbox "Email" [ref=e17]:
+          - /placeholder: votre.email@example.com
+      - generic [ref=e18]:
+        - generic [ref=e19]: Mot de passe
+        - textbox "Mot de passe" [ref=e20]:
+          - /placeholder: ••••••••
+      - button "Se connecter" [ref=e21]
+  - paragraph [ref=e22]: SprintForge © 2026 - Gestion de projets Scrum

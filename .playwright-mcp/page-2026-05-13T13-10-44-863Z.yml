@@ -1,0 +1,137 @@
+- generic [ref=e7]:
+  - generic [ref=e8]:
+    - heading "SprintForge" [level=1] [ref=e10]
+    - navigation [ref=e12]:
+      - link "Tableau de bord" [ref=e13] [cursor=pointer]:
+        - /url: /
+        - img [ref=e14]
+        - generic [ref=e19]: Tableau de bord
+      - link "Projets" [ref=e20] [cursor=pointer]:
+        - /url: /projects
+        - img [ref=e21]
+        - generic [ref=e23]: Projets
+      - link "Backlog" [ref=e24] [cursor=pointer]:
+        - /url: /backlog
+        - img [ref=e25]
+        - generic [ref=e28]: Backlog
+      - link "Kanban" [ref=e29] [cursor=pointer]:
+        - /url: /kanban
+        - img [ref=e30]
+        - generic [ref=e32]: Kanban
+      - link "User Story Map" [ref=e33] [cursor=pointer]:
+        - /url: /user-story-map
+        - img [ref=e34]
+        - generic [ref=e36]: User Story Map
+      - link "Sprints" [ref=e37] [cursor=pointer]:
+        - /url: /sprints
+        - img [ref=e38]
+        - generic [ref=e41]: Sprints
+      - link "Suivi du temps" [ref=e42] [cursor=pointer]:
+        - /url: /time-tracking
+        - img [ref=e43]
+        - generic [ref=e46]: Suivi du temps
+    - navigation [ref=e48]:
+      - link "Utilisateurs" [ref=e49] [cursor=pointer]:
+        - /url: /users
+        - img [ref=e50]
+        - generic [ref=e55]: Utilisateurs
+      - link "Paramètres" [ref=e56] [cursor=pointer]:
+        - /url: /settings
+        - img [ref=e57]
+        - generic [ref=e60]: Paramètres
+    - generic [ref=e63]:
+      - img "Claire Dubois" [ref=e64]
+      - generic [ref=e65]:
+        - paragraph [ref=e66]: Claire Dubois
+        - paragraph [ref=e67]: Developer
+      - button "Se déconnecter" [ref=e68]:
+        - img [ref=e69]
+  - generic [ref=e72]:
+    - banner [ref=e73]:
+      - button "E-Commerce Platform" [ref=e75]:
+        - generic [ref=e76]: E-Commerce Platform
+        - img [ref=e77]
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - img [ref=e81]
+          - textbox "Rechercher..." [ref=e84]
+        - button "Enregistrer du temps" [ref=e85]:
+          - img [ref=e86]
+          - generic [ref=e89]: Enregistrer du temps
+        - button "Ajouter" [ref=e90]:
+          - img [ref=e91]
+          - generic [ref=e92]: Ajouter
+        - button "Activer le mode clair" [ref=e93]:
+          - img [ref=e94]
+    - main [ref=e100]:
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - heading "Backlog" [level=1] [ref=e103]
+          - paragraph [ref=e104]: Tâches non assignées à un sprint (5)
+        - generic [ref=e105]:
+          - generic [ref=e106] [cursor=pointer]:
+            - generic [ref=e107]:
+              - generic [ref=e108]:
+                - generic [ref=e109]: "#1013"
+                - heading "Optimiser performance liste" [level=3] [ref=e110]
+              - generic [ref=e111]:
+                - generic [ref=e112]: Techdebt
+                - generic [ref=e113]: Frontend
+                - generic [ref=e114]: US-us3
+            - generic [ref=e115]:
+              - img "Claire Dubois" [ref=e117]
+              - generic [ref=e118]:
+                - img [ref=e119]
+                - generic [ref=e121]: "3"
+          - generic [ref=e122] [cursor=pointer]:
+            - generic [ref=e123]:
+              - generic [ref=e124]:
+                - generic [ref=e125]: "#1014"
+                - heading "Corriger bug images" [level=3] [ref=e126]
+              - generic [ref=e127]:
+                - generic [ref=e128]: Bug
+                - generic [ref=e129]: Frontend
+            - generic [ref=e130]:
+              - img "Claire Dubois" [ref=e132]
+              - generic [ref=e133]:
+                - img [ref=e134]
+                - generic [ref=e136]: "2"
+          - generic [ref=e137] [cursor=pointer]:
+            - generic [ref=e138]:
+              - generic [ref=e139]:
+                - generic [ref=e140]: "#1015"
+                - heading "Documentation API" [level=3] [ref=e141]
+              - generic [ref=e142]:
+                - generic [ref=e143]: Review
+                - generic [ref=e144]: Backend
+            - generic [ref=e145]:
+              - generic [ref=e147]: DL
+              - generic [ref=e148]:
+                - img [ref=e149]
+                - generic [ref=e151]: "5"
+          - generic [ref=e152] [cursor=pointer]:
+            - generic [ref=e153]:
+              - generic [ref=e154]:
+                - generic [ref=e155]: "#1016"
+                - heading "Setup CI/CD" [level=3] [ref=e156]
+              - generic [ref=e157]:
+                - generic [ref=e158]: Infra
+                - generic [ref=e159]: DevOps
+            - generic [ref=e160]:
+              - img "Gaëlle Moreau" [ref=e162]
+              - generic [ref=e163]:
+                - img [ref=e164]
+                - generic [ref=e166]: "8"
+          - generic [ref=e167] [cursor=pointer]:
+            - generic [ref=e168]:
+              - generic [ref=e169]:
+                - generic [ref=e170]: "#1017"
+                - heading "Refactoring composants" [level=3] [ref=e171]
+              - generic [ref=e172]:
+                - generic [ref=e173]: Refacto
+                - generic [ref=e174]: Frontend
+            - generic [ref=e175]:
+              - img "Claire Dubois" [ref=e177]
+              - generic [ref=e178]:
+                - img [ref=e179]
+                - generic [ref=e181]: "5"

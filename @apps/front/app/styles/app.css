@@ -8,12 +8,7 @@
 @import './flash.css';
 
 @plugin "daisyui" {
-  themes:
-    nord --default,
-    dracula,
-    cupcake,
-    corporate,
-    lemonade;
+  themes: false;
 }
 
 /* Additional global styles can be added below */
@@ -22,3 +17,5 @@
 @source "../../node_modules/@triptyk/ember-input-validation";
 @source "../../node_modules/@libs/users-front";
 @source "../../node_modules/@libs/shared-front";
+@source "../../node_modules/@libs/shell-front";
+@source "../../node_modules/@libs/projects-front";

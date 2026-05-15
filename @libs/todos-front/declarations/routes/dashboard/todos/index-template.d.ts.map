@@ -1,0 +1,1 @@
+{"version":3,"file":"index-template.d.ts","sourceRoot":"","sources":["../../../../src/routes/dashboard/todos/index-template.gts"],"names":[],"mappings":"AAQA,OAAO,KAAK,EAAE,GAAG,EAAE,MAAM,gCAAgC,CAAC;AAC1D,OAAO,KAAK,eAAe,MAAM,aAAa,CAAC;wBAQzC,GAAG,CAAC;IACR,KAAK,EAAE,OAAO,CAAC,UAAU,CAAC,eAAe,CAAC,OAAO,CAAC,CAAC,CAAC,CAAC;IACrD,UAAU,EAAE,SAAS,CAAC;CACvB,CAAC;AARF,wBAQE"}

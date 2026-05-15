@@ -39,6 +39,16 @@ src/
 
 ## Auth flow
 
+> **⚠ Asymétrie de format** : `POST /auth/login` accepte un body **flat** (pas JSON:API).
+> Toutes les autres routes du projet utilisent `{ data: { attributes: {...} } }` mais login est une exception.
+>
+> ```bash
+> # ✅ Correct
+> curl -X POST /api/v1/auth/login -d '{"email":"x@x.com","password":"secret"}'
+> # ❌ Incorrect (reçoit 400 Validation Error)
+> curl -X POST /api/v1/auth/login -d '{"data":{"attributes":{"email":"x@x.com","password":"secret"}}}'
+> ```
+
 1. **Login** : credentials → `verifyPassword` (argon2) → `generateTokens` (access 15m / refresh 7d) → stockage du hash du refresh + `familyId` en DB.
 2. **Access token** : JWT signé avec `JWT_SECRET`. Vérifié par `jwtAuthMiddleware` en preValidation des routes protégées.
 3. **Refresh** : `POST /auth/refresh` avec le refresh token → vérifie hash en DB + familyId → rotation (nouveau pair, ancien refresh révoqué).

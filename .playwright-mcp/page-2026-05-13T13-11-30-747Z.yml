@@ -1,0 +1,282 @@
+- generic [ref=e7]:
+  - generic [ref=e8]:
+    - heading "SprintForge" [level=1] [ref=e10]
+    - navigation [ref=e12]:
+      - link "Tableau de bord" [ref=e13] [cursor=pointer]:
+        - /url: /
+        - img [ref=e14]
+        - generic [ref=e19]: Tableau de bord
+      - link "Projets" [ref=e20] [cursor=pointer]:
+        - /url: /projects
+        - img [ref=e21]
+        - generic [ref=e23]: Projets
+      - link "Backlog" [ref=e24] [cursor=pointer]:
+        - /url: /backlog
+        - img [ref=e25]
+        - generic [ref=e28]: Backlog
+      - link "Kanban" [ref=e29] [cursor=pointer]:
+        - /url: /kanban
+        - img [ref=e30]
+        - generic [ref=e32]: Kanban
+      - link "User Story Map" [ref=e33] [cursor=pointer]:
+        - /url: /user-story-map
+        - img [ref=e34]
+        - generic [ref=e36]: User Story Map
+      - link "Sprints" [ref=e37] [cursor=pointer]:
+        - /url: /sprints
+        - img [ref=e38]
+        - generic [ref=e41]: Sprints
+      - link "Suivi du temps" [ref=e42] [cursor=pointer]:
+        - /url: /time-tracking
+        - img [ref=e43]
+        - generic [ref=e46]: Suivi du temps
+    - navigation [ref=e48]:
+      - link "Utilisateurs" [ref=e49] [cursor=pointer]:
+        - /url: /users
+        - img [ref=e50]
+        - generic [ref=e55]: Utilisateurs
+      - link "Paramètres" [ref=e56] [cursor=pointer]:
+        - /url: /settings
+        - img [ref=e57]
+        - generic [ref=e60]: Paramètres
+    - generic [ref=e63]:
+      - img "Claire Dubois" [ref=e64]
+      - generic [ref=e65]:
+        - paragraph [ref=e66]: Claire Dubois
+        - paragraph [ref=e67]: Developer
+      - button "Se déconnecter" [ref=e68]:
+        - img [ref=e69]
+  - generic [ref=e72]:
+    - banner [ref=e73]:
+      - button "E-Commerce Platform" [ref=e75]:
+        - generic [ref=e76]: E-Commerce Platform
+        - img [ref=e77]
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - img [ref=e81]
+          - textbox "Rechercher..." [ref=e84]
+        - button "Enregistrer du temps" [ref=e85]:
+          - img [ref=e86]
+          - generic [ref=e89]: Enregistrer du temps
+        - button "Ajouter" [ref=e90]:
+          - img [ref=e91]
+          - generic [ref=e92]: Ajouter
+        - button "Activer le mode clair" [ref=e93]:
+          - img [ref=e94]
+    - main [ref=e100]:
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - heading "Suivi du temps" [level=1] [ref=e104]
+            - paragraph [ref=e105]: 13 entrées • 49.5 heures au total
+          - button "Exporter" [ref=e106]:
+            - img [ref=e107]
+            - generic [ref=e110]: Exporter
+        - generic [ref=e111]:
+          - generic [ref=e112]:
+            - img [ref=e113]
+            - heading "Filtres" [level=3] [ref=e115]
+          - generic [ref=e116]:
+            - generic [ref=e117]:
+              - generic [ref=e118]: Projet
+              - combobox [ref=e119]:
+                - option "Tous les projets" [selected]
+                - option "E-Commerce Platform"
+                - option "Mobile Banking App"
+                - option "CRM System"
+            - generic [ref=e120]:
+              - generic [ref=e121]: Utilisateur
+              - combobox [ref=e122]:
+                - option "Tous les utilisateurs" [selected]
+                - option "Alice Martin"
+                - option "Bob Durant"
+                - option "Claire Dubois"
+                - option "David Leroy"
+                - option "Emma Bernard"
+                - option "François Petit"
+                - option "Gaëlle Moreau"
+            - generic [ref=e123]:
+              - generic [ref=e124]: Date de début
+              - textbox [ref=e125]
+            - generic [ref=e126]:
+              - generic [ref=e127]: Date de fin
+              - textbox [ref=e128]
+        - table [ref=e130]:
+          - rowgroup [ref=e131]:
+            - row "Date Utilisateur Tâche Projet Heures Description" [ref=e132]:
+              - columnheader "Date" [ref=e133]
+              - columnheader "Utilisateur" [ref=e134]
+              - columnheader "Tâche" [ref=e135]
+              - columnheader "Projet" [ref=e136]
+              - columnheader "Heures" [ref=e137]
+              - columnheader "Description" [ref=e138]
+          - rowgroup [ref=e139]:
+            - 'row "25 Jan 2025 CD Claire Dubois #1005 - Implémenter formulaire d''inscription E-Commerce Platform 1.5h Validation formulaires" [ref=e140]':
+              - cell "25 Jan 2025" [ref=e141]:
+                - generic [ref=e142]:
+                  - img [ref=e143]
+                  - text: 25 Jan 2025
+              - cell "CD Claire Dubois" [ref=e145]:
+                - generic [ref=e146]:
+                  - generic [ref=e147]: CD
+                  - text: Claire Dubois
+              - cell "#1005 - Implémenter formulaire d'inscription" [ref=e148]
+              - cell "E-Commerce Platform" [ref=e149]
+              - cell "1.5h" [ref=e150]
+              - cell "Validation formulaires" [ref=e151]
+            - 'row "25 Jan 2025 CD Claire Dubois #1011 - Filtres catégories E-Commerce Platform 2h Développement filtres" [ref=e152]':
+              - cell "25 Jan 2025" [ref=e153]:
+                - generic [ref=e154]:
+                  - img [ref=e155]
+                  - text: 25 Jan 2025
+              - cell "CD Claire Dubois" [ref=e157]:
+                - generic [ref=e158]:
+                  - generic [ref=e159]: CD
+                  - text: Claire Dubois
+              - cell "#1011 - Filtres catégories" [ref=e160]
+              - cell "E-Commerce Platform" [ref=e161]
+              - cell "2h" [ref=e162]
+              - cell "Développement filtres" [ref=e163]
+            - 'row "24 Jan 2025 DL David Leroy #1010 - API recherche produits E-Commerce Platform 4h API recherche" [ref=e164]':
+              - cell "24 Jan 2025" [ref=e165]:
+                - generic [ref=e166]:
+                  - img [ref=e167]
+                  - text: 24 Jan 2025
+              - cell "DL David Leroy" [ref=e169]:
+                - generic [ref=e170]:
+                  - generic [ref=e171]: DL
+                  - text: David Leroy
+              - cell "#1010 - API recherche produits" [ref=e172]
+              - cell "E-Commerce Platform" [ref=e173]
+              - cell "4h" [ref=e174]
+              - cell "API recherche" [ref=e175]
+            - 'row "24 Jan 2025 CD Claire Dubois #1006 - Créer liste de produits E-Commerce Platform 3h Développement liste" [ref=e176]':
+              - cell "24 Jan 2025" [ref=e177]:
+                - generic [ref=e178]:
+                  - img [ref=e179]
+                  - text: 24 Jan 2025
+              - cell "CD Claire Dubois" [ref=e181]:
+                - generic [ref=e182]:
+                  - generic [ref=e183]: CD
+                  - text: Claire Dubois
+              - cell "#1006 - Créer liste de produits" [ref=e184]
+              - cell "E-Commerce Platform" [ref=e185]
+              - cell "3h" [ref=e186]
+              - cell "Développement liste" [ref=e187]
+            - 'row "24 Jan 2025 DL David Leroy #1006 - Créer liste de produits E-Commerce Platform 2h Intégration API" [ref=e188]':
+              - cell "24 Jan 2025" [ref=e189]:
+                - generic [ref=e190]:
+                  - img [ref=e191]
+                  - text: 24 Jan 2025
+              - cell "DL David Leroy" [ref=e193]:
+                - generic [ref=e194]:
+                  - generic [ref=e195]: DL
+                  - text: David Leroy
+              - cell "#1006 - Créer liste de produits" [ref=e196]
+              - cell "E-Commerce Platform" [ref=e197]
+              - cell "2h" [ref=e198]
+              - cell "Intégration API" [ref=e199]
+            - 'row "23 Jan 2025 CD Claire Dubois #1009 - Barre de recherche E-Commerce Platform 5h Développement recherche" [ref=e200]':
+              - cell "23 Jan 2025" [ref=e201]:
+                - generic [ref=e202]:
+                  - img [ref=e203]
+                  - text: 23 Jan 2025
+              - cell "CD Claire Dubois" [ref=e205]:
+                - generic [ref=e206]:
+                  - generic [ref=e207]: CD
+                  - text: Claire Dubois
+              - cell "#1009 - Barre de recherche" [ref=e208]
+              - cell "E-Commerce Platform" [ref=e209]
+              - cell "5h" [ref=e210]
+              - cell "Développement recherche" [ref=e211]
+            - 'row "22 Jan 2025 DL David Leroy #1007 - API produits E-Commerce Platform 6h Développement API" [ref=e212]':
+              - cell "22 Jan 2025" [ref=e213]:
+                - generic [ref=e214]:
+                  - img [ref=e215]
+                  - text: 22 Jan 2025
+              - cell "DL David Leroy" [ref=e217]:
+                - generic [ref=e218]:
+                  - generic [ref=e219]: DL
+                  - text: David Leroy
+              - cell "#1007 - API produits" [ref=e220]
+              - cell "E-Commerce Platform" [ref=e221]
+              - cell "6h" [ref=e222]
+              - cell "Développement API" [ref=e223]
+            - 'row "21 Jan 2025 CD Claire Dubois #1005 - Implémenter formulaire d''inscription E-Commerce Platform 2h Début du développement" [ref=e224]':
+              - cell "21 Jan 2025" [ref=e225]:
+                - generic [ref=e226]:
+                  - img [ref=e227]
+                  - text: 21 Jan 2025
+              - cell "CD Claire Dubois" [ref=e229]:
+                - generic [ref=e230]:
+                  - generic [ref=e231]: CD
+                  - text: Claire Dubois
+              - cell "#1005 - Implémenter formulaire d'inscription" [ref=e232]
+              - cell "E-Commerce Platform" [ref=e233]
+              - cell "2h" [ref=e234]
+              - cell "Début du développement" [ref=e235]
+            - 'row "13 Jan 2025 DL David Leroy #1002 - API endpoint pour authentification E-Commerce Platform 3h Tests API" [ref=e236]':
+              - cell "13 Jan 2025" [ref=e237]:
+                - generic [ref=e238]:
+                  - img [ref=e239]
+                  - text: 13 Jan 2025
+              - cell "DL David Leroy" [ref=e241]:
+                - generic [ref=e242]:
+                  - generic [ref=e243]: DL
+                  - text: David Leroy
+              - cell "#1002 - API endpoint pour authentification" [ref=e244]
+              - cell "E-Commerce Platform" [ref=e245]
+              - cell "3h" [ref=e246]
+              - cell "Tests API" [ref=e247]
+            - 'row "12 Jan 2025 CD Claire Dubois #1001 - Créer le formulaire de login E-Commerce Platform 2h Corrections bugs" [ref=e248]':
+              - cell "12 Jan 2025" [ref=e249]:
+                - generic [ref=e250]:
+                  - img [ref=e251]
+                  - text: 12 Jan 2025
+              - cell "CD Claire Dubois" [ref=e253]:
+                - generic [ref=e254]:
+                  - generic [ref=e255]: CD
+                  - text: Claire Dubois
+              - cell "#1001 - Créer le formulaire de login" [ref=e256]
+              - cell "E-Commerce Platform" [ref=e257]
+              - cell "2h" [ref=e258]
+              - cell "Corrections bugs" [ref=e259]
+            - 'row "10 Jan 2025 EB Emma Bernard #1004 - Design écran d''inscription E-Commerce Platform 5h Design UI/UX" [ref=e260]':
+              - cell "10 Jan 2025" [ref=e261]:
+                - generic [ref=e262]:
+                  - img [ref=e263]
+                  - text: 10 Jan 2025
+              - cell "EB Emma Bernard" [ref=e265]:
+                - generic [ref=e266]:
+                  - generic [ref=e267]: EB
+                  - text: Emma Bernard
+              - cell "#1004 - Design écran d'inscription" [ref=e268]
+              - cell "E-Commerce Platform" [ref=e269]
+              - cell "5h" [ref=e270]
+              - cell "Design UI/UX" [ref=e271]
+            - 'row "09 Jan 2025 DL David Leroy #1002 - API endpoint pour authentification E-Commerce Platform 8h Développement API" [ref=e272]':
+              - cell "09 Jan 2025" [ref=e273]:
+                - generic [ref=e274]:
+                  - img [ref=e275]
+                  - text: 09 Jan 2025
+              - cell "DL David Leroy" [ref=e277]:
+                - generic [ref=e278]:
+                  - generic [ref=e279]: DL
+                  - text: David Leroy
+              - cell "#1002 - API endpoint pour authentification" [ref=e280]
+              - cell "E-Commerce Platform" [ref=e281]
+              - cell "8h" [ref=e282]
+              - cell "Développement API" [ref=e283]
+            - 'row "08 Jan 2025 CD Claire Dubois #1001 - Créer le formulaire de login E-Commerce Platform 6h Développement du formulaire" [ref=e284]':
+              - cell "08 Jan 2025" [ref=e285]:
+                - generic [ref=e286]:
+                  - img [ref=e287]
+                  - text: 08 Jan 2025
+              - cell "CD Claire Dubois" [ref=e289]:
+                - generic [ref=e290]:
+                  - generic [ref=e291]: CD
+                  - text: Claire Dubois
+              - cell "#1001 - Créer le formulaire de login" [ref=e292]
+              - cell "E-Commerce Platform" [ref=e293]
+              - cell "6h" [ref=e294]
+              - cell "Développement du formulaire" [ref=e295]

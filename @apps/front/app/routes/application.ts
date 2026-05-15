@@ -3,11 +3,13 @@ import { service } from '@ember/service';
 import type { IntlService } from 'ember-intl';
 import { setupWorker } from 'msw/browser';
 import { initialize as initializeUserLib } from '@libs/users-front';
+import { initialize as initializeShellLib } from '@libs/shell-front';
+import { initialize as initializeProjectsLib } from '@libs/projects-front';
 import { getOwner } from '@ember/-internals/owner';
 import type SessionService from '@apps/front/services/session';
 import allUsersHandlers from '@libs/users-front/http-mocks/all';
+import allProjectsHandlers from '@libs/projects-front/http-mocks/all';
 import type ThemeService from '@libs/shared-front/services/theme';
-import setTheme from '../utils/set-theme';
 import translationsForFrFr from 'virtual:ember-intl/translations/fr-fr';
 import translationsForEnUs from 'virtual:ember-intl/translations/en-us';
 
@@ -19,7 +21,6 @@ export default class ApplicationRoute extends Route {
 
   async beforeModel() {
     this.theme.setup();
-    setTheme();
     this.intl.setLocale('en-us');
 
     this.intl.addTranslations('fr-fr', translationsForFrFr);
@@ -27,7 +28,7 @@ export default class ApplicationRoute extends Route {
 
     // Skip MSW when running against real backend (e2e tests)
     if (import.meta.env.VITE_MOCK_API !== 'false') {
-      const worker = setupWorker(...allUsersHandlers);
+      const worker = setupWorker(...allUsersHandlers, ...allProjectsHandlers);
       this.worker = worker;
       await worker.start({
         onUnhandledRequest: 'bypass',
@@ -35,6 +36,8 @@ export default class ApplicationRoute extends Route {
     }
 
     await initializeUserLib(getOwner(this)!);
+    await initializeShellLib(getOwner(this)!);
+    await initializeProjectsLib(getOwner(this)!);
   }
 
   willDestroy() {

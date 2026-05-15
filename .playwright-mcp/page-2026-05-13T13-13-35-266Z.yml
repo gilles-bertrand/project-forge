@@ -1,0 +1,331 @@
+- generic [ref=e7]:
+  - generic [ref=e8]:
+    - heading "SprintForge" [level=1] [ref=e10]
+    - navigation [ref=e12]:
+      - link "Tableau de bord" [ref=e13] [cursor=pointer]:
+        - /url: /
+        - img [ref=e14]
+        - generic [ref=e19]: Tableau de bord
+      - link "Projets" [ref=e20] [cursor=pointer]:
+        - /url: /projects
+        - img [ref=e21]
+        - generic [ref=e23]: Projets
+      - link "Backlog" [ref=e24] [cursor=pointer]:
+        - /url: /backlog
+        - img [ref=e25]
+        - generic [ref=e28]: Backlog
+      - link "Kanban" [ref=e29] [cursor=pointer]:
+        - /url: /kanban
+        - img [ref=e30]
+        - generic [ref=e32]: Kanban
+      - link "User Story Map" [ref=e33] [cursor=pointer]:
+        - /url: /user-story-map
+        - img [ref=e34]
+        - generic [ref=e36]: User Story Map
+      - link "Sprints" [ref=e37] [cursor=pointer]:
+        - /url: /sprints
+        - img [ref=e38]
+        - generic [ref=e41]: Sprints
+      - link "Suivi du temps" [ref=e42] [cursor=pointer]:
+        - /url: /time-tracking
+        - img [ref=e43]
+        - generic [ref=e46]: Suivi du temps
+    - navigation [ref=e48]:
+      - link "Utilisateurs" [ref=e49] [cursor=pointer]:
+        - /url: /users
+        - img [ref=e50]
+        - generic [ref=e55]: Utilisateurs
+      - link "Paramètres" [ref=e56] [cursor=pointer]:
+        - /url: /settings
+        - img [ref=e57]
+        - generic [ref=e60]: Paramètres
+    - generic [ref=e63]:
+      - img "Claire Dubois" [ref=e64]
+      - generic [ref=e65]:
+        - paragraph [ref=e66]: Claire Dubois
+        - paragraph [ref=e67]: Developer
+      - button "Se déconnecter" [ref=e68]:
+        - img [ref=e69]
+  - generic [ref=e72]:
+    - banner [ref=e73]:
+      - button "E-Commerce Platform" [ref=e75]:
+        - generic [ref=e76]: E-Commerce Platform
+        - img [ref=e77]
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - img [ref=e81]
+          - textbox "Rechercher..." [ref=e84]
+        - button "Enregistrer du temps" [ref=e85]:
+          - img [ref=e86]
+          - generic [ref=e89]: Enregistrer du temps
+        - button "Ajouter" [ref=e90]:
+          - img [ref=e91]
+          - generic [ref=e92]: Ajouter
+        - button "Activer le mode clair" [ref=e93]:
+          - img [ref=e94]
+    - generic [ref=e411]:
+      - generic [ref=e412]:
+        - generic [ref=e413]:
+          - heading "Planifier un sprint" [level=2] [ref=e414]
+          - paragraph [ref=e415]: E-Commerce Platform
+        - button [ref=e416]:
+          - img [ref=e417]
+      - generic [ref=e421]:
+        - generic [ref=e422]:
+          - generic [ref=e423]:
+            - generic [ref=e424]: Nom du sprint *
+            - textbox [ref=e425]: Sprint 7
+          - generic [ref=e426]:
+            - generic [ref=e427]: Objectif du sprint (Sprint Goal)
+            - 'textbox "Ex: Validation du MVP avec l''authentification" [ref=e428]'
+          - generic [ref=e429]:
+            - generic [ref=e430]: Date de début *
+            - textbox [ref=e431]
+          - generic [ref=e432]:
+            - generic [ref=e433]: Date de fin *
+            - textbox [ref=e434]
+        - generic [ref=e435]:
+          - generic [ref=e436]:
+            - paragraph [ref=e437]: Tâches sélectionnées
+            - paragraph [ref=e438]: "10"
+          - generic [ref=e439]:
+            - paragraph [ref=e440]: Points d'efforts totaux
+            - paragraph [ref=e441]: "33"
+        - generic [ref=e442]:
+          - heading "AUTO Tâches reportées du sprint précédent (10)" [level=3] [ref=e443]:
+            - generic [ref=e444]: AUTO
+            - text: Tâches reportées du sprint précédent (10)
+          - paragraph [ref=e445]: Ces tâches étaient en cours ou non démarrées dans le sprint précédent. Elles sont automatiquement ajoutées mais vous pouvez les retirer.
+          - generic [ref=e446]:
+            - generic [ref=e448] [cursor=pointer]:
+              - button [ref=e449]:
+                - img [ref=e450]
+              - generic [ref=e451]:
+                - generic [ref=e452]:
+                  - generic [ref=e453]: "#1005"
+                  - generic [ref=e454]: Implémenter formulaire d'inscription
+                - generic [ref=e455]:
+                  - generic [ref=e456]: Frontend
+                  - generic [ref=e457]: Feature
+                  - generic [ref=e458]: En cours
+              - generic [ref=e459]: 2 pts
+            - generic [ref=e461] [cursor=pointer]:
+              - button [ref=e462]:
+                - img [ref=e463]
+              - generic [ref=e464]:
+                - generic [ref=e465]:
+                  - generic [ref=e466]: "#1006"
+                  - generic [ref=e467]: Créer liste de produits
+                - generic [ref=e468]:
+                  - generic [ref=e469]: Frontend
+                  - generic [ref=e470]: Feature
+                  - generic [ref=e471]: En cours
+              - generic [ref=e472]: 3 pts
+            - generic [ref=e474] [cursor=pointer]:
+              - button [ref=e475]:
+                - img [ref=e476]
+              - generic [ref=e477]:
+                - generic [ref=e478]:
+                  - generic [ref=e479]: "#1008"
+                  - generic [ref=e480]: Pagination produits
+                - generic [ref=e481]:
+                  - generic [ref=e482]: Frontend
+                  - generic [ref=e483]: Feature
+                  - generic [ref=e484]: À faire
+              - generic [ref=e485]: 2 pts
+            - generic [ref=e487] [cursor=pointer]:
+              - button [ref=e488]:
+                - img [ref=e489]
+              - generic [ref=e490]:
+                - generic [ref=e491]:
+                  - generic [ref=e492]: "#1011"
+                  - generic [ref=e493]: Filtres catégories
+                - generic [ref=e494]:
+                  - generic [ref=e495]: Frontend
+                  - generic [ref=e496]: Feature
+                  - generic [ref=e497]: En cours
+              - generic [ref=e498]: 2 pts
+            - generic [ref=e500] [cursor=pointer]:
+              - button [ref=e501]:
+                - img [ref=e502]
+              - generic [ref=e503]:
+                - generic [ref=e504]:
+                  - generic [ref=e505]: "#1012"
+                  - generic [ref=e506]: Filtres prix
+                - generic [ref=e507]:
+                  - generic [ref=e508]: Frontend
+                  - generic [ref=e509]: Feature
+                  - generic [ref=e510]: À faire
+              - generic [ref=e511]: 1 pts
+            - generic [ref=e513] [cursor=pointer]:
+              - button [ref=e514]:
+                - img [ref=e515]
+              - generic [ref=e516]:
+                - generic [ref=e517]:
+                  - generic [ref=e518]: "#1013"
+                  - generic [ref=e519]: Optimiser performance liste
+                - generic [ref=e520]:
+                  - generic [ref=e521]: Frontend
+                  - generic [ref=e522]: Techdebt
+                  - generic [ref=e523]: À faire
+              - generic [ref=e524]: 3 pts
+            - generic [ref=e526] [cursor=pointer]:
+              - button [ref=e527]:
+                - img [ref=e528]
+              - generic [ref=e529]:
+                - generic [ref=e530]:
+                  - generic [ref=e531]: "#1014"
+                  - generic [ref=e532]: Corriger bug images
+                - generic [ref=e533]:
+                  - generic [ref=e534]: Frontend
+                  - generic [ref=e535]: Bug
+                  - generic [ref=e536]: En cours
+              - generic [ref=e537]: 2 pts
+            - generic [ref=e539] [cursor=pointer]:
+              - button [ref=e540]:
+                - img [ref=e541]
+              - generic [ref=e542]:
+                - generic [ref=e543]:
+                  - generic [ref=e544]: "#1015"
+                  - generic [ref=e545]: Documentation API
+                - generic [ref=e546]:
+                  - generic [ref=e547]: Backend
+                  - generic [ref=e548]: Review
+                  - generic [ref=e549]: À faire
+              - generic [ref=e550]: 5 pts
+            - generic [ref=e552] [cursor=pointer]:
+              - button [ref=e553]:
+                - img [ref=e554]
+              - generic [ref=e555]:
+                - generic [ref=e556]:
+                  - generic [ref=e557]: "#1016"
+                  - generic [ref=e558]: Setup CI/CD
+                - generic [ref=e559]:
+                  - generic [ref=e560]: DevOps
+                  - generic [ref=e561]: Infra
+                  - generic [ref=e562]: À faire
+              - generic [ref=e563]: 8 pts
+            - generic [ref=e565] [cursor=pointer]:
+              - button [ref=e566]:
+                - img [ref=e567]
+              - generic [ref=e568]:
+                - generic [ref=e569]:
+                  - generic [ref=e570]: "#1017"
+                  - generic [ref=e571]: Refactoring composants
+                - generic [ref=e572]:
+                  - generic [ref=e573]: Frontend
+                  - generic [ref=e574]: Refacto
+                  - generic [ref=e575]: À faire
+              - generic [ref=e576]: 5 pts
+        - generic [ref=e577]:
+          - heading "Backlog du projet (0 tâches disponibles)" [level=3] [ref=e578]
+          - paragraph [ref=e579]: Cliquez sur une tâche pour l'ajouter ou la retirer du sprint.
+          - generic [ref=e581]: Aucune tâche dans le backlog
+      - generic [ref=e582]:
+        - button "Annuler" [ref=e583]
+        - button "Créer le sprint (10 tâches, 33 pts)" [ref=e584]
+    - main [ref=e100]:
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - heading "Projets" [level=1] [ref=e104]
+            - paragraph [ref=e105]: Gérez tous vos projets Scrum
+          - button "Nouveau projet" [ref=e106]:
+            - img [ref=e107]
+            - generic [ref=e108]: Nouveau projet
+        - generic [ref=e109]:
+          - generic [ref=e110] [cursor=pointer]:
+            - generic [ref=e112]: E-
+            - generic [ref=e113]:
+              - heading "E-Commerce Platform" [level=3] [ref=e114]
+              - text: Actif
+            - paragraph [ref=e115]: Plateforme de vente en ligne complète avec gestion des stocks
+            - generic [ref=e116]:
+              - generic [ref=e118]:
+                - generic [ref=e119]: User Stories
+                - generic [ref=e120]: 0/5
+              - generic [ref=e123]:
+                - generic [ref=e124]: Sprint en cours
+                - generic [ref=e125]: 1/8
+            - generic [ref=e128]:
+              - generic [ref=e129]:
+                - generic [ref=e130]:
+                  - img [ref=e131]
+                  - generic [ref=e133]: Créé le 01 Jan 2025
+                - generic [ref=e134]:
+                  - button "Voir le Kanban" [ref=e135]:
+                    - img [ref=e136]
+                  - button "Voir les Sprints" [ref=e137]:
+                    - img [ref=e138]
+              - generic [ref=e140]:
+                - generic [ref=e142]:
+                  - img "Bob Durant" [ref=e143]
+                  - img "Claire Dubois" [ref=e144]
+                  - generic [ref=e145]: DL
+                  - img "Emma Bernard" [ref=e146]
+                  - generic [ref=e147]: "+1"
+                - generic [ref=e148]:
+                  - img [ref=e149]
+                  - generic [ref=e152]: B.Durant
+          - generic [ref=e153] [cursor=pointer]:
+            - generic [ref=e155]: MO
+            - generic [ref=e156]:
+              - heading "Mobile Banking App" [level=3] [ref=e157]
+              - text: Actif
+            - paragraph [ref=e158]: Application mobile de gestion bancaire
+            - generic [ref=e159]:
+              - generic [ref=e161]:
+                - generic [ref=e162]: User Stories
+                - generic [ref=e163]: 0/2
+              - generic [ref=e166]:
+                - generic [ref=e167]: Sprint en cours
+                - generic [ref=e168]: 0/3
+            - generic [ref=e170]:
+              - generic [ref=e171]:
+                - generic [ref=e172]:
+                  - img [ref=e173]
+                  - generic [ref=e175]: Créé le 05 Jan 2025
+                - generic [ref=e176]:
+                  - button "Voir le Kanban" [ref=e177]:
+                    - img [ref=e178]
+                  - button "Voir les Sprints" [ref=e179]:
+                    - img [ref=e180]
+              - generic [ref=e182]:
+                - generic [ref=e184]:
+                  - img "Bob Durant" [ref=e185]
+                  - img "Claire Dubois" [ref=e186]
+                  - img "Emma Bernard" [ref=e187]
+                  - img "Gaëlle Moreau" [ref=e188]
+                - generic [ref=e189]:
+                  - img [ref=e190]
+                  - generic [ref=e193]: B.Durant
+          - generic [ref=e194] [cursor=pointer]:
+            - generic [ref=e196]: CR
+            - generic [ref=e197]:
+              - heading "CRM System" [level=3] [ref=e198]
+              - text: Planifié
+            - paragraph [ref=e199]: Système de gestion de la relation client
+            - generic [ref=e200]:
+              - generic [ref=e202]:
+                - generic [ref=e203]: User Stories
+                - generic [ref=e204]: 0/0
+              - generic [ref=e207]:
+                - generic [ref=e208]: Sprint en cours
+                - generic [ref=e209]: 0/3
+            - generic [ref=e211]:
+              - generic [ref=e212]:
+                - generic [ref=e213]:
+                  - img [ref=e214]
+                  - generic [ref=e216]: Créé le 10 Jan 2025
+                - generic [ref=e217]:
+                  - button "Voir le Kanban" [ref=e218]:
+                    - img [ref=e219]
+                  - button "Voir les Sprints" [ref=e220]:
+                    - img [ref=e221]
+              - generic [ref=e223]:
+                - generic [ref=e225]:
+                  - img "Claire Dubois" [ref=e226]
+                  - generic [ref=e227]: DL
+                - generic [ref=e228]:
+                  - img [ref=e229]
+                  - generic [ref=e232]: B.Durant

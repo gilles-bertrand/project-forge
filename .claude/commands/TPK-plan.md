@@ -33,6 +33,18 @@ PLAN_OUTPUT_DIR: specs/todo/
    - Parse USER_PROMPT to understand the core problem
    - Identify the desired outcome and constraints
 
+2.5. **Graph grounding (advisory, skip silently if absent)**
+   - Check if `graphify-out/graph.json` exists. If not, skip this step entirely.
+   - Check freshness: if `graphify-out/graph.json` is older than the latest commit (`git log -1 --format=%ct`), print a one-line warning `[plan] graph is stale (last update: <date>) — context may be outdated, consider /graphify --update` and continue anyway.
+   - Extract 2-4 key terms from USER_PROMPT (entities, features, components — e.g. "sprint", "auth", "kanban").
+   - For each key term, run `/graphify query "<term>"` and read the returned subgraph (nodes + relations).
+   - From `graphify-out/GRAPH_REPORT.md`, read only the **God Nodes** section. If any god node label matches a key term, run `/graphify explain "<god node>"` to surface its cross-community connections.
+   - In the plan document, add an **Architectural Context** subsection listing:
+     - Communities touched (from query results)
+     - God nodes the plan will modify (flag for extra review/test coverage)
+     - Cross-cutting contracts at risk (e.g. `makeSingleJsonApiTopDocument` for backend response schemas)
+   - **Advisory rule** : never treat graph output as ground truth. Always confirm with a Read on the actual file before locking implementation details.
+
 3. **Design solution**
    - Develop technical approach
    - Make architecture decisions
@@ -48,8 +60,8 @@ PLAN_OUTPUT_DIR: specs/todo/
      - Problem statement and objectives
      - Technical approach
      - Step-by-step implementation guide
-     - Testing strategy
-     - Success criteria
+     - Testing strategy (si le plan inclut des tests d'intégration, les lister explicitement comme critère de succès bloquant — ils ne peuvent pas être substitués par un smoke test manuel)
+     - Success criteria (numérotés, vérifiables — chacun sera checké par `/TPK-build` avant `done/`)
 
 6. **Save and report**
    - Generate descriptive filename

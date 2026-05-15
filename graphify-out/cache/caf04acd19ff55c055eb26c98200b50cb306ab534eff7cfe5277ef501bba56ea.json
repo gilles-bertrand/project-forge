@@ -1,0 +1,1 @@
+{"nodes": [{"id": "23_modal_edit_sprint", "label": "Edit Sprint Modal", "type": "modal", "source_file": "docs/figma-screenshots/23-modal-edit-sprint.png", "status": "EXTRACTED", "confidence_score": 0.9, "attributes": {"purpose": "Form to edit an existing sprint", "shared_with": "create-sprint"}}], "edges": [], "hyperedges": []}

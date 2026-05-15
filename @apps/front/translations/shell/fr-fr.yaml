@@ -1,0 +1,19 @@
+sidebar:
+  dashboard: 'Tableau de bord'
+  projects: 'Projets'
+  backlog: 'Backlog'
+  kanban: 'Kanban'
+  userStoryMap: 'User Story Map'
+  sprints: 'Sprints'
+  timeTracking: 'Suivi du temps'
+  users: 'Utilisateurs'
+  settings: 'Paramètres'
+  groups:
+    navigation: 'Navigation'
+    administration: 'Administration'
+header:
+  searchPlaceholder: 'Rechercher...'
+  recordTime: 'Enregistrer du temps'
+  add: 'Ajouter'
+placeholder:
+  underConstruction: 'En construction'

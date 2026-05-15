@@ -1,0 +1,124 @@
+[      78ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778767559940:24
+[      87ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[      87ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[      87ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[      87ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[      87ms] [LOG] Client ID: %s (%s) 486dfb9b-f5a6-4eb6-9f15-a8564b8880d8 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[     192ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) @ http://localhost:4200/login:0
+[   12488ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778767743771:24
+[   12498ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[   12498ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[   12498ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[   12498ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[   12498ms] [LOG] Client ID: %s (%s) 39cbb1c0-3c26-47de-9ffb-788a7638292c top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[   12603ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) @ http://localhost:4200/login:0
+[   26006ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778767756903:24
+[   26012ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[   26013ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[   26013ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[   26013ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[   26013ms] [LOG] Client ID: %s (%s) 965173ab-3c0d-44f0-af0a-827e57e180ad top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[   26119ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) @ http://localhost:4200/login:0
+[   29738ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778767760659:24
+[   29747ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[   29747ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[   29747ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[   29747ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[   29747ms] [LOG] Client ID: %s (%s) 3883acfa-b304-4677-939f-6d0e492bdc9a top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[   29853ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) @ http://localhost:4200/login:0
+[   34277ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778767765082:24
+[   34284ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[   34284ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[   34284ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[   34284ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[   34284ms] [LOG] Client ID: %s (%s) 0e1b2935-1538-4764-924e-fe38b9be34fb top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[   34389ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) @ http://localhost:4200/login:0
+[  254719ms] [LOG] Request {url: URL, method: POST, headers: Object, body: {"email":"deflorenne.amaury@triptyk.eu","password":"123456789"}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  254719ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  254719ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"accessToken":"eyJhbGciOiJIUzUxMiIsInR5cC…FXva8Sv05iTGzETg","refreshToken":"mock-refresh"}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  254723ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  254723ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  254723ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  254726ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[  264206ms] [LOG] ApplicationInstance Proxy(Object) @ http://localhost:4200/node_modules/.vite/deps/@triptyk_ember-ui_components_prefabs_tpk-table-generic-prefab.js?v=79620cf0:2153
+[  264214ms] [LOG] loadData {paginationData: Object, sortData: Array(0), filterData: Object} @ http://localhost:4200/node_modules/.vite/deps/@triptyk_ember-ui_components_prefabs_tpk-table-generic-prefab.js?v=79620cf0:2163
+[  264247ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  264247ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  264247ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":[{"id":"3","type":"users","attributes":{"f…il":"john.doe@example.com"}}],"meta":{"total":3}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  264248ms] [LOG] loadData end @ http://localhost:4200/node_modules/.vite/deps/@triptyk_ember-ui_components_prefabs_tpk-table-generic-prefab.js?v=79620cf0:2165
+[  264250ms] [WARNING] WARNING: Binding style attributes may introduce cross-site scripting vulnerabilities; please ensure that values being bound are properly escaped. For more information, including how to disable this warning, see https://deprecations.emberjs.com/v1.x/#toc_binding-style-attributes. Style affected: "anchor-name:--anchor-ember99" @ http://localhost:4200/@vite/client:542
+[  264250ms] [WARNING] WARNING: Binding style attributes may introduce cross-site scripting vulnerabilities; please ensure that values being bound are properly escaped. For more information, including how to disable this warning, see https://deprecations.emberjs.com/v1.x/#toc_binding-style-attributes. Style affected: "position-anchor:--anchor-ember99" @ http://localhost:4200/@vite/client:542
+[  264251ms] [WARNING] WARNING: Binding style attributes may introduce cross-site scripting vulnerabilities; please ensure that values being bound are properly escaped. For more information, including how to disable this warning, see https://deprecations.emberjs.com/v1.x/#toc_binding-style-attributes. Style affected: "anchor-name:--anchor-ember100" @ http://localhost:4200/@vite/client:542
+[  264251ms] [WARNING] WARNING: Binding style attributes may introduce cross-site scripting vulnerabilities; please ensure that values being bound are properly escaped. For more information, including how to disable this warning, see https://deprecations.emberjs.com/v1.x/#toc_binding-style-attributes. Style affected: "position-anchor:--anchor-ember100" @ http://localhost:4200/@vite/client:542
+[  264252ms] [WARNING] WARNING: Binding style attributes may introduce cross-site scripting vulnerabilities; please ensure that values being bound are properly escaped. For more information, including how to disable this warning, see https://deprecations.emberjs.com/v1.x/#toc_binding-style-attributes. Style affected: "anchor-name:--anchor-ember101" @ http://localhost:4200/@vite/client:542
+[  264252ms] [WARNING] WARNING: Binding style attributes may introduce cross-site scripting vulnerabilities; please ensure that values being bound are properly escaped. For more information, including how to disable this warning, see https://deprecations.emberjs.com/v1.x/#toc_binding-style-attributes. Style affected: "position-anchor:--anchor-ember101" @ http://localhost:4200/@vite/client:542
+[  565958ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778768296856:24
+[  565965ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[  565965ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[  565965ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[  565965ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[  565965ms] [LOG] Client ID: %s (%s) ad9554ac-4e25-463c-b635-14d9d037b3ef top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[  565972ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[  565982ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  565982ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  565982ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  711565ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778768442487:24
+[  711571ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[  711571ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[  711571ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[  711571ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[  711571ms] [LOG] Client ID: %s (%s) 22456fbb-a089-413c-91b7-92842edbda5d top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[  711577ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  711577ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  711577ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  711578ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[  715939ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778768446859:24
+[  715945ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[  715945ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[  715945ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[  715945ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[  715945ms] [LOG] Client ID: %s (%s) a11d10a9-590e-491d-912b-ddbe3374b6bf top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[  715947ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  715947ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  715947ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  715948ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[  720806ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778768451883:24
+[  720816ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[  720816ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[  720816ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[  720816ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[  720816ms] [LOG] Client ID: %s (%s) 0b890974-0658-47ec-9243-4cba30b50e9f top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[  720819ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  720819ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  720819ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  720820ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[  729487ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778768460395:24
+[  729493ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[  729493ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[  729493ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[  729493ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[  729493ms] [LOG] Client ID: %s (%s) 101c6554-a5d4-44a9-857d-7d9dc10fcf67 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[  729496ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  729496ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  729496ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  729496ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[  758095ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778768489012:24
+[  758101ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[  758101ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[  758101ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[  758101ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[  758101ms] [LOG] Client ID: %s (%s) 5bcdd478-eff7-4298-b28b-53200ffec8f5 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[  758107ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  758107ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  758107ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  758107ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[  766693ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778768497784:24
+[  766704ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[  766704ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[  766704ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[  766704ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[  766704ms] [LOG] Client ID: %s (%s) 3bc2660b-46b1-4218-8639-56fd870285c0 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[  766707ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  766707ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  766707ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  766708ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31

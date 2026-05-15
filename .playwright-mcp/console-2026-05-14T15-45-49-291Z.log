@@ -1,0 +1,16 @@
+[      64ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/-embroider-entrypoint.js?t=1778773522640:0
+[   41077ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:4200/app/-embroider-entrypoint.js?t=1778773522640:0
+[   77284ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:4200/@vite/client:1030
+[   89727ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts:24
+[   89763ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3391
+[   89763ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3392
+[   89763ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3393
+[   89763ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3394
+[   89763ms] [LOG] Client ID: %s (%s) 45a36594-8cf4-451f-b7ef-e0d50b1f5588 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3395
+[   89771ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[   89771ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[   89771ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444
+[   89773ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[   89776ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[   89776ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[   89776ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":[{"id":"proj-1","type":"projects","attribu…At":"2025-01-10T10:00:00Z"}}],"meta":{"count":3}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444
