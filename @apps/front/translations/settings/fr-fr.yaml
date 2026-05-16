@@ -1,0 +1,40 @@
+title: 'Paramètres'
+subtitle: 'Gérez vos préférences et votre compte'
+
+profile:
+  title: 'Profil utilisateur'
+  fields:
+    firstName: 'Prénom'
+    lastName: 'Nom'
+    email: 'Email'
+    role: 'Rôle'
+  actions:
+    save: 'Sauvegarder'
+    saving: 'Sauvegarde...'
+
+notifications:
+  title: 'Notifications'
+  items:
+    email: 'Notifications par email'
+    assignedTasks: 'Notifications de tâches assignées'
+    weeklyDigest: 'Résumé hebdomadaire'
+
+security:
+  title: 'Sécurité'
+  fields:
+    currentPassword: 'Mot de passe actuel'
+    newPassword: 'Nouveau mot de passe'
+    confirmPassword: 'Confirmation du mot de passe'
+  actions:
+    changePassword: 'Changer le mot de passe'
+    changing: 'Modification...'
+  errors:
+    passwordTooShort: 'Le nouveau mot de passe doit contenir au moins 8 caractères'
+    passwordMismatch: 'Les mots de passe ne correspondent pas'
+    currentPasswordRequired: 'Le mot de passe actuel est requis'
+    serverError: 'Erreur lors du changement de mot de passe. Veuillez réessayer.'
+
+messages:
+  profileSaved: 'Profil sauvegardé avec succès.'
+  notificationsSaved: 'Préférences de notifications mises à jour.'
+  passwordChanged: 'Mot de passe changé avec succès.'

@@ -3,6 +3,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { http, HttpResponse } from 'msw';
 
+interface NotificationPreferences {
+  email: boolean;
+  assignedTasks: boolean;
+  weeklyDigest: boolean;
+}
+
+const notificationsByUserId: Record<string, NotificationPreferences> = {};
+
 const mockUsers = [
   {
     id: '1',
@@ -215,5 +223,72 @@ export default [
         { status: 404 }
       );
     }
+  }),
+
+  // Notifications preferences
+  http.get('/api/v1/users/:id/notifications', ({ params }) => {
+    const prefs = notificationsByUserId[params['id'] as string] ?? {
+      email: true,
+      assignedTasks: true,
+      weeklyDigest: false,
+    };
+    return HttpResponse.json({
+      data: {
+        id: params['id'],
+        type: 'user-notifications',
+        attributes: prefs,
+      },
+    });
+  }),
+
+  http.patch('/api/v1/users/:id/notifications', async ({ params, request }) => {
+    const body = (await request.json()) as {
+      data: { attributes: NotificationPreferences };
+    };
+    notificationsByUserId[params['id'] as string] = body.data.attributes;
+    return HttpResponse.json({
+      data: {
+        id: params['id'],
+        type: 'user-notifications',
+        attributes: body.data.attributes,
+      },
+    });
+  }),
+
+  // Change password
+  http.post('/api/v1/users/:id/change-password', async ({ request }) => {
+    const body = (await request.json()) as {
+      data: { attributes: { currentPassword: string; newPassword: string } };
+    };
+    const { currentPassword, newPassword } = body.data.attributes;
+    if (!currentPassword || currentPassword.length === 0) {
+      return HttpResponse.json(
+        {
+          errors: [
+            {
+              status: '400',
+              code: 'INVALID_PASSWORD',
+              detail: 'Current password required',
+            },
+          ],
+        },
+        { status: 400 }
+      );
+    }
+    if (!newPassword || newPassword.length < 8) {
+      return HttpResponse.json(
+        {
+          errors: [
+            {
+              status: '400',
+              code: 'PASSWORD_TOO_SHORT',
+              detail: 'New password must be at least 8 characters',
+            },
+          ],
+        },
+        { status: 400 }
+      );
+    }
+    return HttpResponse.json({ data: { success: true } });
   }),
 ];
