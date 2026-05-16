@@ -38,8 +38,9 @@ Les modules SprintForge (projects, backlog, sprints, time-tracking) arrivent en 
 |---|---|
 | `pnpm dev` | Lance backend + frontend en parallèle |
 | `pnpm dev:back` | Backend seul (vite-node --watch, hot reload) |
-| `pnpm dev:front` | Frontend seul |
-| `pnpm lint` / `pnpm lint:fix` | Lint tout le monorepo (turbo) |
+| `pnpm dev:front` | Frontend seul **avec backend réel** (`VITE_MOCK_API=false` — MSW désactivé) |
+| `cd @apps/front && pnpm start` | Frontend seul **avec MSW activé** (mocks) — à utiliser pour validation visuelle sans backend |
+| `pnpm lint` / `pnpm lint:fix` | Lint tout le monorepo (turbo) — **toujours lancer depuis la racine** avant push pour détecter les packages adjacents |
 | `pnpm format` | Format tout le monorepo |
 | `cd @apps/backend && pnpm schema:fresh` | Recrée le schéma DB (drop + create) |
 | `cd @apps/backend && pnpm seed` | Seed données (development.seeder.ts) |
