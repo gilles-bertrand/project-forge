@@ -1,0 +1,40 @@
+title: 'Settings'
+subtitle: 'Manage your preferences and account'
+
+profile:
+  title: 'User profile'
+  fields:
+    firstName: 'First name'
+    lastName: 'Last name'
+    email: 'Email'
+    role: 'Role'
+  actions:
+    save: 'Save'
+    saving: 'Saving...'
+
+notifications:
+  title: 'Notifications'
+  items:
+    email: 'Email notifications'
+    assignedTasks: 'Assigned task notifications'
+    weeklyDigest: 'Weekly digest'
+
+security:
+  title: 'Security'
+  fields:
+    currentPassword: 'Current password'
+    newPassword: 'New password'
+    confirmPassword: 'Confirm password'
+  actions:
+    changePassword: 'Change password'
+    changing: 'Changing...'
+  errors:
+    passwordTooShort: 'New password must be at least 8 characters'
+    passwordMismatch: 'Passwords do not match'
+    currentPasswordRequired: 'Current password is required'
+    serverError: 'Error changing password. Please try again.'
+
+messages:
+  profileSaved: 'Profile saved successfully.'
+  notificationsSaved: 'Notification preferences updated.'
+  passwordChanged: 'Password changed successfully.'
