@@ -1,9 +1,10 @@
 import Service from '@ember/service';
 import type { Store } from '@warp-drive/core';
-import type { Task, TaskType, TaskNature, TaskPriority } from '#src/schemas/tasks.ts';
+import type { Task, TaskStatus, TaskType, TaskNature, TaskPriority } from '#src/schemas/tasks.ts';
 export interface NewTaskPayload {
     title: string;
     description?: string;
+    status?: TaskStatus;
     type: TaskType;
     nature: TaskNature;
     priority: TaskPriority;

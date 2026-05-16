@@ -94,9 +94,11 @@ export default class DashboardKanbanTemplate extends Component<KanbanTemplateSig
     task.status = newStatus;
 
     try {
-      await this.tasks.update(taskId, { ...{ status: newStatus } } as never, {
-        refresh: false,
-      });
+      await this.tasks.update(
+        taskId,
+        { status: newStatus },
+        { refresh: false }
+      );
     } catch (err: unknown) {
       // Rollback
       task.status = previousStatus;

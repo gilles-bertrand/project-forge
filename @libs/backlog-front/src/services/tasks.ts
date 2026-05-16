@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import type { Store } from '@warp-drive/core';
 import type {
   Task,
+  TaskStatus,
   TaskType,
   TaskNature,
   TaskPriority,
@@ -12,6 +13,7 @@ import type {
 export interface NewTaskPayload {
   title: string;
   description?: string;
+  status?: TaskStatus;
   type: TaskType;
   nature: TaskNature;
   priority: TaskPriority;

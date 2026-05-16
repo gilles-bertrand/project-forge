@@ -63,10 +63,8 @@ describe('Integration | TasksService.update', function () {
       initializeTestApp(context.owner);
       context.owner.register('service:store', FakeStoreService);
       context.owner.register('service:tasks', TasksService);
-      const service = context.owner.lookup('service:tasks') as TasksService;
-      const store = context.owner.lookup(
-        'service:store'
-      ) as unknown as FakeStoreService;
+      const service = context.owner.lookup('service:tasks');
+      const store = context.owner.lookup('service:store') as FakeStoreService;
       service.all = [fakeTask()];
 
       await service.update('task-1', { status: 'done' }, { refresh: false });
@@ -84,10 +82,8 @@ describe('Integration | TasksService.update', function () {
       initializeTestApp(context.owner);
       context.owner.register('service:store', FakeStoreService);
       context.owner.register('service:tasks', TasksService);
-      const service = context.owner.lookup('service:tasks') as TasksService;
-      const store = context.owner.lookup(
-        'service:store'
-      ) as unknown as FakeStoreService;
+      const service = context.owner.lookup('service:tasks');
+      const store = context.owner.lookup('service:store') as FakeStoreService;
       service.all = [fakeTask()];
 
       await service.update('task-1', { status: 'done' });
