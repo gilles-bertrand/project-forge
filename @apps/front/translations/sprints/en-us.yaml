@@ -1,0 +1,35 @@
+title: 'Sprints'
+subtitle: 'Manage your Scrum sprints'
+actions:
+  planSprint: '+ Plan a sprint'
+  history: 'History'
+  stopSprint: 'Stop'
+  startSprint: 'Start'
+status:
+  planned: 'To do'
+  active: 'In progress'
+  completed: 'Completed'
+card:
+  goalLabel: 'Sprint goal'
+  velocityLabel: 'Velocity'
+  progress: '{done}/{total} tasks ({percent}%)'
+  tasksLabel: 'Tasks ({count})'
+  tasksEmpty: 'No tasks assigned'
+pagination:
+  range: 'Sprint {from} to {to} of {total}'
+modal:
+  add:
+    title: 'Plan a sprint'
+    closeAria: 'Close'
+    name: 'Sprint name'
+    namePlaceholder: 'Ex: Sprint 1 — Authentication'
+    goal: 'Goal'
+    goalPlaceholder: 'Ex: Finalize the login flow...'
+    startDate: 'Start date'
+    endDate: 'End date'
+    velocity: 'Initial velocity (pts)'
+    cancel: 'Cancel'
+    submit: 'Create sprint'
+    submitting: 'Creating...'
+    errorFallback: 'Error during creation'
+dropHint: 'Drag a task here to plan it in this sprint'

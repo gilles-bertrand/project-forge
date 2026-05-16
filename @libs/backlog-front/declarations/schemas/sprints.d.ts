@@ -1,17 +1,19 @@
 export type SprintStatus = 'planned' | 'active' | 'completed';
 export interface Sprint {
-    id: string;
-    projectId: string;
+    id: string | null;
     name: string;
     goal: string | null;
+    projectId: string;
     startDate: string;
     endDate: string;
     status: SprintStatus;
+    velocityPoints: number;
+    completedPoints: number;
     createdAt: string;
     updatedAt: string;
 }
-declare const SprintSchema: {
+declare const _SprintTypeOnly: {
     type: "sprints";
 };
-export default SprintSchema;
+export default _SprintTypeOnly;
 //# sourceMappingURL=sprints.d.ts.map

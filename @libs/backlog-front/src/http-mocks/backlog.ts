@@ -281,21 +281,6 @@ type MockAssignee = {
   };
 };
 
-type MockSprint = {
-  id: string;
-  type: 'sprints';
-  attributes: {
-    projectId: string;
-    name: string;
-    goal: string | null;
-    startDate: string;
-    endDate: string;
-    status: 'planned' | 'active' | 'completed';
-    createdAt: string;
-    updatedAt: string;
-  };
-};
-
 let mockTasks: MockTask[] = [
   // Backlog tasks (sprintId: null)
   {
@@ -808,36 +793,7 @@ const mockAssignees: MockAssignee[] = [
   },
 ];
 
-const mockSprints: MockSprint[] = [
-  {
-    id: 'sprint-1',
-    type: 'sprints',
-    attributes: {
-      projectId: 'proj-1',
-      name: 'Sprint 1 — Authentication & Onboarding',
-      goal: 'Finaliser le flow login complet et le profil utilisateur',
-      startDate: '2025-01-15',
-      endDate: '2025-01-29',
-      status: 'active',
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
-  {
-    id: 'sprint-2',
-    type: 'sprints',
-    attributes: {
-      projectId: 'proj-1',
-      name: 'Sprint 2 — Project Management',
-      goal: 'Création et gestion des projets Scrum',
-      startDate: '2025-02-01',
-      endDate: '2025-02-14',
-      status: 'planned',
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
-];
+// Sprint mocks moved to @libs/sprints-front/http-mocks/sprints.ts in P8.
 
 function notFound(id: string) {
   return HttpResponse.json(
@@ -1049,23 +1005,7 @@ export const allBacklogHandlers = [
     });
   }),
 
-  // Sprints
-  http.get('/api/v1/projects/:id/sprints', (req) => {
-    const { id } = req.params as { id: string };
-    const sprints = mockSprints.filter((s) => s.attributes.projectId === id);
-    return HttpResponse.json({
-      data: sprints,
-      meta: { count: sprints.length },
-    });
-  }),
-
-  http.get('/api/v1/sprints/:id', (req) => {
-    const { id } = req.params as { id: string };
-    const sprint = mockSprints.find((s) => s.id === id);
-    if (!sprint) return notFound(id);
-    return HttpResponse.json({ data: sprint });
-  }),
-
+  // Sprint tasks (kept here — mockTasks live in this file)
   http.get('/api/v1/sprints/:id/tasks', (req) => {
     const { id } = req.params as { id: string };
     const tasks = mockTasks.filter((t) => t.attributes.sprintId === id);

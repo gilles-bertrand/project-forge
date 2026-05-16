@@ -6,6 +6,7 @@ interface TaskRowSignature {
         task: Task;
         userStory?: UserStory | null;
         onOpen?: (task: Task) => void;
+        draggable?: boolean;
     };
     Element: HTMLDivElement;
 }
@@ -14,6 +15,7 @@ export default class TaskRow extends Component<TaskRowSignature> {
     get initials(): string;
     get isClickable(): boolean;
     handleClick(): void;
+    onDragStart(e: DragEvent): void;
 }
 export {};
 //# sourceMappingURL=task-row.d.ts.map

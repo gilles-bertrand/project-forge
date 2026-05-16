@@ -12,6 +12,7 @@ interface TaskRowSignature {
     task: Task;
     userStory?: UserStory | null;
     onOpen?: (task: Task) => void;
+    draggable?: boolean;
   };
   Element: HTMLDivElement;
 }
@@ -37,6 +38,13 @@ export default class TaskRow extends Component<TaskRowSignature> {
     this.args.onOpen?.(this.args.task);
   }
 
+  @action onDragStart(e: DragEvent): void {
+    if (!this.args.draggable || !this.args.task.id) return;
+    e.dataTransfer?.setData('text/plain', this.args.task.id);
+    e.dataTransfer?.setData('application/x-task-id', this.args.task.id);
+    if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move';
+  }
+
   <template>
     <div
       class="flex items-center justify-between gap-4 rounded-lg bg-base-200 px-4 py-3
@@ -46,8 +54,10 @@ export default class TaskRow extends Component<TaskRowSignature> {
         }}"
       role={{if this.isClickable "button"}}
       tabindex={{if this.isClickable "0"}}
+      draggable={{if @draggable "true"}}
       data-test-task-row
       {{on "click" this.handleClick}}
+      {{on "dragstart" this.onDragStart}}
       ...attributes
     >
       <div class="min-w-0 flex-1">

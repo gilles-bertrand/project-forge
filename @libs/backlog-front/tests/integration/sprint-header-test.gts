@@ -15,6 +15,8 @@ const sprintFixture: Sprint = {
   startDate: '2025-01-15',
   endDate: '2025-01-29',
   status: 'active',
+  velocityPoints: 10,
+  completedPoints: 4,
   createdAt: '2025-01-15T00:00:00Z',
   updatedAt: '2025-01-15T00:00:00Z',
 };
