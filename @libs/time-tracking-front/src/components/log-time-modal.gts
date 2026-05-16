@@ -6,11 +6,17 @@ import { on } from '@ember/modifier';
 import { t, type IntlService } from 'ember-intl';
 import type TimeEntriesService from '../services/time-entries.ts';
 import type { TimeEntryData } from '../services/time-entries.ts';
+import type CurrentProjectService from '@libs/shell-front/services/current-project';
+import type CurrentUserService from '@libs/users-front/services/current-user';
 
 interface LogTimeModalSignature {
   Args: {
     taskId?: string;
     projectId?: string;
+    entryId?: string;
+    initialHours?: number;
+    initialDate?: string;
+    initialDescription?: string | null;
     onClose: () => void;
     onSaved: (entry: TimeEntryData) => void;
   };
@@ -19,13 +25,32 @@ interface LogTimeModalSignature {
 export default class LogTimeModal extends Component<LogTimeModalSignature> {
   @service declare timeEntries: TimeEntriesService;
   @service declare intl: IntlService;
+  @service declare currentProject: CurrentProjectService;
+  @service declare currentUser: CurrentUserService;
 
   @tracked taskIdInput = this.args.taskId ?? '';
-  @tracked hours = 0;
-  @tracked date = new Date().toISOString().slice(0, 10);
-  @tracked description = '';
+  @tracked hours = this.args.initialHours ?? 0;
+  @tracked date = this.args.initialDate ?? new Date().toISOString().slice(0, 10);
+  @tracked description = this.args.initialDescription ?? '';
   @tracked submitting = false;
   @tracked error = '';
+
+  get isEdit(): boolean {
+    return Boolean(this.args.entryId);
+  }
+
+  get resolvedUserId(): string {
+    const id = this.currentUser.user?.id;
+    return typeof id === 'string' && id.length > 0 ? id : 'u1';
+  }
+
+  get resolvedProjectId(): string {
+    return (
+      this.args.projectId ??
+      this.currentProject.currentProjectId ??
+      'proj-1'
+    );
+  }
 
   get validationError(): string | null {
     const effectiveTaskId = this.args.taskId ?? this.taskIdInput;
@@ -73,15 +98,21 @@ export default class LogTimeModal extends Component<LogTimeModalSignature> {
     this.submitting = true;
     this.error = '';
     try {
-      const created = await this.timeEntries.create({
+      const payload = {
         taskId: effectiveTaskId.trim(),
-        userId: 'u1',
-        projectId: this.args.projectId ?? 'proj-1',
+        userId: this.resolvedUserId,
+        projectId: this.resolvedProjectId,
         hours: this.hours,
         date: this.date,
         description: this.description.trim() || null,
-      });
-      this.args.onSaved(created);
+      };
+      const saved = this.args.entryId
+        ? await this.timeEntries.update(this.args.entryId, payload, {
+            refresh: true,
+            projectId: payload.projectId,
+          })
+        : await this.timeEntries.create(payload);
+      this.args.onSaved(saved);
       this.args.onClose();
     } catch (err: unknown) {
       this.error =

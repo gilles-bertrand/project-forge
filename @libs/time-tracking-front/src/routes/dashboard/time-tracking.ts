@@ -6,8 +6,10 @@ import type {
   TimeEntriesMeta,
   SummaryResult,
 } from "../../services/time-entries.ts";
+import type CurrentProjectService from "@libs/shell-front/services/current-project";
 
 export interface TimeTrackingRouteModel {
+  projectId: string;
   entries: TimeEntryData[];
   meta: TimeEntriesMeta;
   weekSummary: SummaryResult;
@@ -16,14 +18,17 @@ export interface TimeTrackingRouteModel {
 
 export default class DashboardTimeTrackingRoute extends Route {
   @service declare timeEntries: TimeEntriesService;
+  @service declare currentProject: CurrentProjectService;
 
   async model(): Promise<TimeTrackingRouteModel> {
+    const projectId = this.currentProject.currentProjectId ?? "proj-1";
     const [projectResult, weekSummary, monthSummary] = await Promise.all([
-      this.timeEntries.loadByProject("proj-1"),
-      this.timeEntries.loadSummary("week", "proj-1"),
-      this.timeEntries.loadSummary("month", "proj-1"),
+      this.timeEntries.loadByProject(projectId),
+      this.timeEntries.loadSummary("week", projectId),
+      this.timeEntries.loadSummary("month", projectId),
     ]);
     return {
+      projectId,
       entries: projectResult.data,
       meta: projectResult.meta,
       weekSummary,

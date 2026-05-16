@@ -5,7 +5,9 @@ import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
 import TimeSummaryCards from '../../components/time-summary-cards.gts';
-import TimeFiltersComponent, { type TimeFilters } from '../../components/time-filters.gts';
+import TimeFiltersComponent, {
+  type TimeFilters,
+} from '../../components/time-filters.gts';
 import TimeEntriesTable from '../../components/time-entries-table.gts';
 import LogTimeModal from '../../components/log-time-modal.gts';
 import type TimeEntriesService from '../../services/time-entries.ts';
@@ -16,6 +18,7 @@ import type {
 } from '../../services/time-entries.ts';
 
 interface TimeTrackingRouteModel {
+  projectId: string;
   entries: TimeEntryData[];
   meta: TimeEntriesMeta;
   weekSummary: SummaryResult;
@@ -35,9 +38,18 @@ export default class DashboardTimeTrackingTemplate extends Component<TimeTrackin
   @tracked editingEntry: TimeEntryData | null = null;
   @tracked filters: TimeFilters = { projectId: '', period: 'all', userId: '' };
 
+  get sourceEntries(): TimeEntryData[] {
+    return this.timeEntries.list.length > 0
+      ? this.timeEntries.list
+      : this.args.model.entries;
+  }
+
   get filteredEntries(): TimeEntryData[] {
-    return this.args.model.entries.filter((entry) => {
-      if (this.filters.projectId && entry.projectId !== this.filters.projectId) {
+    return this.sourceEntries.filter((entry) => {
+      if (
+        this.filters.projectId &&
+        entry.projectId !== this.filters.projectId
+      ) {
         return false;
       }
       if (this.filters.userId && entry.userId !== this.filters.userId) {
@@ -71,7 +83,7 @@ export default class DashboardTimeTrackingTemplate extends Component<TimeTrackin
 
   @action async onSaved() {
     this.closeModal();
-    await this.timeEntries.loadByProject('proj-1');
+    await this.timeEntries.loadByProject(this.args.model.projectId);
   }
 
   @action openEdit(entry: TimeEntryData) {
@@ -79,7 +91,7 @@ export default class DashboardTimeTrackingTemplate extends Component<TimeTrackin
   }
 
   @action async deleteEntry(id: string) {
-    await this.timeEntries.delete(id, 'proj-1');
+    await this.timeEntries.delete(id, this.args.model.projectId);
   }
 
   @action onFiltersChange(updated: TimeFilters) {
@@ -132,8 +144,12 @@ export default class DashboardTimeTrackingTemplate extends Component<TimeTrackin
 
     {{#if this.editingEntry}}
       <LogTimeModal
+        @entryId={{this.editingEntry.id}}
         @taskId={{this.editingEntry.taskId}}
         @projectId={{this.editingEntry.projectId}}
+        @initialHours={{this.editingEntry.hours}}
+        @initialDate={{this.editingEntry.date}}
+        @initialDescription={{this.editingEntry.description}}
         @onClose={{this.closeModal}}
         @onSaved={{this.onSaved}}
       />

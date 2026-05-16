@@ -224,8 +224,8 @@ function applyFilters(entries: MockTimeEntry[], url: URL): MockTimeEntry[] {
   const userId = url.searchParams.get("filter[userId]");
   const projectId = url.searchParams.get("filter[projectId]");
   const taskId = url.searchParams.get("filter[taskId]");
-  const from = url.searchParams.get("filter[from]");
-  const to = url.searchParams.get("filter[to]");
+  const from = url.searchParams.get("filter[date.gte]");
+  const to = url.searchParams.get("filter[date.lte]");
   if (userId) result = result.filter((e) => e.attributes.userId === userId);
   if (projectId)
     result = result.filter((e) => e.attributes.projectId === projectId);
