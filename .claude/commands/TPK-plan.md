@@ -49,11 +49,18 @@ PLAN_OUTPUT_DIR: specs/todo/
    - Develop technical approach
    - Make architecture decisions
    - Plan implementation strategy
+   - **Pour les plans Ember frontend (libs ou templates)**, inclure une checklist explicite dans la section "Décisions techniques" du plan généré :
+     - [ ] Schema WarpDrive → enregistrer dans `@apps/front/app/services/store.ts` (cf. mémoire `feedback-warpd-schemas-global`). Tout schema manquant rend les responses silencieusement vides en runtime.
+     - [ ] Types-only schemas : éviter `src/schemas/` pour les types sans WarpDrive ; préférer `src/types/` pour éviter le stub default export forcé par Embroider.
+     - [ ] Clés i18n : le folder name dans `translations/` devient le namespace ember-intl (`user-story-map/` → `user-story-map.*`, pas `userStoryMap.*`). Cf. mémoire `feedback-i18n-folder-namespace`.
+     - [ ] Route placeholder shell-front : si une lib override une route déjà dans shell-front, supprimer le placeholder.
+     - [ ] Validation visuelle Playwright MCP : inclure comme critère de succès BLOQUANT (pas optionnel). Les fake services masquent les bugs runtime.
 
 4. **Assess complexity**
    - Count the phases needed
    - If 4+ complex phases, consider splitting into multiple specs
    - Name split specs with numeric prefixes: `01-feature-part-one.md`
+   - **Identifier les phases parallélisables** : si des sous-phases touchent des fichiers strictement disjoints (ex. service A vs mocks B vs composant C), noter explicitement dans le plan "Vague A parallèle : P.x + P.y + P.z" + "Path critique : P.0 → P.x → …". Cela permet à `/TPK-build` de dispatcher des sous-agents en parallèle et peut réduire le temps de build de 30-40%.
 
 5. **Document the plan**
    - Create comprehensive markdown document with:
