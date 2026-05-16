@@ -4,6 +4,7 @@ import { tracked } from '@glimmer/tracking';
 import type { Store } from '@warp-drive/core';
 import type {
   Task,
+  TaskStatus,
   TaskType,
   TaskNature,
   TaskPriority,
@@ -12,6 +13,7 @@ import type {
 export interface NewTaskPayload {
   title: string;
   description?: string;
+  status?: TaskStatus;
   type: TaskType;
   nature: TaskNature;
   priority: TaskPriority;
@@ -112,7 +114,11 @@ export default class TasksService extends Service {
     return content.data;
   }
 
-  async update(id: string, partial: Partial<NewTaskPayload>): Promise<Task> {
+  async update(
+    id: string,
+    partial: Partial<NewTaskPayload>,
+    opts: { refresh?: boolean } = { refresh: true }
+  ): Promise<Task> {
     const { content } = await this.store.request<{ data: Task }>({
       url: `/api/v1/tasks/${id}`,
       method: 'PATCH',
@@ -120,9 +126,11 @@ export default class TasksService extends Service {
         data: { type: 'tasks', id, attributes: partial },
       }),
     });
-    const existing = this.all.find((t) => t.id === id);
-    if (existing) {
-      await this.loadAllByProject(existing.projectId);
+    if (opts.refresh !== false) {
+      const existing = this.all.find((t) => t.id === id);
+      if (existing) {
+        await this.loadAllByProject(existing.projectId);
+      }
     }
     return content.data;
   }

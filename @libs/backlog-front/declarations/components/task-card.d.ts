@@ -6,6 +6,7 @@ interface TaskCardSignature {
         task: Task;
         userStory?: UserStory | null;
         variant?: 'kanban' | 'dashboard';
+        draggable?: boolean;
         onOpen?: (task: Task) => void;
     };
     Element: HTMLDivElement;
@@ -15,6 +16,7 @@ export default class TaskCard extends Component<TaskCardSignature> {
     get numberLabel(): string;
     get initials(): string;
     handleClick(): void;
+    onDragStart(e: DragEvent): void;
 }
 export {};
 //# sourceMappingURL=task-card.d.ts.map

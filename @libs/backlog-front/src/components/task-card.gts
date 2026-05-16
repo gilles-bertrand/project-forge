@@ -13,6 +13,7 @@ interface TaskCardSignature {
     task: Task;
     userStory?: UserStory | null;
     variant?: 'kanban' | 'dashboard';
+    draggable?: boolean;
     onOpen?: (task: Task) => void;
   };
   Element: HTMLDivElement;
@@ -40,6 +41,13 @@ export default class TaskCard extends Component<TaskCardSignature> {
     }
   }
 
+  @action onDragStart(e: DragEvent): void {
+    if (!this.args.draggable || !this.args.task.id) return;
+    e.dataTransfer?.setData('text/plain', this.args.task.id);
+    e.dataTransfer?.setData('application/x-task-id', this.args.task.id);
+    if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move';
+  }
+
   <template>
     {{#if this.isKanban}}
       {{! template-lint-disable require-presentational-children }}
@@ -49,7 +57,9 @@ export default class TaskCard extends Component<TaskCardSignature> {
         role="button"
         tabindex="0"
         aria-label="Task {{this.numberLabel}} {{@task.title}}"
+        draggable={{if @draggable "true"}}
         {{on "click" this.handleClick}}
+        {{on "dragstart" this.onDragStart}}
         ...attributes
       >
         <div class="flex items-start justify-between gap-2">
@@ -96,7 +106,9 @@ export default class TaskCard extends Component<TaskCardSignature> {
         role="button"
         tabindex="0"
         aria-label="Task {{this.numberLabel}} {{@task.title}}"
+        draggable={{if @draggable "true"}}
         {{on "click" this.handleClick}}
+        {{on "dragstart" this.onDragStart}}
         ...attributes
       >
         <span

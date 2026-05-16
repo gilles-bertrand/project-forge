@@ -1,9 +1,10 @@
 import Service from '@ember/service';
 import type { Store } from '@warp-drive/core';
-import type { Task, TaskType, TaskNature, TaskPriority } from '#src/schemas/tasks.ts';
+import type { Task, TaskStatus, TaskType, TaskNature, TaskPriority } from '#src/schemas/tasks.ts';
 export interface NewTaskPayload {
     title: string;
     description?: string;
+    status?: TaskStatus;
     type: TaskType;
     nature: TaskNature;
     priority: TaskPriority;
@@ -45,7 +46,9 @@ export default class TasksService extends Service {
     loadByUserStory(userStoryId: string): Promise<Task[]>;
     findById(id: string): Promise<Task>;
     create(payload: NewTaskPayload): Promise<Task>;
-    update(id: string, partial: Partial<NewTaskPayload>): Promise<Task>;
+    update(id: string, partial: Partial<NewTaskPayload>, opts?: {
+        refresh?: boolean;
+    }): Promise<Task>;
     loadComments(taskId: string): Promise<TaskComment[]>;
     loadHistory(taskId: string): Promise<TaskHistoryEvent[]>;
     loadAssignees(taskId: string): Promise<TaskAssignee[]>;

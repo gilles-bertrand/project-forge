@@ -111,3 +111,25 @@ modal:
     logTime: 'Logger du temps'
     logTimeDisabled: 'Disponible en P9'
     close: 'Fermer'
+kanban:
+  title: 'Kanban'
+  subtitle: 'Vue du sprint actif — drag-drop pour changer le statut'
+  noActiveSprint: 'Aucun sprint actif pour ce projet.'
+  columns:
+    todo: 'À faire'
+    in-progress: 'En cours'
+    testing: 'À tester'
+    uat: 'UAT'
+    done: 'Terminé'
+  cardCount: '{count} cartes'
+  dragHint: 'Glissez une tâche ici'
+  filters:
+    all: 'Toutes les tâches'
+    mine: 'Mes tâches'
+  sprintHeader:
+    points: '{completed}/{total} pts'
+    completion: '{percent}% complete'
+    navPrev: 'Sprint précédent'
+    navNext: 'Sprint suivant'
+    navDisabled: 'Disponible en P8'
+    goalLabel: 'Objectif'
