@@ -22,13 +22,7 @@ const legacyStore = useLegacyStore({
   legacyRequests: true,
   modelFragments: true,
   cache: JSONAPICache,
-  schemas: [
-    UserSchema,
-    ProjectSchema,
-    EpicSchema,
-    UserStorySchema,
-    TaskSchema,
-  ],
+  schemas: [UserSchema, ProjectSchema, EpicSchema, UserStorySchema, TaskSchema],
   handlers: [],
 });
 
