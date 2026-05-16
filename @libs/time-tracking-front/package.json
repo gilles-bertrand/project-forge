@@ -1,7 +1,7 @@
 {
-  "name": "@libs/shell-front",
+  "name": "@libs/time-tracking-front",
   "version": "0.0.0",
-  "description": "SprintForge shell — layout, sidebar, header, auth UI.",
+  "description": "SprintForge time tracking domain — log, list, summarize work hours.",
   "keywords": [
     "ember-addon"
   ],
@@ -41,20 +41,25 @@
     "lint:js:fix": "eslint . --fix",
     "lint:types": "ember-tsc --noEmit",
     "prepack": "rollup -c",
+    "pretest": "rollup -c",
     "start": "vite dev",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "dependencies": {
     "@embroider/addon-shim": "catalog:",
+    "@libs/backlog-front": "workspace:^",
     "@libs/shared-front": "workspace:^",
+    "@libs/shell-front": "workspace:^",
     "@libs/users-front": "workspace:^",
-    "@triptyk/ember-input": "catalog:",
-    "@triptyk/ember-ui": "catalog:",
+    "@warp-drive/core": "catalog:",
+    "@warp-drive/legacy": "catalog:",
+    "@warp-drive/utilities": "catalog:",
     "decorator-transforms": "catalog:",
     "ember-intl": "catalog:",
     "ember-simple-auth": "catalog:",
     "ember-strict-application-resolver": "catalog:",
+    "msw": "catalog:",
     "zod": "~4.3.6"
   },
   "devDependencies": {
@@ -120,14 +125,15 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {
-      "./components/placeholder-page.js": "./dist/_app_/components/placeholder-page.js",
-      "./components/shell/header.js": "./dist/_app_/components/shell/header.js",
-      "./components/shell/layout.js": "./dist/_app_/components/shell/layout.js",
-      "./components/shell/project-selector.js": "./dist/_app_/components/shell/project-selector.js",
-      "./routes/dashboard/settings.js": "./dist/_app_/routes/dashboard/settings.js",
-      "./services/current-project.js": "./dist/_app_/services/current-project.js",
-      "./templates/dashboard/index.js": "./dist/_app_/templates/dashboard/index.js",
-      "./templates/dashboard/settings.js": "./dist/_app_/templates/dashboard/settings.js"
+      "./components/log-time-modal.js": "./dist/_app_/components/log-time-modal.js",
+      "./components/time-entries-table.js": "./dist/_app_/components/time-entries-table.js",
+      "./components/time-entry-row.js": "./dist/_app_/components/time-entry-row.js",
+      "./components/time-filters.js": "./dist/_app_/components/time-filters.js",
+      "./components/time-summary-cards.js": "./dist/_app_/components/time-summary-cards.js",
+      "./routes/dashboard/time-tracking.js": "./dist/_app_/routes/dashboard/time-tracking.js",
+      "./schemas/time-entries.js": "./dist/_app_/schemas/time-entries.js",
+      "./services/time-entries.js": "./dist/_app_/services/time-entries.js",
+      "./templates/dashboard/time-tracking.js": "./dist/_app_/templates/dashboard/time-tracking.js"
     }
   }
 }

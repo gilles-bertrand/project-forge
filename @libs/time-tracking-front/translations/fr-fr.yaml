@@ -1,0 +1,44 @@
+time-tracking:
+  title: Suivi du temps
+  subtitle: Heures enregistrées par projet et utilisateur
+  actions:
+    logTime: + Enregistrer
+  summary:
+    weekHours: Heures cette semaine
+    monthHours: Heures ce mois
+    taskCount: Tâches loggées
+  filters:
+    project: Projet
+    period: Période
+    user: Utilisateur
+    periodWeek: Cette semaine
+    periodMonth: Ce mois
+    periodAll: Tous
+  table:
+    date: Date
+    task: Tâche
+    project: Projet
+    user: Utilisateur
+    hours: Heures
+    description: Description
+    actions: Actions
+    empty: Aucune entrée de temps enregistrée
+  modal:
+    logTime:
+      title: Enregistrer du temps
+      closeAria: Fermer
+      taskLabel: Tâche
+      taskPlaceholder: Sélectionner une tâche...
+      hoursLabel: Durée (heures)
+      hoursPlaceholder: "Ex: 2.5"
+      dateLabel: Date
+      descriptionLabel: Description (optionnel)
+      descriptionPlaceholder: Ce que vous avez fait...
+      submit: Enregistrer
+      submitting: Enregistrement...
+      cancel: Annuler
+      errorFallback: Erreur lors de l'enregistrement
+      errors:
+        hoursPositive: La durée doit être supérieure à 0
+        dateInFuture: La date ne peut pas être dans le futur
+        taskRequired: Veuillez sélectionner une tâche

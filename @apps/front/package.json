@@ -63,6 +63,7 @@
     "@libs/shared-front": "workspace:^",
     "@libs/shell-front": "workspace:^",
     "@libs/sprints-front": "workspace:^",
+    "@libs/time-tracking-front": "workspace:^",
     "@libs/users-front": "workspace:^",
     "@playwright/test": "catalog:",
     "@rollup/plugin-babel": "^7.0.0",
