@@ -1,3 +1,12 @@
 sidebar:
   dashboard: 'Dashboard'
   users: 'Utilisateurs'
+title: 'Tableau de bord'
+subtitle: 'Sprint en cours - Tâches du sprint'
+kpi:
+  completedTasks: 'Tâches terminées'
+  hoursWorked: 'Heures travaillées'
+  storyPoints: "Points d'efforts"
+sprintTasks: 'Tâches du sprint ({count})'
+noActiveSprint: 'Aucun sprint actif sur ce projet. Démarrez-en un depuis /sprints.'
+noSprintTasks: 'Aucune tâche dans ce sprint.'

@@ -8,6 +8,7 @@ import { initialize as initializeProjectsLib } from '@libs/projects-front';
 import { initialize as initializeBacklogLib } from '@libs/backlog-front';
 import { initialize as initializeSprintsLib } from '@libs/sprints-front';
 import { initialize as initializeTimeTrackingLib } from '@libs/time-tracking-front';
+import { initialize as initializeDashboardLib } from '@libs/dashboard-front';
 import { getOwner } from '@ember/-internals/owner';
 import type SessionService from '@apps/front/services/session';
 import allUsersHandlers from '@libs/users-front/http-mocks/all';
@@ -53,6 +54,7 @@ export default class ApplicationRoute extends Route {
     await initializeBacklogLib(getOwner(this)!);
     await initializeSprintsLib(getOwner(this)!);
     await initializeTimeTrackingLib(getOwner(this)!);
+    await initializeDashboardLib(getOwner(this)!);
   }
 
   willDestroy() {

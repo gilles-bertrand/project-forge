@@ -19,3 +19,7 @@
 @source "../../node_modules/@libs/shared-front";
 @source "../../node_modules/@libs/shell-front";
 @source "../../node_modules/@libs/projects-front";
+@source "../../node_modules/@libs/backlog-front";
+@source "../../node_modules/@libs/sprints-front";
+@source "../../node_modules/@libs/time-tracking-front";
+@source "../../node_modules/@libs/dashboard-front";
