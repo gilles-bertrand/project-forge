@@ -42,21 +42,7 @@ HANDOFF_DIR: specs/handoffs/
    - Read the handoff file
    - Present in the summary format below
 
-4.5. **Recent feedback memories (skip silently if memory index absent)**
-   - Check if `/Users/gilles/.claude/projects/-Users-gilles-www-projects-project-forge/memory/MEMORY.md` exists.
-   - If present, extract all lines matching `[Feedback ...]` entries (type: feedback).
-   - Surface up to 5 most recent in the pickup summary under `## Active Feedback Rules` — these are the "don't repeat" guards learned from past sessions.
-   - Example output:
-     ```
-     ## Active Feedback Rules (top 5)
-     - feedback-warpd-schemas-global : tout schema WarpDrive → store.ts (cache silencieux si absent)
-     - feedback-i18n-folder-namespace : folder name = namespace ember-intl (kebab-case)
-     - feedback-testapp-no-moduleregistry : pas de moduleRegistry() dans TestApp
-     - feedback-warpd-create : loadAllByProject() après tout POST WarpDrive
-     - feedback-tests-sanity : forcer un fail avant d'annoncer "tests verts"
-     ```
-
-4.6. **Architectural anchors (advisory, skip silently if absent)**
+4.5. **Architectural anchors (advisory, skip silently if absent)**
    - Check if `graphify-out/GRAPH_REPORT.md` exists. If not, skip this step.
    - Check freshness : if `graphify-out/graph.json` is older than the latest commit (`git log -1 --format=%ct`), print `[pickup] graph is stale (last update: <date>) — anchors may be outdated, consider /graphify --update` and continue anyway.
    - Extract from the report only these sections : **God Nodes** (top 10), **Surprising Connections** (top 5).

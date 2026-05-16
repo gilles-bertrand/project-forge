@@ -15,5 +15,22 @@ header:
   searchPlaceholder: 'Rechercher...'
   recordTime: 'Enregistrer du temps'
   add: 'Ajouter'
+search:
+  minLength: 'Tapez au moins 2 caractères'
+  empty: 'Aucun résultat'
+  loading: 'Recherche...'
+  groups:
+    projects: 'Projets'
+    tasks: 'Tâches'
+    user-stories: 'User Stories'
+    sprints: 'Sprints'
+addItem:
+  title: 'Que voulez-vous ajouter ?'
+  project: 'Projet'
+  epic: 'Epic'
+  user-story: 'User Story'
+  task: 'Tâche'
+  sprint: 'Sprint'
+  time-entry: 'Saisie de temps'
 placeholder:
   underConstruction: 'En construction'
