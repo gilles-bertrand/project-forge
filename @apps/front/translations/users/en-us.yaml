@@ -44,4 +44,11 @@ forms:
 
 pages:
   list:
-    title: 'User List'
+    title: 'Users'
+    subtitle: '{count} team members'
+    emptyState: 'No users found'
+
+card:
+  projects:
+    label: 'Assigned projects:'
+    count: '{count, plural, =0 {0 projects} one {1 project} other {# projects}}'

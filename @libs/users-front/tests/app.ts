@@ -27,6 +27,9 @@ class Router extends EmberRouter {
 
 Router.map(function () {
   this.route('dashboard', function () {
+    this.route('users', function () {
+      this.route('index', { path: '/' });
+    });
     forRouter.call(this);
   });
   authRoutes.call(this);
@@ -55,7 +58,25 @@ export default class TestStore extends useLegacyStore({
   schemas: [UserSchema],
 }) {}
 
-export async function initializeTestApp(owner: Owner, locale: string) {
+const USERS_FR = {
+  users: {
+    pages: {
+      list: {
+        title: 'Utilisateurs',
+        subtitle: "{count} membres de l'équipe",
+        emptyState: 'Aucun utilisateur',
+      },
+    },
+    card: {
+      projects: {
+        label: 'Projets assignés :',
+        count: '{count} projet(s)',
+      },
+    },
+  },
+};
+
+export async function initializeTestApp(owner: Owner, locale = 'fr-fr') {
   owner.register('session-stores:application', AdaptiveStore);
   owner.register('service:store', TestStore);
   owner.register('service:flash-messages', FlashMessageService);
@@ -65,6 +86,7 @@ export async function initializeTestApp(owner: Owner, locale: string) {
 
   router.setupRouter();
   const intl = owner.lookup('service:intl');
+  intl.addTranslations('fr-fr', USERS_FR);
   intl.setLocale(locale);
   intl.setOnMissingTranslation((key) => `t:${key}`);
   setupSession(owner);
