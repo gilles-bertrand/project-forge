@@ -42,4 +42,11 @@ forms:
 
 pages:
   list:
-    title: 'Liste des utilisateurs'
+    title: 'Utilisateurs'
+    subtitle: "{count} membres de l'équipe"
+    emptyState: 'Aucun utilisateur'
+
+card:
+  projects:
+    label: 'Projets assignés :'
+    count: '{count, plural, =0 {0 projet} one {1 projet} other {# projets}}'
