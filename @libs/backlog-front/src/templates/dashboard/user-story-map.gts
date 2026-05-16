@@ -8,6 +8,8 @@ import { t } from 'ember-intl';
 import EpicRow from '../../components/epic-row.gts';
 import AddEpicModal from '../../components/add-epic-modal.gts';
 import AddUserStoryModal from '../../components/add-user-story-modal.gts';
+import AddTaskModal from '../../components/add-task-modal.gts';
+import TaskDetailModal from '../../components/task-detail-modal.gts';
 import type EpicsService from '../../services/epics.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
 import type { Epic } from '../../schemas/epics.ts';
@@ -26,7 +28,15 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
 
   @tracked addEpicOpen = false;
   @tracked addUSOpen = false;
+  @tracked addTaskOpen = false;
+  @tracked detailTask: Task | null = null;
   @tracked selectedEpicForUS: Epic | null = null;
+
+  get userStoryFor(): (task: Task) => UserStory | null {
+    const usMap = new Map(this.args.model.userStories.map((us) => [us.id, us]));
+    return (task: Task) =>
+      task.userStoryId ? (usMap.get(task.userStoryId) ?? null) : null;
+  }
 
   @action openAddEpic() {
     this.addEpicOpen = true;
@@ -46,12 +56,28 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
     this.selectedEpicForUS = null;
   }
 
+  @action openAddTask() {
+    this.addTaskOpen = true;
+  }
+
+  @action closeAddTask() {
+    this.addTaskOpen = false;
+  }
+
+  @action openDetail(task: Task) {
+    this.detailTask = task;
+  }
+
+  @action closeDetail() {
+    this.detailTask = null;
+  }
+
   <template>
     <div>
       <div class="flex items-start justify-between mb-6">
         <div>
-          <h1 class="text-3xl font-bold">{{t "userStoryMap.title"}}</h1>
-          <p class="opacity-70 mt-1">{{t "userStoryMap.subtitle"}}</p>
+          <h1 class="text-3xl font-bold">{{t "user-story-map.title"}}</h1>
+          <p class="opacity-70 mt-1">{{t "user-story-map.subtitle"}}</p>
         </div>
         <div class="flex gap-2">
           <button
@@ -59,22 +85,21 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
             class="btn btn-sm btn-secondary"
             {{on "click" this.openAddEpic}}
           >
-            {{t "userStoryMap.newEpic"}}
+            {{t "user-story-map.newEpic"}}
           </button>
           <button
             type="button"
             class="btn btn-sm btn-primary"
             {{on "click" (fn this.openAddUS null)}}
           >
-            {{t "userStoryMap.newUserStory"}}
+            {{t "user-story-map.newUserStory"}}
           </button>
           <button
             type="button"
             class="btn btn-sm"
-            disabled
-            title={{t "backlog.newTaskDisabled"}}
+            {{on "click" this.openAddTask}}
           >
-            {{t "userStoryMap.newTask"}}
+            {{t "user-story-map.newTask"}}
           </button>
         </div>
       </div>
@@ -87,10 +112,11 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
               @userStories={{@model.userStories}}
               @tasks={{@model.tasks}}
               @onAddUserStory={{this.openAddUS}}
+              @onOpenTask={{this.openDetail}}
             />
           {{else}}
             <div class="py-12 text-center opacity-60">
-              {{t "userStoryMap.emptyState"}}
+              {{t "user-story-map.emptyState"}}
             </div>
           {{/each}}
         </div>
@@ -109,6 +135,18 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
       <AddUserStoryModal
         @onClose={{this.closeAddUS}}
         @preselectedEpicId={{this.selectedEpicForUS.id}}
+      />
+    {{/if}}
+
+    {{#if this.addTaskOpen}}
+      <AddTaskModal @onClose={{this.closeAddTask}} />
+    {{/if}}
+
+    {{#if this.detailTask}}
+      <TaskDetailModal
+        @task={{this.detailTask}}
+        @userStory={{this.userStoryFor this.detailTask}}
+        @onClose={{this.closeDetail}}
       />
     {{/if}}
   </template>

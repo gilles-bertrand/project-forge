@@ -5,6 +5,7 @@ interface UserStoryRowSignature {
     Args: {
         userStory: UserStory;
         tasks?: Task[];
+        onOpenTask?: (task: Task) => void;
     };
     Element: HTMLDivElement;
 }

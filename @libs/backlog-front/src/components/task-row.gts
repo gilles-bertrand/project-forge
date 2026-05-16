@@ -1,4 +1,6 @@
 import Component from '@glimmer/component';
+import { on } from '@ember/modifier';
+import { action } from '@ember/object';
 import { t } from 'ember-intl';
 import TaskNatureBadge from './task-nature-badge.gts';
 import TaskTypeBadge from './task-type-badge.gts';
@@ -9,6 +11,7 @@ interface TaskRowSignature {
   Args: {
     task: Task;
     userStory?: UserStory | null;
+    onOpen?: (task: Task) => void;
   };
   Element: HTMLDivElement;
 }
@@ -26,10 +29,25 @@ export default class TaskRow extends Component<TaskRowSignature> {
     return initialsFor(this.args.task.createdById);
   }
 
+  get isClickable(): boolean {
+    return typeof this.args.onOpen === 'function';
+  }
+
+  @action handleClick() {
+    this.args.onOpen?.(this.args.task);
+  }
+
   <template>
     <div
-      class="flex items-center justify-between gap-4 rounded-lg bg-base-200 px-4 py-3"
+      class="flex items-center justify-between gap-4 rounded-lg bg-base-200 px-4 py-3
+        {{if
+          this.isClickable
+          'cursor-pointer hover:bg-base-300 transition-colors'
+        }}"
+      role={{if this.isClickable "button"}}
+      tabindex={{if this.isClickable "0"}}
       data-test-task-row
+      {{on "click" this.handleClick}}
       ...attributes
     >
       <div class="min-w-0 flex-1">

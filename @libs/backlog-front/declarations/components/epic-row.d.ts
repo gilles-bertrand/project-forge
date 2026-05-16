@@ -8,6 +8,7 @@ interface EpicRowSignature {
         userStories?: UserStory[];
         tasks?: Task[];
         onAddUserStory?: (epic: Epic) => void;
+        onOpenTask?: (task: Task) => void;
     };
     Element: HTMLDivElement;
 }

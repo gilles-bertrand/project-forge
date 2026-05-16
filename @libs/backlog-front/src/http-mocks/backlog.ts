@@ -247,7 +247,41 @@ let mockUserStories: MockUserStory[] = [
   },
 ];
 
-const mockTasks: MockTask[] = [
+type MockComment = {
+  id: string;
+  type: 'task-comments';
+  attributes: {
+    taskId: string;
+    authorId: string;
+    content: string;
+    createdAt: string;
+  };
+};
+
+type MockHistoryEvent = {
+  id: string;
+  type: 'task-history';
+  attributes: {
+    taskId: string;
+    field: string;
+    oldValue: string | null;
+    newValue: string | null;
+    changedById: string;
+    createdAt: string;
+  };
+};
+
+type MockAssignee = {
+  id: string;
+  type: 'users';
+  attributes: {
+    email: string;
+    firstName: string;
+    lastName: string;
+  };
+};
+
+let mockTasks: MockTask[] = [
   // Backlog tasks (sprintId: null)
   {
     id: 'task-1',
@@ -572,6 +606,191 @@ const mockTasks: MockTask[] = [
       updatedAt: NOW,
     },
   },
+  {
+    id: 'task-15',
+    type: 'tasks',
+    attributes: {
+      number: 15,
+      title: 'Setup CI/CD pipeline',
+      description: 'Configurer GitHub Actions pour le déploiement',
+      status: 'todo',
+      type: 'DevOps',
+      nature: 'Infra',
+      priority: 'Haute',
+      points: 5,
+      estimatedHours: 8,
+      projectId: 'proj-1',
+      userStoryId: null,
+      epicId: null,
+      sprintId: null,
+      createdById: 'user-2',
+      dueDate: null,
+      createdAt: NOW,
+      updatedAt: NOW,
+    },
+  },
+  {
+    id: 'task-16',
+    type: 'tasks',
+    attributes: {
+      number: 16,
+      title: 'Tests E2E login flow',
+      description: 'Playwright tests pour le flux de connexion',
+      status: 'todo',
+      type: 'Testing',
+      nature: 'Feature',
+      priority: 'Moyenne',
+      points: 3,
+      estimatedHours: 4,
+      projectId: 'proj-1',
+      userStoryId: 'us-1',
+      epicId: 'epic-1',
+      sprintId: null,
+      createdById: 'user-2',
+      dueDate: null,
+      createdAt: NOW,
+      updatedAt: NOW,
+    },
+  },
+  {
+    id: 'task-17',
+    type: 'tasks',
+    attributes: {
+      number: 17,
+      title: 'Design system tokens',
+      description: 'Variables CSS pour la cohérence visuelle',
+      status: 'todo',
+      type: 'UX',
+      nature: 'Feature',
+      priority: 'Basse',
+      points: 2,
+      estimatedHours: 3,
+      projectId: 'proj-1',
+      userStoryId: null,
+      epicId: null,
+      sprintId: null,
+      createdById: 'user-2',
+      dueDate: null,
+      createdAt: NOW,
+      updatedAt: NOW,
+    },
+  },
+  {
+    id: 'task-18',
+    type: 'tasks',
+    attributes: {
+      number: 18,
+      title: 'Hotfix: crash sur mobile Safari',
+      description: 'Fix du crash au rechargement',
+      status: 'in-progress',
+      type: 'Frontend',
+      nature: 'Hotfix',
+      priority: 'Critique',
+      points: 1,
+      estimatedHours: 1,
+      projectId: 'proj-1',
+      userStoryId: null,
+      epicId: null,
+      sprintId: 'sprint-1',
+      createdById: 'user-2',
+      dueDate: null,
+      createdAt: NOW,
+      updatedAt: NOW,
+    },
+  },
+];
+
+const mockComments: MockComment[] = [
+  {
+    id: 'comment-1',
+    type: 'task-comments',
+    attributes: {
+      taskId: 'task-1',
+      authorId: 'user-2',
+      content: 'Vérifier avec le PM la priorité de cette tâche.',
+      createdAt: NOW,
+    },
+  },
+  {
+    id: 'comment-2',
+    type: 'task-comments',
+    attributes: {
+      taskId: 'task-1',
+      authorId: 'user-2',
+      content: 'Bloqué sur la rotation des clés — voir issue #42.',
+      createdAt: NOW,
+    },
+  },
+  {
+    id: 'comment-3',
+    type: 'task-comments',
+    attributes: {
+      taskId: 'task-2',
+      authorId: 'user-2',
+      content: "Maquette validée par l'équipe design.",
+      createdAt: NOW,
+    },
+  },
+];
+
+const mockHistory: MockHistoryEvent[] = [
+  {
+    id: 'hist-1',
+    type: 'task-history',
+    attributes: {
+      taskId: 'task-1',
+      field: 'status',
+      oldValue: null,
+      newValue: 'todo',
+      changedById: 'user-2',
+      createdAt: NOW,
+    },
+  },
+  {
+    id: 'hist-2',
+    type: 'task-history',
+    attributes: {
+      taskId: 'task-1',
+      field: 'priority',
+      oldValue: 'Moyenne',
+      newValue: 'Haute',
+      changedById: 'user-2',
+      createdAt: NOW,
+    },
+  },
+  {
+    id: 'hist-3',
+    type: 'task-history',
+    attributes: {
+      taskId: 'task-2',
+      field: 'status',
+      oldValue: null,
+      newValue: 'todo',
+      changedById: 'user-2',
+      createdAt: NOW,
+    },
+  },
+];
+
+const mockAssignees: MockAssignee[] = [
+  {
+    id: 'user-1',
+    type: 'users',
+    attributes: {
+      email: 'alice@example.com',
+      firstName: 'Alice',
+      lastName: 'Dupont',
+    },
+  },
+  {
+    id: 'user-2',
+    type: 'users',
+    attributes: {
+      email: 'bob@example.com',
+      firstName: 'Bob',
+      lastName: 'Martin',
+    },
+  },
 ];
 
 function notFound(id: string) {
@@ -707,6 +926,81 @@ export const allBacklogHandlers = [
     const task = mockTasks.find((t) => t.id === id);
     if (!task) return notFound(id);
     return HttpResponse.json({ data: task });
+  }),
+
+  http.post('/api/v1/tasks', async (req) => {
+    const json = (await req.request.json()) as Record<string, any>;
+    const attributes = json.data?.attributes ?? {};
+    const maxNumber = mockTasks.reduce(
+      (max, t) => Math.max(max, t.attributes.number),
+      0
+    );
+    const id = `task-${Date.now()}`;
+    const created: MockTask = {
+      id,
+      type: 'tasks',
+      attributes: {
+        number: maxNumber + 1,
+        title: attributes.title ?? '',
+        description: attributes.description ?? '',
+        status: (attributes.status as TaskStatus) ?? 'todo',
+        type: attributes.type ?? 'Frontend',
+        nature: attributes.nature ?? 'Feature',
+        priority: (attributes.priority as TaskPriority) ?? 'Moyenne',
+        points: (attributes.points as number) ?? 1,
+        estimatedHours: (attributes.estimatedHours as number | null) ?? null,
+        projectId: attributes.projectId ?? '',
+        userStoryId: (attributes.userStoryId as string | null) ?? null,
+        epicId: (attributes.epicId as string | null) ?? null,
+        sprintId: (attributes.sprintId as string | null) ?? null,
+        createdById: attributes.createdById ?? 'user-2',
+        dueDate: (attributes.dueDate as string | null) ?? null,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      },
+    };
+    mockTasks = [...mockTasks, created];
+    return HttpResponse.json({ data: created }, { status: 201 });
+  }),
+
+  http.patch('/api/v1/tasks/:id', async (req) => {
+    const { id } = req.params as { id: string };
+    const json = (await req.request.json()) as Record<string, any>;
+    const attributes = json.data?.attributes ?? {};
+    const idx = mockTasks.findIndex((t) => t.id === id);
+    if (idx === -1) return notFound(id);
+    const updated: MockTask = {
+      ...mockTasks[idx]!,
+      attributes: {
+        ...mockTasks[idx]!.attributes,
+        ...attributes,
+        updatedAt: new Date().toISOString(),
+      },
+    };
+    mockTasks = mockTasks.map((t) => (t.id === id ? updated : t));
+    return HttpResponse.json({ data: updated });
+  }),
+
+  http.get('/api/v1/tasks/:id/comments', (req) => {
+    const { id } = req.params as { id: string };
+    const comments = mockComments.filter((c) => c.attributes.taskId === id);
+    return HttpResponse.json({
+      data: comments,
+      meta: { count: comments.length },
+    });
+  }),
+
+  http.get('/api/v1/tasks/:id/history', (req) => {
+    const { id } = req.params as { id: string };
+    const events = mockHistory.filter((h) => h.attributes.taskId === id);
+    return HttpResponse.json({ data: events, meta: { count: events.length } });
+  }),
+
+  http.get('/api/v1/tasks/:id/assignees', () => {
+    return HttpResponse.json({
+      data: mockAssignees,
+      meta: { count: mockAssignees.length },
+    });
   }),
 ];
 

@@ -2,9 +2,12 @@ import Component from '@glimmer/component';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
 import BacklogFilters from '../../components/backlog-filters.gts';
 import TaskRow from '../../components/task-row.gts';
+import AddTaskModal from '../../components/add-task-modal.gts';
+import TaskDetailModal from '../../components/task-detail-modal.gts';
 import type TasksService from '../../services/tasks.ts';
 import type UserStoriesService from '../../services/user-stories.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
@@ -21,6 +24,8 @@ export default class DashboardBacklogTemplate extends Component<BacklogTemplateS
   @service declare currentProject: CurrentProjectService;
 
   @tracked private _filteredTasks: Task[] | null = null;
+  @tracked addTaskOpen = false;
+  @tracked detailTask: Task | null = null;
 
   get displayedTasks(): Task[] {
     return this._filteredTasks ?? this.args.model.tasks;
@@ -28,6 +33,22 @@ export default class DashboardBacklogTemplate extends Component<BacklogTemplateS
 
   @action onFilter(filtered: Task[]) {
     this._filteredTasks = filtered;
+  }
+
+  @action openAddTask() {
+    this.addTaskOpen = true;
+  }
+
+  @action closeAddTask() {
+    this.addTaskOpen = false;
+  }
+
+  @action openDetail(task: Task) {
+    this.detailTask = task;
+  }
+
+  @action closeDetail() {
+    this.detailTask = null;
   }
 
   get userStoryFor(): (task: Task) => UserStory | null {
@@ -48,8 +69,7 @@ export default class DashboardBacklogTemplate extends Component<BacklogTemplateS
         <button
           type="button"
           class="btn btn-primary"
-          disabled
-          title={{t "backlog.newTaskDisabled"}}
+          {{on "click" this.openAddTask}}
         >
           {{t "backlog.newTask"}}
         </button>
@@ -60,7 +80,11 @@ export default class DashboardBacklogTemplate extends Component<BacklogTemplateS
 
         <div class="mt-4 space-y-2">
           {{#each this.displayedTasks as |task|}}
-            <TaskRow @task={{task}} @userStory={{this.userStoryFor task}} />
+            <TaskRow
+              @task={{task}}
+              @userStory={{this.userStoryFor task}}
+              @onOpen={{this.openDetail}}
+            />
           {{else}}
             <div class="py-12 text-center opacity-60">
               {{t "backlog.emptyState"}}
@@ -77,5 +101,17 @@ export default class DashboardBacklogTemplate extends Component<BacklogTemplateS
         </div>
       {{/if}}
     </div>
+
+    {{#if this.addTaskOpen}}
+      <AddTaskModal @onClose={{this.closeAddTask}} />
+    {{/if}}
+
+    {{#if this.detailTask}}
+      <TaskDetailModal
+        @task={{this.detailTask}}
+        @userStory={{this.userStoryFor this.detailTask}}
+        @onClose={{this.closeDetail}}
+      />
+    {{/if}}
   </template>
 }
