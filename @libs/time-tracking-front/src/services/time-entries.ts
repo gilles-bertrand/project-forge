@@ -80,8 +80,8 @@ export default class TimeEntriesService extends Service {
         sort: "-date",
         "page[limit]": opts.limit ?? 50,
         "page[offset]": opts.offset ?? 0,
-        ...(opts.from ? { "filter[from]": opts.from } : {}),
-        ...(opts.to ? { "filter[to]": opts.to } : {}),
+        ...(opts.from ? { "filter[date.gte]": opts.from } : {}),
+        ...(opts.to ? { "filter[date.lte]": opts.to } : {}),
       });
       const res = await fetch(`/api/v1/time-entries/${qs}`);
       const json = (await res.json()) as {
@@ -106,8 +106,8 @@ export default class TimeEntriesService extends Service {
         sort: "-date",
         "page[limit]": opts.limit ?? 50,
         "page[offset]": opts.offset ?? 0,
-        ...(opts.from ? { "filter[from]": opts.from } : {}),
-        ...(opts.to ? { "filter[to]": opts.to } : {}),
+        ...(opts.from ? { "filter[date.gte]": opts.from } : {}),
+        ...(opts.to ? { "filter[date.lte]": opts.to } : {}),
       });
       const res = await fetch(`/api/v1/time-entries/${qs}`);
       const json = (await res.json()) as {
@@ -146,7 +146,7 @@ export default class TimeEntriesService extends Service {
       from = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
     }
     const params: Record<string, string | number | undefined> = {
-      "filter[from]": from,
+      "filter[date.gte]": from,
       sort: "-date",
       "page[limit]": 200,
     };
