@@ -125,12 +125,10 @@
       "./components/shell/layout.js": "./dist/_app_/components/shell/layout.js",
       "./components/shell/project-selector.js": "./dist/_app_/components/shell/project-selector.js",
       "./routes/dashboard/settings.js": "./dist/_app_/routes/dashboard/settings.js",
-      "./routes/dashboard/sprints.js": "./dist/_app_/routes/dashboard/sprints.js",
       "./routes/dashboard/time-tracking.js": "./dist/_app_/routes/dashboard/time-tracking.js",
       "./services/current-project.js": "./dist/_app_/services/current-project.js",
       "./templates/dashboard/index.js": "./dist/_app_/templates/dashboard/index.js",
       "./templates/dashboard/settings.js": "./dist/_app_/templates/dashboard/settings.js",
-      "./templates/dashboard/sprints.js": "./dist/_app_/templates/dashboard/sprints.js",
       "./templates/dashboard/time-tracking.js": "./dist/_app_/templates/dashboard/time-tracking.js"
     }
   }

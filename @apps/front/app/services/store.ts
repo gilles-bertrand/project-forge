@@ -5,6 +5,7 @@ import ProjectSchema from '@libs/projects-front/schemas/projects';
 import EpicSchema from '@libs/backlog-front/schemas/epics';
 import UserStorySchema from '@libs/backlog-front/schemas/user-stories';
 import TaskSchema from '@libs/backlog-front/schemas/tasks';
+import SprintSchema from '@libs/sprints-front/schemas/sprints';
 import { setBuildURLConfig } from '@warp-drive/utilities';
 import { CacheHandler, Fetch, RequestManager } from '@warp-drive/core';
 import type Owner from '@ember/owner';
@@ -22,7 +23,14 @@ const legacyStore = useLegacyStore({
   legacyRequests: true,
   modelFragments: true,
   cache: JSONAPICache,
-  schemas: [UserSchema, ProjectSchema, EpicSchema, UserStorySchema, TaskSchema],
+  schemas: [
+    UserSchema,
+    ProjectSchema,
+    EpicSchema,
+    UserStorySchema,
+    TaskSchema,
+    SprintSchema,
+  ],
   handlers: [],
 });
 

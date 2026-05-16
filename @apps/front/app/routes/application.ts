@@ -6,11 +6,13 @@ import { initialize as initializeUserLib } from '@libs/users-front';
 import { initialize as initializeShellLib } from '@libs/shell-front';
 import { initialize as initializeProjectsLib } from '@libs/projects-front';
 import { initialize as initializeBacklogLib } from '@libs/backlog-front';
+import { initialize as initializeSprintsLib } from '@libs/sprints-front';
 import { getOwner } from '@ember/-internals/owner';
 import type SessionService from '@apps/front/services/session';
 import allUsersHandlers from '@libs/users-front/http-mocks/all';
 import allProjectsHandlers from '@libs/projects-front/http-mocks/all';
 import { allBacklogHandlers } from '@libs/backlog-front/http-mocks/all';
+import { allSprintsHandlers } from '@libs/sprints-front/http-mocks/all';
 import type ThemeService from '@libs/shared-front/services/theme';
 import translationsForFrFr from 'virtual:ember-intl/translations/fr-fr';
 import translationsForEnUs from 'virtual:ember-intl/translations/en-us';
@@ -33,7 +35,8 @@ export default class ApplicationRoute extends Route {
       const worker = setupWorker(
         ...allUsersHandlers,
         ...allProjectsHandlers,
-        ...allBacklogHandlers
+        ...allBacklogHandlers,
+        ...allSprintsHandlers
       );
       this.worker = worker;
       await worker.start({
@@ -45,6 +48,7 @@ export default class ApplicationRoute extends Route {
     await initializeShellLib(getOwner(this)!);
     await initializeProjectsLib(getOwner(this)!);
     await initializeBacklogLib(getOwner(this)!);
+    await initializeSprintsLib(getOwner(this)!);
   }
 
   willDestroy() {
