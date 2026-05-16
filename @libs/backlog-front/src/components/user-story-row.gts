@@ -11,6 +11,7 @@ interface UserStoryRowSignature {
   Args: {
     userStory: UserStory;
     tasks?: Task[];
+    onOpenTask?: (task: Task) => void;
   };
   Element: HTMLDivElement;
 }
@@ -59,7 +60,7 @@ export default class UserStoryRow extends Component<UserStoryRowSignature> {
         <span
           class="badge badge-xs badge-primary badge-soft font-medium uppercase tracking-wider"
         >
-          {{t "userStoryMap.usLabel"}}
+          {{t "user-story-map.usLabel"}}
         </span>
 
         <span class="flex-1 min-w-0 truncate text-sm font-medium">
@@ -68,16 +69,22 @@ export default class UserStoryRow extends Component<UserStoryRowSignature> {
 
         <span class="flex-shrink-0 flex items-center gap-2 text-xs opacity-50">
           <span>{{t "backlog.taskRow.points" count=@userStory.points}}</span>
-          <span>{{this.storyTasks.length}} {{t "userStoryMap.tasks"}}</span>
+          <span>{{this.storyTasks.length}} {{t "user-story-map.tasks"}}</span>
         </span>
       </button>
 
       {{#if this.expanded}}
         <div class="pl-8 pr-3 pb-2 space-y-1">
           {{#each this.storyTasks as |task|}}
-            <TaskRow @task={{task}} @userStory={{@userStory}} />
+            <TaskRow
+              @task={{task}}
+              @userStory={{@userStory}}
+              @onOpen={{@onOpenTask}}
+            />
           {{else}}
-            <p class="py-2 text-xs opacity-40">{{t "userStoryMap.noTasks"}}</p>
+            <p class="py-2 text-xs opacity-40">{{t
+                "user-story-map.noTasks"
+              }}</p>
           {{/each}}
         </div>
       {{/if}}

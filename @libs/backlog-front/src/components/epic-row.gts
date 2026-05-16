@@ -15,6 +15,7 @@ interface EpicRowSignature {
     userStories?: UserStory[];
     tasks?: Task[];
     onAddUserStory?: (epic: Epic) => void;
+    onOpenTask?: (task: Task) => void;
   };
   Element: HTMLDivElement;
 }
@@ -68,7 +69,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
         <span
           class="badge badge-sm badge-secondary badge-soft font-semibold uppercase tracking-wider"
         >
-          {{t "userStoryMap.epicLabel"}}
+          {{t "user-story-map.epicLabel"}}
         </span>
 
         <div class="flex-1 min-w-0">
@@ -78,20 +79,24 @@ export default class EpicRow extends Component<EpicRowSignature> {
 
         <span class="flex-shrink-0 text-xs opacity-50">
           {{this.usCount}}
-          {{t "userStoryMap.usCount"}}
+          {{t "user-story-map.usCount"}}
           •
           {{this.taskCount}}
-          {{t "userStoryMap.taskCount"}}
+          {{t "user-story-map.taskCount"}}
         </span>
       </button>
 
       {{#if this.expanded}}
         <div class="border-t border-base-300 px-4 py-2 space-y-2">
           {{#each this.epicUserStories as |us|}}
-            <UserStoryRow @userStory={{us}} @tasks={{@tasks}} />
+            <UserStoryRow
+              @userStory={{us}}
+              @tasks={{@tasks}}
+              @onOpenTask={{@onOpenTask}}
+            />
           {{else}}
             <p class="py-3 text-sm opacity-40">{{t
-                "userStoryMap.noUserStories"
+                "user-story-map.noUserStories"
               }}</p>
           {{/each}}
 
@@ -102,7 +107,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
               {{on "click" (fn @onAddUserStory @epic)}}
             >
               +
-              {{t "userStoryMap.addUserStoryInline"}}
+              {{t "user-story-map.addUserStoryInline"}}
             </button>
           {{/if}}
         </div>

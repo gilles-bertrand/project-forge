@@ -17,8 +17,14 @@ export default class DashboardBacklogTemplate extends Component<BacklogTemplateS
     userStories: UserStoriesService;
     currentProject: CurrentProjectService;
     private _filteredTasks;
+    addTaskOpen: boolean;
+    detailTask: Task | null;
     get displayedTasks(): Task[];
     onFilter(filtered: Task[]): void;
+    openAddTask(): void;
+    closeAddTask(): void;
+    openDetail(task: Task): void;
+    closeDetail(): void;
     get userStoryFor(): (task: Task) => UserStory | null;
 }
 export {};

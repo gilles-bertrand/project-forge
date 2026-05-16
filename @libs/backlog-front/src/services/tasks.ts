@@ -2,7 +2,50 @@ import Service from '@ember/service';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { Store } from '@warp-drive/core';
-import type { Task } from '#src/schemas/tasks.ts';
+import type {
+  Task,
+  TaskType,
+  TaskNature,
+  TaskPriority,
+} from '#src/schemas/tasks.ts';
+
+export interface NewTaskPayload {
+  title: string;
+  description?: string;
+  type: TaskType;
+  nature: TaskNature;
+  priority: TaskPriority;
+  points: number;
+  estimatedHours?: number | null;
+  projectId: string;
+  userStoryId?: string | null;
+  sprintId?: string | null;
+}
+
+export interface TaskComment {
+  id: string;
+  taskId: string;
+  authorId: string;
+  content: string;
+  createdAt: string;
+}
+
+export interface TaskHistoryEvent {
+  id: string;
+  taskId: string;
+  field: string;
+  oldValue: string | null;
+  newValue: string | null;
+  changedById: string;
+  createdAt: string;
+}
+
+export interface TaskAssignee {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+}
 
 export default class TasksService extends Service {
   @service declare store: Store;
@@ -57,6 +100,57 @@ export default class TasksService extends Service {
       method: 'GET',
     });
     return content.data;
+  }
+
+  async create(payload: NewTaskPayload): Promise<Task> {
+    const { content } = await this.store.request<{ data: Task }>({
+      url: `/api/v1/tasks/`,
+      method: 'POST',
+      body: JSON.stringify({ data: { type: 'tasks', attributes: payload } }),
+    });
+    await this.loadAllByProject(payload.projectId);
+    return content.data;
+  }
+
+  async update(id: string, partial: Partial<NewTaskPayload>): Promise<Task> {
+    const { content } = await this.store.request<{ data: Task }>({
+      url: `/api/v1/tasks/${id}`,
+      method: 'PATCH',
+      body: JSON.stringify({
+        data: { type: 'tasks', id, attributes: partial },
+      }),
+    });
+    const existing = this.all.find((t) => t.id === id);
+    if (existing) {
+      await this.loadAllByProject(existing.projectId);
+    }
+    return content.data;
+  }
+
+  // Sub-resources (comments, history, assignees) — pas de schemas WarpDrive
+  // enregistrés pour ces types ; on bypass le cache avec fetch direct.
+  async loadComments(taskId: string): Promise<TaskComment[]> {
+    const res = await fetch(`/api/v1/tasks/${taskId}/comments`);
+    const json = (await res.json()) as {
+      data: Array<{ id: string; attributes: Omit<TaskComment, 'id'> }>;
+    };
+    return json.data.map((c) => ({ id: c.id, ...c.attributes }));
+  }
+
+  async loadHistory(taskId: string): Promise<TaskHistoryEvent[]> {
+    const res = await fetch(`/api/v1/tasks/${taskId}/history`);
+    const json = (await res.json()) as {
+      data: Array<{ id: string; attributes: Omit<TaskHistoryEvent, 'id'> }>;
+    };
+    return json.data.map((h) => ({ id: h.id, ...h.attributes }));
+  }
+
+  async loadAssignees(taskId: string): Promise<TaskAssignee[]> {
+    const res = await fetch(`/api/v1/tasks/${taskId}/assignees`);
+    const json = (await res.json()) as {
+      data: Array<{ id: string; attributes: Omit<TaskAssignee, 'id'> }>;
+    };
+    return json.data.map((a) => ({ id: a.id, ...a.attributes }));
   }
 }
 

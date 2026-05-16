@@ -1,0 +1,11 @@
+status:
+  todo: 'To do'
+  in-progress: 'In progress'
+  testing: 'Testing'
+  uat: 'UAT'
+  done: 'Done'
+priority:
+  Basse: 'Low'
+  Moyenne: 'Medium'
+  Haute: 'High'
+  Critique: 'Critical'

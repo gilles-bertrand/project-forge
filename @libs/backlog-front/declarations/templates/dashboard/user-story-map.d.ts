@@ -18,11 +18,18 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
     currentProject: CurrentProjectService;
     addEpicOpen: boolean;
     addUSOpen: boolean;
+    addTaskOpen: boolean;
+    detailTask: Task | null;
     selectedEpicForUS: Epic | null;
+    get userStoryFor(): (task: Task) => UserStory | null;
     openAddEpic(): void;
     closeAddEpic(): void;
     openAddUS(epic?: Epic): void;
     closeAddUS(): void;
+    openAddTask(): void;
+    closeAddTask(): void;
+    openDetail(task: Task): void;
+    closeDetail(): void;
 }
 export {};
 //# sourceMappingURL=user-story-map.d.ts.map
