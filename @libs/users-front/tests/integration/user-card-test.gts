@@ -30,7 +30,7 @@ describe('Integration | UserCard', function () {
     await initializeTestApp(context.owner);
     const user = makeUser();
     await render(<template><UserCard @user={{user}} /></template>);
-    const text = document.body.textContent ?? '';
+    const text = (document.body.textContent ?? '').replace(/\s+/g, ' ');
     expect(text).toContain('Alice Martin');
     expect(text).toContain('Product Owner');
   });

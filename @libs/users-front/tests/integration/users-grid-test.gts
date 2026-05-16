@@ -43,7 +43,7 @@ describe('Integration | UsersGrid', function () {
       makeUser({ id: 'u-2', firstName: 'Bob', lastName: 'Durant' }),
     ];
     await render(<template><UsersGrid @users={{users}} /></template>);
-    const text = document.body.textContent ?? '';
+    const text = (document.body.textContent ?? '').replace(/\s+/g, ' ');
     expect(text).toContain('Alice Martin');
     expect(text).toContain('Bob Durant');
   });
