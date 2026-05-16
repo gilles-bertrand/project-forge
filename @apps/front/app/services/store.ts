@@ -6,6 +6,7 @@ import EpicSchema from '@libs/backlog-front/schemas/epics';
 import UserStorySchema from '@libs/backlog-front/schemas/user-stories';
 import TaskSchema from '@libs/backlog-front/schemas/tasks';
 import SprintSchema from '@libs/sprints-front/schemas/sprints';
+import TimeEntrySchema from '@libs/time-tracking-front/schemas/time-entries';
 import { setBuildURLConfig } from '@warp-drive/utilities';
 import { CacheHandler, Fetch, RequestManager } from '@warp-drive/core';
 import type Owner from '@ember/owner';
@@ -30,6 +31,7 @@ const legacyStore = useLegacyStore({
     UserStorySchema,
     TaskSchema,
     SprintSchema,
+    TimeEntrySchema,
   ],
   handlers: [],
 });

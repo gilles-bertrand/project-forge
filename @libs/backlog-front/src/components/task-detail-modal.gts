@@ -9,6 +9,7 @@ import TaskTypeBadge from './task-type-badge.gts';
 import TaskStatusBadge from './task-status-badge.gts';
 import TaskPriorityBadge from './task-priority-badge.gts';
 import type TasksService from '../services/tasks.ts';
+import type RouterService from '@ember/routing/router-service';
 import type {
   TaskComment,
   TaskHistoryEvent,
@@ -29,6 +30,7 @@ interface TaskDetailModalSignature {
 
 export default class TaskDetailModal extends Component<TaskDetailModalSignature> {
   @service declare tasks: TasksService;
+  @service declare router: RouterService;
 
   @tracked activeTab: TaskDetailTab = 'details';
   @tracked comments: TaskComment[] = [];
@@ -97,6 +99,11 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
   }
   @action showHistory() {
     this.activeTab = 'history';
+  }
+
+  @action logTime() {
+    void this.router.transitionTo('dashboard.time-tracking');
+    this.args.onClose();
   }
 
   <template>
@@ -299,12 +306,7 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
           >
             {{t "backlog.modal.taskDetail.edit"}}
           </button>
-          <button
-            type="button"
-            class="btn btn-sm"
-            disabled
-            title={{t "backlog.modal.taskDetail.logTimeDisabled"}}
-          >
+          <button type="button" class="btn btn-sm" {{on "click" this.logTime}}>
             {{t "backlog.modal.taskDetail.logTime"}}
           </button>
           <button

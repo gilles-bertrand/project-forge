@@ -1,0 +1,44 @@
+time-tracking:
+  title: Time Tracking
+  subtitle: Hours logged by project and user
+  actions:
+    logTime: + Log Time
+  summary:
+    weekHours: Hours this week
+    monthHours: Hours this month
+    taskCount: Tasks logged
+  filters:
+    project: Project
+    period: Period
+    user: User
+    periodWeek: This week
+    periodMonth: This month
+    periodAll: All time
+  table:
+    date: Date
+    task: Task
+    project: Project
+    user: User
+    hours: Hours
+    description: Description
+    actions: Actions
+    empty: No time entries recorded
+  modal:
+    logTime:
+      title: Log Time
+      closeAria: Close
+      taskLabel: Task
+      taskPlaceholder: Select a task...
+      hoursLabel: Duration (hours)
+      hoursPlaceholder: "e.g. 2.5"
+      dateLabel: Date
+      descriptionLabel: Description (optional)
+      descriptionPlaceholder: What you worked on...
+      submit: Log Time
+      submitting: Saving...
+      cancel: Cancel
+      errorFallback: Error while saving
+      errors:
+        hoursPositive: Duration must be greater than 0
+        dateInFuture: Date cannot be in the future
+        taskRequired: Please select a task
