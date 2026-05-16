@@ -127,28 +127,30 @@ export default class TasksService extends Service {
     return content.data;
   }
 
+  // Sub-resources (comments, history, assignees) — pas de schemas WarpDrive
+  // enregistrés pour ces types ; on bypass le cache avec fetch direct.
   async loadComments(taskId: string): Promise<TaskComment[]> {
-    const { content } = await this.store.request<{ data: TaskComment[] }>({
-      url: `/api/v1/tasks/${taskId}/comments`,
-      method: 'GET',
-    });
-    return content.data;
+    const res = await fetch(`/api/v1/tasks/${taskId}/comments`);
+    const json = (await res.json()) as {
+      data: Array<{ id: string; attributes: Omit<TaskComment, 'id'> }>;
+    };
+    return json.data.map((c) => ({ id: c.id, ...c.attributes }));
   }
 
   async loadHistory(taskId: string): Promise<TaskHistoryEvent[]> {
-    const { content } = await this.store.request<{ data: TaskHistoryEvent[] }>({
-      url: `/api/v1/tasks/${taskId}/history`,
-      method: 'GET',
-    });
-    return content.data;
+    const res = await fetch(`/api/v1/tasks/${taskId}/history`);
+    const json = (await res.json()) as {
+      data: Array<{ id: string; attributes: Omit<TaskHistoryEvent, 'id'> }>;
+    };
+    return json.data.map((h) => ({ id: h.id, ...h.attributes }));
   }
 
   async loadAssignees(taskId: string): Promise<TaskAssignee[]> {
-    const { content } = await this.store.request<{ data: TaskAssignee[] }>({
-      url: `/api/v1/tasks/${taskId}/assignees`,
-      method: 'GET',
-    });
-    return content.data;
+    const res = await fetch(`/api/v1/tasks/${taskId}/assignees`);
+    const json = (await res.json()) as {
+      data: Array<{ id: string; attributes: Omit<TaskAssignee, 'id'> }>;
+    };
+    return json.data.map((a) => ({ id: a.id, ...a.attributes }));
   }
 }
 
