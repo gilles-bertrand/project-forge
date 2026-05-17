@@ -1,9 +1,10 @@
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
+import { on } from '@ember/modifier';
 import Component from '@glimmer/component';
 import type { TOC } from '@ember/component/template-only';
-import TpkDashBoard from '@triptyk/ember-ui/components/prefabs/tpk-dashboard';
+import TpkSidebar from '@triptyk/ember-ui/components/prefabs/tpk-sidebar';
 import TpkThemeSelector from '@triptyk/ember-ui/components/prefabs/tpk-theme-selector';
 import type CurrentUserService from '@libs/users-front/services/current-user';
 import type SessionService from 'ember-simple-auth/services/session';
@@ -101,8 +102,11 @@ export default class ShellLayout extends Component<ShellLayoutSignature> {
 
   get userForNav() {
     const u = this.currentUser.currentUser;
-    if (!u) return { fullName: '' };
-    return { fullName: `${u.firstName} ${u.lastName}` };
+    if (!u) return { fullName: '', role: '' };
+    return {
+      fullName: `${u.firstName} ${u.lastName}`,
+      role: u.role ?? '',
+    };
   }
 
   get menuItems(): SidebarItem[] {
@@ -146,32 +150,93 @@ export default class ShellLayout extends Component<ShellLayoutSignature> {
   }
 
   <template>
-    <TpkDashBoard
-      @currentUser={{this.userForNav}}
-      @onLogout={{this.logout}}
-      @sidebarItems={{this.menuItems}}
-      @collapsed={{this.sidebarCollapsed}}
-      @onCollapsedChange={{this.setCollapsed}}
-      @onSidebarToggle={{this.toggleSidebar}}
-    >
-      <:header>
-        <div class="px-6 py-4">
-          <span class="text-lg font-bold" style="color: var(--primary)">SprintForge</span>
-        </div>
-      </:header>
-      <:content>
-        <ShellHeader @projects={{@projects}} />
-        <main class="p-6">
+    <div class="tpk-dashboard drawer lg:drawer-open">
+      <input
+        id="tpk-dashboard-drawer"
+        type="checkbox"
+        class="tpk-dashboard-drawer drawer-toggle"
+      />
+      <div class="tpk-dashboard-content drawer-content flex flex-col min-h-screen">
+        <ShellHeader
+          @projects={{@projects}}
+          @onSidebarToggle={{this.toggleSidebar}}
+        />
+        <main class="p-6 flex-1">
           {{yield}}
         </main>
-      </:content>
-      <:footer>
-        <TpkThemeSelector
-          @localStorageKey="sprintforge:theme"
-          @sidebarCollapsed={{this.sidebarCollapsed}}
-          @themes={{this.themeOptions}}
-        />
-      </:footer>
-    </TpkDashBoard>
+      </div>
+      <TpkSidebar
+        @sidebarItems={{this.menuItems}}
+        @drawerId="tpk-dashboard-drawer"
+        @collapsed={{this.sidebarCollapsed}}
+        @onCollapsedChange={{this.setCollapsed}}
+      >
+        <:header>
+          <div class="px-6 py-4">
+            <span class="text-lg font-bold" style="color: var(--primary)">
+              SprintForge
+            </span>
+          </div>
+        </:header>
+        <:footer>
+          {{#if this.userForNav.fullName}}
+            <div
+              class="flex items-center gap-3 px-4 py-3 border-t border-sidebar-border"
+            >
+              <div
+                class="w-8 h-8 rounded-full bg-primary text-primary-content flex items-center justify-center text-xs font-semibold shrink-0"
+              >
+                {{this.userInitials}}
+              </div>
+              {{#unless this.sidebarCollapsed}}
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm font-medium truncate">
+                    {{this.userForNav.fullName}}
+                  </div>
+                  {{#if this.userForNav.role}}
+                    <div class="text-xs opacity-60 truncate">
+                      {{this.userForNav.role}}
+                    </div>
+                  {{/if}}
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-ghost btn-xs btn-square"
+                  aria-label="Logout"
+                  {{on "click" this.logout}}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    class="size-4 stroke-current"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                    />
+                  </svg>
+                </button>
+              {{/unless}}
+            </div>
+          {{/if}}
+          <TpkThemeSelector
+            @localStorageKey="sprintforge:theme"
+            @sidebarCollapsed={{this.sidebarCollapsed}}
+            @themes={{this.themeOptions}}
+          />
+        </:footer>
+      </TpkSidebar>
+    </div>
   </template>
+
+  get userInitials() {
+    const u = this.currentUser.currentUser;
+    if (!u) return '';
+    const first = u.firstName?.[0] ?? '';
+    const last = u.lastName?.[0] ?? '';
+    return `${first}${last}`.toUpperCase();
+  }
 }
