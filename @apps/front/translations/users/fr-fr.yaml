@@ -13,6 +13,9 @@ table:
 forms:
   login:
     title: 'Connexion'
+    email: 'Email'
+    password: 'Mot de passe'
+    submit: 'Se connecter'
     forgotPassword: 'Mot de passe oublié ?'
     validation:
       invalidEmail: 'Veuillez saisir une adresse email valide'
