@@ -55,6 +55,7 @@
     "ember-intl": "catalog:",
     "ember-simple-auth": "catalog:",
     "ember-strict-application-resolver": "catalog:",
+    "msw": "catalog:",
     "zod": "~4.3.6"
   },
   "devDependencies": {
@@ -121,13 +122,12 @@
     "main": "addon-main.cjs",
     "app-js": {
       "./components/placeholder-page.js": "./dist/_app_/components/placeholder-page.js",
+      "./components/shell/add-item-modal.js": "./dist/_app_/components/shell/add-item-modal.js",
       "./components/shell/header.js": "./dist/_app_/components/shell/header.js",
       "./components/shell/layout.js": "./dist/_app_/components/shell/layout.js",
       "./components/shell/project-selector.js": "./dist/_app_/components/shell/project-selector.js",
-      "./routes/dashboard/settings.js": "./dist/_app_/routes/dashboard/settings.js",
-      "./services/current-project.js": "./dist/_app_/services/current-project.js",
-      "./templates/dashboard/index.js": "./dist/_app_/templates/dashboard/index.js",
-      "./templates/dashboard/settings.js": "./dist/_app_/templates/dashboard/settings.js"
+      "./components/shell/search-dropdown.js": "./dist/_app_/components/shell/search-dropdown.js",
+      "./services/current-project.js": "./dist/_app_/services/current-project.js"
     }
   }
 }

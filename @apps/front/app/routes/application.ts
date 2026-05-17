@@ -16,6 +16,7 @@ import allProjectsHandlers from '@libs/projects-front/http-mocks/all';
 import { allBacklogHandlers } from '@libs/backlog-front/http-mocks/all';
 import { allSprintsHandlers } from '@libs/sprints-front/http-mocks/all';
 import { allTimeEntriesHandlers } from '@libs/time-tracking-front/http-mocks/time-entries';
+import { searchHandlers } from '@libs/shell-front/http-mocks/search';
 import type ThemeService from '@libs/shared-front/services/theme';
 import translationsForFrFr from 'virtual:ember-intl/translations/fr-fr';
 import translationsForEnUs from 'virtual:ember-intl/translations/en-us';
@@ -40,7 +41,8 @@ export default class ApplicationRoute extends Route {
         ...allProjectsHandlers,
         ...allBacklogHandlers,
         ...allSprintsHandlers,
-        ...allTimeEntriesHandlers
+        ...allTimeEntriesHandlers,
+        ...searchHandlers
       );
       this.worker = worker;
       await worker.start({

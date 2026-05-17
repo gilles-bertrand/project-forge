@@ -54,7 +54,7 @@ PATH_TO_PLAN: $ARGUMENTS
    - **Commit-as-you-go** : si le plan définit une stratégie de commits (ex. "1 commit par sous-phase"), commiter à la fin de chaque sous-phase plutôt que de tout stager à la fin. Produit un historique plus propre et facilite les rollbacks.
 
 5. **Validate**
-   - **Lint depuis la racine du monorepo** : `pnpm turbo lint` (ou `pnpm lint` depuis la racine si turbo non configuré). Ne pas se limiter à la lib courante — les packages adjacents modifiés (ex. `@apps/front` après edit de `store.ts`) doivent aussi passer lint. CI vérifie tous les packages ; un lint partiel mène à des fails CI évitables.
+   - `pnpm lint` — vérifier lint explicitement
    - Si le projet a des tests, les lancer : `pnpm test` (ou la commande appropriée)
    - Si frontend : `pnpm build` pour détecter les erreurs TypeScript
    - Corriger tous les problèmes avant de continuer
@@ -63,7 +63,6 @@ PATH_TO_PLAN: $ARGUMENTS
    - Lire la section "Critères de succès" du plan
    - Pour chaque critère, confirmer son statut (✅ ou ❌) explicitement
    - Si le plan exige des tests d'intégration, les lancer — un smoke test manuel n'est PAS un substitut
-   - **Si le plan inclut une validation visuelle Playwright MCP (screenshots), elle est BLOQUANTE** — pas optionnelle. Les tests d'intégration avec fake services ne détectent pas les bugs runtime (ex. WarpDrive cache silencieux, i18n namespace mismatch). Lancer le dev server + captures via Playwright avant de cocher ce critère.
    - Si un critère est ❌, corriger avant de continuer
    - Ne jamais sauter cette étape silencieusement
 
