@@ -10,6 +10,7 @@ import AddUserStoryModal from '@libs/backlog-front/components/add-user-story-mod
 import AddTaskModal from '@libs/backlog-front/components/add-task-modal';
 import AddSprintModal from '@libs/sprints-front/components/add-sprint-modal';
 import LogTimeModal from '@libs/time-tracking-front/components/log-time-modal';
+import AddUserModal from '@libs/users-front/components/add-user-modal';
 
 interface ApplicationSignature {
   Args: {
@@ -39,6 +40,9 @@ class ApplicationTemplate extends Component<ApplicationSignature> {
   }
   get showTimeEntry() {
     return this.addItemRouter.openType === 'time-entry';
+  }
+  get showUser() {
+    return this.addItemRouter.openType === 'user';
   }
 
   <template>
@@ -76,6 +80,9 @@ class ApplicationTemplate extends Component<ApplicationSignature> {
         @onClose={{this.addItemRouter.close}}
         @onSaved={{this.addItemRouter.close}}
       />
+    {{/if}}
+    {{#if this.showUser}}
+      <AddUserModal @onClose={{this.addItemRouter.close}} />
     {{/if}}
 
     {{outlet}}

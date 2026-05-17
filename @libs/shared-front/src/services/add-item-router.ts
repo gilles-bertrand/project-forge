@@ -7,7 +7,8 @@ export type AddItemType =
   | 'user-story'
   | 'task'
   | 'sprint'
-  | 'time-entry';
+  | 'time-entry'
+  | 'user';
 
 export interface AddItemContext {
   preselectedEpicId?: string | null;

@@ -1,7 +1,10 @@
 import Component from '@glimmer/component';
-import { LinkTo } from '@ember/routing';
+import { service } from '@ember/service';
+import { action } from '@ember/object';
+import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
 import UsersGrid from '#src/components/users-grid.gts';
+import type AddItemRouterService from '@libs/shared-front/services/add-item-router';
 import type UsersIndexRoute from './index.gts';
 
 interface DashboardUsersIndexSignature {
@@ -11,8 +14,14 @@ interface DashboardUsersIndexSignature {
 }
 
 export default class DashboardUsersIndex extends Component<DashboardUsersIndexSignature> {
+  @service declare addItemRouter: AddItemRouterService;
+
   get userCount(): number {
     return this.args.model.length;
+  }
+
+  @action openAddUser() {
+    this.addItemRouter.open('user');
   }
 
   <template>
@@ -26,10 +35,11 @@ export default class DashboardUsersIndex extends Component<DashboardUsersIndexSi
             {{t "users.pages.list.subtitle" count=this.userCount}}
           </p>
         </div>
-        <LinkTo
-          @route="dashboard.users.create"
+        <button
+          type="button"
           class="btn btn-primary btn-sm gap-2"
           data-test-add-user
+          {{on "click" this.openAddUser}}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -45,7 +55,7 @@ export default class DashboardUsersIndex extends Component<DashboardUsersIndexSi
             />
           </svg>
           {{t "users.table.actions.addUser"}}
-        </LinkTo>
+        </button>
       </header>
       <UsersGrid @users={{@model}} />
     </div>

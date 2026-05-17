@@ -53,3 +53,22 @@ card:
   projects:
     label: 'Projets assignés :'
     count: '{count, plural, =0 {0 projet} one {1 projet} other {# projets}}'
+
+modal:
+  add:
+    title: 'Nouvel utilisateur'
+    closeAria: 'Fermer'
+    firstName: 'Prénom'
+    firstNamePlaceholder: 'Ex: Alice'
+    lastName: 'Nom'
+    lastNamePlaceholder: 'Ex: Martin'
+    email: 'Email'
+    emailPlaceholder: 'alice.martin@example.com'
+    password: 'Mot de passe'
+    passwordPlaceholder: 'Au moins 8 caractères'
+    role: 'Rôle'
+    color: 'Couleur'
+    cancel: 'Annuler'
+    submit: "Créer l'utilisateur"
+    submitting: 'Création...'
+    errorFallback: "Erreur lors de la création de l'utilisateur"
