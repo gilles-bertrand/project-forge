@@ -10,6 +10,7 @@ import ProjectSelector from './project-selector.gts';
 import SearchDropdown, { type SearchResult } from './search-dropdown.gts';
 import AddItemModal, { type AddItemType } from './add-item-modal.gts';
 import type RouterService from '@ember/routing/router-service';
+import type AddItemRouterService from '@libs/shared-front/services/add-item-router';
 import type { TOC } from '@ember/component/template-only';
 
 const ClockIcon: TOC<{ Element: SVGSVGElement }> = <template>
@@ -77,6 +78,7 @@ interface ShellHeaderSignature {
 
 export default class ShellHeader extends Component<ShellHeaderSignature> {
   @service declare router: RouterService;
+  @service declare addItemRouter: AddItemRouterService;
 
   @tracked searchQuery = '';
   @tracked showSearchDropdown = false;
@@ -118,15 +120,7 @@ export default class ShellHeader extends Component<ShellHeaderSignature> {
 
   @action onAddItemSelect(type: AddItemType) {
     this.closeAddItem();
-    const routeMap: Record<AddItemType, string> = {
-      project: 'dashboard.projects',
-      epic: 'dashboard.backlog',
-      'user-story': 'dashboard.backlog',
-      task: 'dashboard.backlog',
-      sprint: 'dashboard.sprints',
-      'time-entry': 'dashboard.time-tracking',
-    };
-    void this.router.transitionTo(routeMap[type]);
+    this.addItemRouter.open(type);
   }
 
   @action handleSidebarToggle() {
