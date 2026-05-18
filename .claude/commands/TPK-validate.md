@@ -138,6 +138,27 @@ Output the validation results in this format:
 - **PARTIAL**: Some checks pass, some fail (or some skipped with --quick)
 - **FAILED**: Critical checks fail (type check or tests)
 
+## Monorepo specifics (pnpm + Turborepo)
+
+For workspaces with multiple packages (e.g. `@libs/*`, `@apps/*`):
+
+- Prefer `pnpm turbo lint` / `pnpm turbo test` from the repo root to run all packages in dependency order.
+- After editing a lib source file, the consumer (Vite dev server) may need a restart if the lib had not been built:
+  ```bash
+  cd @libs/<lib> && pnpm build   # or pnpm start (watch mode)
+  # Then restart Vite in @apps/front
+  ```
+- Check for a `pretest` script (`rollup -c`) — missing dist/ will cause Vite import errors.
+
+## Auth-related checks
+
+When validating a frontend that uses short-lived JWTs (< 30 min):
+
+- Test with a **fresh** session (clear localStorage before navigating).
+- Test with an **expired** session: set `exp` in the past and reload — expect redirect to `/login`, NOT a blank screen or `data.map is not a function`.
+- Confirm `refreshAccessTokens: true` and `serverTokenRefreshEndpoint` are set in `config/environment.ts` (NOT just `config/environment.js`).
+- Verify any service that calls `/api/v1/...` uses authenticated fetch (store.request or authFetch), not raw `fetch()`.
+
 ## Error Handling
 
 - If no project type is detected, report "Unknown project type" and suggest manual configuration

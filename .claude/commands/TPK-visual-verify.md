@@ -51,6 +51,32 @@ ARGUMENTS: $ARGUMENTS
    - Show the file path
    - Suggest using `/TPK-screenshot-compare` for visual diffs
 
+## Audit-all mode (`--audit-all`)
+
+When `--audit-all` is provided instead of a URL:
+
+1. Read the route list from `CLAUDE.md` or the router file (`@apps/front/app/router.ts` for Ember, `src/router.tsx` for React, etc.).
+2. For each route:
+   - Navigate to `http://localhost:[PORT][route]`
+   - Wait 3 seconds for data to load
+   - Take a full-page screenshot: `specs/screenshots/[timestamp]-audit-[route-slug].png`
+   - Record any JS console errors (level: error)
+3. Generate a summary table:
+
+```
+Route audit — [timestamp]
+
+| Route | Screenshot | Console errors |
+|-------|-----------|---------------|
+| /     | audit-index.png | 0 |
+| /projects | audit-projects.png | 0 |
+...
+```
+
+4. If Figma references exist under `docs/figma-screenshots/`, suggest `/TPK-screenshot-compare` for each pair.
+
+> Note: requires session to be authenticated first. Inject JWT via localStorage if the login form is not testable headlessly.
+
 ## Report
 
 ```
