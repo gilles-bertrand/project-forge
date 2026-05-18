@@ -16,3 +16,13 @@ CLAUDE.md
 graphify-out/
 audit-screenshots/
 .playwright-mcp/
+
+# Ruflo runtime / local state (regenerated at runtime, not portable across devs)
+.swarm/
+data/
+agentdb.rvf
+agentdb.rvf.lock
+**/ruvector.db
+
+# Lint cache (per-dev local state, must not be tracked)
+**/.eslintcache
