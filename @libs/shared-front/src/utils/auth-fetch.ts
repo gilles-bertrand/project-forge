@@ -1,4 +1,4 @@
-const SESSION_KEY = "ember_simple_auth-session";
+const SESSION_KEY = 'ember_simple_auth-session';
 
 function readAccessToken(): string | null {
   try {
@@ -15,28 +15,32 @@ function readAccessToken(): string | null {
 
 export async function authFetch(
   input: RequestInfo | URL,
-  init: RequestInit = {},
+  init: RequestInit = {}
 ): Promise<Response> {
   const token = readAccessToken();
   const headers = new Headers(init.headers);
-  if (token && !headers.has("Authorization")) {
-    headers.set("Authorization", `Bearer ${token}`);
+  if (token && !headers.has('Authorization')) {
+    headers.set('Authorization', `Bearer ${token}`);
   }
   return fetch(input, { ...init, headers });
 }
 
 export async function authFetchJson<T>(
   input: RequestInfo | URL,
-  init: RequestInit = {},
+  init: RequestInit = {}
 ): Promise<T | null> {
   const res = await authFetch(input, init);
   if (res.status === 401 || res.status === 403) {
     return null;
   }
   if (!res.ok) {
-    throw new Error(
-      `Request failed: ${String(res.status)} ${input.toString()}`,
-    );
+    const url =
+      typeof input === 'string'
+        ? input
+        : input instanceof URL
+          ? input.toString()
+          : input.url;
+    throw new Error(`Request failed: ${String(res.status)} ${url}`);
   }
   return (await res.json()) as T;
 }

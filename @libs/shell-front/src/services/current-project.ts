@@ -17,10 +17,7 @@ export default class CurrentProjectService extends Service {
 
   ensureDefault(availableIds: readonly string[]): string | null {
     if (availableIds.length === 0) return null;
-    if (
-      this.currentProjectId &&
-      availableIds.includes(this.currentProjectId)
-    ) {
+    if (this.currentProjectId && availableIds.includes(this.currentProjectId)) {
       return this.currentProjectId;
     }
     const next = availableIds[0] ?? null;

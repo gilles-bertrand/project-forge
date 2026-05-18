@@ -29,21 +29,25 @@ export class TestApp extends Application {
 const SHELL_FR = {
   shell: {
     addItem: {
-      title: 'Que voulez-vous ajouter ?',
-      project: 'Projet',
-      epic: 'Epic',
-      'user-story': 'User Story',
-      task: 'Tâche',
-      sprint: 'Sprint',
-      'time-entry': 'Saisie de temps',
+      title: "Que voulez-vous ajouter ?",
+      project: "Projet",
+      epic: "Epic",
+      "user-story": "User Story",
+      task: "Tâche",
+      sprint: "Sprint",
+      "time-entry": "Saisie de temps",
     },
-    header: { searchPlaceholder: 'Rechercher...', recordTime: 'Enregistrer du temps', add: 'Ajouter' },
+    header: {
+      searchPlaceholder: "Rechercher...",
+      recordTime: "Enregistrer du temps",
+      add: "Ajouter",
+    },
   },
 };
 
-export function initializeTestApp(owner: Owner, locale = 'fr-fr'): void {
-  const intl = owner.lookup('service:intl');
-  intl.addTranslations('fr-fr', SHELL_FR);
+export function initializeTestApp(owner: Owner, locale = "fr-fr"): void {
+  const intl = owner.lookup("service:intl");
+  intl.addTranslations("fr-fr", SHELL_FR);
   intl.setLocale(locale);
   intl.setOnMissingTranslation((key: string) => `t:${key}`);
 }
