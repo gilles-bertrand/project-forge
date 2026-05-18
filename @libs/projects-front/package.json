@@ -60,9 +60,11 @@
     "ember-simple-auth": "catalog:",
     "ember-strict-application-resolver": "catalog:",
     "msw": "catalog:",
+    "openapi-msw": "catalog:",
     "zod": "~4.3.6"
   },
   "devDependencies": {
+    "@apps/backend": "workspace:*",
     "@babel/core": "catalog:",
     "@babel/eslint-parser": "^7.25.1",
     "@babel/plugin-transform-typescript": "^7.25.2",

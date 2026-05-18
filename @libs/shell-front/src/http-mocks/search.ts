@@ -1,4 +1,8 @@
-import { http, HttpResponse } from "msw";
+import { HttpResponse } from "msw";
+import { createOpenApiHttp } from "openapi-msw";
+import type { paths } from "@apps/backend";
+
+const http = createOpenApiHttp<paths>();
 
 type SearchResult = {
   id: string;

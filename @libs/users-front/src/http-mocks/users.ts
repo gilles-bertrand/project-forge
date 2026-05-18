@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// TODO: openapi-msw migration — refactor `notFound`-style 404 responses to use
+// `response(404).json(...)` helper, then switch to `createOpenApiHttp`.
+// `/api/v1/users/:id/notifications` and `/api/v1/users/:id/change-password` are
+// NOT declared in the backend OpenAPI schema and will stay on raw `http` until
+// the backend exposes them.
 import { http, HttpResponse } from 'msw';
 
 interface NotificationPreferences {

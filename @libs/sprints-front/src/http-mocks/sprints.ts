@@ -1,3 +1,7 @@
+// TODO: openapi-msw migration — refactor `notFound()` to use `response(404).json(...)`
+// helper from openapi-msw so 404 responses are narrowed to the OpenAPI 404 schema,
+// then switch this import to `import { createOpenApiHttp } from 'openapi-msw'`.
+// See @libs/users-front/src/http-mocks/login.ts for a fully migrated example.
 import { http, HttpResponse } from "msw";
 
 const NOW = "2025-01-15T00:00:00Z";

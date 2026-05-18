@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// TODO: openapi-msw migration — refactor with `response(status).json(...)` helper
+// so 404 / 201 status codes are narrowed to their OpenAPI schemas.
+// Kept on raw MSW for now to avoid type-cast noise. See @libs/users-front/http-mocks/login.ts
+// for a fully migrated example.
 import { http, HttpResponse } from "msw";
 
 type ProjectStatus =
@@ -194,6 +198,9 @@ export const allProjectsHandlers = [
     mockProjects = mockProjects.filter((p) => p.id !== id);
     return HttpResponse.json({ data: null }, { status: 204 });
   }),
+  // TODO: openapi-msw migration — backend schema declares type 'project-members'
+  // with attributes { projectId, userId, role, joinedAt } but this mock still returns
+  // bare 'users' resources. Realign mock with backend before migrating.
   http.get("/api/v1/projects/:id/members", (req) => {
     const { id } = req.params as { id: string };
     const project = mockProjects.find((p) => p.id === id);

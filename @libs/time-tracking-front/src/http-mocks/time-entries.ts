@@ -1,4 +1,8 @@
-import { http, HttpResponse } from "msw";
+import { HttpResponse } from "msw";
+import { createOpenApiHttp } from "openapi-msw";
+import type { paths } from "@apps/backend";
+
+const http = createOpenApiHttp<paths>();
 
 const NOW = new Date();
 function daysAgo(n: number): string {
@@ -254,7 +258,7 @@ export const allTimeEntriesHandlers = [
     });
   }),
 
-  http.get("/api/v1/time-entries/:id", ({ params }) => {
+  http.get("/api/v1/time-entries/{id}", ({ params }) => {
     const entry = mockEntries.find((e) => e.id === params["id"]);
     if (!entry) return new HttpResponse(null, { status: 404 });
     return HttpResponse.json({ data: entry });
@@ -276,7 +280,7 @@ export const allTimeEntriesHandlers = [
     return HttpResponse.json({ data: newEntry });
   }),
 
-  http.patch("/api/v1/time-entries/:id", async ({ params, request }) => {
+  http.patch("/api/v1/time-entries/{id}", async ({ params, request }) => {
     const body = (await request.json()) as {
       data: { attributes: Partial<MockTimeEntry["attributes"]> };
     };
@@ -289,7 +293,7 @@ export const allTimeEntriesHandlers = [
     return HttpResponse.json({ data: mockEntries[idx] });
   }),
 
-  http.delete("/api/v1/time-entries/:id", ({ params }) => {
+  http.delete("/api/v1/time-entries/{id}", ({ params }) => {
     mockEntries = mockEntries.filter((e) => e.id !== params["id"]);
     return new HttpResponse(null, { status: 204 });
   }),

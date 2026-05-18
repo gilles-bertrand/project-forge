@@ -1,6 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// TODO: openapi-msw migration — refactor `notFound()` to use `response(404).json(...)`
+// helper from openapi-msw so 404 responses are narrowed to the OpenAPI 404 schema,
+// then switch this import to `import { createOpenApiHttp } from 'openapi-msw'`.
+// Also: `/api/v1/tasks/:id/history` is NOT declared in the backend OpenAPI schema
+// and will need to stay on raw `http` until the backend exposes it.
 import { http, HttpResponse } from 'msw';
 import type { EpicStatus } from '#src/schemas/epics.ts';
 import type {
