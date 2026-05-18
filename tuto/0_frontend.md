@@ -136,6 +136,18 @@
     - Contient des actions pour éditer, supprimer et changer le statut d'un todo
     - Utilise `TpkConfirmModalPrefab` pour confirmer la suppression
 
+    > **Quand utiliser `TpkTableGenericPrefab` vs du composant custom ?**
+    >
+    > Utiliser **`TpkTableGenericPrefab`** (avec `TpkConfirmModalPrefab` pour la suppression) quand l'écran est une **liste tabulaire CRUD standard** : colonnes triables, pagination, tri par défaut, click-row vers une route d'édition, actions edit/delete par ligne. Exemple de référence : [`@libs/users-front/src/components/user-table.gts`](../@libs/users-front/src/components/user-table.gts).
+    >
+    > Utiliser un **composant custom** quand l'UX sort du modèle "tableau" :
+    > - **Kanban** (colonnes drag-and-drop) → ex. `@libs/backlog-front` (kanban des tâches)
+    > - **Story Map** (grille 2D epics × user stories) → ex. `@libs/backlog-front` (`user-story-map`)
+    > - **Cards grid** (cartes responsive, non tabulaires) → ex. `@libs/users-front/src/components/users-grid.gts`
+    > - **Vues métiers spécifiques** (timeline, calendrier, gantt, etc.)
+    >
+    > Règle de décision : si tu écris « colonnes + lignes + pagination + actions », utilise le prefab ; si la donnée a une structure 2D, hiérarchique, ou nécessite des interactions non-tableau, écris un composant custom.
+
 14. Liaison de la librairie avec l'application frontend
     - Initialisation dans [@apps/front/app/routes/application.ts](../@apps/front/app/routes/application.ts)
       - Import de `initialize` depuis `@libs/todos-front`
