@@ -1,5 +1,6 @@
 import Service from "@ember/service";
 import { tracked } from "@glimmer/tracking";
+import { authFetch } from "@libs/shared-front/utils/auth-fetch";
 
 export interface TimeEntryData {
   id: string;
@@ -83,13 +84,23 @@ export default class TimeEntriesService extends Service {
         ...(opts.from ? { "filter[date.gte]": opts.from } : {}),
         ...(opts.to ? { "filter[date.lte]": opts.to } : {}),
       });
-      const res = await fetch(`/api/v1/time-entries/${qs}`);
+      const res = await authFetch(`/api/v1/time-entries/${qs}`);
+      if (!res.ok) {
+        this.list = [];
+        return {
+          data: this.list,
+          meta: { total: 0, pages: 0, totalHours: 0 },
+        };
+      }
       const json = (await res.json()) as {
-        data: Array<{ id: string; attributes: Omit<TimeEntryData, "id"> }>;
-        meta: TimeEntriesMeta;
+        data?: Array<{ id: string; attributes: Omit<TimeEntryData, "id"> }>;
+        meta?: TimeEntriesMeta;
       };
-      this.list = json.data.map(flattenEntry);
-      return { data: this.list, meta: json.meta };
+      this.list = (json.data ?? []).map(flattenEntry);
+      return {
+        data: this.list,
+        meta: json.meta ?? { total: 0, pages: 0, totalHours: 0 },
+      };
     } finally {
       this.loading = false;
     }
@@ -109,13 +120,23 @@ export default class TimeEntriesService extends Service {
         ...(opts.from ? { "filter[date.gte]": opts.from } : {}),
         ...(opts.to ? { "filter[date.lte]": opts.to } : {}),
       });
-      const res = await fetch(`/api/v1/time-entries/${qs}`);
+      const res = await authFetch(`/api/v1/time-entries/${qs}`);
+      if (!res.ok) {
+        this.list = [];
+        return {
+          data: this.list,
+          meta: { total: 0, pages: 0, totalHours: 0 },
+        };
+      }
       const json = (await res.json()) as {
-        data: Array<{ id: string; attributes: Omit<TimeEntryData, "id"> }>;
-        meta: TimeEntriesMeta;
+        data?: Array<{ id: string; attributes: Omit<TimeEntryData, "id"> }>;
+        meta?: TimeEntriesMeta;
       };
-      this.list = json.data.map(flattenEntry);
-      return { data: this.list, meta: json.meta };
+      this.list = (json.data ?? []).map(flattenEntry);
+      return {
+        data: this.list,
+        meta: json.meta ?? { total: 0, pages: 0, totalHours: 0 },
+      };
     } finally {
       this.loading = false;
     }
@@ -123,12 +144,18 @@ export default class TimeEntriesService extends Service {
 
   async loadByTask(taskId: string): Promise<TimeEntriesResult> {
     const qs = buildQuery({ "filter[taskId]": taskId, sort: "-date" });
-    const res = await fetch(`/api/v1/time-entries/${qs}`);
+    const res = await authFetch(`/api/v1/time-entries/${qs}`);
+    if (!res.ok) {
+      return { data: [], meta: { total: 0, pages: 0, totalHours: 0 } };
+    }
     const json = (await res.json()) as {
-      data: Array<{ id: string; attributes: Omit<TimeEntryData, "id"> }>;
-      meta: TimeEntriesMeta;
+      data?: Array<{ id: string; attributes: Omit<TimeEntryData, "id"> }>;
+      meta?: TimeEntriesMeta;
     };
-    return { data: json.data.map(flattenEntry), meta: json.meta };
+    return {
+      data: (json.data ?? []).map(flattenEntry),
+      meta: json.meta ?? { total: 0, pages: 0, totalHours: 0 },
+    };
   }
 
   async loadSummary(
@@ -153,17 +180,24 @@ export default class TimeEntriesService extends Service {
     if (projectId) params["filter[projectId]"] = projectId;
     if (userId) params["filter[userId]"] = userId;
     const qs = buildQuery(params);
-    const res = await fetch(`/api/v1/time-entries/${qs}`);
+    const res = await authFetch(`/api/v1/time-entries/${qs}`);
+    if (!res.ok) {
+      return { totalHours: 0, taskCount: 0 };
+    }
     const json = (await res.json()) as {
-      data: Array<{ id: string; attributes: Omit<TimeEntryData, "id"> }>;
-      meta: TimeEntriesMeta;
+      data?: Array<{ id: string; attributes: Omit<TimeEntryData, "id"> }>;
+      meta?: TimeEntriesMeta;
     };
-    const taskIds = new Set(json.data.map((e) => e.attributes.taskId));
-    return { totalHours: json.meta.totalHours, taskCount: taskIds.size };
+    const entries = json.data ?? [];
+    const taskIds = new Set(entries.map((e) => e.attributes.taskId));
+    return {
+      totalHours: json.meta?.totalHours ?? 0,
+      taskCount: taskIds.size,
+    };
   }
 
   async create(payload: NewTimeEntryPayload): Promise<TimeEntryData> {
-    const res = await fetch("/api/v1/time-entries/", {
+    const res = await authFetch("/api/v1/time-entries/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -185,7 +219,7 @@ export default class TimeEntriesService extends Service {
     partial: Partial<NewTimeEntryPayload>,
     opts: { refresh?: boolean; projectId?: string } = { refresh: true },
   ): Promise<TimeEntryData> {
-    const res = await fetch(`/api/v1/time-entries/${id}`, {
+    const res = await authFetch(`/api/v1/time-entries/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -203,7 +237,7 @@ export default class TimeEntriesService extends Service {
   }
 
   async delete(id: string, projectId?: string): Promise<void> {
-    await fetch(`/api/v1/time-entries/${id}`, { method: "DELETE" });
+    await authFetch(`/api/v1/time-entries/${id}`, { method: "DELETE" });
     if (projectId) {
       await this.loadByProject(projectId);
     } else {

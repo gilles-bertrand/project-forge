@@ -5,6 +5,7 @@ import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { t, type IntlService } from 'ember-intl';
 import type { Store } from '@warp-drive/core';
+import type SessionService from 'ember-simple-auth/services/session';
 import type CurrentUserService from '@libs/users-front/services/current-user';
 import type ProjectsService from '../services/projects.ts';
 import type { ProjectStatus } from '../schemas/projects.ts';
@@ -27,6 +28,7 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
   @service declare currentUser: CurrentUserService;
   @service declare store: Store;
   @service declare intl: IntlService;
+  @service declare session: SessionService;
 
   @tracked name = '';
   @tracked description = '';
@@ -44,7 +46,13 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
 
   async loadUsers() {
     try {
-      const response = await fetch('/api/v1/users');
+      const auth = this.session.data.authenticated as
+        | { data?: { accessToken?: string } }
+        | undefined;
+      const accessToken = auth?.data?.accessToken;
+      const response = await fetch('/api/v1/users', {
+        headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
+      });
       const json = (await response.json()) as {
         data: { id: string; attributes: UserLite }[];
       };

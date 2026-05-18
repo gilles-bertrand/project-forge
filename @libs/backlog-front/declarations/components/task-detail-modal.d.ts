@@ -1,5 +1,6 @@
 import Component from '@glimmer/component';
 import type TasksService from '../services/tasks.ts';
+import type RouterService from '@ember/routing/router-service';
 import type { TaskComment, TaskHistoryEvent, TaskAssignee } from '../services/tasks.ts';
 import type { Task } from '../schemas/tasks.ts';
 import type { UserStory } from '../schemas/user-stories.ts';
@@ -13,6 +14,7 @@ interface TaskDetailModalSignature {
 }
 export default class TaskDetailModal extends Component<TaskDetailModalSignature> {
     tasks: TasksService;
+    router: RouterService;
     activeTab: TaskDetailTab;
     comments: TaskComment[];
     history: TaskHistoryEvent[];
@@ -29,6 +31,7 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
     showDetails(): void;
     showComments(): void;
     showHistory(): void;
+    logTime(): void;
 }
 export {};
 //# sourceMappingURL=task-detail-modal.d.ts.map

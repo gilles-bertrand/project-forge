@@ -15,6 +15,16 @@ export default class CurrentProjectService extends Service {
     localStorage.setItem(STORAGE_KEY, id);
   }
 
+  ensureDefault(availableIds: readonly string[]): string | null {
+    if (availableIds.length === 0) return null;
+    if (this.currentProjectId && availableIds.includes(this.currentProjectId)) {
+      return this.currentProjectId;
+    }
+    const next = availableIds[0] ?? null;
+    if (next) this.setCurrent(next);
+    return next;
+  }
+
   clear() {
     this.currentProjectId = null;
     localStorage.removeItem(STORAGE_KEY);

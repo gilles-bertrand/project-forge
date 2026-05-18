@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import { type IntlService } from 'ember-intl';
 import type { Store } from '@warp-drive/core';
+import type SessionService from 'ember-simple-auth/services/session';
 import type CurrentUserService from '@libs/users-front/services/current-user';
 import type ProjectsService from '../services/projects.ts';
 import type { ProjectStatus } from '../schemas/projects.ts';
@@ -20,6 +21,7 @@ export default class AddProjectModal extends Component<AddProjectModalSignature>
     currentUser: CurrentUserService;
     store: Store;
     intl: IntlService;
+    session: SessionService;
     name: string;
     description: string;
     status: ProjectStatus;

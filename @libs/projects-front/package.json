@@ -132,6 +132,7 @@
       "./components/shell-with-projects.js": "./dist/_app_/components/shell-with-projects.js",
       "./components/status-badge.js": "./dist/_app_/components/status-badge.js",
       "./routes/dashboard/projects.js": "./dist/_app_/routes/dashboard/projects.js",
+      "./schemas/project-members.js": "./dist/_app_/schemas/project-members.js",
       "./schemas/projects.js": "./dist/_app_/schemas/projects.js",
       "./services/projects.js": "./dist/_app_/services/projects.js",
       "./templates/dashboard/projects.js": "./dist/_app_/templates/dashboard/projects.js"

@@ -26,22 +26,22 @@ export default class AddItemModal extends Component<AddItemModalSignature> {
           <button type="button" class="btn btn-sm btn-circle btn-ghost" aria-label="Fermer" {{on "click" @onClose}}>✕</button>
         </div>
         <div class="grid grid-cols-2 gap-3">
-          <button type="button" class="btn btn-outline h-20 flex flex-col gap-1" {{on "click" (fn this.select "project")}}>
+          <button type="button" class="btn btn-outline h-20 flex flex-col gap-1" data-test-add-item-type="project" {{on "click" (fn this.select "project")}}>
             <span class="text-2xl">📁</span><span>{{t "shell.addItem.project"}}</span>
           </button>
-          <button type="button" class="btn btn-outline h-20 flex flex-col gap-1" {{on "click" (fn this.select "epic")}}>
+          <button type="button" class="btn btn-outline h-20 flex flex-col gap-1" data-test-add-item-type="epic" {{on "click" (fn this.select "epic")}}>
             <span class="text-2xl">🎯</span><span>{{t "shell.addItem.epic"}}</span>
           </button>
-          <button type="button" class="btn btn-outline h-20 flex flex-col gap-1" {{on "click" (fn this.select "user-story")}}>
+          <button type="button" class="btn btn-outline h-20 flex flex-col gap-1" data-test-add-item-type="user-story" {{on "click" (fn this.select "user-story")}}>
             <span class="text-2xl">📋</span><span>{{t "shell.addItem.user-story"}}</span>
           </button>
-          <button type="button" class="btn btn-outline h-20 flex flex-col gap-1" {{on "click" (fn this.select "task")}}>
+          <button type="button" class="btn btn-outline h-20 flex flex-col gap-1" data-test-add-item-type="task" {{on "click" (fn this.select "task")}}>
             <span class="text-2xl">✅</span><span>{{t "shell.addItem.task"}}</span>
           </button>
-          <button type="button" class="btn btn-outline h-20 flex flex-col gap-1" {{on "click" (fn this.select "sprint")}}>
+          <button type="button" class="btn btn-outline h-20 flex flex-col gap-1" data-test-add-item-type="sprint" {{on "click" (fn this.select "sprint")}}>
             <span class="text-2xl">🏃</span><span>{{t "shell.addItem.sprint"}}</span>
           </button>
-          <button type="button" class="btn btn-outline h-20 flex flex-col gap-1" {{on "click" (fn this.select "time-entry")}}>
+          <button type="button" class="btn btn-outline h-20 flex flex-col gap-1" data-test-add-item-type="time-entry" {{on "click" (fn this.select "time-entry")}}>
             <span class="text-2xl">⏱</span><span>{{t "shell.addItem.time-entry"}}</span>
           </button>
         </div>

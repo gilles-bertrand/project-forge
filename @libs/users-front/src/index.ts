@@ -47,7 +47,18 @@ export async function initialize(owner: Owner) {
   assert('Store service must be available', storeService);
   assert('Intl service must be available', intlService);
   await sessionService.setup();
-  await currentUserService.load();
+  try {
+    await currentUserService.load();
+  } catch (err) {
+    // Token invalide/périmé (e.g. token MSW restant en localStorage en mode
+    // backend réel) → invalider la session pour permettre à l'app de booter
+    // proprement vers /login au lieu de crasher silencieusement.
+    console.warn(
+      '[users-front] currentUser.load failed — invalidating session',
+      err
+    );
+    await sessionService.invalidate();
+  }
 }
 
 export function forRouter(this: DSL) {

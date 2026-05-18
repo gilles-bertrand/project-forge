@@ -11,3 +11,7 @@ export const ChangePasswordSchema = z
   });
 
 export type ChangePasswordData = z.infer<typeof ChangePasswordSchema>;
+
+// Default export so the addon's auto-generated `_app_/` re-export
+// (`export { default } from "..."`) resolves. See user-validation.ts for context.
+export default { ChangePasswordSchema };

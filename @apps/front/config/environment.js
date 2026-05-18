@@ -25,6 +25,8 @@ module.exports = function (environment) {
       refreshAccessTokens: true,
       tokenExpirationInvalidateSession: true,
       serverTokenEndpoint: 'api/v1/auth/login',
+      serverTokenRefreshEndpoint: 'api/v1/auth/refresh',
+      refreshAccessTokenEndpoint: 'api/v1/auth/refresh',
       tokenPropertyName: 'data.accessToken',
       refreshTokenPropertyName: 'data.refreshToken',
       headers: {},
@@ -33,7 +35,11 @@ module.exports = function (environment) {
 
   if (environment === 'e2e') {
     ENV['ember-simple-auth-token'] = {
+      refreshAccessTokens: true,
+      tokenExpirationInvalidateSession: true,
       serverTokenEndpoint: 'api/v1/auth/login',
+      serverTokenRefreshEndpoint: 'api/v1/auth/refresh',
+      refreshAccessTokenEndpoint: 'api/v1/auth/refresh',
       tokenPropertyName: 'data.accessToken',
       refreshTokenPropertyName: 'data.refreshToken',
       headers: {},
@@ -54,7 +60,11 @@ module.exports = function (environment) {
 
   if (environment === 'production') {
     ENV['ember-simple-auth-token'] = {
+      refreshAccessTokens: true,
+      tokenExpirationInvalidateSession: true,
       serverTokenEndpoint: 'api/v1/auth/login',
+      serverTokenRefreshEndpoint: 'api/v1/auth/refresh',
+      refreshAccessTokenEndpoint: 'api/v1/auth/refresh',
       tokenPropertyName: 'data.accessToken',
       refreshTokenPropertyName: 'data.refreshToken',
       headers: {},

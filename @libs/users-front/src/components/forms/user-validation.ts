@@ -31,3 +31,9 @@ export type ValidatedUser = z.infer<
 >;
 
 export type UpdatedUser = z.infer<ReturnType<typeof editUserValidationSchema>>;
+
+// Default export so the addon's auto-generated `_app_/` re-export
+// (`export { default } from "..."`) resolves. Validation files are not Ember
+// components but the rollup `addon.appReexports(['components/**/*.js'])`
+// pattern still emits a default-import wrapper for them.
+export default { createUserValidationSchema, editUserValidationSchema };
