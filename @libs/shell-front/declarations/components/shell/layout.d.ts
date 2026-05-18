@@ -38,11 +38,13 @@ export default class ShellLayout extends Component<ShellLayoutSignature> {
     get themeOptions(): string[];
     get userForNav(): {
         fullName: string;
+        role: string;
     };
     get menuItems(): SidebarItem[];
     logout(): Promise<void>;
     setCollapsed(v: boolean): void;
     toggleSidebar(): void;
+    get userInitials(): string;
 }
 export {};
 //# sourceMappingURL=layout.d.ts.map

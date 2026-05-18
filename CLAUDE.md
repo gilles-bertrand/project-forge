@@ -52,6 +52,16 @@ PostgreSQL via Docker — `docker compose up -d` à la racine. Credentials par d
 
 Le `.env` du backend (`@apps/backend/.env`) contient les secrets : `SESSION_KEY` (32 bytes hex), `JWT_SECRET`, `JWT_REFRESH_SECRET`. Il est gitignored. Template : `.env.example`.
 
+## Ports & services
+
+| Service | Port | Commande de vérification |
+|---------|------|--------------------------|
+| Frontend (Vite/Ember) | **4200** | `curl -sf http://localhost:4200 -o /dev/null && echo UP` |
+| Backend (Fastify) | **8000** | `curl -sf http://localhost:8000/docs -o /dev/null && echo UP` |
+| PostgreSQL | 5432 | `docker compose ps` |
+
+Ne pas supposer port 3000 — le backend est sur **8000**.
+
 ## Conventions code
 
 - **Validation/schémas** : Zod 4 partout (body, response, query). Les routes utilisent `fastify-type-provider-zod` v6 — toute réponse doit matcher son schéma déclaré sous peine de `FST_ERR_RESPONSE_SERIALIZATION`.
@@ -59,3 +69,11 @@ Le `.env` du backend (`@apps/backend/.env`) contient les secrets : `SESSION_KEY`
 - **Linting** : oxlint pour le backend (libs incluses), ESLint + Prettier + template-lint pour le frontend (apps et libs).
 - **Commits** : `git-conventional-commits` + Lefthook (pre-commit). Format : `feat:`, `fix:`, `chore:`...
 - **Branches protégées** : `main` et `dev` — PR obligatoire, pas de force push, pas de suppression (ruleset GitHub actif).
+
+## Règles front obligatoires
+
+- **Pas de `fetch()` brut vers `/api/v1`** dans `@libs/*-front/src/services/` : utiliser `store.request()` (WarpDrive, passe par `AuthHandler`) ou `authFetch` (`@libs/shared-front/src/utils/auth-fetch.ts`). Un `fetch()` nu n'attache pas le Bearer → 401 silencieux → `data.map is not a function` → crash route.
+- **Garder les retours API robustes** : toujours `(json.data ?? []).map(...)` et `if (!res.ok) { return default; }` avant de manipuler la réponse.
+- **Schéma JSONAPICache obligatoire** : tout `type:` renvoyé par le backend (`project-members`, `users`, `tasks`…) doit avoir un schema enregistré dans `@apps/front/app/services/store.ts` ; sinon l'erreur "Missing Resource Type" est silencieuse en prod.
+- **Deux fichiers `environment`** : `config/environment.js` (build-time, référencé par ember-cli) ET `app/config/environment.ts` (runtime, lu via `import.meta.env.MODE`). Toujours éditer **les deux** quand on touche à la config ember-simple-auth-token.
+- **Vite cache** : après création d'un nouveau fichier dans un lib (`@libs/*/src/`), un simple `pnpm build` ne suffit pas — il faut **redémarrer le dev server** Vite pour purger le cache d'imports.

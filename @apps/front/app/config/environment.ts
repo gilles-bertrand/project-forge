@@ -36,6 +36,7 @@ function environmentConfig(environment: string): Config {
       tokenRefreshInvalidateSessionResponseCodes: [401, 403],
       refreshLeeway: 30,
       serverTokenEndpoint: 'api/v1/auth/login',
+      serverTokenRefreshEndpoint: 'api/v1/auth/refresh',
       tokenPropertyName: 'data.accessToken',
       refreshTokenPropertyName: 'data.refreshToken',
       headers: {},
@@ -44,7 +45,10 @@ function environmentConfig(environment: string): Config {
 
   if (environment === 'e2e') {
     ENV['ember-simple-auth-token'] = {
+      refreshAccessTokens: true,
+      tokenExpirationInvalidateSession: true,
       serverTokenEndpoint: 'api/v1/auth/login',
+      serverTokenRefreshEndpoint: 'api/v1/auth/refresh',
       tokenPropertyName: 'data.accessToken',
       refreshTokenPropertyName: 'data.refreshToken',
       headers: {},
@@ -65,7 +69,10 @@ function environmentConfig(environment: string): Config {
 
   if (environment === 'production') {
     ENV['ember-simple-auth-token'] = {
+      refreshAccessTokens: true,
+      tokenExpirationInvalidateSession: true,
       serverTokenEndpoint: 'api/v1/auth/login',
+      serverTokenRefreshEndpoint: 'api/v1/auth/refresh',
       tokenPropertyName: 'data.accessToken',
       refreshTokenPropertyName: 'data.refreshToken',
       headers: {},

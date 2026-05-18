@@ -2,6 +2,7 @@ import { useLegacyStore } from '@warp-drive/legacy';
 import { JSONAPICache } from '@warp-drive/json-api';
 import UserSchema from '@libs/users-front/schemas/users';
 import ProjectSchema from '@libs/projects-front/schemas/projects';
+import ProjectMemberSchema from '@libs/projects-front/schemas/project-members';
 import EpicSchema from '@libs/backlog-front/schemas/epics';
 import UserStorySchema from '@libs/backlog-front/schemas/user-stories';
 import TaskSchema from '@libs/backlog-front/schemas/tasks';
@@ -27,6 +28,7 @@ const legacyStore = useLegacyStore({
   schemas: [
     UserSchema,
     ProjectSchema,
+    ProjectMemberSchema,
     EpicSchema,
     UserStorySchema,
     TaskSchema,

@@ -146,6 +146,34 @@
   --size-field: 0.25rem;
 }
 
+/* ─── Component overrides — make sure shell containers track theme tokens ─── */
+.tpk-sidebar,
+.tpk-sidebar-drawer-side,
+.tpk-sidebar.collapsed,
+.tpk-sidebar:not(.collapsed) {
+  background-color: var(--sidebar);
+  color: var(--sidebar-foreground);
+}
+
+.tpk-sidebar a:hover,
+.tpk-sidebar button:hover {
+  background-color: var(--sidebar-accent);
+  color: var(--sidebar-accent-foreground);
+}
+
+.tpk-sidebar a.active,
+.tpk-sidebar .active,
+.tpk-sidebar a.is-active {
+  background-color: var(--sidebar-primary);
+  color: var(--sidebar-primary-foreground);
+}
+
+.tpk-dashboard,
+.tpk-dashboard-content {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

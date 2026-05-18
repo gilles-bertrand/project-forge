@@ -29,10 +29,10 @@ export default class ApplicationRoute extends Route {
 
   async beforeModel() {
     this.theme.setup();
-    this.intl.setLocale('en-us');
 
     this.intl.addTranslations('fr-fr', translationsForFrFr);
     this.intl.addTranslations('en-us', translationsForEnUs);
+    this.intl.setLocale(['fr-fr', 'en-us']);
 
     // Skip MSW when running against real backend (e2e tests)
     if (import.meta.env.VITE_MOCK_API !== 'false') {
