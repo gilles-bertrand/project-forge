@@ -20,6 +20,9 @@ forms:
     validation:
       invalidEmail: 'Please enter a valid email address'
       passwordTooShort: 'Password must be at least 8 characters'
+    error:
+      invalidCredentials: 'Invalid email or password.'
+      generic: 'Sign in failed. Please try again.'
   forgotPassword:
     title: 'Forgot Password'
     validation:
