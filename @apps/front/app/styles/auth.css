@@ -13,6 +13,18 @@
   @apply btn btn-primary w-full mt-2;
 }
 
+.tpk-password-input {
+  @apply bg-transparent border-0 outline-none shadow-none flex-grow;
+}
+
+.tpk-password-toggle-button {
+  @apply absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer bg-transparent border-0 p-1 z-10;
+}
+
+.tpk-password-toggle-icon {
+  @apply w-5 h-5;
+}
+
 .tpk-forgot-password-form .login-link,
 .tpk-reset-password-form .login-link {
   @apply text-sm text-primary hover:underline text-center mt-2;
