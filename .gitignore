@@ -7,12 +7,3 @@ playwright-report
 .playwright-mcp/
 .DS_Store
 .pnpm-store
-
-# Claude / Ruflo artefacts
-.claude/
-.claude-flow/
-.mcp.json
-CLAUDE.md
-graphify-out/
-audit-screenshots/
-.playwright-mcp/
