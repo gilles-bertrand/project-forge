@@ -33,12 +33,12 @@ Monorepo with an Ember frontend and a Fastify backend, managed with pnpm workspa
 @libs/
 ├── backend-shared    # Shared utilities and types for backend services
 ├── shared-front      # Shared frontend components, services, and utilities
-├── todos-backend     # Todos domain — backend (entities, routes, schemas)
-├── todos-front       # Todos domain — frontend (components, routes, services)
 ├── users-backend     # Users domain — backend (auth, entities, emails)
 ├── users-front       # Users domain — frontend (auth UI, user management)
 └── repo-utils        # Shared build and dev configurations
 ```
+
+> Domain libraries are added on top of this skeleton (see `specs/` for the SprintForge plan: `projects-*`, `backlog-front`, `sprints-front`, `time-tracking-*`, `scrum-backend`, `shell-front`, `dashboard-front`, …).
 
 ## Getting Started
 

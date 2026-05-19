@@ -1,34 +1,31 @@
-.auth-layout {
-  @apply flex flex-col items-center justify-center min-h-screen p-4;
+/* Styles spécifiques aux formulaires d'auth (forgot/reset password prefabs).
+   La page Login utilise désormais un TpkForm direct (voir login-form.gts). */
+
+.tpk-login-form,
+.tpk-forgot-password-form,
+.tpk-reset-password-form {
+  @apply flex flex-col w-full gap-4;
 }
 
-.auth-layout-content {
-  @apply flex flex-col items-center w-full max-w-sm gap-4;
+.tpk-login-form button[type='submit'],
+.tpk-forgot-password-form button[type='submit'],
+.tpk-reset-password-form button[type='submit'] {
+  @apply btn btn-primary w-full mt-2;
 }
 
-.auth-layout-content h1 {
-  @apply text-2xl font-semibold text-base-content;
+.tpk-password-input {
+  @apply bg-transparent border-0 outline-none shadow-none flex-grow;
 }
 
-.auth-layout-content .tpk-login-form,
-.auth-layout-content .tpk-forgot-password-form,
-.auth-layout-content .tpk-reset-password-form {
-  @apply flex flex-col w-full gap-4 bg-base-100 p-8 rounded-2xl shadow-xl border border-base-200;
+.tpk-password-toggle-button {
+  @apply absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer bg-transparent border-0 p-1 z-10;
 }
 
-.auth-layout-content .tpk-login-form-email,
-.auth-layout-content .tpk-login-form-password,
-.auth-layout-content .tpk-forgot-password-form-email,
-.auth-layout-content .tpk-reset-password-form-password,
-.auth-layout-content .tpk-reset-password-form-confirm-password {
-  @apply w-full;
+.tpk-password-toggle-icon {
+  @apply w-5 h-5;
 }
 
-.auth-layout-content button[type='submit'] {
-  @apply w-1/2 mx-auto btn btn-primary;
-}
-
-.auth-layout-content .forgot-password-link,
-.auth-layout-content .login-link {
-  @apply text-sm text-primary hover:underline text-center;
+.tpk-forgot-password-form .login-link,
+.tpk-reset-password-form .login-link {
+  @apply text-sm text-primary hover:underline text-center mt-2;
 }

@@ -29,6 +29,8 @@ jobs:
       run: pnpm turbo build
     - name: Setup database
       working-directory: ./@apps/backend
+      env:
+        DATABASE_URI: postgresql://backend_user:backend_user@localhost:5432/database_dev
       run: pnpm e2e:setup
     - name: Install Playwright Browsers
       working-directory: ./@apps/e2e

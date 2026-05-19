@@ -1,0 +1,36 @@
+sidebar:
+  dashboard: 'Dashboard'
+  projects: 'Projects'
+  backlog: 'Backlog'
+  kanban: 'Kanban'
+  userStoryMap: 'User Story Map'
+  sprints: 'Sprints'
+  timeTracking: 'Time Tracking'
+  users: 'Users'
+  settings: 'Settings'
+  groups:
+    navigation: 'Navigation'
+    administration: 'Administration'
+header:
+  searchPlaceholder: 'Search...'
+  recordTime: 'Log time'
+  add: 'Add'
+search:
+  minLength: 'Type at least 2 characters'
+  empty: 'No results'
+  loading: 'Searching...'
+  groups:
+    projects: 'Projects'
+    tasks: 'Tasks'
+    user-stories: 'User Stories'
+    sprints: 'Sprints'
+addItem:
+  title: 'What do you want to add?'
+  project: 'Project'
+  epic: 'Epic'
+  user-story: 'User Story'
+  task: 'Task'
+  sprint: 'Sprint'
+  time-entry: 'Time entry'
+placeholder:
+  underConstruction: 'Under construction'

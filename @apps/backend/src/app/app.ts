@@ -20,7 +20,10 @@ import { appRouter } from "./app.router.js";
 import type { ApplicationContext } from "./application.context.js";
 import { logger } from "./logger.js";
 import { UserModule, AuthModule } from "@libs/users-backend";
-import { Module as TodoModule } from "@libs/todos-backend";
+import { ScrumModule } from "@libs/scrum-backend";
+import { TimeTrackingModule } from "@libs/time-tracking-backend";
+import { SqlTimeTrackingAdapter } from "../adapters/sql-time-tracking.adapter.js";
+import type { SqlEntityManager } from "@mikro-orm/postgresql";
 
 export type FastifyInstanceType = FastifyInstance<
   RawServerDefault,
@@ -149,11 +152,16 @@ export class App {
           jwtSecret: this.context.configuration.JWT_SECRET,
         },
       }),
-      todosModule: TodoModule.init({
+      scrumModule: ScrumModule.init({
         em: this.context.orm.em.fork(),
-        configuration: {
-          jwtSecret: this.context.configuration.JWT_SECRET,
-        },
+        configuration: { jwtSecret: this.context.configuration.JWT_SECRET },
+        timeTrackingPort: new SqlTimeTrackingAdapter(
+          this.context.orm.em.fork() as SqlEntityManager,
+        ),
+      }),
+      timeTrackingModule: TimeTrackingModule.init({
+        em: this.context.orm.em.fork(),
+        configuration: { jwtSecret: this.context.configuration.JWT_SECRET },
       }),
     });
   }

@@ -9,6 +9,9 @@ export const SerializedUserSchema = makeJsonApiDocumentSchema(
     email: email(),
     firstName: string(),
     lastName: string(),
+    role: string(),
+    color: string(),
+    avatar: string().nullable(),
   }),
 );
 
@@ -20,6 +23,9 @@ export function jsonApiSerializeUser(user: UserEntityType): z.infer<typeof Seria
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      role: user.role,
+      color: user.color,
+      avatar: user.avatar ?? null,
     },
   };
 }

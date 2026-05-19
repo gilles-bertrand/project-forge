@@ -1,0 +1,26 @@
+[     107ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts:24
+[     139ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3391
+[     139ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3392
+[     139ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3393
+[     139ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3394
+[     139ms] [LOG] Client ID: %s (%s) c4574781-b42d-4582-a411-eb5e5fc3813f top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3395
+[     142ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[     142ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[     142ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444
+[     143ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[     144ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[     144ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[     145ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":[{"id":"proj-1","type":"projects","attribu…At":"2025-01-10T10:00:00Z"}}],"meta":{"count":3}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444
+[   41325ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778773689531:24
+[   41330ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3391
+[   41330ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3392
+[   41330ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3393
+[   41330ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3394
+[   41330ms] [LOG] Client ID: %s (%s) 44eb7878-77f8-4ecf-aa61-a09e15d88ed0 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3395
+[   41335ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[   41335ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[   41335ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444
+[   41336ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[   41338ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[   41338ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[   41338ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":[{"id":"proj-1","type":"projects","attribu…At":"2025-01-10T10:00:00Z"}}],"meta":{"count":3}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444

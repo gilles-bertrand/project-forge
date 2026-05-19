@@ -1,0 +1,207 @@
+- generic [ref=e7]:
+  - generic [ref=e8]:
+    - heading "SprintForge" [level=1] [ref=e10]
+    - navigation [ref=e12]:
+      - link "Tableau de bord" [ref=e13] [cursor=pointer]:
+        - /url: /
+        - img [ref=e14]
+        - generic [ref=e19]: Tableau de bord
+      - link "Projets" [ref=e20] [cursor=pointer]:
+        - /url: /projects
+        - img [ref=e21]
+        - generic [ref=e23]: Projets
+      - link "Backlog" [ref=e24] [cursor=pointer]:
+        - /url: /backlog
+        - img [ref=e25]
+        - generic [ref=e28]: Backlog
+      - link "Kanban" [ref=e29] [cursor=pointer]:
+        - /url: /kanban
+        - img [ref=e30]
+        - generic [ref=e32]: Kanban
+      - link "User Story Map" [ref=e33] [cursor=pointer]:
+        - /url: /user-story-map
+        - img [ref=e34]
+        - generic [ref=e36]: User Story Map
+      - link "Sprints" [ref=e37] [cursor=pointer]:
+        - /url: /sprints
+        - img [ref=e38]
+        - generic [ref=e41]: Sprints
+      - link "Suivi du temps" [ref=e42] [cursor=pointer]:
+        - /url: /time-tracking
+        - img [ref=e43]
+        - generic [ref=e46]: Suivi du temps
+    - navigation [ref=e48]:
+      - link "Utilisateurs" [ref=e49] [cursor=pointer]:
+        - /url: /users
+        - img [ref=e50]
+        - generic [ref=e55]: Utilisateurs
+      - link "Paramètres" [ref=e56] [cursor=pointer]:
+        - /url: /settings
+        - img [ref=e57]
+        - generic [ref=e60]: Paramètres
+    - generic [ref=e63]:
+      - img "Claire Dubois" [ref=e64]
+      - generic [ref=e65]:
+        - paragraph [ref=e66]: Claire Dubois
+        - paragraph [ref=e67]: Developer
+      - button "Se déconnecter" [ref=e68]:
+        - img [ref=e69]
+  - generic [ref=e72]:
+    - banner [ref=e73]:
+      - button "E-Commerce Platform" [ref=e75]:
+        - generic [ref=e76]: E-Commerce Platform
+        - img [ref=e77]
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - img [ref=e81]
+          - textbox "Rechercher..." [ref=e84]
+        - button "Enregistrer du temps" [ref=e85]:
+          - img [ref=e86]
+          - generic [ref=e89]: Enregistrer du temps
+        - button "Ajouter" [ref=e90]:
+          - img [ref=e91]
+          - generic [ref=e92]: Ajouter
+        - button "Activer le mode sombre" [ref=e93]:
+          - img [ref=e94]
+    - main [ref=e96]:
+      - generic [ref=e97]:
+        - generic [ref=e98]:
+          - generic [ref=e99]:
+            - heading "Kanban" [level=1] [ref=e100]
+            - paragraph [ref=e101]: Sprint 88 - E-Commerce Platform
+          - generic [ref=e102]:
+            - button "Mes tâches" [ref=e103]
+            - button "Toutes les tâches" [ref=e104]
+        - generic [ref=e106]:
+          - button "Sprint précédent" [ref=e107]:
+            - img [ref=e108]
+          - generic [ref=e110]:
+            - generic [ref=e111]:
+              - heading "Sprint 88" [level=2] [ref=e112]
+              - generic [ref=e113]: En cours
+            - generic [ref=e114]: "Objectif: Finaliser le tunnel d'achat et intégrer le paiement Stripe"
+            - generic [ref=e115]:
+              - generic [ref=e116]:
+                - img [ref=e117]
+                - text: 20 janv. - 02 févr. 2025
+              - generic [ref=e119]: 26 points
+              - generic [ref=e120]: 0/6 tâches
+          - button "Sprint suivant" [ref=e121]:
+            - img [ref=e122]
+        - generic [ref=e124]:
+          - generic [ref=e125]:
+            - heading "À faire (2)" [level=3] [ref=e127]:
+              - generic [ref=e128]: À faire
+              - generic [ref=e129]: (2)
+            - generic [ref=e130]:
+              - generic [ref=e131] [cursor=pointer]:
+                - generic [ref=e132]:
+                  - generic [ref=e133]:
+                    - img [ref=e134]
+                    - generic [ref=e137]: "1008"
+                  - generic [ref=e138]:
+                    - img [ref=e139]
+                    - generic [ref=e141]: "2"
+                - heading "Pagination produits" [level=4] [ref=e142]
+                - paragraph [ref=e143]: Ajouter la pagination à la liste de produits
+                - generic [ref=e144]:
+                  - generic [ref=e145]: Feature
+                  - generic [ref=e146]: Frontend
+                - generic [ref=e147]: US-us3
+                - img "Claire Dubois" [ref=e150]
+              - generic [ref=e151] [cursor=pointer]:
+                - generic [ref=e152]:
+                  - generic [ref=e153]:
+                    - img [ref=e154]
+                    - generic [ref=e157]: "1012"
+                  - generic [ref=e158]:
+                    - img [ref=e159]
+                    - generic [ref=e161]: "1"
+                - heading "Filtres prix" [level=4] [ref=e162]
+                - paragraph [ref=e163]: Slider de filtrage par prix
+                - generic [ref=e164]:
+                  - generic [ref=e165]: Feature
+                  - generic [ref=e166]: Frontend
+                - generic [ref=e167]: US-us5
+                - img "Claire Dubois" [ref=e170]
+          - generic [ref=e171]:
+            - heading "En cours (3)" [level=3] [ref=e173]:
+              - generic [ref=e174]: En cours
+              - generic [ref=e175]: (3)
+            - generic [ref=e176]:
+              - generic [ref=e177] [cursor=pointer]:
+                - generic [ref=e178]:
+                  - generic [ref=e179]:
+                    - img [ref=e180]
+                    - generic [ref=e183]: "1005"
+                  - generic [ref=e184]:
+                    - img [ref=e185]
+                    - generic [ref=e187]: "2"
+                - heading "Implémenter formulaire d'inscription" [level=4] [ref=e188]
+                - paragraph [ref=e189]: Développer le formulaire d'inscription côté frontend
+                - generic [ref=e190]:
+                  - generic [ref=e191]: Feature
+                  - generic [ref=e192]: Frontend
+                - generic [ref=e193]: US-us2
+                - img "Claire Dubois" [ref=e196]
+              - generic [ref=e197] [cursor=pointer]:
+                - generic [ref=e198]:
+                  - generic [ref=e199]:
+                    - img [ref=e200]
+                    - generic [ref=e203]: "1006"
+                  - generic [ref=e204]:
+                    - img [ref=e205]
+                    - generic [ref=e207]: "3"
+                - heading "Créer liste de produits" [level=4] [ref=e208]
+                - paragraph [ref=e209]: Component pour afficher la liste des produits
+                - generic [ref=e210]:
+                  - generic [ref=e211]: Feature
+                  - generic [ref=e212]: Frontend
+                - generic [ref=e213]: US-us3
+                - generic [ref=e215]:
+                  - img "Claire Dubois" [ref=e216]
+                  - generic [ref=e217]: DL
+              - generic [ref=e218] [cursor=pointer]:
+                - generic [ref=e219]:
+                  - generic [ref=e220]:
+                    - img [ref=e221]
+                    - generic [ref=e224]: "1011"
+                  - generic [ref=e225]:
+                    - img [ref=e226]
+                    - generic [ref=e228]: "2"
+                - heading "Filtres catégories" [level=4] [ref=e229]
+                - paragraph [ref=e230]: Filtres par catégorie de produits
+                - generic [ref=e231]:
+                  - generic [ref=e232]: Feature
+                  - generic [ref=e233]: Frontend
+                - generic [ref=e234]: US-us5
+                - img "Claire Dubois" [ref=e237]
+          - generic [ref=e238]:
+            - heading "À tester (0)" [level=3] [ref=e240]:
+              - generic [ref=e241]: À tester
+              - generic [ref=e242]: (0)
+            - generic [ref=e244]: Aucune tâche
+          - generic [ref=e245]:
+            - heading "UAT (1)" [level=3] [ref=e247]:
+              - generic [ref=e248]: UAT
+              - generic [ref=e249]: (1)
+            - generic [ref=e251] [cursor=pointer]:
+              - generic [ref=e252]:
+                - generic [ref=e253]:
+                  - img [ref=e254]
+                  - generic [ref=e257]: "1009"
+                - generic [ref=e258]:
+                  - img [ref=e259]
+                  - generic [ref=e261]: "3"
+              - heading "Barre de recherche" [level=4] [ref=e262]
+              - paragraph [ref=e263]: Component de recherche de produits
+              - generic [ref=e264]:
+                - generic [ref=e265]: Feature
+                - generic [ref=e266]: Frontend
+              - generic [ref=e267]: US-us4
+              - img "Claire Dubois" [ref=e270]
+          - generic [ref=e271]:
+            - heading "Terminé (0)" [level=3] [ref=e273]:
+              - generic [ref=e274]: Terminé
+              - generic [ref=e275]: (0)
+            - generic [ref=e277]: Aucune tâche

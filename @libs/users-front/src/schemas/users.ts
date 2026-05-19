@@ -13,10 +13,28 @@ const UserSchema = withDefaults({
     { name: 'lastName', kind: 'attribute' },
     { name: 'email', kind: 'attribute' },
     { name: 'password', kind: 'attribute' },
+    { name: 'role', kind: 'attribute' },
+    { name: 'projectIds', kind: 'attribute' },
   ],
 });
 
 export default UserSchema;
+
+export type UserRole =
+  | 'Product Owner'
+  | 'Scrum Master'
+  | 'Developer'
+  | 'Designer UX'
+  | 'QA Tester';
+
+export interface UserData {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  role: string;
+  projectIds: string[];
+}
 
 export type User = WithLegacy<{
   createdAt: string;
@@ -25,5 +43,7 @@ export type User = WithLegacy<{
   lastName: string;
   email: string;
   password: string;
+  role: UserRole;
+  projectIds: string[];
   [Type]: 'users';
 }>;

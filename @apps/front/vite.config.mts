@@ -51,6 +51,9 @@ export default defineConfig({
       instances: [{ browser: 'chromium' }],
     },
   },
+  optimizeDeps: {
+    include: ['@embroider/config-meta-loader'],
+  },
   server: {
     proxy: apiProxy,
     host: '0.0.0.0',

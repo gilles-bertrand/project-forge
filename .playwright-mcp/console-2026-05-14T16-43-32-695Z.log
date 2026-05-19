@@ -1,0 +1,36 @@
+[      80ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778776913435:24
+[      88ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3391
+[      88ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3392
+[      88ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3393
+[      88ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3394
+[      88ms] [LOG] Client ID: %s (%s) fc3763fe-14a0-4698-bf4e-019ffbc6cbdd top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3395
+[     197ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) @ http://localhost:4200/login:0
+[   16454ms] [LOG] Request {url: URL, method: POST, headers: Object, body: {"email":"alice.martin@sprintforge.com","password":"123456789"}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[   16454ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[   16454ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"accessToken":"eyJhbGciOiJIUzUxMiIsInR5cC…FXva8Sv05iTGzETg","refreshToken":"mock-refresh"}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444
+[   16456ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[   16456ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[   16456ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444
+[   16457ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js?t=1778776912104:31
+[   16459ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[   16459ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[   16459ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":[{"id":"proj-1","type":"projects","attribu…At":"2025-01-10T10:00:00Z"}}],"meta":{"count":3}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444
+[  100025ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[  100025ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[  100025ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":[{"id":"proj-1","type":"projects","attribu…At":"2025-01-10T10:00:00Z"}}],"meta":{"count":3}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444
+[  121335ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[  121335ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[  121335ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":[{"id":"1","type":"users","attributes":{"f…:"bob.johnson@example.com"}}],"meta":{"total":3}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444
+[  156023ms] [LOG] Request {url: URL, method: POST, headers: Object, body: {"data":{"type":"projects","id":null,"lid":"0588e4…leId":"1","createdById":"1"},"relationships":{}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[  156023ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[  156023ms] [LOG] Response {status: 201, statusText: Created, headers: Object, body: {"data":{"id":"0588e4bc-d259-46bb-a1fd-e8b143e6365…8.717Z","updatedAt":"2026-05-14T16:46:08.717Z"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444
+[  156026ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:442
+[  156026ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:443
+[  156026ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":[{"id":"proj-1","type":"projects","attribu…"2026-05-14T16:46:08.717Z"}}],"meta":{"count":4}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=14610d99:444
+[  220820ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778776913435:24
+[  220851ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3391
+[  220851ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3392
+[  220851ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3393
+[  220851ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3394
+[  220851ms] [LOG] Client ID: %s (%s) e72b0959-936f-4a02-95ff-4dec421867f6 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=14610d99:3395
+[  220957ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) @ http://localhost:4200/login:0

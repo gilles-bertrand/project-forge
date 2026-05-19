@@ -1,0 +1,35 @@
+title: 'Sprints'
+subtitle: 'Gérez vos sprints Scrum'
+actions:
+  planSprint: '+ Planifier un sprint'
+  history: 'Historique'
+  stopSprint: 'Stopper'
+  startSprint: 'Planifier'
+status:
+  planned: 'À faire'
+  active: 'En cours'
+  completed: 'Terminé'
+card:
+  goalLabel: 'Objectif du sprint'
+  velocityLabel: 'Vélocité'
+  progress: '{done}/{total} tâches ({percent}%)'
+  tasksLabel: 'Tâches ({count})'
+  tasksEmpty: 'Aucune tâche assignée'
+pagination:
+  range: 'Sprint {from} à {to} sur {total}'
+modal:
+  add:
+    title: 'Planifier un sprint'
+    closeAria: 'Fermer'
+    name: 'Nom du sprint'
+    namePlaceholder: 'Ex: Sprint 1 — Authentification'
+    goal: 'Objectif'
+    goalPlaceholder: 'Ex: Finaliser le flow login...'
+    startDate: 'Date de début'
+    endDate: 'Date de fin'
+    velocity: 'Vélocité initiale (pts)'
+    cancel: 'Annuler'
+    submit: 'Créer le sprint'
+    submitting: 'Création...'
+    errorFallback: 'Erreur lors de la création'
+dropHint: 'Glissez une tâche ici pour la planifier dans ce sprint'

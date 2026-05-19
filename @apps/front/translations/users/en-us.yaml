@@ -13,9 +13,16 @@ table:
 forms:
   login:
     title: 'Login'
+    email: 'Email'
+    password: 'Password'
+    submit: 'Sign in'
+    forgotPassword: 'Forgot password?'
     validation:
       invalidEmail: 'Please enter a valid email address'
       passwordTooShort: 'Password must be at least 8 characters'
+    error:
+      invalidCredentials: 'Invalid email or password.'
+      generic: 'Sign in failed. Please try again.'
   forgotPassword:
     title: 'Forgot Password'
     validation:
@@ -43,4 +50,30 @@ forms:
 
 pages:
   list:
-    title: 'User List'
+    title: 'Users'
+    subtitle: '{count} team members'
+    emptyState: 'No users found'
+
+card:
+  projects:
+    label: 'Assigned projects:'
+    count: '{count, plural, =0 {0 projects} one {1 project} other {# projects}}'
+
+modal:
+  add:
+    title: 'New user'
+    closeAria: 'Close'
+    firstName: 'First name'
+    firstNamePlaceholder: 'Ex: Alice'
+    lastName: 'Last name'
+    lastNamePlaceholder: 'Ex: Martin'
+    email: 'Email'
+    emailPlaceholder: 'alice.martin@example.com'
+    password: 'Password'
+    passwordPlaceholder: 'At least 8 characters'
+    role: 'Role'
+    color: 'Color'
+    cancel: 'Cancel'
+    submit: 'Create user'
+    submitting: 'Creating...'
+    errorFallback: 'Failed to create user'

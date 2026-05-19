@@ -1,8 +1,63 @@
-import UsersTable from '#src/components/user-table.gts';
-import type { TOC } from '@ember/component/template-only';
+import Component from '@glimmer/component';
+import { service } from '@ember/service';
+import { action } from '@ember/object';
+import { on } from '@ember/modifier';
+import { t } from 'ember-intl';
+import UsersGrid from '#src/components/users-grid.gts';
+import type AddItemRouterService from '@libs/shared-front/services/add-item-router';
 import type UsersIndexRoute from './index.gts';
 
-export default <template><UsersTable /></template> as TOC<{
-  model: Awaited<ReturnType<UsersIndexRoute['model']>>;
-  controller: undefined;
-}>
+interface DashboardUsersIndexSignature {
+  Args: {
+    model: Awaited<ReturnType<UsersIndexRoute['model']>>;
+  };
+}
+
+export default class DashboardUsersIndex extends Component<DashboardUsersIndexSignature> {
+  @service declare addItemRouter: AddItemRouterService;
+
+  get userCount(): number {
+    return this.args.model.length;
+  }
+
+  @action openAddUser() {
+    this.addItemRouter.open('user');
+  }
+
+  <template>
+    <div class="space-y-6">
+      <header class="flex items-start justify-between gap-4">
+        <div>
+          <h1 class="text-3xl font-bold" data-test-title>
+            {{t "users.pages.list.title"}}
+          </h1>
+          <p class="opacity-60">
+            {{t "users.pages.list.subtitle" count=this.userCount}}
+          </p>
+        </div>
+        <button
+          type="button"
+          class="btn btn-primary btn-sm gap-2"
+          data-test-add-user
+          {{on "click" this.openAddUser}}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            class="size-4 stroke-current"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+          {{t "users.table.actions.addUser"}}
+        </button>
+      </header>
+      <UsersGrid @users={{@model}} />
+    </div>
+  </template>
+}

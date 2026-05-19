@@ -1,0 +1,20 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - heading "SprintForge" [level=1] [ref=e4]
+    - paragraph [ref=e5]: Outil de gestion de projets Scrum
+  - generic [ref=e7]:
+    - heading "Login" [level=2] [ref=e8]
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - generic [ref=e12]: Email *
+        - textbox "Email *" [ref=e13]: deflorenne.amaury@triptyk.eu
+      - generic [ref=e14]:
+        - generic [ref=e16]: Password *
+        - generic [ref=e17]:
+          - textbox "Password *" [ref=e18]: "123456789"
+          - button "hide" [ref=e19]:
+            - img [ref=e20]
+      - button "Sign in" [ref=e22]
+    - link "Forgot password?" [ref=e24] [cursor=pointer]:
+      - /url: /forgot-password
+  - contentinfo [ref=e25]: SprintForge © 2026 - Gestion de projets Scrum

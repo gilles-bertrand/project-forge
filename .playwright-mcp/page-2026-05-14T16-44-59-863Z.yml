@@ -1,0 +1,98 @@
+- generic [ref=e26]:
+  - generic [ref=e27]:
+    - navigation [ref=e28]:
+      - button "toggle sidebar" [ref=e30] [cursor=pointer]:
+        - img [ref=e31]
+      - list [ref=e34]
+      - button "John Doe" [ref=e37] [cursor=pointer]:
+        - generic [ref=e38]: John Doe
+        - img [ref=e39]
+    - generic [ref=e41]:
+      - generic [ref=e42]: Projet
+      - combobox "Projet" [active] [ref=e44]:
+        - generic [ref=e157]: E-Commerce Platform
+        - button "×" [ref=e158]
+      - generic [ref=e47]:
+        - button [ref=e48]:
+          - img [ref=e49]
+        - searchbox [ref=e51]
+      - button "Log time" [disabled] [ref=e52]
+      - button "Add" [disabled] [ref=e53]
+    - main [ref=e54]:
+      - generic [ref=e55]:
+        - generic [ref=e56]:
+          - generic [ref=e58]:
+            - heading "Tâches terminées" [level=2] [ref=e59]
+            - paragraph [ref=e60]: 0 / 0
+            - paragraph [ref=e61]: Données disponibles en P10
+          - generic [ref=e63]:
+            - heading "Heures travaillées" [level=2] [ref=e64]
+            - paragraph [ref=e65]: "0"
+            - paragraph [ref=e66]: Données disponibles en P10
+          - generic [ref=e68]:
+            - heading "Points d'efforts" [level=2] [ref=e69]
+            - paragraph [ref=e70]: "0"
+            - paragraph [ref=e71]: Données disponibles en P10
+        - generic [ref=e74]:
+          - heading "Tableau de bord" [level=1] [ref=e75]
+          - paragraph [ref=e76]: Données réelles disponibles en P10
+  - generic [ref=e78]:
+    - generic [ref=e80]: SprintForge
+    - list [ref=e81]:
+      - listitem [ref=e82]:
+        - group [ref=e83]:
+          - generic "Navigation" [ref=e84]
+          - list [ref=e85]:
+            - listitem [ref=e86]:
+              - link "Tableau de bord" [ref=e87] [cursor=pointer]:
+                - /url: /
+                - img [ref=e88]
+                - generic [ref=e90]: Tableau de bord
+            - listitem [ref=e91]:
+              - link "Projets" [ref=e92] [cursor=pointer]:
+                - /url: /projects
+                - img [ref=e93]
+                - generic [ref=e95]: Projets
+            - listitem [ref=e96]:
+              - link "Backlog" [ref=e97] [cursor=pointer]:
+                - /url: /backlog
+                - img [ref=e98]
+                - generic [ref=e100]: Backlog
+            - listitem [ref=e101]:
+              - link "Kanban" [ref=e102] [cursor=pointer]:
+                - /url: /kanban
+                - img [ref=e103]
+                - generic [ref=e105]: Kanban
+            - listitem [ref=e106]:
+              - link "User Story Map" [ref=e107] [cursor=pointer]:
+                - /url: /user-story-map
+                - img [ref=e108]
+                - generic [ref=e110]: User Story Map
+            - listitem [ref=e111]:
+              - link "Sprints" [ref=e112] [cursor=pointer]:
+                - /url: /sprints
+                - img [ref=e113]
+                - generic [ref=e117]: Sprints
+            - listitem [ref=e118]:
+              - link "Suivi du temps" [ref=e119] [cursor=pointer]:
+                - /url: /time-tracking
+                - img [ref=e120]
+                - generic [ref=e123]: Suivi du temps
+      - listitem [ref=e124]:
+        - group [ref=e125]:
+          - generic "Administration" [ref=e126]
+          - list [ref=e127]:
+            - listitem [ref=e128]:
+              - link "Utilisateurs" [ref=e129] [cursor=pointer]:
+                - /url: /users
+                - img [ref=e130]
+                - generic [ref=e132]: Utilisateurs
+            - listitem [ref=e133]:
+              - link "Paramètres" [ref=e134] [cursor=pointer]:
+                - /url: /settings
+                - img [ref=e135]
+                - generic [ref=e138]: Paramètres
+    - button "Theme" [ref=e141] [cursor=pointer]:
+      - img [ref=e142]
+      - generic [ref=e144]: Theme
+      - img [ref=e145]

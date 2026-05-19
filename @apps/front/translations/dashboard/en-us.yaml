@@ -1,4 +1,12 @@
 sidebar:
   dashboard: 'Dashboard'
   users: 'Users'
-  todos: 'Todos'
+title: 'Dashboard'
+subtitle: 'Active sprint - Sprint tasks'
+kpi:
+  completedTasks: 'Completed tasks'
+  hoursWorked: 'Hours worked'
+  storyPoints: 'Story points'
+sprintTasks: 'Sprint tasks ({count})'
+noActiveSprint: 'No active sprint on this project. Start one from /sprints.'
+noSprintTasks: 'No tasks in this sprint.'

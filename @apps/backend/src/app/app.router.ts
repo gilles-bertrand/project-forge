@@ -1,17 +1,19 @@
 import { type AuthModule, type UserModule } from "@libs/users-backend";
+import type { ScrumModule } from "@libs/scrum-backend";
+import type { TimeTrackingModule } from "@libs/time-tracking-backend";
 import type { FastifyInstanceType } from "./app.js";
 import { statusRoute } from "./status.route.js";
-import { Module as TodoModule } from "@libs/todos-backend";
 
 interface AppRouterOptions {
   authModule: AuthModule;
   userModule: UserModule;
-  todosModule: TodoModule;
+  scrumModule: ScrumModule;
+  timeTrackingModule: TimeTrackingModule;
 }
 
 export async function appRouter(
   fastify: FastifyInstanceType,
-  { authModule, userModule, todosModule }: AppRouterOptions,
+  { authModule, userModule, scrumModule, timeTrackingModule }: AppRouterOptions,
 ) {
   await fastify.register(
     async function (fastify) {
@@ -27,7 +29,8 @@ export async function appRouter(
       });
 
       await userModule.setupRoutes(fastify);
-      await todosModule.setupRoutes(fastify);
+      await scrumModule.setupRoutes(fastify);
+      await timeTrackingModule.setupRoutes(fastify);
     },
     {
       prefix: "api/v1",

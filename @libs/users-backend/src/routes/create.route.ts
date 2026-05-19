@@ -9,6 +9,7 @@ import {
 import { hash } from "argon2";
 import { email, object, string } from "zod";
 import { makeSingleJsonApiTopDocument, type Route } from "@libs/backend-shared";
+import { UserRoleSchema, UserColorSchema } from "#src/types.js";
 
 export class CreateRoute implements Route {
   public constructor(private userRepository: EntityRepository<UserEntityType>) {}
@@ -26,6 +27,9 @@ export class CreateRoute implements Route {
                 firstName: string(),
                 lastName: string(),
                 password: string(),
+                role: UserRoleSchema,
+                color: UserColorSchema,
+                avatar: string().url().nullable().optional(),
               }),
             }),
           ),
@@ -45,6 +49,9 @@ export class CreateRoute implements Route {
           firstName: body.firstName,
           lastName: body.lastName,
           password,
+          role: body.role,
+          color: body.color,
+          avatar: body.avatar ?? null,
         });
 
         await this.userRepository.getEntityManager().flush();

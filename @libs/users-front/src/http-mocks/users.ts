@@ -1,34 +1,97 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+// TODO: openapi-msw migration — refactor `notFound`-style 404 responses to use
+// `response(404).json(...)` helper, then switch to `createOpenApiHttp`.
+// `/api/v1/users/:id/notifications` and `/api/v1/users/:id/change-password` are
+// NOT declared in the backend OpenAPI schema and will stay on raw `http` until
+// the backend exposes them.
 import { http, HttpResponse } from 'msw';
+
+interface NotificationPreferences {
+  email: boolean;
+  assignedTasks: boolean;
+  weeklyDigest: boolean;
+}
+
+const notificationsByUserId: Record<string, NotificationPreferences> = {};
 
 const mockUsers = [
   {
     id: '1',
     type: 'users' as const,
     attributes: {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john.doe@example.com',
+      firstName: 'Alice',
+      lastName: 'Martin',
+      email: 'alice.martin@sprintforge.com',
+      role: 'Product Owner',
+      projectIds: [] as string[],
     },
   },
   {
     id: '2',
     type: 'users' as const,
     attributes: {
-      firstName: 'Jane',
-      lastName: 'Smith',
-      email: 'jane.smith@example.com',
+      firstName: 'Bob',
+      lastName: 'Durant',
+      email: 'bob.durant@sprintforge.com',
+      role: 'Scrum Master',
+      projectIds: ['proj-1', 'proj-2'],
     },
   },
   {
     id: '3',
     type: 'users' as const,
     attributes: {
-      firstName: 'Bob Johnson',
-      lastName: 'Johnson',
-      email: 'bob.johnson@example.com',
+      firstName: 'Claire',
+      lastName: 'Dubois',
+      email: 'claire.dubois@sprintforge.com',
+      role: 'Developer',
+      projectIds: ['proj-1', 'proj-2', 'proj-3'],
+    },
+  },
+  {
+    id: '4',
+    type: 'users' as const,
+    attributes: {
+      firstName: 'David',
+      lastName: 'Leroy',
+      email: 'david.leroy@sprintforge.com',
+      role: 'Developer',
+      projectIds: ['proj-1', 'proj-3'],
+    },
+  },
+  {
+    id: '5',
+    type: 'users' as const,
+    attributes: {
+      firstName: 'Emma',
+      lastName: 'Bernard',
+      email: 'emma.bernard@sprintforge.com',
+      role: 'Designer UX',
+      projectIds: ['proj-1', 'proj-2'],
+    },
+  },
+  {
+    id: '6',
+    type: 'users' as const,
+    attributes: {
+      firstName: 'François',
+      lastName: 'Petit',
+      email: 'francois.petit@sprintforge.com',
+      role: 'QA Tester',
+      projectIds: ['proj-1'],
+    },
+  },
+  {
+    id: '7',
+    type: 'users' as const,
+    attributes: {
+      firstName: 'Gaëlle',
+      lastName: 'Moreau',
+      email: 'gaelle.moreau@sprintforge.com',
+      role: 'Developer',
+      projectIds: ['proj-2', 'proj-3'],
     },
   },
 ];
@@ -165,5 +228,72 @@ export default [
         { status: 404 }
       );
     }
+  }),
+
+  // Notifications preferences
+  http.get('/api/v1/users/:id/notifications', ({ params }) => {
+    const prefs = notificationsByUserId[params['id'] as string] ?? {
+      email: true,
+      assignedTasks: true,
+      weeklyDigest: false,
+    };
+    return HttpResponse.json({
+      data: {
+        id: params['id'],
+        type: 'user-notifications',
+        attributes: prefs,
+      },
+    });
+  }),
+
+  http.patch('/api/v1/users/:id/notifications', async ({ params, request }) => {
+    const body = (await request.json()) as {
+      data: { attributes: NotificationPreferences };
+    };
+    notificationsByUserId[params['id'] as string] = body.data.attributes;
+    return HttpResponse.json({
+      data: {
+        id: params['id'],
+        type: 'user-notifications',
+        attributes: body.data.attributes,
+      },
+    });
+  }),
+
+  // Change password
+  http.post('/api/v1/users/:id/change-password', async ({ request }) => {
+    const body = (await request.json()) as {
+      data: { attributes: { currentPassword: string; newPassword: string } };
+    };
+    const { currentPassword, newPassword } = body.data.attributes;
+    if (!currentPassword || currentPassword.length === 0) {
+      return HttpResponse.json(
+        {
+          errors: [
+            {
+              status: '400',
+              code: 'INVALID_PASSWORD',
+              detail: 'Current password required',
+            },
+          ],
+        },
+        { status: 400 }
+      );
+    }
+    if (!newPassword || newPassword.length < 8) {
+      return HttpResponse.json(
+        {
+          errors: [
+            {
+              status: '400',
+              code: 'PASSWORD_TOO_SHORT',
+              detail: 'New password must be at least 8 characters',
+            },
+          ],
+        },
+        { status: 400 }
+      );
+    }
+    return HttpResponse.json({ data: { success: true } });
   }),
 ];

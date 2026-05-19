@@ -1,0 +1,345 @@
+- generic [ref=e7]:
+  - generic [ref=e8]:
+    - heading "SprintForge" [level=1] [ref=e10]
+    - navigation [ref=e12]:
+      - link "Tableau de bord" [ref=e13] [cursor=pointer]:
+        - /url: /
+        - img [ref=e14]
+        - generic [ref=e19]: Tableau de bord
+      - link "Projets" [ref=e20] [cursor=pointer]:
+        - /url: /projects
+        - img [ref=e21]
+        - generic [ref=e23]: Projets
+      - link "Backlog" [ref=e24] [cursor=pointer]:
+        - /url: /backlog
+        - img [ref=e25]
+        - generic [ref=e28]: Backlog
+      - link "Kanban" [ref=e29] [cursor=pointer]:
+        - /url: /kanban
+        - img [ref=e30]
+        - generic [ref=e32]: Kanban
+      - link "User Story Map" [ref=e33] [cursor=pointer]:
+        - /url: /user-story-map
+        - img [ref=e34]
+        - generic [ref=e36]: User Story Map
+      - link "Sprints" [ref=e37] [cursor=pointer]:
+        - /url: /sprints
+        - img [ref=e38]
+        - generic [ref=e41]: Sprints
+      - link "Suivi du temps" [ref=e42] [cursor=pointer]:
+        - /url: /time-tracking
+        - img [ref=e43]
+        - generic [ref=e46]: Suivi du temps
+    - navigation [ref=e48]:
+      - link "Utilisateurs" [ref=e49] [cursor=pointer]:
+        - /url: /users
+        - img [ref=e50]
+        - generic [ref=e55]: Utilisateurs
+      - link "Paramètres" [ref=e56] [cursor=pointer]:
+        - /url: /settings
+        - img [ref=e57]
+        - generic [ref=e60]: Paramètres
+    - generic [ref=e63]:
+      - img "Claire Dubois" [ref=e64]
+      - generic [ref=e65]:
+        - paragraph [ref=e66]: Claire Dubois
+        - paragraph [ref=e67]: Developer
+      - button "Se déconnecter" [ref=e68]:
+        - img [ref=e69]
+  - generic [ref=e72]:
+    - banner [ref=e73]:
+      - button "E-Commerce Platform" [ref=e75]:
+        - generic [ref=e76]: E-Commerce Platform
+        - img [ref=e77]
+      - generic [ref=e79]:
+        - generic [ref=e80]:
+          - img [ref=e81]
+          - textbox "Rechercher..." [ref=e84]
+        - button "Enregistrer du temps" [ref=e85]:
+          - img [ref=e86]
+          - generic [ref=e89]: Enregistrer du temps
+        - button "Ajouter" [ref=e90]:
+          - img [ref=e91]
+          - generic [ref=e92]: Ajouter
+        - button "Activer le mode clair" [ref=e93]:
+          - img [ref=e94]
+    - main [ref=e100]:
+      - generic [ref=e101]:
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - heading "Sprints" [level=1] [ref=e104]
+            - paragraph [ref=e105]: Gérez vos sprints Scrum
+          - generic [ref=e106]:
+            - button "Historique" [ref=e107]:
+              - img [ref=e108]
+              - generic [ref=e112]: Historique
+            - button "Planifier un sprint" [ref=e113]:
+              - img [ref=e114]
+              - generic [ref=e115]: Planifier un sprint
+        - generic [ref=e116]:
+          - generic [ref=e118]: Sprint 4 à 6 sur 6
+          - generic [ref=e119]:
+            - button "Sprints précédents" [ref=e120]:
+              - img [ref=e121]
+            - button "Sprints suivants" [ref=e123]:
+              - img [ref=e124]
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e128]:
+              - heading "Sprint en cours" [level=2] [ref=e129]
+              - generic [ref=e131]:
+                - heading "Sprint 88" [level=3] [ref=e132]
+                - button "Modifier le sprint" [ref=e133]:
+                  - img [ref=e134]
+              - generic [ref=e138]: En cours
+              - generic [ref=e139]:
+                - generic [ref=e140]: "Objectif du sprint :"
+                - text: Finaliser le tunnel d'achat et intégrer le paiement Stripe
+              - generic [ref=e141]:
+                - img [ref=e142]
+                - generic [ref=e144]: 20/01/2025 - 02/02/2025
+              - generic [ref=e146]:
+                - img [ref=e147]
+                - generic [ref=e149]:
+                  - text: "Vélocité:"
+                  - generic [ref=e150]: 18 points
+              - generic [ref=e152]:
+                - generic [ref=e153]: Progression
+                - generic [ref=e154]: 1/8 tâches (13%)
+              - button "Stopper" [ref=e157]:
+                - img [ref=e158]
+                - generic [ref=e161]: Stopper
+            - generic [ref=e162]:
+              - heading "Tâches (8)" [level=4] [ref=e164]
+              - generic [ref=e165]:
+                - generic [ref=e166] [cursor=pointer]:
+                  - generic [ref=e167]:
+                    - generic [ref=e168]:
+                      - generic [ref=e169]: "#1005"
+                      - heading "Implémenter formulaire d'inscription" [level=3] [ref=e170]
+                    - generic [ref=e171]:
+                      - generic [ref=e172]: Feature
+                      - generic [ref=e173]: Frontend
+                      - generic [ref=e174]: US-us2
+                  - generic [ref=e175]:
+                    - img "Claire Dubois" [ref=e177]
+                    - generic [ref=e178]:
+                      - img [ref=e179]
+                      - generic [ref=e181]: "2"
+                - generic [ref=e182] [cursor=pointer]:
+                  - generic [ref=e183]:
+                    - generic [ref=e184]:
+                      - generic [ref=e185]: "#1006"
+                      - heading "Créer liste de produits" [level=3] [ref=e186]
+                    - generic [ref=e187]:
+                      - generic [ref=e188]: Feature
+                      - generic [ref=e189]: Frontend
+                      - generic [ref=e190]: US-us3
+                  - generic [ref=e191]:
+                    - generic [ref=e192]:
+                      - img "Claire Dubois" [ref=e193]
+                      - generic [ref=e194]: DL
+                    - generic [ref=e195]:
+                      - img [ref=e196]
+                      - generic [ref=e198]: "3"
+                - generic [ref=e199] [cursor=pointer]:
+                  - generic [ref=e200]:
+                    - generic [ref=e201]:
+                      - generic [ref=e202]: "#1007"
+                      - heading "API produits" [level=3] [ref=e203]
+                    - generic [ref=e204]:
+                      - generic [ref=e205]: Feature
+                      - generic [ref=e206]: Backend
+                      - generic [ref=e207]: US-us3
+                  - generic [ref=e208]:
+                    - generic [ref=e210]: DL
+                    - generic [ref=e211]:
+                      - img [ref=e212]
+                      - generic [ref=e214]: "3"
+                - generic [ref=e215] [cursor=pointer]:
+                  - generic [ref=e216]:
+                    - generic [ref=e217]:
+                      - generic [ref=e218]: "#1008"
+                      - heading "Pagination produits" [level=3] [ref=e219]
+                    - generic [ref=e220]:
+                      - generic [ref=e221]: Feature
+                      - generic [ref=e222]: Frontend
+                      - generic [ref=e223]: US-us3
+                  - generic [ref=e224]:
+                    - img "Claire Dubois" [ref=e226]
+                    - generic [ref=e227]:
+                      - img [ref=e228]
+                      - generic [ref=e230]: "2"
+                - generic [ref=e231] [cursor=pointer]:
+                  - generic [ref=e232]:
+                    - generic [ref=e233]:
+                      - generic [ref=e234]: "#1009"
+                      - heading "Barre de recherche" [level=3] [ref=e235]
+                    - generic [ref=e236]:
+                      - generic [ref=e237]: Feature
+                      - generic [ref=e238]: Frontend
+                      - generic [ref=e239]: US-us4
+                  - generic [ref=e240]:
+                    - img "Claire Dubois" [ref=e242]
+                    - generic [ref=e243]:
+                      - img [ref=e244]
+                      - generic [ref=e246]: "3"
+                - generic [ref=e247] [cursor=pointer]:
+                  - generic [ref=e248]:
+                    - generic [ref=e249]:
+                      - generic [ref=e250]: "#1010"
+                      - heading "API recherche produits" [level=3] [ref=e251]
+                    - generic [ref=e252]:
+                      - generic [ref=e253]: Feature
+                      - generic [ref=e254]: Backend
+                      - generic [ref=e255]: US-us4
+                  - generic [ref=e256]:
+                    - generic [ref=e258]: DL
+                    - generic [ref=e259]:
+                      - img [ref=e260]
+                      - generic [ref=e262]: "2"
+                - generic [ref=e263] [cursor=pointer]:
+                  - generic [ref=e264]:
+                    - generic [ref=e265]:
+                      - generic [ref=e266]: "#1011"
+                      - heading "Filtres catégories" [level=3] [ref=e267]
+                    - generic [ref=e268]:
+                      - generic [ref=e269]: Feature
+                      - generic [ref=e270]: Frontend
+                      - generic [ref=e271]: US-us5
+                  - generic [ref=e272]:
+                    - img "Claire Dubois" [ref=e274]
+                    - generic [ref=e275]:
+                      - img [ref=e276]
+                      - generic [ref=e278]: "2"
+                - generic [ref=e279] [cursor=pointer]:
+                  - generic [ref=e280]:
+                    - generic [ref=e281]:
+                      - generic [ref=e282]: "#1012"
+                      - heading "Filtres prix" [level=3] [ref=e283]
+                    - generic [ref=e284]:
+                      - generic [ref=e285]: Feature
+                      - generic [ref=e286]: Frontend
+                      - generic [ref=e287]: US-us5
+                  - generic [ref=e288]:
+                    - img "Claire Dubois" [ref=e290]
+                    - generic [ref=e291]:
+                      - img [ref=e292]
+                      - generic [ref=e294]: "1"
+          - generic [ref=e295]:
+            - generic [ref=e296]:
+              - heading "Sprint en cours" [level=2] [ref=e610]
+              - generic [ref=e299]:
+                - heading "Sprint 89" [level=3] [ref=e300]
+                - button "Modifier le sprint" [ref=e301]:
+                  - img [ref=e302]
+              - generic [ref=e306]: En cours
+              - generic [ref=e307]:
+                - generic [ref=e308]: "Objectif du sprint :"
+                - text: Amélioration de la gestion des expéditions et suivi colis
+              - generic [ref=e309]:
+                - img [ref=e310]
+                - generic [ref=e312]: 03/02/2025 - 16/02/2025
+              - generic [ref=e612]:
+                - img [ref=e613]
+                - generic [ref=e615]:
+                  - text: "Vélocité:"
+                  - generic [ref=e616]: 0 points
+              - button "Stopper" [ref=e617]:
+                - img [ref=e618]
+                - generic [ref=e316]: Stopper
+            - generic [ref=e317]:
+              - heading "Tâches" [level=4] [ref=e319]
+              - generic [ref=e320]: Aucune tâche assignée
+          - generic [ref=e321]:
+            - generic [ref=e322]:
+              - heading "Sprint suivant" [level=2] [ref=e323]
+              - generic [ref=e325]:
+                - heading "Sprint 90" [level=3] [ref=e326]
+                - button "Modifier le sprint" [ref=e327]:
+                  - img [ref=e328]
+              - generic [ref=e332]: À faire
+              - generic [ref=e333]:
+                - generic [ref=e334]: "Objectif du sprint :"
+                - text: Optimisation des performances et refonte du tableau de bord admin
+              - generic [ref=e335]:
+                - img [ref=e336]
+                - generic [ref=e338]: 17/02/2025 - 02/03/2025
+              - button "Planifier" [ref=e339]:
+                - img [ref=e340]
+                - generic [ref=e342]: Planifier
+            - generic [ref=e343]:
+              - heading "Tâches" [level=4] [ref=e345]
+              - generic [ref=e346]: Aucune tâche assignée
+          - generic [ref=e348]:
+            - paragraph [ref=e349]: Aucun sprint
+            - button "+ Créer un sprint" [ref=e350]
+        - generic [ref=e352]:
+          - generic [ref=e353]:
+            - generic [ref=e354]:
+              - heading "Historique des sprints" [level=2] [ref=e355]
+              - paragraph [ref=e356]: 3 sprints terminés
+            - button [ref=e357]:
+              - img [ref=e358]
+          - generic [ref=e362]:
+            - generic [ref=e363]:
+              - generic [ref=e364]:
+                - generic [ref=e365]:
+                  - generic [ref=e366]:
+                    - heading "Sprint 87" [level=3] [ref=e367]
+                    - generic [ref=e368]: Terminé
+                  - paragraph [ref=e369]: E-Commerce Platform
+                  - generic [ref=e370]: "Objectif: Intégration de la page panier et début du tunnel de commande"
+                - generic [ref=e371]:
+                  - generic [ref=e372]:
+                    - img [ref=e373]
+                    - generic [ref=e375]: 23 déc. - 05 janv. 2025
+                  - generic [ref=e376]:
+                    - img [ref=e377]
+                    - generic [ref=e379]:
+                      - text: "Vélocité:"
+                      - generic [ref=e380]: 0 pts
+              - generic [ref=e382]:
+                - generic [ref=e383]: Tâches complétées
+                - generic [ref=e384]: 0/0 (0%)
+            - generic [ref=e386]:
+              - generic [ref=e387]:
+                - generic [ref=e388]:
+                  - generic [ref=e389]:
+                    - heading "Sprint 86" [level=3] [ref=e390]
+                    - generic [ref=e391]: Terminé
+                  - paragraph [ref=e392]: E-Commerce Platform
+                  - generic [ref=e393]: "Objectif: Implémentation du catalogue de produits et de la recherche basique"
+                - generic [ref=e394]:
+                  - generic [ref=e395]:
+                    - img [ref=e396]
+                    - generic [ref=e398]: 09 déc. - 22 déc. 2024
+                  - generic [ref=e399]:
+                    - img [ref=e400]
+                    - generic [ref=e402]:
+                      - text: "Vélocité:"
+                      - generic [ref=e403]: 0 pts
+              - generic [ref=e405]:
+                - generic [ref=e406]: Tâches complétées
+                - generic [ref=e407]: 0/0 (0%)
+            - generic [ref=e409]:
+              - generic [ref=e410]:
+                - generic [ref=e411]:
+                  - generic [ref=e412]:
+                    - heading "Sprint 85" [level=3] [ref=e413]
+                    - generic [ref=e414]: Terminé
+                  - paragraph [ref=e415]: E-Commerce Platform
+                  - generic [ref=e416]: "Objectif: Mise en place de l'infrastructure initiale et configuration du projet"
+                - generic [ref=e417]:
+                  - generic [ref=e418]:
+                    - img [ref=e419]
+                    - generic [ref=e421]: 25 nov. - 08 déc. 2024
+                  - generic [ref=e422]:
+                    - img [ref=e423]
+                    - generic [ref=e425]:
+                      - text: "Vélocité:"
+                      - generic [ref=e426]: 13 pts
+              - generic [ref=e428]:
+                - generic [ref=e429]: Tâches complétées
+                - generic [ref=e430]: 4/4 (100%)
+          - button "Fermer" [ref=e434]

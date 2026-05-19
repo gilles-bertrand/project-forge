@@ -1,0 +1,1 @@
+{"version":3,"file":"status-badge.d.ts","sourceRoot":"","sources":["../../src/components/status-badge.gts"],"names":[],"mappings":"AA6BA,OAAO,KAAK,EAAE,GAAG,EAAE,MAAM,gCAAgC,CAAC;AAG1D,OAAO,KAAK,EAAE,aAAa,EAAE,MAAM,wBAAwB,CAAC;AAE5D,UAAU,oBAAoB;IAC5B,IAAI,EAAE;QAAE,MAAM,EAAE,aAAa,CAAA;KAAE,CAAC;CACjC;AAeD,QAAA,MAAM,WAAW,EAAE,GAAG,CAAC,oBAAoB,CAWzC,CAAC;AAEH,eAAe,WAAW,CAAC"}

@@ -27,6 +27,9 @@ class Router extends EmberRouter {
 
 Router.map(function () {
   this.route('dashboard', function () {
+    this.route('users', function () {
+      this.route('index', { path: '/' });
+    });
     forRouter.call(this);
   });
   authRoutes.call(this);
@@ -55,7 +58,70 @@ export default class TestStore extends useLegacyStore({
   schemas: [UserSchema],
 }) {}
 
-export async function initializeTestApp(owner: Owner, locale: string) {
+const USERS_FR = {
+  users: {
+    pages: {
+      list: {
+        title: 'Utilisateurs',
+        subtitle: "{count} membres de l'équipe",
+        emptyState: 'Aucun utilisateur',
+      },
+    },
+    card: {
+      projects: {
+        label: 'Projets assignés :',
+        count: '{count} projet(s)',
+      },
+    },
+  },
+  settings: {
+    title: 'Paramètres',
+    subtitle: 'Gérez vos préférences et votre compte',
+    profile: {
+      title: 'Profil utilisateur',
+      fields: {
+        firstName: 'Prénom',
+        lastName: 'Nom',
+        email: 'Email',
+        role: 'Rôle',
+      },
+      actions: { save: 'Sauvegarder', saving: 'Sauvegarde...' },
+    },
+    notifications: {
+      title: 'Notifications',
+      items: {
+        email: 'Notifications par email',
+        assignedTasks: 'Notifications de tâches assignées',
+        weeklyDigest: 'Résumé hebdomadaire',
+      },
+    },
+    security: {
+      title: 'Sécurité',
+      fields: {
+        currentPassword: 'Mot de passe actuel',
+        newPassword: 'Nouveau mot de passe',
+        confirmPassword: 'Confirmation du mot de passe',
+      },
+      actions: {
+        changePassword: 'Changer le mot de passe',
+        changing: 'Modification...',
+      },
+      errors: {
+        passwordTooShort: 'Trop court',
+        passwordMismatch: 'Ne correspondent pas',
+        currentPasswordRequired: 'Requis',
+        serverError: 'Erreur serveur',
+      },
+    },
+    messages: {
+      profileSaved: 'Profil sauvegardé',
+      notificationsSaved: 'Notifications mises à jour',
+      passwordChanged: 'Mot de passe changé',
+    },
+  },
+};
+
+export async function initializeTestApp(owner: Owner, locale = 'fr-fr') {
   owner.register('session-stores:application', AdaptiveStore);
   owner.register('service:store', TestStore);
   owner.register('service:flash-messages', FlashMessageService);
@@ -65,6 +131,7 @@ export async function initializeTestApp(owner: Owner, locale: string) {
 
   router.setupRouter();
   const intl = owner.lookup('service:intl');
+  intl.addTranslations('fr-fr', USERS_FR);
   intl.setLocale(locale);
   intl.setOnMissingTranslation((key) => `t:${key}`);
   setupSession(owner);

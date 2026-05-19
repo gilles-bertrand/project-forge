@@ -18,6 +18,7 @@
     },
     "./addon-main.js": "./addon-main.cjs",
     "./*.css": "./dist/*.css",
+    "./styles/*.css": "./dist/styles/*.css",
     "./*": {
       "types": "./declarations/*.d.ts",
       "default": "./dist/*.js"
@@ -131,8 +132,10 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {
+      "./services/add-item-router.js": "./dist/_app_/services/add-item-router.js",
       "./services/error-reporter.js": "./dist/_app_/services/error-reporter.js",
-      "./services/handle-save.js": "./dist/_app_/services/handle-save.js"
+      "./services/handle-save.js": "./dist/_app_/services/handle-save.js",
+      "./services/theme.js": "./dist/_app_/services/theme.js"
     }
   }
 }

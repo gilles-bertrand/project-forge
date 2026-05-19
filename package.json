@@ -18,13 +18,17 @@
   "license": "ISC",
   "packageManager": "pnpm@11.0.8",
   "devDependencies": {
+    "concurrently": "catalog:",
     "git-conventional-commits": "catalog:",
     "lefthook": "catalog:",
     "turbo": "catalog:",
-    "concurrently": "catalog:"
+    "typescript": "catalog:"
   },
   "volta": {
     "node": "24.15.0",
     "pnpm": "11.0.8"
+  },
+  "dependencies": {
+    "agentic-flow": "^2.0.11"
   }
 }

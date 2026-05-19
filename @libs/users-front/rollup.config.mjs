@@ -44,7 +44,7 @@ export default {
     // not everything in publicEntrypoints necessarily needs to go here.
     addon.appReexports(
       [
-        'components/**/*-form.js',
+        'components/**/*.js',
         'helpers/**/*.js',
         'routes/**/*.js',
         'modifiers/**/*.js',

@@ -1,0 +1,35 @@
+[    2925ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts:24
+[    2970ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:4200/favicon.ico:0
+[    3031ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[    3031ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[    3031ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[    3031ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[    3031ms] [LOG] Client ID: %s (%s) 3859e0e9-d3db-4f46-99b5-17a02c8abad6 top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[    3146ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) @ http://localhost:4200/login:0
+[   38151ms] [LOG] Request {url: URL, method: POST, headers: Object, body: {"email":"alice.martin@sprintforge.com","password":"123456789"}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[   38151ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[   38151ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"accessToken":"eyJhbGciOiJIUzUxMiIsInR5cC…FXva8Sv05iTGzETg","refreshToken":"mock-refresh"}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[   38155ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[   38155ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[   38155ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[   38158ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[  119318ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778767555476:24
+[  119350ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[  119350ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[  119350ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[  119350ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[  119350ms] [LOG] Client ID: %s (%s) 27039064-fabb-4e47-aeef-70e8221c7d1f top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[  119357ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  119357ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  119357ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  119357ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
+[  123622ms] [LOG] {modulePrefix: @apps/front, environment: development, rootURL: /, locationType: history, EmberENV: Object} @ http://localhost:4200/app/app.ts?t=1778767559940:24
+[  123631ms] [LOG] %cDocumentation: %chttps://mswjs.io/docs font-weight:bold font-weight:normal @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3391
+[  123631ms] [LOG] Found an issue? https://github.com/mswjs/msw/issues @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3392
+[  123632ms] [LOG] Worker script URL: http://localhost:4200/mockServiceWorker.js @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3393
+[  123632ms] [LOG] Worker scope: http://localhost:4200/ @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3394
+[  123632ms] [LOG] Client ID: %s (%s) 8777b376-3d20-4b05-832d-297df2dd04eb top-level @ http://localhost:4200/node_modules/.vite/deps/msw_browser.js?v=04954280:3395
+[  123634ms] [LOG] Request {url: URL, method: GET, headers: Object, body: } @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:442
+[  123634ms] [LOG] Handler: HttpHandler @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:443
+[  123634ms] [LOG] Response {status: 200, statusText: OK, headers: Object, body: {"data":{"id":"1","type":"users","attributes":{"fi…lastName":"Doe","email":"john.doe@example.com"}}}} @ http://localhost:4200/node_modules/.vite/deps/msw.js?v=da7ef043:444
+[  123635ms] [LOG] user Proxy(ReactiveResource) loaded @ http://localhost:4200/@fs/Users/gilles/www/projects/project-forge/@libs/users-front/dist/services/current-user.js:31
