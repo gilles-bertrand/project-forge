@@ -125,7 +125,10 @@ export default class LoginForm extends Component {
           @label={{t "users.forms.login.email"}}
           @validationField="email"
         />
-        <div class="relative" data-test-tpk-prefab-password-container="password">
+        <div
+          class="relative"
+          data-test-tpk-prefab-password-container="password"
+        >
           <F.TpkInputPrefab
             @label={{t "users.forms.login.password"}}
             @validationField="password"
