@@ -3,9 +3,11 @@ import { test, expect } from '@playwright/test';
 test('can login', async ({ page }) => {
   await page.goto('/login');
   await page
-    .getByRole('textbox', { name: 'Email *' })
+    .locator('[data-test-tpk-prefab-email-container="email"] input')
     .fill('claire.dubois@sprintforge.com');
-  await page.getByRole('textbox', { name: 'Password *' }).fill('123456789');
-  await page.getByRole('button', { name: 'Sign in' }).click();
+  await page
+    .locator('[data-test-tpk-prefab-password-container="password"] input')
+    .fill('123456789');
+  await page.locator('button[type="submit"]').click();
   await expect(page).toHaveURL('/');
 });

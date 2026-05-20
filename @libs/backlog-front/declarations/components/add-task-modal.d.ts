@@ -4,6 +4,7 @@ import type { Store } from '@warp-drive/core';
 import type TasksService from '../services/tasks.ts';
 import type UserStoriesService from '../services/user-stories.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
+import type CurrentUserService from '@libs/users-front/services/current-user';
 import type { TaskType, TaskNature, TaskPriority } from '../schemas/tasks.ts';
 import type { TaskAssignee } from '../services/tasks.ts';
 interface AddTaskModalSignature {
@@ -16,6 +17,7 @@ export default class AddTaskModal extends Component<AddTaskModalSignature> {
     tasks: TasksService;
     userStories: UserStoriesService;
     currentProject: CurrentProjectService;
+    currentUser: CurrentUserService;
     intl: IntlService;
     store: Store;
     title: string;

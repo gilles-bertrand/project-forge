@@ -117,16 +117,19 @@ export async function createTaskViaApi(
 
 export async function loginViaUI(page: Page): Promise<void> {
   await page.goto('/login');
-  await page.getByRole('textbox', { name: 'Email *' }).fill(E2E_USER.email);
-  await page.getByRole('textbox', { name: 'Password *' }).fill(E2E_USER.password);
-  await page.getByRole('button', { name: 'Sign in' }).click();
+  await page
+    .locator('[data-test-tpk-prefab-email-container="email"] input')
+    .fill(E2E_USER.email);
+  await page
+    .locator('[data-test-tpk-prefab-password-container="password"] input')
+    .fill(E2E_USER.password);
+  await page.locator('button[type="submit"]').click();
   await page.waitForURL('/');
 }
 
-export async function setCurrentProject(page: Page, projectName: string): Promise<void> {
-  await page.goto('/projects');
-  await page.locator('[data-test-project-card]').filter({ hasText: projectName }).click();
-  await page.locator('[data-test-project-detail-modal]').waitFor({ state: 'visible' });
-  await page.getByRole('button', { name: 'View Kanban' }).click();
-  await page.waitForURL('/kanban');
+export async function setCurrentProject(page: Page, projectId: string): Promise<void> {
+  await page.evaluate(
+    (id) => localStorage.setItem('sprintforge:current-project', id),
+    projectId,
+  );
 }

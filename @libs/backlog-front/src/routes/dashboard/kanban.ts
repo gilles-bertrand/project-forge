@@ -1,5 +1,6 @@
 import Route from '@ember/routing/route';
 import { service } from '@ember/service';
+import { authFetch } from '@libs/shared-front/utils/auth-fetch';
 import type TasksService from '../../services/tasks.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
 import type { Sprint } from '../../schemas/sprints.ts';
@@ -19,13 +20,14 @@ export default class DashboardKanbanRoute extends Route {
 
     await this.tasks.loadAllByProject(projectId);
 
-    const sprintsResponse = await fetch(
+    const sprintsResponse = await authFetch(
       `/api/v1/projects/${projectId}/sprints`
     );
+    if (!sprintsResponse.ok) return { projectId, sprint: null };
     const sprintsJson = (await sprintsResponse.json()) as {
-      data: Array<{ id: string; attributes: Omit<Sprint, 'id'> }>;
+      data?: Array<{ id: string; attributes: Omit<Sprint, 'id'> }>;
     };
-    const activeSprint = sprintsJson.data
+    const activeSprint = (sprintsJson.data ?? [])
       .map((s) => ({ id: s.id, ...s.attributes }))
       .find((s) => s.status === 'active');
 
