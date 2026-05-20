@@ -17,6 +17,9 @@
   "paths": {
     "/api/v1/status": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "responses": {
           "200": {
             "description": "Default Response",
@@ -43,6 +46,9 @@
     },
     "/api/v1/auth/login": {
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -184,6 +190,9 @@
     },
     "/api/v1/auth/refresh": {
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -315,6 +324,9 @@
     },
     "/api/v1/auth/logout": {
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -450,6 +462,9 @@
     },
     "/api/v1/users/": {
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -603,10 +618,181 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "links": {
+                            "type": "object",
+                            "properties": {
+                              "about": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "type": "object",
+                            "properties": {
+                              "pointer": {
+                                "type": "string"
+                              },
+                              "parameter": {
+                                "type": "string"
+                              },
+                              "header": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "meta": {
+                            "type": "object",
+                            "additionalProperties": {}
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "title"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "errors"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "errors": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "links": {
+                            "type": "object",
+                            "properties": {
+                              "about": {
+                                "type": "string"
+                              },
+                              "type": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "code": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "detail": {
+                            "type": "string"
+                          },
+                          "source": {
+                            "type": "object",
+                            "properties": {
+                              "pointer": {
+                                "type": "string"
+                              },
+                              "parameter": {
+                                "type": "string"
+                              },
+                              "header": {
+                                "type": "string"
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          "meta": {
+                            "type": "object",
+                            "additionalProperties": {}
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "title"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "errors"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
           }
         }
       },
       "get": {
+        "tags": [
+          "resource"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "filter[search]",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "sort",
+            "required": false
+          }
+        ],
         "responses": {
           "200": {
             "description": "Default Response",
@@ -700,6 +886,9 @@
     },
     "/api/v1/users/profile": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "responses": {
           "200": {
             "description": "Default Response",
@@ -777,6 +966,9 @@
     },
     "/api/v1/users/{id}": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -937,6 +1129,9 @@
         }
       },
       "patch": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1248,6 +1443,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -1440,6 +1638,9 @@
     },
     "/api/v1/projects/": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "responses": {
           "200": {
             "description": "Default Response",
@@ -1554,6 +1755,9 @@
         }
       },
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1728,6 +1932,9 @@
     },
     "/api/v1/projects/{id}": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -1907,6 +2114,9 @@
         }
       },
       "patch": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2156,6 +2366,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -2348,6 +2561,9 @@
     },
     "/api/v1/projects/{id}/members": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -2517,6 +2733,9 @@
         }
       },
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -2797,6 +3016,9 @@
     },
     "/api/v1/projects/{id}/members/{userId}": {
       "delete": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -2922,6 +3144,9 @@
     },
     "/api/v1/projects/{id}/tasks": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -3115,6 +3340,9 @@
     },
     "/api/v1/projects/{id}/sprints": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -3245,6 +3473,9 @@
     },
     "/api/v1/projects/{id}/epics": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -3354,6 +3585,9 @@
     },
     "/api/v1/projects/{id}/user-stories": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -3480,6 +3714,9 @@
     },
     "/api/v1/epics/": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "responses": {
           "200": {
             "description": "Default Response",
@@ -3577,6 +3814,9 @@
         }
       },
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3719,6 +3959,9 @@
     },
     "/api/v1/epics/{id}": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -3881,6 +4124,9 @@
         }
       },
       "patch": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -4099,6 +4345,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -4216,6 +4465,9 @@
     },
     "/api/v1/epics/{id}/user-stories": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -4342,6 +4594,9 @@
     },
     "/api/v1/epics/{id}/tasks": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -4535,6 +4790,9 @@
     },
     "/api/v1/user-stories/": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "responses": {
           "200": {
             "description": "Default Response",
@@ -4649,6 +4907,9 @@
         }
       },
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -4824,6 +5085,9 @@
     },
     "/api/v1/user-stories/{id}": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -5003,6 +5267,9 @@
         }
       },
       "patch": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -5252,6 +5519,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -5369,6 +5639,9 @@
     },
     "/api/v1/user-stories/{id}/tasks": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -5562,6 +5835,9 @@
     },
     "/api/v1/tasks/": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "responses": {
           "200": {
             "description": "Default Response",
@@ -5743,6 +6019,9 @@
         }
       },
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -6047,6 +6326,9 @@
     },
     "/api/v1/tasks/{id}": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -6293,6 +6575,9 @@
         }
       },
       "patch": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -6660,6 +6945,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -6777,6 +7065,9 @@
     },
     "/api/v1/tasks/{id}/comments": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -6959,6 +7250,9 @@
         }
       },
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -7189,6 +7483,9 @@
     },
     "/api/v1/tasks/{id}/comments/{commentId}": {
       "delete": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -7314,6 +7611,9 @@
     },
     "/api/v1/tasks/{id}/attachments": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -7499,6 +7799,9 @@
         }
       },
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -7734,6 +8037,9 @@
     },
     "/api/v1/tasks/{id}/attachments/{attachmentId}": {
       "delete": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -7859,6 +8165,9 @@
     },
     "/api/v1/tasks/{id}/history": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -8040,6 +8349,9 @@
     },
     "/api/v1/tasks/{id}/assignees": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -8201,6 +8513,9 @@
         }
       },
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -8465,6 +8780,9 @@
     },
     "/api/v1/tasks/{id}/assignees/{userId}": {
       "delete": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -8590,6 +8908,9 @@
     },
     "/api/v1/sprints/": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "responses": {
           "200": {
             "description": "Default Response",
@@ -8708,6 +9029,9 @@
         }
       },
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -8889,6 +9213,9 @@
     },
     "/api/v1/sprints/{id}": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -9072,6 +9399,9 @@
         }
       },
       "patch": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -9328,6 +9658,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -9445,6 +9778,9 @@
     },
     "/api/v1/sprints/{id}/start": {
       "post": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -9709,6 +10045,9 @@
     },
     "/api/v1/sprints/{id}/stop": {
       "post": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -9973,6 +10312,9 @@
     },
     "/api/v1/sprints/{id}/tasks": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -10166,6 +10508,9 @@
     },
     "/api/v1/search/": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -10223,6 +10568,9 @@
     },
     "/api/v1/dashboard/": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -10532,6 +10880,9 @@
     },
     "/api/v1/time-entries/": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "responses": {
           "200": {
             "description": "Default Response",
@@ -10633,6 +10984,9 @@
         }
       },
       "post": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -10778,6 +11132,9 @@
     },
     "/api/v1/time-entries/{id}": {
       "get": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -10940,6 +11297,9 @@
         }
       },
       "patch": {
+        "tags": [
+          "resource"
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -11154,6 +11514,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "resource"
+        ],
         "parameters": [
           {
             "schema": {
@@ -11169,25 +11532,7 @@
             "description": "Default Response",
             "content": {
               "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "null",
-                      "enum": [
-                        null
-                      ]
-                    },
-                    "meta": {
-                      "type": "object",
-                      "additionalProperties": {}
-                    }
-                  },
-                  "required": [
-                    "data"
-                  ],
-                  "additionalProperties": false
-                }
+                "schema": {}
               }
             }
           },
