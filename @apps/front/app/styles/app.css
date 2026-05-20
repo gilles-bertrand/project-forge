@@ -18,14 +18,17 @@
   color: var(--color-info-content);
   opacity: 1;
 }
+
 .alert-success {
   color: var(--color-success-content);
   opacity: 1;
 }
+
 .alert-warning {
   color: var(--color-warning-content);
   opacity: 1;
 }
+
 .alert-error {
   color: var(--color-error-content);
   opacity: 1;
