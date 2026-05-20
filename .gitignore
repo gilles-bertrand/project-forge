@@ -7,3 +7,6 @@ playwright-report
 .playwright-mcp/
 .DS_Store
 .pnpm-store
+.eslintcache
+test-results/
+graphify-out/

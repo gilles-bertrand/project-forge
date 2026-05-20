@@ -1,16 +1,16 @@
 /* oxlint-disable max-lines, max-lines-per-function */
-import { hashPassword, UserEntity } from "@libs/users-backend";
 import {
+  CommentEntity,
+  EpicEntity,
   ProjectEntity,
   ProjectMemberEntity,
-  EpicEntity,
-  UserStoryEntity,
-  TaskEntity,
-  TaskAssigneeEntity,
-  CommentEntity,
   SprintEntity,
+  TaskAssigneeEntity,
+  TaskEntity,
+  UserStoryEntity,
 } from "@libs/scrum-backend";
 import { TimeEntryEntity } from "@libs/time-tracking-backend";
+import { hashPassword, UserEntity } from "@libs/users-backend";
 import type { EntityManager } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
 
@@ -42,7 +42,7 @@ export class DatabaseSeeder extends Seeder {
     const users = [
       {
         id: "user-alice",
-        email: "alice.martin@sprintforge.com",
+        email: "gilles@triptyk.eu",
         firstName: "Alice",
         lastName: "Martin",
         role: "Product Owner",
