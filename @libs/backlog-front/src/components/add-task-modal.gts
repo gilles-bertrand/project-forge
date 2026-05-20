@@ -9,6 +9,7 @@ import type { Store } from '@warp-drive/core';
 import type TasksService from '../services/tasks.ts';
 import type UserStoriesService from '../services/user-stories.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
+import type CurrentUserService from '@libs/users-front/services/current-user';
 import type { TaskType, TaskNature, TaskPriority } from '../schemas/tasks.ts';
 import type { TaskAssignee } from '../services/tasks.ts';
 
@@ -61,6 +62,7 @@ export default class AddTaskModal extends Component<AddTaskModalSignature> {
   @service declare tasks: TasksService;
   @service declare userStories: UserStoriesService;
   @service declare currentProject: CurrentProjectService;
+  @service declare currentUser: CurrentUserService;
   @service declare intl: IntlService;
   @service declare store: Store;
 
@@ -195,6 +197,7 @@ export default class AddTaskModal extends Component<AddTaskModalSignature> {
       await this.tasks.create({
         title: this.title.trim(),
         description: this.description.trim(),
+        status: 'todo',
         type: this.type,
         nature: this.nature,
         priority: this.priority,
@@ -202,6 +205,7 @@ export default class AddTaskModal extends Component<AddTaskModalSignature> {
         estimatedHours: this.estimatedHours || null,
         projectId,
         userStoryId: this.userStoryId,
+        createdById: this.currentUser.user?.id ?? '',
       });
       // Note: gestion assigneeIds via POST /tasks/:id/assignees est P12 (édition globale)
       this.args.onClose();

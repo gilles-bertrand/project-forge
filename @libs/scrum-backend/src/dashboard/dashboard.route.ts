@@ -1,6 +1,5 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import type { EntityManager } from "@mikro-orm/core";
-import type { FastifyReply, FastifyRequest } from "fastify";
 import { array, number, object, string } from "zod";
 import { TaskEntity } from "#src/task/task.entity.js";
 import { TaskAssigneeEntity } from "#src/task/task-assignee.entity.js";
@@ -8,64 +7,11 @@ import { jsonApiSerializeManyTasks, SerializedTaskSchema } from "#src/task/task.
 import { jsonApiErrorDocumentSchema, makeJsonApiError, type Route } from "@libs/backend-shared";
 import type { TimeTrackingPort } from "#src/dashboard/time-tracking.port.js";
 
-interface DashboardUser {
-  id?: string;
-}
-
 export class DashboardRoute implements Route {
   public constructor(
     private em: EntityManager,
     private timeTrackingPort: TimeTrackingPort,
   ) {}
-
-  private async handle(
-    request: FastifyRequest<{
-      Querystring: { projectId?: string; sprintId?: string };
-    }>,
-    reply: FastifyReply,
-  ) {
-    const { projectId, sprintId } = request.query;
-    if (!projectId || !sprintId) {
-      return reply.code(400).send(
-        makeJsonApiError(400, "Bad Request", {
-          code: "MISSING_PARAMS",
-          detail: "projectId and sprintId are required",
-        }),
-      );
-    }
-
-    const user = (request as unknown as { user: DashboardUser }).user;
-    const currentUserId = user?.id ?? "";
-
-    const sprintTasks = await this.em.find(TaskEntity, { projectId, sprintId });
-    const tasksTotal = sprintTasks.length;
-    const tasksCompleted = sprintTasks.filter((t) => t.status === "done").length;
-    const pointsTotal = sprintTasks.reduce((acc, t) => acc + t.points, 0);
-
-    const myAssignments = await this.em.find(TaskAssigneeEntity, { userId: currentUserId });
-    const myAssignedIds = new Set(myAssignments.map((a) => a.taskId));
-    const myTasks = sprintTasks.filter(
-      (t) => myAssignedIds.has(t.id) || t.createdById === currentUserId,
-    );
-
-    const hoursTotal = await this.timeTrackingPort.sumHoursByUserAndSprint(currentUserId, sprintId);
-
-    return reply.send({
-      data: {
-        type: "dashboard" as const,
-        id: `${projectId}:${sprintId}`,
-        attributes: {
-          projectId,
-          sprintId,
-          tasksCompleted,
-          tasksTotal,
-          hoursTotal,
-          pointsTotal,
-          myTasks: jsonApiSerializeManyTasks(myTasks),
-        },
-      },
-    });
-  }
 
   public routeDefinition(f: FastifyInstanceTypeForModule) {
     return f.get(
@@ -96,7 +42,51 @@ export class DashboardRoute implements Route {
           },
         },
       },
-      (request, reply) => this.handle(request as never, reply),
+      async (request, reply) => {
+        const { projectId, sprintId } = request.query;
+        if (!projectId || !sprintId) {
+          return reply.code(400).send(
+            makeJsonApiError(400, "Bad Request", {
+              code: "MISSING_PARAMS",
+              detail: "projectId and sprintId are required",
+            }),
+          );
+        }
+
+        const currentUserId = request.user?.id ?? "";
+
+        const sprintTasks = await this.em.find(TaskEntity, { projectId, sprintId });
+        const tasksTotal = sprintTasks.length;
+        const tasksCompleted = sprintTasks.filter((t) => t.status === "done").length;
+        const pointsTotal = sprintTasks.reduce((acc, t) => acc + t.points, 0);
+
+        const myAssignments = await this.em.find(TaskAssigneeEntity, { userId: currentUserId });
+        const myAssignedIds = new Set(myAssignments.map((a) => a.taskId));
+        const myTasks = sprintTasks.filter(
+          (t) => myAssignedIds.has(t.id) || t.createdById === currentUserId,
+        );
+
+        const hoursTotal = await this.timeTrackingPort.sumHoursByUserAndSprint(
+          currentUserId,
+          sprintId,
+        );
+
+        return reply.send({
+          data: {
+            type: "dashboard" as const,
+            id: `${projectId}:${sprintId}`,
+            attributes: {
+              projectId,
+              sprintId,
+              tasksCompleted,
+              tasksTotal,
+              hoursTotal,
+              pointsTotal,
+              myTasks: jsonApiSerializeManyTasks(myTasks),
+            },
+          },
+        });
+      },
     );
   }
 }

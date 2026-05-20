@@ -280,7 +280,10 @@ export interface paths {
     };
     get: {
       parameters: {
-        query?: never;
+        query?: {
+          "filter[search]"?: string;
+          sort?: string;
+        };
         header?: never;
         path?: never;
         cookie?: never;
@@ -379,6 +382,64 @@ export interface paths {
               meta?: {
                 [key: string]: unknown;
               };
+            };
+          };
+        };
+        /** @description Default Response */
+        400: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              errors: {
+                id?: string;
+                links?: {
+                  about?: string;
+                  type?: string;
+                };
+                status: string;
+                code?: string;
+                title: string;
+                detail?: string;
+                source?: {
+                  pointer?: string;
+                  parameter?: string;
+                  header?: string;
+                };
+                meta?: {
+                  [key: string]: unknown;
+                };
+              }[];
+            };
+          };
+        };
+        /** @description Default Response */
+        409: {
+          headers: {
+            [name: string]: unknown;
+          };
+          content: {
+            "application/json": {
+              errors: {
+                id?: string;
+                links?: {
+                  about?: string;
+                  type?: string;
+                };
+                status: string;
+                code?: string;
+                title: string;
+                detail?: string;
+                source?: {
+                  pointer?: string;
+                  parameter?: string;
+                  header?: string;
+                };
+                meta?: {
+                  [key: string]: unknown;
+                };
+              }[];
             };
           };
         };
@@ -4970,13 +5031,7 @@ export interface paths {
             [name: string]: unknown;
           };
           content: {
-            "application/json": {
-              /** @enum {null} */
-              data: null;
-              meta?: {
-                [key: string]: unknown;
-              };
-            };
+            "application/json": unknown;
           };
         };
         /** @description Default Response */

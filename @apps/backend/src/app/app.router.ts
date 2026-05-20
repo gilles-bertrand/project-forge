@@ -17,23 +17,20 @@ export async function appRouter(
 ) {
   await fastify.register(
     async function (fastify) {
-      await fastify.register(statusRoute);
-      await authModule.setupRoutes(fastify);
-      await fastify.register(async (fastify) => {
-        // Resource routes
-        fastify.addHook("onRoute", (routeOptions) => {
-          if (routeOptions.schema) {
-            routeOptions.schema.tags ??= ["resource"];
-          }
-        });
+      fastify.addHook("onRoute", (routeOptions) => {
+        if (routeOptions.schema) {
+          routeOptions.schema.tags ??= ["resource"];
+        }
       });
 
+      await fastify.register(statusRoute);
+      await authModule.setupRoutes(fastify);
       await userModule.setupRoutes(fastify);
       await scrumModule.setupRoutes(fastify);
       await timeTrackingModule.setupRoutes(fastify);
     },
     {
-      prefix: "api/v1",
+      prefix: "/api/v1",
     },
   );
 }

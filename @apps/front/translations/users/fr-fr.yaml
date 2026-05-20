@@ -17,6 +17,8 @@ forms:
     password: 'Mot de passe'
     submit: 'Se connecter'
     forgotPassword: 'Mot de passe oublié ?'
+    errorInvalidCredentials: 'Email ou mot de passe incorrect'
+    errorFallback: 'Erreur de connexion, veuillez réessayer'
     validation:
       invalidEmail: 'Veuillez saisir une adresse email valide'
       passwordTooShort: 'Le mot de passe doit contenir au moins 8 caractères'

@@ -13,15 +13,17 @@ const schema = object({
   JWT_SECRET: string(),
   JWT_REFRESH_SECRET: string(),
   SEED: string().default("42").optional(),
-  APP_NAME: string().default("Registr"),
-  APP_URL: string().default("http://localhost:3000"),
+  APP_NAME: string().default("SprintForge"),
+  APP_URL: string().default("http://localhost:4200"),
   APP_LOGO_URL: string().optional(),
-  SMTP_HOST: string(),
-  SMTP_PORT: string(),
-  SMTP_USER: string(),
-  SMTP_PASSWORD: string(),
-  SMTP_SECURE: string().transform((v) => v === "true"),
-  EMAIL_FROM_NAME: string().default("Registr Support"),
+  SMTP_HOST: string().optional(),
+  SMTP_PORT: string().optional(),
+  SMTP_USER: string().optional(),
+  SMTP_PASSWORD: string().optional(),
+  SMTP_SECURE: string()
+    .transform((v) => v === "true")
+    .optional(),
+  EMAIL_FROM_NAME: string().default("SprintForge Support"),
   EMAIL_FROM_ADDRESS: string().default("support@example.com"),
 });
 

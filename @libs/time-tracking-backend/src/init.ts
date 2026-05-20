@@ -31,6 +31,10 @@ export class TimeTrackingModule implements ModuleInterface<FastifyInstanceTypeFo
     return new TimeTrackingModule(context);
   }
 
+  public get em() {
+    return this.context.em;
+  }
+
   public async setupRoutes(fastify: FastifyInstanceTypeForModule): Promise<void> {
     const em = this.context.em;
     const repo = em.getRepository(TimeEntryEntity);
@@ -38,9 +42,7 @@ export class TimeTrackingModule implements ModuleInterface<FastifyInstanceTypeFo
 
     await fastify.register(
       async (f) => {
-        f.setErrorHandler((error, request, reply) => {
-          handleJsonApiErrors(error, request, reply);
-        });
+        f.setErrorHandler(handleJsonApiErrors);
         f.addHook("preValidation", jwtAuth);
 
         const routes: Route<FastifyInstanceTypeForModule>[] = [

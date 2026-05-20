@@ -1,7 +1,7 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import { UserEntity } from "#src/entities/user.entity.js";
 import type { EntityManager } from "@mikro-orm/core";
-import { array, number, object } from "zod";
+import { array, number, object, string } from "zod";
 import {
   jsonApiSerializeManyUsers,
   SerializedUserSchema,
@@ -16,6 +16,10 @@ export class ListRoute implements Route {
       "/",
       {
         schema: {
+          querystring: object({
+            "filter[search]": string().optional(),
+            sort: string().optional(),
+          }),
           response: {
             200: object({
               data: array(SerializedUserSchema),
@@ -27,14 +31,11 @@ export class ListRoute implements Route {
         },
       },
       async (request, reply) => {
-        const queryParams = request.query as Record<string, any>;
-        const searchQuery = queryParams["filter[search]"] as string | undefined;
-        const sortParam = queryParams["sort"] as string | undefined;
+        const searchQuery = request.query["filter[search]"];
+        const sortParam = request.query.sort;
 
-        // Build where clause
-        const where: any = {};
+        const where: Record<string, unknown> = {};
 
-        // Apply search filter
         if (searchQuery) {
           where.$or = [
             { firstName: { $like: `%${searchQuery}%` } },
@@ -43,8 +44,7 @@ export class ListRoute implements Route {
           ];
         }
 
-        // Build orderBy clause
-        let orderBy: any = {};
+        let orderBy: Record<string, string> = {};
         if (sortParam) {
           const isDescending = sortParam.startsWith("-");
           const field = isDescending ? sortParam.slice(1) : sortParam;

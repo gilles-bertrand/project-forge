@@ -47,7 +47,6 @@
     "date-fns": "catalog:",
     "fastify": "catalog:",
     "fastify-type-provider-zod": "catalog:",
-    "fastify-zod": "catalog:",
     "handlebars": "catalog:",
     "jsonwebtoken": "catalog:",
     "mailgen": "catalog:",

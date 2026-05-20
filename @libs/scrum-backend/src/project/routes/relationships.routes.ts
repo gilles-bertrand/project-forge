@@ -15,7 +15,7 @@ import {
   jsonApiSerializeManyUserStories,
   SerializedUserStorySchema,
 } from "#src/user-story/user-story.serializer.js";
-import { parseListQuery } from "#src/helpers/list-query.js";
+import { parseListQuery } from "#src/utils/list-query.js";
 import type { Route } from "@libs/backend-shared";
 
 export class ListProjectTasksRoute implements Route {

@@ -165,7 +165,7 @@ export default class LogTimeModal extends Component<LogTimeModalSignature> {
               type="number"
               class="input input-bordered w-full"
               placeholder={{t "time-tracking.modal.logTime.hoursPlaceholder"}}
-              min="0.1"
+              min="0"
               step="0.25"
               value={{this.hours}}
               {{on "input" this.onHoursInput}}

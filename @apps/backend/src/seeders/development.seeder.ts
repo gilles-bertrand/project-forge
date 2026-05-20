@@ -1,21 +1,32 @@
 /* oxlint-disable max-lines, max-lines-per-function */
-import { hashPassword, UserEntity } from "@libs/users-backend";
 import {
+  CommentEntity,
+  EpicEntity,
   ProjectEntity,
   ProjectMemberEntity,
-  EpicEntity,
-  UserStoryEntity,
-  TaskEntity,
-  TaskAssigneeEntity,
-  CommentEntity,
   SprintEntity,
+  TaskAssigneeEntity,
+  TaskEntity,
+  UserStoryEntity,
 } from "@libs/scrum-backend";
 import { TimeEntryEntity } from "@libs/time-tracking-backend";
+import { hashPassword, UserEntity } from "@libs/users-backend";
 import type { EntityManager } from "@mikro-orm/core";
 import { Seeder } from "@mikro-orm/seeder";
 
 export class DatabaseSeeder extends Seeder {
   async run(em: EntityManager) {
+    await em.nativeDelete(TimeEntryEntity, {});
+    await em.nativeDelete(CommentEntity, {});
+    await em.nativeDelete(TaskAssigneeEntity, {});
+    await em.nativeDelete(TaskEntity, {});
+    await em.nativeDelete(UserStoryEntity, {});
+    await em.nativeDelete(EpicEntity, {});
+    await em.nativeDelete(SprintEntity, {});
+    await em.nativeDelete(ProjectMemberEntity, {});
+    await em.nativeDelete(ProjectEntity, {});
+    await em.nativeDelete(UserEntity, {});
+
     const hashedPassword = await hashPassword("123456789");
     await this.seedUsers(em, hashedPassword);
     await this.seedProjects(em);
@@ -31,7 +42,7 @@ export class DatabaseSeeder extends Seeder {
     const users = [
       {
         id: "user-alice",
-        email: "alice.martin@sprintforge.com",
+        email: "gilles@triptyk.eu",
         firstName: "Alice",
         lastName: "Martin",
         role: "Product Owner",

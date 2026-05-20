@@ -2,12 +2,12 @@ import { default as fastifyPassport } from "@fastify/passport";
 import fastifySecureSession from "@fastify/secure-session";
 import {
   fastify as Fastify,
-  type FastifyError,
   type FastifyInstance,
   type RawReplyDefaultExpression,
   type RawRequestDefaultExpression,
   type RawServerDefault,
 } from "fastify";
+import { handleJsonApiErrors, makeJsonApiError } from "@libs/backend-shared";
 import {
   jsonSchemaTransform,
   serializerCompiler,
@@ -119,7 +119,7 @@ export class App {
       transformSpecificationClone: true,
     });
 
-    fastify.register(
+    await fastify.register(
       await import("@fastify/static").then(({ default: staticPlugin }) => staticPlugin),
       {
         root: path.join(process.cwd(), "dist/uploads"),
@@ -167,23 +167,15 @@ export class App {
   }
 
   private setupHandlers() {
-    this.fastify.setErrorHandler((error: FastifyError, request, reply) => {
-      // eslint-disable-next-line no-console
-      console.error(error);
-      reply.send({
-        message: error.message,
-        code: error.code,
-        status: error.statusCode ?? 500,
-      });
-    });
-
+    this.fastify.setErrorHandler(handleJsonApiErrors);
     this.fastify.setNotFoundHandler((_request, reply) => {
-      reply.send({
-        message: "Not found",
-        code: "NOT_FOUND",
-        status: 404,
-      });
+      reply.status(404).send(makeJsonApiError(404, "Not Found"));
     });
+  }
+
+  public async dumpOpenApi() {
+    await this.fastify.ready();
+    return this.fastify.swagger();
   }
 
   public async start() {

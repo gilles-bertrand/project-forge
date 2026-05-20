@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "playwright test",
+    "test:msw": "playwright test --config=playwright.msw.config.ts",
     "test:ui": "playwright test --ui",
     "test:headed": "pnpm run setup && playwright test --headed",
     "test:debug": "pnpm run setup && playwright test --debug",

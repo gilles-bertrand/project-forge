@@ -19,7 +19,7 @@ import { DeleteRoute } from "#src/routes/delete.route.js";
 import { UserEntity } from "./entities/user.entity.js";
 import { type ModuleInterface, type Route } from "@libs/backend-shared";
 import { handleJsonApiErrors } from "@libs/backend-shared";
-import { createJwtAuthMiddleware } from "./index.ts";
+import { createJwtAuthMiddleware } from "./middlewares/jwt-auth.middleware.js";
 
 export type FastifyInstanceTypeForModule = FastifyInstance<
   RawServerDefault,
@@ -34,6 +34,10 @@ export class AuthModule implements ModuleInterface<FastifyInstanceTypeForModule>
 
   public static init(context: AuthLibraryContext): AuthModule {
     return new AuthModule(context);
+  }
+
+  public get em() {
+    return this.context.em;
   }
 
   public async setupRoutes(fastify: FastifyInstanceTypeForModule): Promise<void> {
@@ -54,9 +58,7 @@ export class AuthModule implements ModuleInterface<FastifyInstanceTypeForModule>
 
     await fastify.register(
       async (f) => {
-        f.setErrorHandler((error, request, reply) => {
-          handleJsonApiErrors(error, request, reply);
-        });
+        f.setErrorHandler(handleJsonApiErrors);
 
         for (const route of authRoutes) {
           route.routeDefinition(f);
@@ -74,6 +76,10 @@ export class UserModule implements ModuleInterface<FastifyInstanceTypeForModule>
     return new UserModule(context);
   }
 
+  public get em() {
+    return this.context.em;
+  }
+
   public async setupRoutes(fastify: FastifyInstanceTypeForModule): Promise<void> {
     const repository = this.context.em.getRepository(UserEntity);
 
@@ -88,9 +94,7 @@ export class UserModule implements ModuleInterface<FastifyInstanceTypeForModule>
           new DeleteRoute(repository),
         ];
 
-        f.setErrorHandler((error, request, reply) => {
-          handleJsonApiErrors(error, request, reply);
-        });
+        f.setErrorHandler(handleJsonApiErrors);
 
         const jwtAuthMiddleware = createJwtAuthMiddleware(
           this.context.em,

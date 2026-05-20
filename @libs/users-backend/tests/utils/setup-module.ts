@@ -74,7 +74,7 @@ export class TestModule {
   }
 
   get em() {
-    return this.module["context"].em;
+    return this.module.em;
   }
 
   public generateBearerToken(userId: string) {

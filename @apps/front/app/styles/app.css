@@ -11,6 +11,36 @@
   themes: false;
 }
 
+/* Fix DaisyUI layer conflict: daisyui.l1.l2.l3 (.alert) ecrase daisyui.l1.l2 (.alert-error).
+   DaisyUI 5 .alert démarre à opacity:0 (système toast) — on force opacity:1 pour usage inline.
+   Une règle unlayered a priorité sur tous les @layer. */
+.alert-info {
+  color: var(--color-info-content);
+  opacity: 1;
+}
+
+.alert-success {
+  color: var(--color-success-content);
+  opacity: 1;
+}
+
+.alert-warning {
+  color: var(--color-warning-content);
+  opacity: 1;
+}
+
+.alert-error {
+  color: var(--color-error-content);
+  opacity: 1;
+}
+
+/* Fix tpk input width: DaisyUI .input défaut = 20rem, on force 100% pour que les champs
+   s'alignent avec le bouton submit. */
+.tpk-email-input,
+.tpk-password-input-container {
+  width: 100%;
+}
+
 /* Additional global styles can be added below */
 @source "../../node_modules/@triptyk/ember-ui";
 @source "../../node_modules/@triptyk/ember-input";

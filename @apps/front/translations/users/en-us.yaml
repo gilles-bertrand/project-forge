@@ -17,6 +17,8 @@ forms:
     password: 'Password'
     submit: 'Sign in'
     forgotPassword: 'Forgot password?'
+    errorInvalidCredentials: 'Invalid email or password'
+    errorFallback: 'Login failed, please try again'
     validation:
       invalidEmail: 'Please enter a valid email address'
       passwordTooShort: 'Password must be at least 8 characters'

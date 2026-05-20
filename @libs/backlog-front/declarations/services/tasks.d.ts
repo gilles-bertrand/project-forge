@@ -13,6 +13,7 @@ export interface NewTaskPayload {
     projectId: string;
     userStoryId?: string | null;
     sprintId?: string | null;
+    createdById?: string;
 }
 export interface TaskComment {
     id: string;

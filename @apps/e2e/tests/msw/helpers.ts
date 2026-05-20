@@ -9,7 +9,7 @@ export async function loginMSW(page: Page) {
   const passwordInput = page.locator('input[type="password"]').first();
   await emailInput.fill('alice.martin@sprintforge.com');
   await passwordInput.fill('Password123!');
-  await page.getByRole('button', { name: /sign in|login|connexion/i }).click();
+  await page.locator('[data-test-login-submit]').click();
   // Wait for redirect to dashboard
   await page.waitForURL('/', { timeout: 10_000 });
 }

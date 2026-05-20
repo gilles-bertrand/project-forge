@@ -6,7 +6,7 @@ import {
   jsonApiSerializeManyUserStories,
   SerializedUserStorySchema,
 } from "#src/user-story/user-story.serializer.js";
-import { parseListQuery } from "#src/helpers/list-query.js";
+import { parseListQuery } from "#src/utils/list-query.js";
 import type { Route } from "@libs/backend-shared";
 
 const ALLOWED_SORT_FIELDS = ["title", "status", "priority", "points", "createdAt", "updatedAt"];
