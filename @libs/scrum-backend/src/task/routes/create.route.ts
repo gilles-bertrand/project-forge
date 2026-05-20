@@ -16,7 +16,7 @@ import {
   TaskStatusSchema,
   TaskTypeSchema,
 } from "#src/types.js";
-import { getNextTaskNumber } from "#src/helpers/task-numbering.js";
+import { getNextTaskNumber } from "#src/utils/task-numbering.js";
 
 const CreateTaskAttributesSchema = object({
   number: number().int().optional(),

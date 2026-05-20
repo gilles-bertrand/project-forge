@@ -3,7 +3,7 @@ import { EpicEntity } from "#src/epic/epic.entity.js";
 import type { EntityManager } from "@mikro-orm/core";
 import { array, number, object } from "zod";
 import { jsonApiSerializeManyEpics, SerializedEpicSchema } from "#src/epic/epic.serializer.js";
-import { parseListQuery } from "#src/helpers/list-query.js";
+import { parseListQuery } from "#src/utils/list-query.js";
 import type { Route } from "@libs/backend-shared";
 
 const ALLOWED_SORT_FIELDS = ["title", "status", "createdAt", "updatedAt"];

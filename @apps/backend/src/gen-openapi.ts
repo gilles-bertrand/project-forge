@@ -5,9 +5,7 @@ import { loadConfiguration } from "./configuration.js";
 
 const app = await App.init(await createApplicationContext(loadConfiguration()));
 
-await app["fastify"].ready();
-
-const document = app["fastify"].swagger();
+const document = await app.dumpOpenApi();
 
 writeFileSync("./openapi.json", JSON.stringify(document, null, 2));
 

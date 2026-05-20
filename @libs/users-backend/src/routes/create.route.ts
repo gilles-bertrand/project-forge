@@ -8,7 +8,11 @@ import {
 } from "#src/serializers/user.serializer.js";
 import { hash } from "argon2";
 import { email, object, string } from "zod";
-import { makeSingleJsonApiTopDocument, type Route } from "@libs/backend-shared";
+import {
+  jsonApiErrorDocumentSchema,
+  makeSingleJsonApiTopDocument,
+  type Route,
+} from "@libs/backend-shared";
 import { UserRoleSchema, UserColorSchema } from "#src/types.js";
 
 export class CreateRoute implements Route {
@@ -35,6 +39,8 @@ export class CreateRoute implements Route {
           ),
           response: {
             200: makeSingleJsonApiTopDocument(SerializedUserSchema),
+            400: jsonApiErrorDocumentSchema,
+            409: jsonApiErrorDocumentSchema,
           },
         },
       },

@@ -3,7 +3,7 @@ import type { EntityManager } from "@mikro-orm/core";
 import { array, number, object, string } from "zod";
 import { TaskEntity } from "#src/task/task.entity.js";
 import { jsonApiSerializeManyTasks, SerializedTaskSchema } from "#src/task/task.serializer.js";
-import { parseListQuery } from "#src/helpers/list-query.js";
+import { parseListQuery } from "#src/utils/list-query.js";
 import type { Route } from "@libs/backend-shared";
 
 export class ListUserStoryTasksRoute implements Route {

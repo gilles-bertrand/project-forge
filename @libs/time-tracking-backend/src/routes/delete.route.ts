@@ -1,13 +1,8 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import type { EntityRepository } from "@mikro-orm/core";
-import { literal, object, string } from "zod";
+import { object, string } from "zod";
 import type { TimeEntryEntityType } from "#src/entities/time-entry.entity.js";
-import {
-  jsonApiErrorDocumentSchema,
-  makeJsonApiError,
-  makeSingleJsonApiTopDocument,
-  type Route,
-} from "@libs/backend-shared";
+import { jsonApiErrorDocumentSchema, makeJsonApiError, type Route } from "@libs/backend-shared";
 
 export class DeleteTimeEntryRoute implements Route {
   public constructor(private repository: EntityRepository<TimeEntryEntityType>) {}
@@ -19,13 +14,12 @@ export class DeleteTimeEntryRoute implements Route {
         schema: {
           params: object({ id: string() }),
           response: {
-            204: makeSingleJsonApiTopDocument(literal(null)),
             404: jsonApiErrorDocumentSchema,
           },
         },
       },
       async (request, reply) => {
-        const { id } = request.params as { id: string };
+        const { id } = request.params;
         const entry = await this.repository.findOne({ id });
         if (!entry) {
           return reply.code(404).send(
@@ -36,7 +30,7 @@ export class DeleteTimeEntryRoute implements Route {
           );
         }
         await this.repository.getEntityManager().remove(entry).flush();
-        return reply.code(204).send({ data: null });
+        return reply.code(204).send();
       },
     );
   }

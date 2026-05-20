@@ -25,8 +25,8 @@ export * from "#src/sprint/sprint.entity.js";
 export * from "#src/types.js";
 export * from "#src/context.js";
 export * from "#src/init.js";
-export * from "#src/helpers/list-query.js";
-export * from "#src/helpers/task-numbering.js";
+export * from "#src/utils/list-query.js";
+export * from "#src/utils/task-numbering.js";
 
 // Serializers
 export * from "#src/project/project.serializer.js";

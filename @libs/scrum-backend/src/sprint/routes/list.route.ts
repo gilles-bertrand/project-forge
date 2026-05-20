@@ -6,7 +6,7 @@ import {
   jsonApiSerializeManySprints,
   SerializedSprintSchema,
 } from "#src/sprint/sprint.serializer.js";
-import { parseListQuery } from "#src/helpers/list-query.js";
+import { parseListQuery } from "#src/utils/list-query.js";
 import type { Route } from "@libs/backend-shared";
 
 const ALLOWED_SORT_FIELDS = ["name", "status", "startDate", "endDate", "createdAt"];

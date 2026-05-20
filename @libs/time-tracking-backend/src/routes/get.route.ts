@@ -24,7 +24,7 @@ export class GetTimeEntryRoute implements Route {
         },
       },
       async (request, reply) => {
-        const { id } = request.params as { id: string };
+        const { id } = request.params;
         const entry = await this.repository.findOne({ id });
         if (!entry) {
           return reply.code(404).send(

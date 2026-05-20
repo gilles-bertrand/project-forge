@@ -34,11 +34,13 @@ export class ScrumModule implements ModuleInterface<FastifyInstanceTypeForModule
     return new ScrumModule(context);
   }
 
+  public get em() {
+    return this.context.em;
+  }
+
   public async setupRoutes(fastify: FastifyInstanceTypeForModule): Promise<void> {
     await fastify.register(async (f) => {
-      f.setErrorHandler((error, request, reply) => {
-        handleJsonApiErrors(error, request, reply);
-      });
+      f.setErrorHandler(handleJsonApiErrors);
 
       const jwtAuth = createJwtAuthMiddleware(
         this.context.em,

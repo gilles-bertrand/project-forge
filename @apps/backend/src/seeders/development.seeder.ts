@@ -16,6 +16,17 @@ import { Seeder } from "@mikro-orm/seeder";
 
 export class DatabaseSeeder extends Seeder {
   async run(em: EntityManager) {
+    await em.nativeDelete(TimeEntryEntity, {});
+    await em.nativeDelete(CommentEntity, {});
+    await em.nativeDelete(TaskAssigneeEntity, {});
+    await em.nativeDelete(TaskEntity, {});
+    await em.nativeDelete(UserStoryEntity, {});
+    await em.nativeDelete(EpicEntity, {});
+    await em.nativeDelete(SprintEntity, {});
+    await em.nativeDelete(ProjectMemberEntity, {});
+    await em.nativeDelete(ProjectEntity, {});
+    await em.nativeDelete(UserEntity, {});
+
     const hashedPassword = await hashPassword("123456789");
     await this.seedUsers(em, hashedPassword);
     await this.seedProjects(em);

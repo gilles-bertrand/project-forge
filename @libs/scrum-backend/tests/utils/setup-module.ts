@@ -75,7 +75,7 @@ export class ScrumTestModule {
   }
 
   get em() {
-    return this.module["context"].em;
+    return this.module.em;
   }
 
   public generateBearerToken(userId: string = ScrumTestModule.TEST_USER_ID) {

@@ -1,6 +1,5 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import type { EntityManager } from "@mikro-orm/core";
-import type { FastifyReply, FastifyRequest } from "fastify";
 import { object, string } from "zod";
 import {
   jsonApiSerializeSingleSprintDocument,
@@ -19,45 +18,6 @@ import {
 export class StartSprintRoute implements Route {
   public constructor(private em: EntityManager) {}
 
-  private async handle(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
-    const { id } = request.params;
-    const sprint = await this.em.findOne(SprintEntity, { id });
-    if (!sprint) {
-      return reply.code(404).send(
-        makeJsonApiError(404, "Not Found", {
-          code: "SPRINT_NOT_FOUND",
-          detail: `Sprint with id ${id} not found`,
-        }),
-      );
-    }
-
-    if (sprint.status !== "planned") {
-      return reply.code(409).send(
-        makeJsonApiError(409, "Conflict", {
-          code: "SPRINT_NOT_PLANNED",
-          detail: `Sprint must be 'planned' to start (current: ${sprint.status})`,
-        }),
-      );
-    }
-
-    const activeCount = await this.em.count(SprintEntity, {
-      projectId: sprint.projectId,
-      status: "active",
-    });
-    if (activeCount > 0) {
-      return reply.code(409).send(
-        makeJsonApiError(409, "Conflict", {
-          code: "ACTIVE_SPRINT_EXISTS",
-          detail: `Project ${sprint.projectId} already has an active sprint`,
-        }),
-      );
-    }
-
-    sprint.status = "active";
-    await this.em.flush();
-    return reply.send(jsonApiSerializeSingleSprintDocument(sprint));
-  }
-
   public routeDefinition(f: FastifyInstanceTypeForModule) {
     return f.post(
       "/:id/start",
@@ -71,7 +31,44 @@ export class StartSprintRoute implements Route {
           },
         },
       },
-      (request, reply) => this.handle(request as never, reply),
+      async (request, reply) => {
+        const { id } = request.params;
+        const sprint = await this.em.findOne(SprintEntity, { id });
+        if (!sprint) {
+          return reply.code(404).send(
+            makeJsonApiError(404, "Not Found", {
+              code: "SPRINT_NOT_FOUND",
+              detail: `Sprint with id ${id} not found`,
+            }),
+          );
+        }
+
+        if (sprint.status !== "planned") {
+          return reply.code(409).send(
+            makeJsonApiError(409, "Conflict", {
+              code: "SPRINT_NOT_PLANNED",
+              detail: `Sprint must be 'planned' to start (current: ${sprint.status})`,
+            }),
+          );
+        }
+
+        const activeCount = await this.em.count(SprintEntity, {
+          projectId: sprint.projectId,
+          status: "active",
+        });
+        if (activeCount > 0) {
+          return reply.code(409).send(
+            makeJsonApiError(409, "Conflict", {
+              code: "ACTIVE_SPRINT_EXISTS",
+              detail: `Project ${sprint.projectId} already has an active sprint`,
+            }),
+          );
+        }
+
+        sprint.status = "active";
+        await this.em.flush();
+        return reply.send(jsonApiSerializeSingleSprintDocument(sprint));
+      },
     );
   }
 }
@@ -89,33 +86,6 @@ async function recomputeCompletedPoints(em: EntityManager, sprintId: string): Pr
 export class StopSprintRoute implements Route {
   public constructor(private em: EntityManager) {}
 
-  private async handle(request: FastifyRequest<{ Params: { id: string } }>, reply: FastifyReply) {
-    const { id } = request.params;
-    const sprint = await this.em.findOne(SprintEntity, { id });
-    if (!sprint) {
-      return reply.code(404).send(
-        makeJsonApiError(404, "Not Found", {
-          code: "SPRINT_NOT_FOUND",
-          detail: `Sprint with id ${id} not found`,
-        }),
-      );
-    }
-
-    if (sprint.status !== "active") {
-      return reply.code(409).send(
-        makeJsonApiError(409, "Conflict", {
-          code: "SPRINT_NOT_ACTIVE",
-          detail: `Sprint must be 'active' to stop (current: ${sprint.status})`,
-        }),
-      );
-    }
-
-    sprint.status = "completed";
-    sprint.completedPoints = await recomputeCompletedPoints(this.em, id);
-    await this.em.flush();
-    return reply.send(jsonApiSerializeSingleSprintDocument(sprint));
-  }
-
   public routeDefinition(f: FastifyInstanceTypeForModule) {
     return f.post(
       "/:id/stop",
@@ -129,7 +99,32 @@ export class StopSprintRoute implements Route {
           },
         },
       },
-      (request, reply) => this.handle(request as never, reply),
+      async (request, reply) => {
+        const { id } = request.params;
+        const sprint = await this.em.findOne(SprintEntity, { id });
+        if (!sprint) {
+          return reply.code(404).send(
+            makeJsonApiError(404, "Not Found", {
+              code: "SPRINT_NOT_FOUND",
+              detail: `Sprint with id ${id} not found`,
+            }),
+          );
+        }
+
+        if (sprint.status !== "active") {
+          return reply.code(409).send(
+            makeJsonApiError(409, "Conflict", {
+              code: "SPRINT_NOT_ACTIVE",
+              detail: `Sprint must be 'active' to stop (current: ${sprint.status})`,
+            }),
+          );
+        }
+
+        sprint.status = "completed";
+        sprint.completedPoints = await recomputeCompletedPoints(this.em, id);
+        await this.em.flush();
+        return reply.send(jsonApiSerializeSingleSprintDocument(sprint));
+      },
     );
   }
 }
