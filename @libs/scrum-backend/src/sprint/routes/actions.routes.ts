@@ -18,6 +18,7 @@ import {
 export class StartSprintRoute implements Route {
   public constructor(private em: EntityManager) {}
 
+  // oxlint-disable-next-line max-lines-per-function
   public routeDefinition(f: FastifyInstanceTypeForModule) {
     return f.post(
       "/:id/start",
@@ -86,6 +87,7 @@ async function recomputeCompletedPoints(em: EntityManager, sprintId: string): Pr
 export class StopSprintRoute implements Route {
   public constructor(private em: EntityManager) {}
 
+  // oxlint-disable-next-line max-lines-per-function
   public routeDefinition(f: FastifyInstanceTypeForModule) {
     return f.post(
       "/:id/stop",

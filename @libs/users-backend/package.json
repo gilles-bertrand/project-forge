@@ -46,6 +46,7 @@
     "@typescript/native-preview": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "@vitest/ui": "catalog:",
+    "vitest": "catalog:",
     "amqplib": "catalog:",
     "concurrently": "catalog:",
     "openapi-typescript": "^7.10.1",

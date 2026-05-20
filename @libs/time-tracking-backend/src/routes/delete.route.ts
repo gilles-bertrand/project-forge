@@ -1,6 +1,6 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import type { EntityRepository } from "@mikro-orm/core";
-import { object, string } from "zod";
+import { z, object, string } from "zod";
 import type { TimeEntryEntityType } from "#src/entities/time-entry.entity.js";
 import { jsonApiErrorDocumentSchema, makeJsonApiError, type Route } from "@libs/backend-shared";
 
@@ -14,6 +14,7 @@ export class DeleteTimeEntryRoute implements Route {
         schema: {
           params: object({ id: string() }),
           response: {
+            204: z.void(),
             404: jsonApiErrorDocumentSchema,
           },
         },
