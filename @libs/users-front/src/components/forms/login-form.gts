@@ -158,7 +158,11 @@ export default class LoginForm extends Component {
             {{this.loginError}}
           </div>
         {{/if}}
-        <button type="submit" class="btn btn-primary w-full mt-2">
+        <button
+          type="submit"
+          class="btn btn-primary w-full mt-2"
+          data-test-login-submit
+        >
           {{t "users.forms.login.submit"}}
         </button>
       </TpkForm>
