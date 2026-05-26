@@ -42,6 +42,9 @@ modal:
     submit: 'Save'
     submitting: 'Saving...'
     errorFallback: 'Error during update'
+  sprintConfig: 'Sprint configuration'
+  sprintDuration: 'Sprint duration (days)'
+  sprintVelocity: 'Target velocity (points/sprint)'
 action:
   backlogAria: 'View backlog'
   kanbanAria: 'View kanban'

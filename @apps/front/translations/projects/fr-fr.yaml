@@ -42,6 +42,9 @@ modal:
     submit: 'Enregistrer'
     submitting: 'Enregistrement...'
     errorFallback: 'Erreur lors de la mise à jour'
+  sprintConfig: 'Configuration des sprints'
+  sprintDuration: 'Durée du sprint (jours)'
+  sprintVelocity: 'Vélocité cible (points/sprint)'
 action:
   backlogAria: 'Voir le backlog'
   kanbanAria: 'Voir le kanban'

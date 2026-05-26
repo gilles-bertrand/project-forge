@@ -38,6 +38,8 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
   @tracked users: UserLite[] = [];
   @tracked submitting = false;
   @tracked error = '';
+  @tracked sprintDurationDays = 14;
+  @tracked defaultVelocityPoints = 20;
   @tracked private originalMemberIds: string[] = [];
   @tracked membersLoaded = false;
 
@@ -48,6 +50,8 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
       this.description = args.project.description;
       this.status = args.project.status;
       this.responsibleId = args.project.responsibleId;
+      this.sprintDurationDays = (args.project as unknown as { sprintDurationDays?: number }).sprintDurationDays ?? 14;
+      this.defaultVelocityPoints = (args.project as unknown as { defaultVelocityPoints?: number }).defaultVelocityPoints ?? 20;
       void this.loadMembersAndUsers(args.project.id!);
     } else {
       void this.loadUsers().finally(() => {
@@ -189,6 +193,16 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
     }
   }
 
+  @action onSprintDurationInput(e: Event) {
+    const v = Number((e.target as HTMLInputElement).value);
+    if (v >= 1 && v <= 60) this.sprintDurationDays = v;
+  }
+
+  @action onDefaultVelocityInput(e: Event) {
+    const v = Number((e.target as HTMLInputElement).value);
+    if (v >= 1 && v <= 200) this.defaultVelocityPoints = v;
+  }
+
   @action async submit(e: Event) {
     e.preventDefault();
     if (!this.canSubmit) return;
@@ -215,6 +229,8 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
           description: this.description.trim(),
           status: this.status,
           responsibleId: this.responsibleId,
+          sprintDurationDays: this.sprintDurationDays,
+          defaultVelocityPoints: this.defaultVelocityPoints,
         });
 
         const toAdd = this.selectedMemberIds.filter(
@@ -347,6 +363,43 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
                   {{/if}}
                 </label>
               {{/each}}
+            </div>
+          </div>
+
+          {{!-- Sprint config --}}
+          <div class="border-t border-base-300/40 pt-4">
+            <h3 class="text-sm font-semibold mb-3 opacity-70">
+              {{t "projects.modal.sprintConfig"}}
+            </h3>
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="label text-sm font-medium" for="sprint-duration">
+                  {{t "projects.modal.sprintDuration"}}
+                </label>
+                <input
+                  id="sprint-duration"
+                  type="number"
+                  class="input input-bordered input-sm w-full"
+                  min="1"
+                  max="60"
+                  value={{this.sprintDurationDays}}
+                  {{on "input" this.onSprintDurationInput}}
+                />
+              </div>
+              <div>
+                <label class="label text-sm font-medium" for="sprint-velocity">
+                  {{t "projects.modal.sprintVelocity"}}
+                </label>
+                <input
+                  id="sprint-velocity"
+                  type="number"
+                  class="input input-bordered input-sm w-full"
+                  min="1"
+                  max="200"
+                  value={{this.defaultVelocityPoints}}
+                  {{on "input" this.onDefaultVelocityInput}}
+                />
+              </div>
             </div>
           </div>
 

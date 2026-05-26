@@ -28,13 +28,10 @@ export default class AddSprintModal extends Component<AddSprintModalSignature> {
   @tracked error = '';
 
   get canSubmit(): boolean {
-    return (
-      this.name.trim().length > 0 &&
-      this.startDate.length > 0 &&
-      this.endDate.length > 0 &&
-      this.endDate > this.startDate &&
-      !this.submitting
-    );
+    if (this.submitting) return false;
+    if (!this.currentProject.currentProjectId) return false;
+    if (this.startDate && this.endDate && this.endDate <= this.startDate) return false;
+    return true;
   }
 
   get cannotSubmit(): boolean {
@@ -76,14 +73,12 @@ export default class AddSprintModal extends Component<AddSprintModalSignature> {
     this.submitting = true;
     this.error = '';
     try {
-      const payload: NewSprintPayload = {
-        name: this.name.trim(),
-        goal: this.goal.trim() || null,
-        projectId,
-        startDate: this.startDate,
-        endDate: this.endDate,
-        velocityPoints: this.velocityPoints,
-      };
+      const payload: NewSprintPayload = { projectId };
+      if (this.name.trim()) payload.name = this.name.trim();
+      if (this.goal.trim()) payload.goal = this.goal.trim();
+      if (this.startDate) payload.startDate = this.startDate;
+      if (this.endDate) payload.endDate = this.endDate;
+      if (this.velocityPoints > 0) payload.velocityPoints = this.velocityPoints;
       await this.sprints.create(payload);
       this.args.onClose();
     } catch (err: unknown) {
@@ -122,7 +117,6 @@ export default class AddSprintModal extends Component<AddSprintModalSignature> {
               placeholder={{t "sprints.modal.add.namePlaceholder"}}
               value={{this.name}}
               {{on "input" this.onNameInput}}
-              required
             />
           </div>
 
@@ -142,7 +136,6 @@ export default class AddSprintModal extends Component<AddSprintModalSignature> {
             <div>
               <label class="label text-sm font-medium" for="sprint-start">
                 {{t "sprints.modal.add.startDate"}}
-                *
               </label>
               <input
                 id="sprint-start"
@@ -150,13 +143,12 @@ export default class AddSprintModal extends Component<AddSprintModalSignature> {
                 class="input input-bordered w-full"
                 value={{this.startDate}}
                 {{on "input" this.onStartDateInput}}
-                required
               />
+              <p class="text-xs opacity-50 mt-1">{{t "sprints.modal.add.startDateHint"}}</p>
             </div>
             <div>
               <label class="label text-sm font-medium" for="sprint-end">
                 {{t "sprints.modal.add.endDate"}}
-                *
               </label>
               <input
                 id="sprint-end"
@@ -164,8 +156,8 @@ export default class AddSprintModal extends Component<AddSprintModalSignature> {
                 class="input input-bordered w-full"
                 value={{this.endDate}}
                 {{on "input" this.onEndDateInput}}
-                required
               />
+              <p class="text-xs opacity-50 mt-1">{{t "sprints.modal.add.endDateHint"}}</p>
             </div>
           </div>
 

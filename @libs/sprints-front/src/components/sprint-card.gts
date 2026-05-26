@@ -6,6 +6,7 @@ import { concat } from '@ember/helper';
 import TaskCard from '@libs/backlog-front/components/task-card';
 import type { SprintData } from '../services/sprints.ts';
 import type { Task } from '@libs/backlog-front/schemas/tasks';
+import { formatSprintCode } from '../utils/format-sprint-code.ts';
 
 interface SprintCardSignature {
   Args: {
@@ -57,6 +58,15 @@ export default class SprintCard extends Component<SprintCardSignature> {
     return Math.round((this.args.sprint.completedPoints / total) * 100);
   }
 
+  get sprintCode(): string {
+    return formatSprintCode(this.args.sprint.number ?? 0);
+  }
+
+  get isOverVelocity(): boolean {
+    const { velocityPoints, completedPoints } = this.args.sprint;
+    return velocityPoints > 0 && completedPoints > velocityPoints;
+  }
+
   get tasksCount(): number {
     return this.args.tasks.length;
   }
@@ -102,6 +112,7 @@ export default class SprintCard extends Component<SprintCardSignature> {
         >
           {{t (concat "sprints.status." this.statusKey)}}
         </span>
+        <span class="text-xs font-mono opacity-40" data-test-sprint-code>{{this.sprintCode}}</span>
       </div>
 
       <div>
@@ -123,11 +134,13 @@ export default class SprintCard extends Component<SprintCardSignature> {
       </div>
 
       {{#if this.isActive}}
-        <div class="text-sm">
+        <div class="flex items-center gap-2 text-sm">
           ⚡
           <span class="font-semibold">{{t "sprints.card.velocityLabel"}}</span>:
-          {{@sprint.velocityPoints}}
-          points
+          {{@sprint.completedPoints}}/{{@sprint.velocityPoints}} pts
+          {{#if this.isOverVelocity}}
+            <span class="badge badge-warning badge-sm">🔥 dépassement</span>
+          {{/if}}
         </div>
         <div>
           <div class="flex justify-between text-xs opacity-60 mb-1">

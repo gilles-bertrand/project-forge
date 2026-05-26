@@ -29,7 +29,10 @@ export type UpdateProjectPayload = Partial<
   Pick<
     NewProjectPayload,
     "name" | "description" | "status" | "avatar" | "githubUrl" | "responsibleId"
-  >
+  > & {
+    sprintDurationDays: number;
+    defaultVelocityPoints: number;
+  }
 >;
 
 export default class ProjectsService extends Service {
