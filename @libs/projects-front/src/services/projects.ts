@@ -128,14 +128,21 @@ export default class ProjectsService extends Service {
     id: string,
     data: UpdateProjectPayload,
   ): Promise<Project> {
-    await this.store.request({
-      url: `/api/v1/projects/${id}`,
+    // Use authFetch instead of store.request — WarpDrive's Fetch handler
+    // appends Content-Type: application/json to every request, creating a
+    // multi-value Content-Type header that Fastify rejects with 415.
+    const res = await authFetch(`/api/v1/projects/${id}`, {
       method: "PATCH",
-      headers: new Headers({ "Content-Type": "application/vnd.api+json" }),
+      headers: { "Content-Type": "application/vnd.api+json" },
       body: JSON.stringify({
         data: { type: "projects", id, attributes: data },
       }),
     });
+    if (!res.ok) {
+      throw Object.assign(new Error(`update failed: ${String(res.status)}`), {
+        status: res.status,
+      });
+    }
     await this.loadAll();
     const project = this.list.find((p) => p.id === id);
     if (project === undefined) {

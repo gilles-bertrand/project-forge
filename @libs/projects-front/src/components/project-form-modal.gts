@@ -205,6 +205,12 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
           responsibleId: this.responsibleId,
           createdById,
         });
+        const newId = created.id;
+        if (newId) {
+          await Promise.all(
+            this.selectedMemberIds.map((id) => this.projects.addMember(newId, id)),
+          );
+        }
         this.args.onCreated?.(created);
       } else {
         const project = this.args.project!;
