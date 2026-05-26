@@ -89,10 +89,10 @@ export default class DashboardProjectsTemplate extends Component {
     this.tableReload = reload;
   }
 
-  membersForProject(projectId: string | null | undefined): MemberLite[] | undefined {
+  membersForProject = (projectId: string | null | undefined): MemberLite[] | undefined => {
     if (!projectId) return undefined;
     return this.freshMembersMap.get(projectId);
-  }
+  };
 
   @action async handleUpdated(updatedProject: Project) {
     this.editProject = null;
