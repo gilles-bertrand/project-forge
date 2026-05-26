@@ -6,6 +6,12 @@
       "sourceType": "github",
       "skillPath": "skills/ember-best-practices/SKILL.md",
       "computedHash": "0c5b5a8369eb482f23da4fcf448d79510552c638b918a040b1d6c7609d6bc7b9"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
+      "computedHash": "0a413bf988d06481f69bb81df2070741c3ba12dd9f1be2706d57f259c905992d"
     }
   }
 }

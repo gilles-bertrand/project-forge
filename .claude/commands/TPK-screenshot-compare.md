@@ -5,6 +5,8 @@ model: sonnet
 argument-hint: [baseline.png] [current.png]
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-screenshot-compare] 🤖 Modèle : sonnet` comme première ligne de sortie.
+
 # TPK-Screenshot-Compare
 
 ## Purpose

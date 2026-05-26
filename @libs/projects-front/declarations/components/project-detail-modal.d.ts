@@ -7,6 +7,8 @@ interface ProjectDetailModalSignature {
     Args: {
         project: Project;
         onClose: () => void;
+        onEdit: (project: Project) => void;
+        onDelete?: (project: Project) => void;
     };
 }
 type StatItem = {
@@ -21,6 +23,8 @@ export default class ProjectDetailModal extends Component<ProjectDetailModalSign
     intl: IntlService;
     get initials(): string;
     get stats(): StatItem[];
+    handleEdit(): void;
+    handleDelete(): void;
     goToKanban(): void;
 }
 export {};

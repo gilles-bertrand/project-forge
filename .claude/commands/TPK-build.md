@@ -1,19 +1,34 @@
 ---
 description: Build from a plan file, then move plan to done/
-allowed-tools: Read, Write, Bash, Edit, Glob, Grep
+allowed-tools: Read, Write, Bash, Edit, Glob, Grep, Agent, mcp__delegate__delegate_to
 model: sonnet
 argument-hint: [path-to-plan]
 ---
+
+> **Démarrage** : affiche immédiatement `[TPK-build] 🤖 Modèle : sonnet` comme première ligne de sortie.
 
 # Build
 
 ## Purpose
 
-Implement a plan from `specs/todo/` into working code. After successful completion, the plan is moved to `specs/done/` to track progress. Pairs with `/quick-plan`.
+Implement a plan from `specs/todo/` into working code. After successful completion, the plan is moved to `specs/done/` to track progress. Pairs with `/TPK-plan`.
 
 ## Variables
 
 PATH_TO_PLAN: $ARGUMENTS
+
+## Routing Rules
+
+| Priorité détectée | Exécution | Modèle |
+|---|---|---|
+| `frontend` | `mcp__delegate__delegate_to` (provider: glm) | GLM glm-5.1 |
+| `backend` | Direct sonnet | claude-sonnet-4-6 |
+| `fullstack` | Backend direct (sonnet) puis frontend délégué (GLM) | Sonnet + GLM |
+
+**Détection** — scanner le plan pour les mots-clés :
+- Frontend : `users-front`, `shared-front`, `ember`, `.gts`, `.hbs`, `component`, `template`, `CSS`, `UI`, `Vite`, `Ember`, `addon`
+- Backend : `fastify`, `users-backend`, `backend`, `api`, `endpoint`, `entity`, `MikroORM`, `seeder`, `route`, `migration`
+- Si les deux familles sont présentes → `fullstack`
 
 ## Instructions
 
@@ -34,7 +49,16 @@ PATH_TO_PLAN: $ARGUMENTS
    - Think through the implementation approach
    - Identify any potential issues before starting
 
-3. **Create a git branch**
+3. **Detect priority & announce agents**
+   - Scan the plan for frontend/backend keywords (see Routing Rules)
+   - Avant toute implémentation, afficher le bloc d'annonce — n'afficher que les lignes correspondant à la priorité détectée :
+     ```
+     Agents lancés :
+     - [frontend] 🤖 GLM (glm-5.1) via mcp__delegate    ← si frontend ou fullstack
+     - [backend]  🤖 Sonnet (claude-sonnet-4-6) direct   ← si backend ou fullstack
+     ```
+
+4. **Create a git branch**
    - Infer the branch type from the plan's content and title:
      - `feat/` — new feature or capability
      - `fix/` — bug fix
@@ -47,31 +71,47 @@ PATH_TO_PLAN: $ARGUMENTS
    - Run `git checkout -b [type]/[name]` (e.g. `feat/user-auth`, `fix/login-redirect`)
    - Confirm the branch was created before proceeding
 
-4. **Implement**
-   - Follow the plan's phases step by step
-   - Create/modify files as specified
-   - Run any build/lint checks if applicable
-   - **Commit-as-you-go** : si le plan définit une stratégie de commits (ex. "1 commit par sous-phase"), commiter à la fin de chaque sous-phase plutôt que de tout stager à la fin. Produit un historique plus propre et facilite les rollbacks.
+5. **Implement**
 
-5. **Validate**
+   ### Priorité `backend` (ou phase backend d'un fullstack)
+   - Implémenter directement avec sonnet
+   - Suivre les phases du plan pas à pas
+   - Créer/modifier les fichiers spécifiés
+   - **Commit-as-you-go** : si le plan définit une stratégie de commits, commiter à la fin de chaque sous-phase
+
+   ### Priorité `frontend` (ou phase frontend d'un fullstack)
+   - Collecter le contexte nécessaire : lire les fichiers concernés
+   - Pour chaque phase ou composant, déléguer à GLM via `mcp__delegate__delegate_to` :
+     - `provider_hint: "glm"`
+     - `task` : description précise et autonome de ce qui est à implémenter
+     - `context` : contenu des fichiers concernés + extrait du plan + conventions Ember du projet (GTS, Octane, Embroider)
+   - Appliquer les changements retournés par GLM avec les outils Edit/Write
+   - Vérifier que le code retourné compile (TypeScript / Ember build)
+   - **Commit-as-you-go** après chaque composant ou phase appliqué
+
+   ### Priorité `fullstack`
+   - Phase(s) backend d'abord : exécution directe sonnet → commit
+   - Phase(s) frontend ensuite : délégation GLM → appliquer → commit
+
+6. **Validate**
    - `pnpm lint` — vérifier lint explicitement
    - Si le projet a des tests, les lancer : `pnpm test` (ou la commande appropriée)
    - Si frontend : `pnpm build` pour détecter les erreurs TypeScript
    - Corriger tous les problèmes avant de continuer
 
-5b. **Verify success criteria** ← étape obligatoire avant de déplacer vers done/
+6b. **Verify success criteria** ← étape obligatoire avant de déplacer vers done/
    - Lire la section "Critères de succès" du plan
    - Pour chaque critère, confirmer son statut (✅ ou ❌) explicitement
    - Si le plan exige des tests d'intégration, les lancer — un smoke test manuel n'est PAS un substitut
    - Si un critère est ❌, corriger avant de continuer
    - Ne jamais sauter cette étape silencieusement
 
-6. **Move plan to done**
+7. **Move plan to done**
    - Seulement quand tous les critères sont ✅
    - On success: `mkdir -p specs/done && mv [PATH_TO_PLAN] specs/done/`
    - On failure: leave in `specs/todo/` for retry
 
-7. **Show changes**
+8. **Show changes**
    - Run `git status` to show what changed
    - Ask user if they want to commit
 
@@ -82,6 +122,8 @@ Build Complete
 
 Plan: [original path]
 Branch: [type]/[name]
+Priorité: frontend | backend | fullstack
+Agents: GLM (delegate) | Sonnet (direct) | Sonnet + GLM
 Status: SUCCESS / FAILED
 Location: specs/done/[filename] (moved) OR specs/todo/[filename] (retry needed)
 
@@ -92,5 +134,5 @@ Changes Made:
 
 Files Modified: [count]
 
-Next: Review changes with `git diff` or commit with `/commit`
+Next: Review changes with `git diff` or commit with `/TPK-commit`
 ```

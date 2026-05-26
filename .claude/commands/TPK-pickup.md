@@ -5,6 +5,8 @@ model: sonnet
 argument-hint: [optional: handoff number or "list"]
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-pickup] 🤖 Modèle : sonnet` comme première ligne de sortie.
+
 # Pick Up From Last Session
 
 ## Purpose

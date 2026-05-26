@@ -5,6 +5,8 @@ model: haiku
 argument-hint: [target-branch]
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-merge] 🤖 Modèle : haiku` comme première ligne de sortie.
+
 # TPK-merge
 
 ## Purpose

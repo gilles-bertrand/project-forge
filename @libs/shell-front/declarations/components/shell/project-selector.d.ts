@@ -1,4 +1,5 @@
 import Component from '@glimmer/component';
+import type RouterService from '@ember/routing/router-service';
 import type CurrentProjectService from '../../services/current-project.ts';
 type ProjectOption = {
     id: string;
@@ -12,6 +13,7 @@ export interface ProjectSelectorSignature {
 }
 export default class ProjectSelector extends Component<ProjectSelectorSignature> {
     currentProject: CurrentProjectService;
+    router: RouterService;
     get options(): ProjectOption[];
     get selected(): ProjectOption | undefined;
     onChange(selection: unknown): void;

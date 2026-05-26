@@ -15,6 +15,8 @@ Router.map(function () {
   this.route("dashboard", function () {
     this.route("projects");
     this.route("kanban");
+    this.route("backlog");
+    this.route("sprints");
   });
 });
 
@@ -39,6 +41,13 @@ const TRANSLATIONS_FR = {
       userStories: "User Stories",
       currentSprint: "Sprint en cours",
       createdOn: "Créé le",
+      editAria: "Modifier ce projet",
+      deleteAria: "Supprimer ce projet",
+      epicsLabel: "Épiques",
+      userStoriesLabel: "US",
+      tasksLabel: "Tâches",
+      sprintsLabel: "Sprints",
+      moreMembers: "membres supplémentaires",
     },
     status: {
       planned: "Planifié",
@@ -66,26 +75,51 @@ const TRANSLATIONS_FR = {
         submitting: "Création...",
         errorFallback: "Erreur lors de la création",
       },
-      detail: {
-        closeAria: "Fermer",
-        responsible: "Responsable: {name}",
-        description: "Description",
-        progress: "Progression du projet",
-        userStoriesCompleted: "User Stories complétées",
-        userStoriesRatio: "{done} / {total} User Stories",
-        stats: {
-          title: "Statistiques",
-          epics: "Épiques",
-          userStories: "User Stories",
-          tasks: "Tâches",
-          sprints: "Sprints",
-          hint: "Statistiques détaillées disponibles en P10",
-        },
-        team: "Équipe",
-        teamPlaceholder:
-          "Liste des membres disponible quand la lib P5+ sera prête.",
-        close: "Fermer",
-        viewKanban: "Voir le Kanban",
+      edit: {
+        title: "Modifier le projet",
+        submit: "Enregistrer",
+        submitting: "Enregistrement...",
+        errorFallback: "Erreur lors de la mise à jour",
+      },
+    },
+    action: {
+      backlogAria: "Voir le backlog",
+      kanbanAria: "Voir le kanban",
+      userStoryMapAria: "Voir la user story map",
+      sprintsAria: "Voir les sprints",
+    },
+    view: {
+      grid: "Grille",
+      gridAria: "Affichage en grille",
+      list: "Liste",
+      listAria: "Affichage en liste",
+    },
+    table: {
+      headers: {
+        name: "Nom",
+        status: "Statut",
+        responsible: "Responsable",
+        members: "Membres",
+        createdAt: "Créé le",
+        actions: "Raccourcis",
+      },
+      actions: {
+        edit: "Modifier",
+        delete: "Supprimer",
+        backlog: "Backlog",
+        kanban: "Kanban",
+        sprints: "Sprints",
+      },
+    },
+    delete: {
+      confirm: {
+        title: "Supprimer ce projet ?",
+        body: "Cette action est irréversible.",
+        cancel: "Annuler",
+        confirm: "Supprimer",
+      },
+      error: {
+        generic: "Erreur lors de la suppression du projet.",
       },
     },
   },
@@ -101,6 +135,13 @@ const TRANSLATIONS_EN = {
       userStories: "User Stories",
       currentSprint: "Current Sprint",
       createdOn: "Created on",
+      editAria: "Edit this project",
+      deleteAria: "Delete this project",
+      epicsLabel: "Epics",
+      userStoriesLabel: "US",
+      tasksLabel: "Tasks",
+      sprintsLabel: "Sprints",
+      moreMembers: "more members",
     },
     status: {
       planned: "Planned",
@@ -128,25 +169,51 @@ const TRANSLATIONS_EN = {
         submitting: "Creating...",
         errorFallback: "Error during creation",
       },
-      detail: {
-        closeAria: "Close",
-        responsible: "Lead: {name}",
-        description: "Description",
-        progress: "Project progress",
-        userStoriesCompleted: "User Stories completed",
-        userStoriesRatio: "{done} / {total} User Stories",
-        stats: {
-          title: "Statistics",
-          epics: "Epics",
-          userStories: "User Stories",
-          tasks: "Tasks",
-          sprints: "Sprints",
-          hint: "Detailed statistics available in P10",
-        },
-        team: "Team",
-        teamPlaceholder: "Member list available when P5+ lib is ready.",
-        close: "Close",
-        viewKanban: "View Kanban",
+      edit: {
+        title: "Edit project",
+        submit: "Save",
+        submitting: "Saving...",
+        errorFallback: "Error during update",
+      },
+    },
+    action: {
+      backlogAria: "View backlog",
+      kanbanAria: "View kanban",
+      userStoryMapAria: "View user story map",
+      sprintsAria: "View sprints",
+    },
+    view: {
+      grid: "Grid",
+      gridAria: "Grid view",
+      list: "List",
+      listAria: "List view",
+    },
+    table: {
+      headers: {
+        name: "Name",
+        status: "Status",
+        responsible: "Lead",
+        members: "Members",
+        createdAt: "Created",
+        actions: "Shortcuts",
+      },
+      actions: {
+        edit: "Edit",
+        delete: "Delete",
+        backlog: "Backlog",
+        kanban: "Kanban",
+        sprints: "Sprints",
+      },
+    },
+    delete: {
+      confirm: {
+        title: "Delete this project?",
+        body: "This action is irreversible.",
+        cancel: "Cancel",
+        confirm: "Delete",
+      },
+      error: {
+        generic: "Error while deleting the project.",
       },
     },
   },

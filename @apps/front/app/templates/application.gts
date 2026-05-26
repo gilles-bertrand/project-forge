@@ -4,7 +4,7 @@ import Component from '@glimmer/component';
 import { service } from '@ember/service';
 import type FlashMessageService from 'ember-cli-flash/services/flash-messages';
 import type AddItemRouterService from '@libs/shared-front/services/add-item-router';
-import AddProjectModal from '@libs/projects-front/components/add-project-modal';
+import ProjectFormModal from '@libs/projects-front/components/project-form-modal';
 import AddEpicModal from '@libs/backlog-front/components/add-epic-modal';
 import AddUserStoryModal from '@libs/backlog-front/components/add-user-story-modal';
 import AddTaskModal from '@libs/backlog-front/components/add-task-modal';
@@ -48,6 +48,10 @@ class ApplicationTemplate extends Component<ApplicationSignature> {
   <template>
     {{pageTitle "Application"}}
     <div id="tpk-modal"></div>
+    {{! Required by ember-basic-dropdown (used by TpkSelect via ember-power-select).
+         Without it, dropdowns render in-place with static positioning and end up
+         off-screen (e.g. project selector in shell header). }}
+    <div id="ember-basic-dropdown-wormhole"></div>
     <div class="alerts">
       {{#each this.flashMessages.arrangedQueue as |flash|}}
         <FlashMessage @flash={{flash}} />
@@ -55,7 +59,7 @@ class ApplicationTemplate extends Component<ApplicationSignature> {
     </div>
 
     {{#if this.showProject}}
-      <AddProjectModal @onClose={{this.addItemRouter.close}} />
+      <ProjectFormModal @onClose={{this.addItemRouter.close}} />
     {{/if}}
     {{#if this.showEpic}}
       <AddEpicModal @onClose={{this.addItemRouter.close}} />

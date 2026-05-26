@@ -5,6 +5,8 @@ model: opus
 argument-hint: "[task1] | [task2] | ... [--subagent-type general-purpose|Explore]"
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-parallel-subagents] 🤖 Modèle : opus` comme première ligne de sortie.
+
 # TPK-Parallel-Subagents
 
 ## Purpose

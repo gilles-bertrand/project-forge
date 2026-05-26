@@ -5,6 +5,7 @@ import Service from "@ember/service";
 import { service } from "@ember/service";
 import { cacheKeyFor, type Store } from "@warp-drive/core";
 import { createRecord } from "@warp-drive/utilities/json-api";
+import { authFetch } from "@libs/shared-front/utils/auth-fetch";
 
 type MemberResponse = {
   data: Array<{
@@ -23,6 +24,13 @@ export type NewProjectPayload = {
   responsibleId: string;
   createdById: string;
 };
+
+export type UpdateProjectPayload = Partial<
+  Pick<
+    NewProjectPayload,
+    "name" | "description" | "status" | "avatar" | "githubUrl" | "responsibleId"
+  >
+>;
 
 export default class ProjectsService extends Service {
   @service declare store: Store;
@@ -73,11 +81,85 @@ export default class ProjectsService extends Service {
       data: this.store.cache.peek(cacheKeyFor(project)),
     });
 
-    await this.store.request<{ data: Project }>(request);
-    // Reload pour avoir les données correctement désérialisées (content.data
-    // de createRecord retourne l'enveloppe JSON:API brute, pas un Project flat)
+    const response = await this.store.request<{ data: Project }>(request);
     await this.loadAll();
-    return this.list[this.list.length - 1]!;
+    const createdId = response.content.data.id;
+    const created = createdId
+      ? this.list.find((p) => p.id === createdId)
+      : undefined;
+    if (!created) {
+      throw new Error("Created project not found after reload");
+    }
+    return created;
+  }
+
+  public async update(
+    id: string,
+    data: UpdateProjectPayload,
+  ): Promise<Project> {
+    await this.store.request({
+      url: `/api/v1/projects/${id}`,
+      method: "PATCH",
+      headers: new Headers({ "Content-Type": "application/vnd.api+json" }),
+      body: JSON.stringify({
+        data: { type: "projects", id, attributes: data },
+      }),
+    });
+    await this.loadAll();
+    const project = this.list.find((p) => p.id === id);
+    if (project === undefined) {
+      throw new Error(`Project with id "${id}" not found after update`);
+    }
+    return project;
+  }
+
+  public async addMember(projectId: string, userId: string): Promise<void> {
+    try {
+      await this.store.request({
+        url: `/api/v1/projects/${projectId}/members`,
+        method: "POST",
+        headers: new Headers({ "Content-Type": "application/vnd.api+json" }),
+        body: JSON.stringify({
+          data: { attributes: { userId, role: "member" } },
+        }),
+      });
+    } catch (error: unknown) {
+      const status = (error as { status?: number })?.status;
+      if (status !== 409) {
+        throw error;
+      }
+    }
+  }
+
+  public async removeMember(projectId: string, userId: string): Promise<void> {
+    // Use authFetch (raw fetch) to bypass WarpDrive's Fetch handler that
+    // appends Content-Type: application/json to every request — which on a
+    // body-less DELETE produces a multi-value Content-Type header that
+    // Fastify rejects with 415.
+    const res = await authFetch(
+      `/api/v1/projects/${projectId}/members/${userId}`,
+      { method: "DELETE" },
+    );
+    if (!res.ok && res.status !== 404) {
+      throw Object.assign(
+        new Error(`removeMember failed: ${String(res.status)}`),
+        { status: res.status },
+      );
+    }
+  }
+
+  public async delete(id: string): Promise<void> {
+    // Use authFetch instead of store.request — see removeMember for rationale.
+    const res = await authFetch(`/api/v1/projects/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok && res.status !== 404) {
+      throw Object.assign(new Error(`delete failed: ${String(res.status)}`), {
+        status: res.status,
+      });
+    }
+    // 204 success OR 404 already-deleted → clean local state
+    this.list = this.list.filter((p) => p.id !== id);
   }
 }
 

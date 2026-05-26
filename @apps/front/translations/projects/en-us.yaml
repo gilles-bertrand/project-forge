@@ -6,6 +6,13 @@ card:
   userStories: 'User Stories'
   currentSprint: 'Current Sprint'
   createdOn: 'Created on'
+  editAria: 'Edit this project'
+  deleteAria: 'Delete this project'
+  epicsLabel: 'Epics'
+  userStoriesLabel: 'US'
+  tasksLabel: 'Tasks'
+  sprintsLabel: 'Sprints'
+  moreMembers: 'more members'
 status:
   planned: 'Planned'
   active: 'Active'
@@ -30,21 +37,40 @@ modal:
     submit: 'Create project'
     submitting: 'Creating...'
     errorFallback: 'Error during creation'
-  detail:
-    closeAria: 'Close'
-    responsible: 'Lead: {name}'
-    description: 'Description'
-    progress: 'Project progress'
-    userStoriesCompleted: 'User Stories completed'
-    userStoriesRatio: '{done} / {total} User Stories'
-    stats:
-      title: 'Statistics'
-      epics: 'Epics'
-      userStories: 'User Stories'
-      tasks: 'Tasks'
-      sprints: 'Sprints'
-      hint: 'Detailed statistics available in P10'
-    team: 'Team'
-    teamPlaceholder: 'Member list available when P5+ lib is ready.'
-    close: 'Close'
-    viewKanban: 'View Kanban'
+  edit:
+    title: 'Edit project'
+    submit: 'Save'
+    submitting: 'Saving...'
+    errorFallback: 'Error during update'
+action:
+  backlogAria: 'View backlog'
+  kanbanAria: 'View kanban'
+  userStoryMapAria: 'View user story map'
+  sprintsAria: 'View sprints'
+view:
+  grid: 'Grid'
+  gridAria: 'Grid view'
+  list: 'List'
+  listAria: 'List view'
+table:
+  headers:
+    name: 'Name'
+    status: 'Status'
+    responsible: 'Lead'
+    members: 'Members'
+    createdAt: 'Created'
+    actions: 'Shortcuts'
+  actions:
+    edit: 'Edit'
+    delete: 'Delete'
+    backlog: 'Backlog'
+    kanban: 'Kanban'
+    sprints: 'Sprints'
+delete:
+  confirm:
+    title: 'Delete this project?'
+    body: 'This action is irreversible. All linked data (epics, user stories, tasks, sprints, time entries) will be permanently deleted.'
+    cancel: 'Cancel'
+    confirm: 'Delete'
+  error:
+    generic: 'Error while deleting the project.'

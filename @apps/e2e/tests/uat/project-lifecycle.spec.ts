@@ -17,7 +17,7 @@ test.describe.serial('Project lifecycle', () => {
     await expect(page.locator('[data-test-add-item-modal]')).toBeVisible();
 
     await page.locator('[data-test-add-item-type="project"]').click();
-    await expect(page.locator('[data-test-add-project-modal]')).toBeVisible();
+    await expect(page.locator('[data-test-project-form-modal]')).toBeVisible();
 
     await page.fill('#proj-name', 'UAT Lifecycle Project');
     await page.waitForSelector('#proj-responsible option[value="user-claire"]', {
@@ -28,13 +28,13 @@ test.describe.serial('Project lifecycle', () => {
     await page
       .getByRole('button', { name: /Create project|Créer le projet/i })
       .click();
-    await expect(page.locator('[data-test-add-project-modal]')).not.toBeVisible({ timeout: 5000 });
+    await expect(page.locator('[data-test-project-form-modal]')).not.toBeVisible({ timeout: 5000 });
     await expect(
       page.locator('[data-test-project-card]').filter({ hasText: 'UAT Lifecycle Project' }).first(),
     ).toBeVisible();
   });
 
-  test('open project detail and navigate to kanban', async ({ request, page }) => {
+  test('click project card navigates directly to kanban', async ({ request, page }) => {
     const { accessToken, userId } = await loginViaApi(request);
     projectId = await createProjectViaApi(
       request,
@@ -46,14 +46,13 @@ test.describe.serial('Project lifecycle', () => {
     await loginViaUI(page);
     await page.goto('/projects');
 
+    // Click the card body (not a button) — should navigate directly to kanban
     await page
       .locator('[data-test-project-card]')
       .filter({ hasText: 'UAT Kanban Project' })
       .first()
       .click();
-    await expect(page.locator('[data-test-project-detail-modal]')).toBeVisible();
 
-    await page.getByRole('button', { name: /View Kanban|Voir le Kanban/i }).click();
     await expect(page).toHaveURL('/kanban', { timeout: 10000 });
   });
 });

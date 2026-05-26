@@ -5,6 +5,8 @@ model: sonnet
 argument-hint: [--fix] [--quick] [--verbose]
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-validate] 🤖 Modèle : sonnet` comme première ligne de sortie.
+
 # TPK-Validate Command
 
 Run comprehensive validation for the current project by detecting the test framework and executing appropriate checks.

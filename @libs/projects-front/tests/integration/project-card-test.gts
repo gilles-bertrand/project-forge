@@ -43,7 +43,7 @@ describe('Integration | ProjectCard', function () {
       const onOpen = vi.fn();
 
       await render(
-        <template><ProjectCard @project={{project}} @onOpen={{onOpen}} /></template>,
+        <template><ProjectCard @project={{project}} @onActivate={{onOpen}} /></template>,
       );
 
       expect(document.body.textContent).toContain('Test Project');
@@ -81,7 +81,7 @@ describe('Integration | ProjectCard', function () {
           <ProjectCard
             @project={{project}}
             @members={{members}}
-            @onOpen={{onOpen}}
+            @onActivate={{onOpen}}
           />
         </template>,
       );

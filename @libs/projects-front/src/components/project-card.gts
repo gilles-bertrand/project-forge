@@ -1,6 +1,6 @@
 import Component from '@glimmer/component';
-import { fn } from '@ember/helper';
 import { on } from '@ember/modifier';
+import { action } from '@ember/object';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { t, type IntlService } from 'ember-intl';
@@ -11,38 +11,7 @@ import StatusBadge from './status-badge.gts';
 import MemberAvatarStack, {
   type MemberLite,
 } from './member-avatar-stack.gts';
-
-const KanbanIcon: TOC<{ Element: SVGSVGElement }> = <template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    class="inline-block size-4 stroke-current"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"
-    />
-  </svg>
-</template>;
-
-const ChartIcon: TOC<{ Element: SVGSVGElement }> = <template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    class="inline-block size-4 stroke-current"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M13 10V3L4 14h7v7l9-11h-7z"
-    />
-  </svg>
-</template>;
+import ProjectActionBar from './project-action-bar.gts';
 
 const CalendarIcon: TOC<{ Element: SVGSVGElement }> = <template>
   <svg
@@ -76,10 +45,60 @@ const UserIcon: TOC<{ Element: SVGSVGElement }> = <template>
   </svg>
 </template>;
 
+const PencilIcon: TOC<{ Element: SVGSVGElement }> = <template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    class="size-4 stroke-current"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+    />
+  </svg>
+</template>;
+
+const TrashIcon: TOC<{ Element: SVGSVGElement }> = <template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    class="size-4 stroke-current"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="2"
+      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+    />
+  </svg>
+</template>;
+
 function shortMonth(d: Date, locale: string): string {
   return d
     .toLocaleDateString(locale, { day: '2-digit', month: 'short', year: 'numeric' })
     .replace('.', '');
+}
+
+const AVATAR_COLORS = [
+  'bg-primary text-primary-content',
+  'bg-secondary text-secondary-content',
+  'bg-accent text-accent-content',
+  'bg-info text-info-content',
+  'bg-success text-success-content',
+  'bg-warning text-warning-content',
+];
+
+function projectAvatarColor(id: string | null | undefined): string {
+  if (!id) return AVATAR_COLORS[0]!;
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) >>> 0;
+  return AVATAR_COLORS[h % AVATAR_COLORS.length]!;
 }
 
 interface ProjectCardSignature {
@@ -87,7 +106,9 @@ interface ProjectCardSignature {
     project: Project;
     members?: MemberLite[];
     responsibleShortName?: string;
-    onOpen: (project: Project) => void;
+    onActivate: (project: Project) => void;
+    onEdit?: (project: Project) => void;
+    onDelete?: (project: Project) => void;
   };
   Element: HTMLDivElement;
 }
@@ -138,80 +159,179 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     return this.args.responsibleShortName ?? '—';
   }
 
+  get avatarColorClass(): string {
+    return projectAvatarColor(this.args.project.id);
+  }
+
+  // Placeholder counters — will be populated from API in a future phase
   userStoriesDone = 0;
   userStoriesTotal = 0;
   sprintDone = 0;
   sprintTotal = 0;
+  epicsDone = 0;
+  epicsTotal = 0;
+  tasksDone = 0;
+  tasksTotal = 0;
+  sprintsActive = 0;
+  sprintsTotal = 0;
+
+  get moreMembersLabel(): string {
+    const extra = Math.max(0, this.members.length - 3);
+    return `${String(extra)} ${this.intl.t('projects.card.moreMembers')}`;
+  }
+
+  @action handleActivate(e: Event) {
+    // Only fire when clicking the card body, not a nested button
+    if ((e.target as Element)?.closest('button')) return;
+    this.args.onActivate(this.args.project);
+  }
+
+  @action handleKeydown(e: KeyboardEvent) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      this.args.onActivate(this.args.project);
+    }
+  }
+
+  @action handleEdit(e: Event) {
+    e.stopPropagation();
+    this.args.onEdit?.(this.args.project);
+  }
+
+  @action handleDelete(e: Event) {
+    e.stopPropagation();
+    this.args.onDelete?.(this.args.project);
+  }
 
   <template>
     <div
       role="button"
       tabindex="0"
-      class="card bg-base-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
-      {{on "click" (fn @onOpen @project)}}
+      class="card bg-base-200 border border-base-300/40 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+      {{on "click" this.handleActivate}}
+      {{on "keydown" this.handleKeydown}}
       data-test-project-card
       ...attributes
     >
       <div class="card-body p-5 gap-3">
         <div class="flex items-start justify-between">
           <div
-            class="bg-primary text-primary-content rounded-xl size-14 flex items-center justify-center"
+            class="rounded-xl size-14 flex items-center justify-center {{this.avatarColorClass}}"
           >
             <span class="text-xl font-bold">{{this.initials}}</span>
           </div>
+          <StatusBadge @status={{@project.status}} />
         </div>
 
         <div>
           <h3 class="text-lg font-semibold">{{@project.name}}</h3>
-          <div class="mt-1">
-            <StatusBadge @status={{@project.status}} />
-          </div>
         </div>
 
-        <p class="text-sm opacity-70 line-clamp-2">{{@project.description}}</p>
+        <p class="text-sm text-base-content/80 line-clamp-2">{{@project.description}}</p>
 
+        {{!-- Progress bars --}}
         <div class="mt-1">
-          <div class="flex justify-between text-xs opacity-70 mb-1">
+          <div class="flex justify-between text-xs text-base-content/75 mb-1">
             <span>{{t "projects.card.userStories"}}</span>
             <span>{{this.userStoriesDone}}/{{this.userStoriesTotal}}</span>
           </div>
           <progress
-            class="progress progress-primary w-full h-1.5"
+            class="progress progress-primary w-full h-2"
             value={{this.userStoriesDone}}
-            max={{this.userStoriesTotal}}
+            max={{if this.userStoriesTotal this.userStoriesTotal 1}}
           ></progress>
         </div>
 
         <div>
-          <div class="flex justify-between text-xs opacity-70 mb-1">
+          <div class="flex justify-between text-xs text-base-content/75 mb-1">
             <span>{{t "projects.card.currentSprint"}}</span>
             <span>{{this.sprintDone}}/{{this.sprintTotal}}</span>
           </div>
           <progress
-            class="progress progress-primary w-full h-1.5"
+            class="progress progress-primary w-full h-2"
             value={{this.sprintDone}}
-            max={{this.sprintTotal}}
+            max={{if this.sprintTotal this.sprintTotal 1}}
           ></progress>
         </div>
 
-        <div class="flex items-center justify-between mt-1 text-xs opacity-70">
+        {{!-- 4 mini-counters --}}
+        <div class="grid grid-cols-4 gap-1">
+          <div class="bg-base-300/20 rounded p-1.5 text-center">
+            <div class="text-xs text-secondary font-medium truncate">
+              {{t "projects.card.epicsLabel"}}
+            </div>
+            <div class="text-sm font-bold">{{this.epicsDone}}/{{this.epicsTotal}}</div>
+          </div>
+          <div class="bg-base-300/20 rounded p-1.5 text-center">
+            <div class="text-xs text-primary font-medium truncate">
+              {{t "projects.card.userStoriesLabel"}}
+            </div>
+            <div class="text-sm font-bold">{{this.userStoriesTotal}}</div>
+          </div>
+          <div class="bg-base-300/20 rounded p-1.5 text-center">
+            <div class="text-xs text-info font-medium truncate">
+              {{t "projects.card.tasksLabel"}}
+            </div>
+            <div class="text-sm font-bold">{{this.tasksDone}}/{{this.tasksTotal}}</div>
+          </div>
+          <div class="bg-base-300/20 rounded p-1.5 text-center">
+            <div class="text-xs text-accent font-medium truncate">
+              {{t "projects.card.sprintsLabel"}}
+            </div>
+            <div class="text-sm font-bold">{{this.sprintsActive}}/{{this.sprintsTotal}}</div>
+          </div>
+        </div>
+
+        {{!-- Date + responsible --}}
+        <div class="flex items-center justify-between mt-1 text-xs text-base-content/60">
           <span class="flex items-center gap-1">
             <CalendarIcon />
             {{t "projects.card.createdOn"}}
             {{this.formattedDate}}
           </span>
-          <div class="flex items-center gap-1">
-            <KanbanIcon />
-            <ChartIcon />
-          </div>
         </div>
 
+        {{!-- Members with tooltips + responsible --}}
         <div class="flex items-center justify-between">
-          <MemberAvatarStack @members={{this.members}} />
-          <span class="text-xs opacity-70 flex items-center gap-1">
+          <MemberAvatarStack
+            @members={{this.members}}
+            @moreLabel={{this.moreMembersLabel}}
+          />
+          <span class="text-xs text-base-content/60 flex items-center gap-1">
             <UserIcon />
             {{this.responsibleShortName}}
           </span>
+        </div>
+
+        {{!-- Action bar + edit/delete --}}
+        <div class="border-t border-base-300/60 pt-3 flex items-center justify-between">
+          <ProjectActionBar @project={{@project}} />
+          <div class="flex items-center gap-1">
+            {{#if @onEdit}}
+              <button
+                type="button"
+                class="btn btn-sm btn-ghost"
+                aria-label={{t "projects.card.editAria"}}
+                title={{t "projects.card.editAria"}}
+                {{on "click" this.handleEdit}}
+                data-test-project-card-edit
+              >
+                <PencilIcon />
+              </button>
+            {{/if}}
+            {{#if @onDelete}}
+              <button
+                type="button"
+                class="btn btn-sm btn-ghost text-error"
+                aria-label={{t "projects.card.deleteAria"}}
+                title={{t "projects.card.deleteAria"}}
+                {{on "click" this.handleDelete}}
+                data-test-project-card-delete
+              >
+                <TrashIcon />
+              </button>
+            {{/if}}
+          </div>
         </div>
       </div>
     </div>

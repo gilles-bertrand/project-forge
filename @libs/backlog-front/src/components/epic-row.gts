@@ -52,7 +52,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="size-4 flex-shrink-0 opacity-50 transition-transform
+          class="size-4 flex-shrink-0 opacity-60 transition-transform
             {{if this.expanded 'rotate-90'}}"
           fill="none"
           viewBox="0 0 24 24"
@@ -67,17 +67,19 @@ export default class EpicRow extends Component<EpicRowSignature> {
         </svg>
 
         <span
-          class="badge badge-sm badge-secondary badge-soft font-semibold uppercase tracking-wider"
+          class="badge badge-sm badge-secondary font-semibold uppercase tracking-wider"
         >
           {{t "user-story-map.epicLabel"}}
         </span>
 
         <div class="flex-1 min-w-0">
           <span class="font-semibold">{{@epic.title}}</span>
-          <p class="text-sm opacity-50 truncate">{{@epic.description}}</p>
+          <p
+            class="text-sm text-base-content/70 truncate"
+          >{{@epic.description}}</p>
         </div>
 
-        <span class="flex-shrink-0 text-xs opacity-50">
+        <span class="flex-shrink-0 text-xs text-base-content/60">
           {{this.usCount}}
           {{t "user-story-map.usCount"}}
           •

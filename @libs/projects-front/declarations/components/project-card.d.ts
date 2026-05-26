@@ -8,7 +8,9 @@ interface ProjectCardSignature {
         project: Project;
         members?: MemberLite[];
         responsibleShortName?: string;
-        onOpen: (project: Project) => void;
+        onActivate: (project: Project) => void;
+        onEdit?: (project: Project) => void;
+        onDelete?: (project: Project) => void;
     };
     Element: HTMLDivElement;
 }
@@ -22,10 +24,22 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     get formattedDate(): string;
     get members(): MemberLite[];
     get responsibleShortName(): string;
+    get avatarColorClass(): string;
     userStoriesDone: number;
     userStoriesTotal: number;
     sprintDone: number;
     sprintTotal: number;
+    epicsDone: number;
+    epicsTotal: number;
+    tasksDone: number;
+    tasksTotal: number;
+    sprintsActive: number;
+    sprintsTotal: number;
+    get moreMembersLabel(): string;
+    handleActivate(e: Event): void;
+    handleKeydown(e: KeyboardEvent): void;
+    handleEdit(e: Event): void;
+    handleDelete(e: Event): void;
 }
 export {};
 //# sourceMappingURL=project-card.d.ts.map

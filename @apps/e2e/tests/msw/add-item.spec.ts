@@ -12,7 +12,7 @@ test('Add button opens AddItem modal', async ({ page }) => {
   await expect(page.locator('[data-test-add-item-modal]')).toBeVisible({ timeout: 3000 });
 });
 
-test('Selecting "Projet" opens AddProjectModal without changing route', async ({ page }) => {
+test('Selecting "Projet" opens ProjectFormModal without changing route', async ({ page }) => {
   await loginMSW(page);
   const initialUrl = page.url();
 
@@ -26,8 +26,12 @@ test('Selecting "Projet" opens AddProjectModal without changing route', async ({
   // The choice modal should close
   await expect(page.locator('[data-test-add-item-modal]')).not.toBeVisible({ timeout: 2000 });
 
-  // The AddProjectModal should be visible (not the choice modal)
-  await expect(page.locator('[data-test-add-project-modal]')).toBeVisible({ timeout: 3000 });
+  // The ProjectFormModal should be visible (not the choice modal)
+  await expect(page.locator('[data-test-project-form-modal]')).toBeVisible({ timeout: 3000 });
+  // Should open in create mode
+  await expect(
+    page.locator('[data-test-project-form-mode="create"]')
+  ).toBeVisible({ timeout: 1000 });
 
   // URL must not have changed
   expect(page.url()).toBe(initialUrl);

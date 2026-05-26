@@ -5,6 +5,8 @@ model: sonnet
 argument-hint: [optional: topic name]
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-handoff] 🤖 Modèle : sonnet` comme première ligne de sortie.
+
 # Session Handoff
 
 ## Purpose
