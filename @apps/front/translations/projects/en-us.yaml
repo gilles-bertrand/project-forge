@@ -13,6 +13,7 @@ card:
   tasksLabel: 'Tasks'
   sprintsLabel: 'Sprints'
   moreMembers: 'more members'
+  noMembers: 'No members'
 status:
   planned: 'Planned'
   active: 'Active'

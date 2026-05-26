@@ -7,6 +7,7 @@ import { t, type IntlService } from 'ember-intl';
 import type { TOC } from '@ember/component/template-only';
 import type { Project } from '../schemas/projects.ts';
 import type ProjectsService from '../services/projects.ts';
+import type { ProjectStats } from '../services/projects.ts';
 import StatusBadge from './status-badge.gts';
 import MemberAvatarStack, {
   type MemberLite,
@@ -25,22 +26,6 @@ const CalendarIcon: TOC<{ Element: SVGSVGElement }> = <template>
       stroke-linejoin="round"
       stroke-width="2"
       d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-    />
-  </svg>
-</template>;
-
-const UserIcon: TOC<{ Element: SVGSVGElement }> = <template>
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    class="inline-block size-3 stroke-current"
-  >
-    <path
-      stroke-linecap="round"
-      stroke-linejoin="round"
-      stroke-width="2"
-      d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
     />
   </svg>
 </template>;
@@ -118,12 +103,12 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
   @service declare projects: ProjectsService;
 
   @tracked private _fetchedMembers: MemberLite[] = [];
+  @tracked private _stats: ProjectStats | null = null;
 
   constructor(owner: unknown, args: ProjectCardSignature['Args']) {
     super(owner as never, args);
-    if (!this.args.members) {
-      void this.loadMembers();
-    }
+    if (!this.args.members) void this.loadMembers();
+    void this.loadStats();
   }
 
   private async loadMembers(): Promise<void> {
@@ -133,6 +118,16 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
       this._fetchedMembers = await this.projects.loadMembers(id);
     } catch (e) {
       console.error('[ProjectCard] loadMembers failed:', e);
+    }
+  }
+
+  private async loadStats(): Promise<void> {
+    const id = this.args.project.id;
+    if (!id) return;
+    try {
+      this._stats = await this.projects.loadStats(id);
+    } catch (e) {
+      console.error('[ProjectCard] loadStats failed:', e);
     }
   }
 
@@ -155,29 +150,24 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     return this.args.members ?? this._fetchedMembers;
   }
 
-  get responsibleShortName(): string {
-    return this.args.responsibleShortName ?? '—';
-  }
-
   get avatarColorClass(): string {
     return projectAvatarColor(this.args.project.id);
   }
 
-  // Placeholder counters — will be populated from API in a future phase
-  userStoriesDone = 0;
-  userStoriesTotal = 0;
-  sprintDone = 0;
-  sprintTotal = 0;
-  epicsDone = 0;
-  epicsTotal = 0;
-  tasksDone = 0;
-  tasksTotal = 0;
-  sprintsActive = 0;
-  sprintsTotal = 0;
+  get epicsDone(): number { return this._stats?.epics.done ?? 0; }
+  get epicsTotal(): number { return this._stats?.epics.total ?? 0; }
+  get userStoriesDone(): number { return this._stats?.userStories.done ?? 0; }
+  get userStoriesTotal(): number { return this._stats?.userStories.total ?? 0; }
+  get tasksDone(): number { return this._stats?.tasks.done ?? 0; }
+  get tasksTotal(): number { return this._stats?.tasks.total ?? 0; }
+  get sprintsActive(): number { return this._stats?.sprints.active ?? 0; }
+  get sprintsTotal(): number { return this._stats?.sprints.total ?? 0; }
+  get sprintDone(): number { return this._stats?.currentSprint.tasksDone ?? 0; }
+  get sprintTotal(): number { return this._stats?.currentSprint.tasksTotal ?? 0; }
 
   get moreMembersLabel(): string {
-    const extra = Math.max(0, this.members.length - 3);
-    return `${String(extra)} ${this.intl.t('projects.card.moreMembers')}`;
+    const extra = Math.max(0, this.members.length - 4);
+    return `+${String(extra)} ${this.intl.t('projects.card.moreMembers')}`;
   }
 
   @action handleActivate(e: Event) {
@@ -282,25 +272,27 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
           </div>
         </div>
 
-        {{!-- Date + responsible --}}
-        <div class="flex items-center justify-between mt-1 text-xs text-base-content/60">
-          <span class="flex items-center gap-1">
+        {{!-- Date + member avatars --}}
+        <div class="flex items-center justify-between mt-1">
+          <span class="flex items-center gap-1 text-xs text-base-content/60">
             <CalendarIcon />
             {{t "projects.card.createdOn"}}
             {{this.formattedDate}}
           </span>
-        </div>
-
-        {{!-- Members with tooltips + responsible --}}
-        <div class="flex items-center justify-between">
-          <MemberAvatarStack
-            @members={{this.members}}
-            @moreLabel={{this.moreMembersLabel}}
-          />
-          <span class="text-xs text-base-content/60 flex items-center gap-1">
-            <UserIcon />
-            {{this.responsibleShortName}}
-          </span>
+          {{#if this.members.length}}
+            <MemberAvatarStack
+              @members={{this.members}}
+              @max={{4}}
+              @moreLabel={{this.moreMembersLabel}}
+            />
+          {{else}}
+            <span
+              class="text-xs text-base-content/40"
+              data-test-project-card-no-members
+            >
+              {{t "projects.card.noMembers"}}
+            </span>
+          {{/if}}
         </div>
 
         {{!-- Action bar + edit/delete --}}

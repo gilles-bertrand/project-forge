@@ -10,9 +10,23 @@ import { authFetch } from "@libs/shared-front/utils/auth-fetch";
 type MemberResponse = {
   data: Array<{
     id: string;
-    type: "users";
-    attributes: { firstName: string; lastName: string; email: string };
+    type: "project-members";
+    attributes: {
+      userId: string;
+      firstName: string | null;
+      lastName: string | null;
+      color: string | null;
+    };
   }>;
+};
+
+export type ProjectStats = {
+  projectId: string;
+  epics: { total: number; done: number };
+  userStories: { total: number; done: number };
+  tasks: { total: number; done: number };
+  sprints: { total: number; active: number };
+  currentSprint: { id: string | null; tasksDone: number; tasksTotal: number };
 };
 
 export type NewProjectPayload = {
@@ -66,11 +80,22 @@ export default class ProjectsService extends Service {
       url: `/api/v1/projects/${projectId}/members`,
       method: "GET",
     });
-    return content.data.map((u) => ({
-      id: u.id,
-      firstName: u.attributes.firstName,
-      lastName: u.attributes.lastName,
-    }));
+    return content.data
+      .filter((m) => m.attributes.firstName && m.attributes.lastName)
+      .map((m) => ({
+        id: m.attributes.userId,
+        firstName: m.attributes.firstName!,
+        lastName: m.attributes.lastName!,
+        color: m.attributes.color,
+      }));
+  }
+
+  public async loadStats(projectId: string): Promise<ProjectStats> {
+    const { content } = await this.store.request<{ data: ProjectStats }>({
+      url: `/api/v1/projects/${projectId}/stats`,
+      method: "GET",
+    });
+    return content.data;
   }
 
   public async create(data: NewProjectPayload): Promise<Project> {
