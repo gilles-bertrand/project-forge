@@ -41,6 +41,8 @@ async function setupTree() {
     githubUrl: null,
     responsibleId: "u1",
     createdById: "u1",
+    sprintDurationDays: 14,
+    defaultVelocityPoints: 20,
     createdAt: NOW,
     updatedAt: NOW,
   });
@@ -61,6 +63,7 @@ async function setupTree() {
     description: "d",
     projectId,
     epicId,
+    sprintId: null,
     status: "todo",
     points: 5,
     priority: 1,
@@ -70,6 +73,7 @@ async function setupTree() {
 
   await module.em.getRepository(SprintEntity).insert({
     id: sprintId,
+    number: 1,
     name: "Sprint",
     goal: null,
     projectId,

@@ -23,6 +23,8 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
       githubUrl: null,
       responsibleId: "user-bob",
       createdById: "user-bob",
+      sprintDurationDays: 14,
+      defaultVelocityPoints: 20,
       createdAt: NOW,
       updatedAt: NOW,
     };
@@ -61,6 +63,7 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
       description: "En tant qu'utilisateur...",
       projectId: "project-ecommerce",
       epicId: "epic-auth",
+      sprintId: null,
       status: "todo",
       points: 3,
       priority: 1,
@@ -155,6 +158,7 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
   it("SprintEntity has all required properties", () => {
     const sprint: SprintEntityType = {
       id: "sprint-88",
+      number: 88,
       name: "Sprint 88",
       goal: "Finaliser le tunnel d'achat et intégrer le paiement Stripe",
       projectId: "project-ecommerce",

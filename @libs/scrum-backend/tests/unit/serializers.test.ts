@@ -23,6 +23,8 @@ describe("scrum-backend serializers", () => {
       githubUrl: null,
       responsibleId: "u1",
       createdById: "u1",
+      sprintDurationDays: 14,
+      defaultVelocityPoints: 20,
       createdAt: NOW,
       updatedAt: NOW,
     });
@@ -37,12 +39,13 @@ describe("scrum-backend serializers", () => {
         githubUrl: null,
         responsibleId: "u1",
         createdById: "u1",
+        sprintDurationDays: 14,
+        defaultVelocityPoints: 20,
         createdAt: NOW.toISOString(),
         updatedAt: NOW.toISOString(),
       },
     });
   });
-
   it("epic: shape + status enum", () => {
     const out = jsonApiSerializeEpic({
       id: "e1",
@@ -64,6 +67,7 @@ describe("scrum-backend serializers", () => {
       description: "d",
       projectId: "p1",
       epicId: null,
+      sprintId: null,
       status: "todo",
       points: 3,
       priority: 1,
@@ -128,6 +132,7 @@ describe("scrum-backend serializers", () => {
   it("sprint: dates ISO + status", () => {
     const out = jsonApiSerializeSprint({
       id: "s1",
+      number: 88,
       name: "Sprint 88",
       goal: "Goal",
       projectId: "p1",
@@ -156,7 +161,6 @@ describe("scrum-backend serializers", () => {
     });
     expect(out.attributes.metadata).toEqual({ from: "todo", to: "done" });
   });
-
   it("attachment: sizeBytes int", () => {
     const out = jsonApiSerializeAttachment({
       id: "a1",
@@ -172,7 +176,6 @@ describe("scrum-backend serializers", () => {
     expect(out.attributes.sizeBytes).toBe(1024);
     expect(out.attributes.taskId).toBe("t1");
   });
-
   it("history-entry: ownerType + metadata", () => {
     const out = jsonApiSerializeHistoryEntry({
       id: "h1",
@@ -187,7 +190,6 @@ describe("scrum-backend serializers", () => {
     expect(out.attributes.ownerType).toBe("task");
     expect(out.attributes.metadata).toBe(null);
   });
-
   it("task-assignee: assignedAt ISO", () => {
     const out = jsonApiSerializeTaskAssignee({
       id: "ta1",

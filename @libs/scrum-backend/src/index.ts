@@ -27,6 +27,8 @@ export * from "#src/context.js";
 export * from "#src/init.js";
 export * from "#src/utils/list-query.js";
 export * from "#src/utils/task-numbering.js";
+export * from "#src/sprint/utils/sprint-numbering.js";
+export * from "#src/sprint/utils/create-sprint.js";
 
 // Serializers
 export * from "#src/project/project.serializer.js";
@@ -79,7 +81,12 @@ export * from "#src/sprint/routes/create.route.js";
 export * from "#src/sprint/routes/update.route.js";
 export * from "#src/sprint/routes/delete.route.js";
 export * from "#src/sprint/routes/actions.routes.js";
+export * from "#src/sprint/routes/close-preview.route.js";
+export * from "#src/sprint/routes/stop-sprint.route.js";
+export * from "#src/sprint/routes/items.routes.js";
 export * from "#src/sprint/routes/relationships.routes.js";
+export * from "#src/sprint/utils/sprint-numbering.js";
+export * from "#src/sprint/utils/create-sprint.js";
 
 export * from "#src/search/search.route.js";
 export * from "#src/dashboard/dashboard.route.js";

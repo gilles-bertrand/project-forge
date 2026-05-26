@@ -1,5 +1,5 @@
 import type { ProjectEntityType } from "#src/project/project.entity.js";
-import { object, string } from "zod";
+import { number, object, string } from "zod";
 import { z } from "zod";
 import { makeJsonApiDocumentSchema } from "@libs/backend-shared";
 import { ProjectStatusSchema } from "#src/types.js";
@@ -14,6 +14,8 @@ export const SerializedProjectSchema = makeJsonApiDocumentSchema(
     githubUrl: string().nullable(),
     responsibleId: string(),
     createdById: string(),
+    sprintDurationDays: number().int(),
+    defaultVelocityPoints: number().int(),
     createdAt: string(),
     updatedAt: string(),
   }),
@@ -33,6 +35,8 @@ export function jsonApiSerializeProject(
       githubUrl: p.githubUrl ?? null,
       responsibleId: p.responsibleId,
       createdById: p.createdById,
+      sprintDurationDays: p.sprintDurationDays ?? 14,
+      defaultVelocityPoints: p.defaultVelocityPoints ?? 20,
       createdAt: p.createdAt.toISOString(),
       updatedAt: p.updatedAt.toISOString(),
     },

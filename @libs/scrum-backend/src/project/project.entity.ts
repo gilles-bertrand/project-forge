@@ -12,6 +12,8 @@ export const ProjectEntity = defineEntity({
     githubUrl: p.string().nullable(),
     responsibleId: p.string().index(),
     createdById: p.string().index(),
+    sprintDurationDays: p.integer().default(14),
+    defaultVelocityPoints: p.integer().default(20),
     createdAt: p.datetime().onCreate(() => new Date()),
     updatedAt: p
       .datetime()

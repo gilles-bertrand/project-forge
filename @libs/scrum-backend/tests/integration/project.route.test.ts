@@ -40,6 +40,8 @@ async function seedProject(overrides: Partial<{ id: string; name: string; status
     githubUrl: null,
     responsibleId: ScrumTestModule.TEST_USER_ID,
     createdById: ScrumTestModule.TEST_USER_ID,
+    sprintDurationDays: 14,
+    defaultVelocityPoints: 20,
     createdAt: now,
     updatedAt: now,
   });
@@ -159,6 +161,7 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
     description: "desc",
     projectId: id,
     epicId,
+    sprintId: null,
     status: "todo",
     points: 3,
     priority: 1,
@@ -169,6 +172,7 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
   const sprintId = randomUUID();
   await module.em.getRepository(SprintEntity).insert({
     id: sprintId,
+    number: 1,
     name: "Sprint 1",
     goal: null,
     projectId: id,
@@ -290,6 +294,8 @@ test("DELETE /projects/:id rolls back when timeTrackingPort throws", async () =>
       githubUrl: null,
       responsibleId: ScrumTestModule.TEST_USER_ID,
       createdById: ScrumTestModule.TEST_USER_ID,
+      sprintDurationDays: 14,
+      defaultVelocityPoints: 20,
       createdAt: now,
       updatedAt: now,
     });

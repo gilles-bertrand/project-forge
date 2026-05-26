@@ -5,6 +5,7 @@ export const SprintEntity = defineEntity({
   tableName: "sprints",
   properties: {
     id: p.string().primary(),
+    number: p.integer().index(),
     name: p.string(),
     goal: p.string().nullable(),
     projectId: p.string().index(),
