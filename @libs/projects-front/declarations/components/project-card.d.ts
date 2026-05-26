@@ -7,6 +7,7 @@ interface ProjectCardSignature {
     Args: {
         project: Project;
         members?: MemberLite[];
+        isCurrent?: boolean;
         responsibleShortName?: string;
         onActivate: (project: Project) => void;
         onEdit?: (project: Project) => void;
@@ -39,7 +40,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     get sprintDone(): number;
     get sprintTotal(): number;
     get moreMembersLabel(): string;
-    handleActivate(): void;
+    handleActivate(e: Event): void;
     handleEdit(e: Event): void;
     handleDelete(e: Event): void;
 }

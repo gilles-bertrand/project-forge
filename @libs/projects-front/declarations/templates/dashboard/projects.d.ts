@@ -19,7 +19,8 @@ export default class DashboardProjectsTemplate extends Component {
     tableReload: (() => void) | null;
     private freshMembersMap;
     registerTableReload(reload: () => void): void;
-    membersForProject(projectId: string | null | undefined): MemberLite[] | undefined;
+    membersForProject: (projectId: string | null | undefined) => MemberLite[] | undefined;
+    isCurrentProject: (projectId: string | null | undefined) => boolean;
     handleUpdated(updatedProject: Project): Promise<void>;
     get isDeleteModalOpen(): boolean;
     get isGridMode(): boolean;
@@ -27,7 +28,7 @@ export default class DashboardProjectsTemplate extends Component {
     get deleteConfirmQuestion(): string;
     openAdd(): void;
     closeAdd(): void;
-    goToKanban(project: Project): void;
+    selectProject(project: Project): void;
     openEdit(p: Project): void;
     closeEdit(): void;
     requestDelete(p: Project): void;
