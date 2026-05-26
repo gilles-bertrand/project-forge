@@ -170,17 +170,8 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     return `+${String(extra)} ${this.intl.t('projects.card.moreMembers')}`;
   }
 
-  @action handleActivate(e: Event) {
-    // Only fire when clicking the card body, not a nested button
-    if ((e.target as Element)?.closest('button')) return;
+  @action handleActivate(): void {
     this.args.onActivate(this.args.project);
-  }
-
-  @action handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      this.args.onActivate(this.args.project);
-    }
   }
 
   @action handleEdit(e: Event) {
@@ -195,11 +186,8 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
 
   <template>
     <div
-      role="button"
-      tabindex="0"
-      class="card bg-base-200 border border-base-300/40 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-      {{on "click" this.handleActivate}}
-      {{on "keydown" this.handleKeydown}}
+      role="article"
+      class="card bg-base-200 border border-base-300/40 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
       data-test-project-card
       ...attributes
     >
@@ -214,7 +202,13 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
         </div>
 
         <div>
-          <h3 class="text-lg font-semibold">{{@project.name}}</h3>
+          <button
+            type="button"
+            class="text-lg font-semibold text-left hover:text-primary transition-colors cursor-pointer"
+            aria-label={{@project.name}}
+            data-test-project-card-open
+            {{on "click" this.handleActivate}}
+          >{{@project.name}}</button>
         </div>
 
         <p class="text-sm text-base-content/80 line-clamp-2">{{@project.description}}</p>

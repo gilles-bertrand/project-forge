@@ -33,6 +33,8 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
     users: UserLite[];
     submitting: boolean;
     error: string;
+    sprintDurationDays: number;
+    defaultVelocityPoints: number;
     private originalMemberIds;
     membersLoaded: boolean;
     constructor(owner: unknown, args: ProjectFormModalSignature['Args']);
@@ -59,6 +61,8 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
     onStatusChange(e: Event): void;
     onResponsibleChange(e: Event): void;
     toggleMember(id: string): void;
+    onSprintDurationInput(e: Event): void;
+    onDefaultVelocityInput(e: Event): void;
     submit(e: Event): Promise<void>;
 }
 export {};

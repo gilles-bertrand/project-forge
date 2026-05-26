@@ -16,6 +16,8 @@ const ProjectSchema = withDefaults({
     { name: "githubUrl", kind: "attribute" },
     { name: "responsibleId", kind: "attribute" },
     { name: "createdById", kind: "attribute" },
+    { name: "sprintDurationDays", kind: "attribute" },
+    { name: "defaultVelocityPoints", kind: "attribute" },
   ],
 });
 
@@ -39,5 +41,7 @@ export type Project = WithLegacy<{
   githubUrl: string | null;
   responsibleId: string;
   createdById: string;
+  sprintDurationDays: number;
+  defaultVelocityPoints: number;
   [Type]: "projects";
 }>;

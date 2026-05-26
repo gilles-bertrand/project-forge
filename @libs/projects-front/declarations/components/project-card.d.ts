@@ -37,8 +37,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     get sprintDone(): number;
     get sprintTotal(): number;
     get moreMembersLabel(): string;
-    handleActivate(e: Event): void;
-    handleKeydown(e: KeyboardEvent): void;
+    handleActivate(): void;
     handleEdit(e: Event): void;
     handleDelete(e: Event): void;
 }
