@@ -1037,35 +1037,6 @@ export interface paths {
             };
           };
         };
-        /** @description Default Response */
-        409: {
-          headers: {
-            [name: string]: unknown;
-          };
-          content: {
-            "application/json": {
-              errors: {
-                id?: string;
-                links?: {
-                  about?: string;
-                  type?: string;
-                };
-                status: string;
-                code?: string;
-                title: string;
-                detail?: string;
-                source?: {
-                  pointer?: string;
-                  parameter?: string;
-                  header?: string;
-                };
-                meta?: {
-                  [key: string]: unknown;
-                };
-              }[];
-            };
-          };
-        };
       };
     };
     options?: never;

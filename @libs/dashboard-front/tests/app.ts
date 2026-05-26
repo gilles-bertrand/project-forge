@@ -39,6 +39,23 @@ const DASHBOARD_FR = {
     sprintTasks: "Tâches du sprint ({count})",
     noActiveSprint: "Aucun sprint actif",
     noSprintTasks: "Aucune tâche dans ce sprint.",
+    noProject: {
+      title: "Aucun projet sélectionné",
+      subtitle: "Sélectionnez un projet ou créez-en un pour commencer.",
+      cta: { create: "Créer un projet", select: "Sélectionner" },
+    },
+    noSprint: {
+      title: "Projet : {name}",
+      subtitle: "Aucun sprint actif sur ce projet.",
+      cta: {
+        startSprint: "Démarrer un sprint",
+        viewBacklog: "Voir le backlog",
+      },
+    },
+    counts: {
+      tasksInProgress: "Tâches en cours",
+      tasksDone: "Tâches terminées",
+    },
   },
 };
 

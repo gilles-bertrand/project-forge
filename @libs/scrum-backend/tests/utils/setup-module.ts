@@ -20,9 +20,17 @@ import { sign } from "jsonwebtoken";
  * (ceux qui veulent une valeur précise injectent leur propre stub).
  */
 export class StubTimeTrackingPort implements TimeTrackingPort {
-  public constructor(private fixedHours = 0) {}
+  public constructor(
+    private fixedHours = 0,
+    private deleteByProjectIdImpl: (projectId: string) => Promise<void> = async () => {},
+  ) {}
+
   public async sumHoursByUserAndSprint(_userId: string, _sprintId: string): Promise<number> {
     return this.fixedHours;
+  }
+
+  public async deleteByProjectId(projectId: string): Promise<void> {
+    await this.deleteByProjectIdImpl(projectId);
   }
 }
 

@@ -6,6 +6,13 @@ card:
   userStories: 'User Stories'
   currentSprint: 'Sprint en cours'
   createdOn: 'Créé le'
+  editAria: 'Modifier ce projet'
+  deleteAria: 'Supprimer ce projet'
+  epicsLabel: 'Épiques'
+  userStoriesLabel: 'US'
+  tasksLabel: 'Tâches'
+  sprintsLabel: 'Sprints'
+  moreMembers: 'membres supplémentaires'
 status:
   planned: 'Planifié'
   active: 'Actif'
@@ -30,21 +37,40 @@ modal:
     submit: 'Créer le projet'
     submitting: 'Création...'
     errorFallback: 'Erreur lors de la création'
-  detail:
-    closeAria: 'Fermer'
-    responsible: 'Responsable: {name}'
-    description: 'Description'
-    progress: 'Progression du projet'
-    userStoriesCompleted: 'User Stories complétées'
-    userStoriesRatio: '{done} / {total} User Stories'
-    stats:
-      title: 'Statistiques'
-      epics: 'Épiques'
-      userStories: 'User Stories'
-      tasks: 'Tâches'
-      sprints: 'Sprints'
-      hint: 'Statistiques détaillées disponibles en P10'
-    team: 'Équipe'
-    teamPlaceholder: 'Liste des membres disponible quand la lib P5+ sera prête.'
-    close: 'Fermer'
-    viewKanban: 'Voir le Kanban'
+  edit:
+    title: 'Modifier le projet'
+    submit: 'Enregistrer'
+    submitting: 'Enregistrement...'
+    errorFallback: 'Erreur lors de la mise à jour'
+action:
+  backlogAria: 'Voir le backlog'
+  kanbanAria: 'Voir le kanban'
+  userStoryMapAria: 'Voir la user story map'
+  sprintsAria: 'Voir les sprints'
+view:
+  grid: 'Grille'
+  gridAria: 'Affichage en grille'
+  list: 'Liste'
+  listAria: 'Affichage en liste'
+table:
+  headers:
+    name: 'Nom'
+    status: 'Statut'
+    responsible: 'Responsable'
+    members: 'Membres'
+    createdAt: 'Créé le'
+    actions: 'Raccourcis'
+  actions:
+    edit: 'Modifier'
+    delete: 'Supprimer'
+    backlog: 'Backlog'
+    kanban: 'Kanban'
+    sprints: 'Sprints'
+delete:
+  confirm:
+    title: 'Supprimer ce projet ?'
+    body: 'Cette action est irréversible. Toutes les données rattachées (epics, user stories, tâches, sprints, temps passé) seront supprimées définitivement.'
+    cancel: 'Annuler'
+    confirm: 'Supprimer'
+  error:
+    generic: 'Erreur lors de la suppression du projet.'

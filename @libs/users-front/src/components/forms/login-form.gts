@@ -32,7 +32,7 @@ export default class LoginForm extends Component {
   }
 
   changeset = new ImmerChangeset({
-    email: 'deflorenne.amaury@triptyk.eu',
+    email: 'gilles@triptyk.eu',
     password: '123456789',
   });
 

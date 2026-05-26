@@ -5,6 +5,8 @@ model: sonnet
 argument-hint: [spec-file-path]
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-review] 🤖 Modèle : sonnet` comme première ligne de sortie.
+
 # TPK-Review
 
 ## Purpose

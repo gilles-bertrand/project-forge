@@ -2,6 +2,7 @@ import { service } from '@ember/service';
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 import TpkSelect from '@triptyk/ember-input/components/tpk-select';
+import type RouterService from '@ember/routing/router-service';
 import type CurrentProjectService from '../../services/current-project.ts';
 
 type ProjectOption = { id: string; name: string };
@@ -13,6 +14,7 @@ export interface ProjectSelectorSignature {
 
 export default class ProjectSelector extends Component<ProjectSelectorSignature> {
   @service declare currentProject: CurrentProjectService;
+  @service declare router: RouterService;
 
   get options(): ProjectOption[] {
     return this.args.projects ?? [];
@@ -29,6 +31,7 @@ export default class ProjectSelector extends Component<ProjectSelectorSignature>
     } else {
       this.currentProject.clear();
     }
+    void this.router.refresh();
   }
 
   <template>
@@ -41,6 +44,7 @@ export default class ProjectSelector extends Component<ProjectSelectorSignature>
       @searchEnabled={{true}}
       @searchPlaceholder="Rechercher un projet…"
       @onChange={{this.onChange}}
+      @renderInPlace={{false}}
       as |s|
     >
       <s.Option as |o|>{{o.option.name}}</s.Option>

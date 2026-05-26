@@ -5,6 +5,8 @@ model: sonnet
 argument-hint: [optional: commit message]
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-commit] 🤖 Modèle : sonnet` comme première ligne de sortie.
+
 # TPK-Commit
 
 ## Purpose

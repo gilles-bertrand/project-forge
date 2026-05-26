@@ -25,8 +25,16 @@ function initialsOf(m: MemberLite): string {
   return `${m.firstName.charAt(0)}${m.lastName.charAt(0)}`.toUpperCase();
 }
 
+function fullNameOf(m: MemberLite): string {
+  return `${m.firstName} ${m.lastName}`;
+}
+
 interface MemberAvatarStackSignature {
-  Args: { members: MemberLite[]; max?: number };
+  Args: {
+    members: MemberLite[];
+    max?: number;
+    moreLabel?: string;
+  };
 }
 
 export default class MemberAvatarStack extends Component<MemberAvatarStackSignature> {
@@ -44,22 +52,33 @@ export default class MemberAvatarStack extends Component<MemberAvatarStackSignat
 
   initials = initialsOf;
   colorClass = colorClassFor;
+  fullName = fullNameOf;
 
   <template>
     <div class="flex -space-x-2">
       {{#each this.visible as |m|}}
-        <div class="avatar avatar-placeholder">
-          <div
-            class="w-7 rounded-full ring-2 ring-base-200 {{this.colorClass m.id}}"
-          >
-            <span class="text-xs font-semibold">{{this.initials m}}</span>
+        <div
+          class="tooltip tooltip-top"
+          data-tip={{this.fullName m}}
+        >
+          <div class="avatar avatar-placeholder">
+            <div
+              class="w-7 rounded-full ring-2 ring-base-200 {{this.colorClass m.id}}"
+            >
+              <span class="text-xs font-semibold">{{this.initials m}}</span>
+            </div>
           </div>
         </div>
       {{/each}}
       {{#if this.extra}}
-        <div class="avatar avatar-placeholder">
-          <div class="bg-neutral text-neutral-content w-7 rounded-full ring-2 ring-base-200">
-            <span class="text-xs">+{{this.extra}}</span>
+        <div
+          class="tooltip tooltip-top"
+          data-tip={{@moreLabel}}
+        >
+          <div class="avatar avatar-placeholder">
+            <div class="bg-neutral text-neutral-content w-7 rounded-full ring-2 ring-base-200">
+              <span class="text-xs">+{{this.extra}}</span>
+            </div>
           </div>
         </div>
       {{/if}}

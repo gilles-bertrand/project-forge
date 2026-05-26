@@ -5,6 +5,8 @@ argument-hint: [N] or [path] - number for last N retrospectives, path for specif
 model: sonnet
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-apply-learnings] 🤖 Modèle : sonnet` comme première ligne de sortie.
+
 # TPK-Apply-Learnings Command
 
 Read retrospective files and apply recommended improvements to commands and workflows.

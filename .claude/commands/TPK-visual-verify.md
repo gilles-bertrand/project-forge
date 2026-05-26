@@ -5,6 +5,8 @@ model: sonnet
 argument-hint: [url] [--name label] [--viewport 1280x800]
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-visual-verify] 🤖 Modèle : sonnet` comme première ligne de sortie.
+
 # TPK-Visual-Verify
 
 ## Purpose

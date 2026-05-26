@@ -10,3 +10,18 @@ kpi:
 sprintTasks: 'Sprint tasks ({count})'
 noActiveSprint: 'No active sprint on this project. Start one from /sprints.'
 noSprintTasks: 'No tasks in this sprint.'
+noProject:
+  title: 'No project selected'
+  subtitle: 'Select a project or create one to get started.'
+  cta:
+    create: 'Create a project'
+    select: 'Select'
+noSprint:
+  title: 'Project: {name}'
+  subtitle: 'No active sprint on this project.'
+  cta:
+    startSprint: 'Start a sprint'
+    viewBacklog: 'View backlog'
+counts:
+  tasksInProgress: 'Tasks in progress'
+  tasksDone: 'Tasks done'

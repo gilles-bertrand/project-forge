@@ -10,10 +10,7 @@
     },
     "gitscrum": {
       "command": "npx",
-      "args": [
-        "-y",
-        "git@github.com:AmauryD/mcp-server.git"
-      ]
+      "args": ["-y", "git@github.com:AmauryD/mcp-server.git"]
     },
     "context7": {
       "type": "stdio",
@@ -28,9 +25,11 @@
     },
     "playwright": {
       "command": "npx",
-      "args": [
-        "@playwright/mcp@latest"
-      ]
+      "args": ["@playwright/mcp@latest"]
+    },
+    "delegate": {
+      "command": "npx",
+      "args": ["@triptyk/delegate-mcp@latest"]
     }
   }
 }

@@ -5,6 +5,8 @@ model: sonnet
 argument-hint: [command-name] [--purpose "short description"]
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-create-command] 🤖 Modèle : sonnet` comme première ligne de sortie.
+
 # TPK-Create-Command
 
 ## Purpose

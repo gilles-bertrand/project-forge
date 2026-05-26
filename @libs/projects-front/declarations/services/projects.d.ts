@@ -11,6 +11,7 @@ export type NewProjectPayload = {
     responsibleId: string;
     createdById: string;
 };
+export type UpdateProjectPayload = Partial<Pick<NewProjectPayload, "name" | "description" | "status" | "avatar" | "githubUrl" | "responsibleId">>;
 export default class ProjectsService extends Service {
     store: Store;
     list: Project[];
@@ -19,6 +20,10 @@ export default class ProjectsService extends Service {
     findById(id: string): Promise<Project>;
     loadMembers(projectId: string): Promise<MemberLite[]>;
     create(data: NewProjectPayload): Promise<Project>;
+    update(id: string, data: UpdateProjectPayload): Promise<Project>;
+    addMember(projectId: string, userId: string): Promise<void>;
+    removeMember(projectId: string, userId: string): Promise<void>;
+    delete(id: string): Promise<void>;
 }
 declare module "@ember/service" {
     interface Registry {

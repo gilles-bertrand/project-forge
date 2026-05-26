@@ -1,5 +1,6 @@
 import type { SqlEntityManager } from "@mikro-orm/postgresql";
 import type { TimeTrackingPort } from "@libs/scrum-backend";
+import { TimeEntryEntity } from "@libs/time-tracking-backend";
 
 /**
  * Adapter SQL pour TimeTrackingPort.
@@ -20,5 +21,9 @@ export class SqlTimeTrackingAdapter implements TimeTrackingPort {
       [userId, sprintId],
     )) as Array<{ total: string | number }>;
     return Number(result[0]?.total ?? 0);
+  }
+
+  public async deleteByProjectId(projectId: string): Promise<void> {
+    await this.em.nativeDelete(TimeEntryEntity, { projectId });
   }
 }

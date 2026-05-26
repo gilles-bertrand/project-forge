@@ -1,8 +1,16 @@
 import { afterAll, aroundEach, beforeAll, expect, test } from "vitest";
 import { randomUUID } from "crypto";
-import { ScrumTestModule } from "#tests/utils/setup-module.js";
+import { ScrumTestModule, StubTimeTrackingPort } from "#tests/utils/setup-module.js";
 import { ProjectEntity } from "#src/project/project.entity.js";
 import { EpicEntity } from "#src/epic/epic.entity.js";
+import { UserStoryEntity } from "#src/user-story/user-story.entity.js";
+import { SprintEntity } from "#src/sprint/sprint.entity.js";
+import { TaskEntity } from "#src/task/task.entity.js";
+import { TaskAssigneeEntity } from "#src/task/task-assignee.entity.js";
+import { CommentEntity } from "#src/task/comment.entity.js";
+import { AttachmentEntity } from "#src/task/attachment.entity.js";
+import { HistoryEntryEntity } from "#src/task/history-entry.entity.js";
+import { ProjectMemberEntity } from "#src/project/project-member.entity.js";
 
 let module: ScrumTestModule;
 
@@ -129,17 +137,118 @@ test("DELETE /projects/:id returns 204 when empty", async () => {
   expect(response.statusCode).toBe(204);
 });
 
-test("DELETE /projects/:id returns 409 when dependencies exist", async () => {
-  const id = await seedProject();
+test("DELETE /projects/:id cascades and returns 204 when project has children", async () => {
   const now = new Date();
+  const id = await seedProject();
+
+  const epicId = randomUUID();
   await module.em.getRepository(EpicEntity).insert({
-    id: randomUUID(),
-    title: "blocker",
-    description: "blocker",
+    id: epicId,
+    title: "Epic",
+    description: "desc",
     projectId: id,
     status: "todo",
     createdAt: now,
     updatedAt: now,
+  });
+
+  const userStoryId = randomUUID();
+  await module.em.getRepository(UserStoryEntity).insert({
+    id: userStoryId,
+    title: "US",
+    description: "desc",
+    projectId: id,
+    epicId,
+    status: "todo",
+    points: 3,
+    priority: 1,
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  const sprintId = randomUUID();
+  await module.em.getRepository(SprintEntity).insert({
+    id: sprintId,
+    name: "Sprint 1",
+    goal: null,
+    projectId: id,
+    startDate: now,
+    endDate: now,
+    status: "planned",
+    velocityPoints: 0,
+    completedPoints: 0,
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  const taskId = randomUUID();
+  await module.em.getRepository(TaskEntity).insert({
+    id: taskId,
+    number: 1,
+    title: "Task",
+    description: "desc",
+    status: "todo",
+    type: "task",
+    nature: "feature",
+    priority: "medium",
+    points: 2,
+    estimatedHours: null,
+    projectId: id,
+    userStoryId,
+    epicId,
+    sprintId,
+    createdById: ScrumTestModule.TEST_USER_ID,
+    dueDate: null,
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  await module.em.getRepository(TaskAssigneeEntity).insert({
+    id: randomUUID(),
+    taskId,
+    userId: ScrumTestModule.TEST_USER_ID,
+    assignedAt: now,
+  });
+
+  await module.em.getRepository(CommentEntity).insert({
+    id: randomUUID(),
+    taskId,
+    userId: ScrumTestModule.TEST_USER_ID,
+    content: "comment",
+    type: "text",
+    metadata: null,
+    createdAt: now,
+  });
+
+  await module.em.getRepository(AttachmentEntity).insert({
+    id: randomUUID(),
+    taskId,
+    projectId: null,
+    name: "file.txt",
+    url: "https://example.com/file.txt",
+    mimeType: "text/plain",
+    sizeBytes: 42,
+    uploadedById: ScrumTestModule.TEST_USER_ID,
+    createdAt: now,
+  });
+
+  await module.em.getRepository(HistoryEntryEntity).insert({
+    id: randomUUID(),
+    ownerType: "Task",
+    ownerId: taskId,
+    type: "created",
+    description: "Task created",
+    userId: ScrumTestModule.TEST_USER_ID,
+    metadata: null,
+    createdAt: now,
+  });
+
+  await module.em.getRepository(ProjectMemberEntity).insert({
+    id: randomUUID(),
+    projectId: id,
+    userId: "member-user-id",
+    role: "member",
+    joinedAt: now,
   });
 
   const response = await module.fastifyInstance.inject({
@@ -147,8 +256,75 @@ test("DELETE /projects/:id returns 409 when dependencies exist", async () => {
     url: `/projects/${id}`,
     headers: { authorization: module.generateBearerToken() },
   });
-  expect(response.statusCode).toBe(409);
-  expect(response.json().errors[0].code).toBe("PROJECT_HAS_DEPENDENCIES");
+
+  expect(response.statusCode).toBe(204);
+
+  expect(await module.em.count(ProjectEntity, { id })).toBe(0);
+  expect(await module.em.count(EpicEntity, { projectId: id })).toBe(0);
+  expect(await module.em.count(UserStoryEntity, { projectId: id })).toBe(0);
+  expect(await module.em.count(SprintEntity, { projectId: id })).toBe(0);
+  expect(await module.em.count(TaskEntity, { projectId: id })).toBe(0);
+  expect(await module.em.count(TaskAssigneeEntity, { taskId })).toBe(0);
+  expect(await module.em.count(CommentEntity, { taskId })).toBe(0);
+  expect(await module.em.count(AttachmentEntity, { taskId })).toBe(0);
+  expect(await module.em.count(HistoryEntryEntity, { ownerId: taskId })).toBe(0);
+  expect(await module.em.count(ProjectMemberEntity, { projectId: id })).toBe(0);
+});
+
+test("DELETE /projects/:id rolls back when timeTrackingPort throws", async () => {
+  const throwingPort = new StubTimeTrackingPort(0, async () => {
+    throw new Error("simulated time-tracking failure");
+  });
+  const rollbackModule = await ScrumTestModule.init(throwingPort);
+
+  const now = new Date();
+  const id = randomUUID();
+  await rollbackModule.em.begin();
+  try {
+    await rollbackModule.em.getRepository(ProjectEntity).insert({
+      id,
+      name: "Rollback Project",
+      description: "desc",
+      status: "active",
+      avatar: null,
+      githubUrl: null,
+      responsibleId: ScrumTestModule.TEST_USER_ID,
+      createdById: ScrumTestModule.TEST_USER_ID,
+      createdAt: now,
+      updatedAt: now,
+    });
+
+    const response = await rollbackModule.fastifyInstance.inject({
+      method: "DELETE",
+      url: `/projects/${id}`,
+      headers: { authorization: rollbackModule.generateBearerToken() },
+    });
+
+    expect(response.statusCode).toBe(500);
+    expect(await rollbackModule.em.count(ProjectEntity, { id })).toBe(1);
+  } finally {
+    await rollbackModule.em.rollback();
+    await rollbackModule.close();
+  }
+});
+
+test("DELETE /projects/:id returns 404 on second call (idempotence)", async () => {
+  const id = await seedProject();
+
+  const first = await module.fastifyInstance.inject({
+    method: "DELETE",
+    url: `/projects/${id}`,
+    headers: { authorization: module.generateBearerToken() },
+  });
+  expect(first.statusCode).toBe(204);
+
+  const second = await module.fastifyInstance.inject({
+    method: "DELETE",
+    url: `/projects/${id}`,
+    headers: { authorization: module.generateBearerToken() },
+  });
+  expect(second.statusCode).toBe(404);
+  expect(second.json().errors[0].code).toBe("PROJECT_NOT_FOUND");
 });
 
 test("POST /projects/:id/members adds a member then 409 on duplicate", async () => {

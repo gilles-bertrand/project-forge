@@ -125,10 +125,11 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {
-      "./components/add-project-modal.js": "./dist/_app_/components/add-project-modal.js",
       "./components/member-avatar-stack.js": "./dist/_app_/components/member-avatar-stack.js",
+      "./components/project-action-bar.js": "./dist/_app_/components/project-action-bar.js",
       "./components/project-card.js": "./dist/_app_/components/project-card.js",
-      "./components/project-detail-modal.js": "./dist/_app_/components/project-detail-modal.js",
+      "./components/project-form-modal.js": "./dist/_app_/components/project-form-modal.js",
+      "./components/projects-table.js": "./dist/_app_/components/projects-table.js",
       "./components/shell-with-projects.js": "./dist/_app_/components/shell-with-projects.js",
       "./components/status-badge.js": "./dist/_app_/components/status-badge.js",
       "./routes/dashboard/projects.js": "./dist/_app_/routes/dashboard/projects.js",

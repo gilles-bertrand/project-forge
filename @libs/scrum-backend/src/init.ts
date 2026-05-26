@@ -48,7 +48,7 @@ export class ScrumModule implements ModuleInterface<FastifyInstanceTypeForModule
       );
       f.addHook("preValidation", jwtAuth);
 
-      await mountProjects(f, this.context.em);
+      await mountProjects(f, this.context.em, this.context.timeTrackingPort);
       await mountEpics(f, this.context.em);
       await mountUserStories(f, this.context.em);
       await mountTasks(f, this.context.em);

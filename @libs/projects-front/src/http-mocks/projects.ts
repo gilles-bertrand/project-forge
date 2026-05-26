@@ -123,11 +123,70 @@ function notFound(id: string) {
 }
 
 export const allProjectsHandlers = [
-  http.get("/api/v1/projects", () => {
+  http.get("/api/v1/projects", ({ request }) => {
+    const url = new URL(request.url);
+    const params = url.searchParams;
+
+    // --- filter[search] ---
+    const search = params.get("filter[search]")?.trim().toLowerCase() ?? "";
+    let filtered = mockProjects;
+    if (search) {
+      filtered = filtered.filter(
+        (p) =>
+          p.attributes.name.toLowerCase().includes(search) ||
+          p.attributes.description.toLowerCase().includes(search),
+      );
+    }
+
+    // --- filter[<field>] (exact match) ---
+    for (const [key, value] of params.entries()) {
+      const m = /^filter\[([\w.]+)\]$/.exec(key);
+      const field = m?.[1];
+      if (field && field !== "search") {
+        filtered = filtered.filter(
+          (p) =>
+            (p.attributes as unknown as Record<string, unknown>)[field] ===
+            value,
+        );
+      }
+    }
+
+    // --- sort ---
+    const sortParam = params.get("sort") ?? "";
+    if (sortParam) {
+      const sorts = sortParam.split(",").filter(Boolean);
+      filtered = [...filtered].sort((a, b) => {
+        for (const s of sorts) {
+          const desc = s.startsWith("-");
+          const field = (desc ? s.slice(1) : s) as keyof typeof a.attributes;
+          const va = a.attributes[field];
+          const vb = b.attributes[field];
+          if (va == null && vb == null) continue;
+          if (va == null) return desc ? 1 : -1;
+          if (vb == null) return desc ? -1 : 1;
+          if (va < vb) return desc ? 1 : -1;
+          if (va > vb) return desc ? -1 : 1;
+        }
+        return 0;
+      });
+    }
+
+    // --- pagination ---
+    const total = filtered.length;
+    const pageSize = Math.min(
+      Math.max(1, Number(params.get("page[size]") ?? 25)),
+      100,
+    );
+    const pageNumber = Math.max(1, Number(params.get("page[number]") ?? 1));
+    const offset = (pageNumber - 1) * pageSize;
+    const paged = filtered.slice(offset, offset + pageSize);
+
     return HttpResponse.json({
-      data: mockProjects,
+      data: paged,
       meta: {
-        count: mockProjects.length,
+        count: paged.length,
+        total,
+        pages: Math.max(1, Math.ceil(total / pageSize)),
       },
     });
   }),

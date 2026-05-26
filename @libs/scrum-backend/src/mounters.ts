@@ -93,6 +93,7 @@ async function mountRoutes(
 export async function mountProjects(
   parent: FastifyInstanceTypeForModule,
   em: EntityManager,
+  timeTrackingPort: TimeTrackingPort,
 ): Promise<void> {
   const repo = em.getRepository(ProjectEntity);
   await mountRoutes(parent, "/projects", [
@@ -100,7 +101,7 @@ export async function mountProjects(
     new GetProjectRoute(repo),
     new CreateProjectRoute(repo),
     new UpdateProjectRoute(repo),
-    new DeleteProjectRoute(repo, em),
+    new DeleteProjectRoute(repo, em, timeTrackingPort),
     new ListProjectMembersRoute(em),
     new AddProjectMemberRoute(em),
     new RemoveProjectMemberRoute(em),

@@ -5,6 +5,8 @@ model: opus
 argument-hint: [--routes "/ /projects /kanban"] [--no-fix] [--figma-dir docs/figma-screenshots]
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-audit-fixes] 🤖 Modèle : opus` comme première ligne de sortie.
+
 # TPK-Audit-Fixes
 
 ## Purpose

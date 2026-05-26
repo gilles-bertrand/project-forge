@@ -5,6 +5,8 @@ argument-hint: [session-name]
 model: opus
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-retrospective] 🤖 Modèle : opus` comme première ligne de sortie.
+
 # TPK-Retrospective Command
 
 End-of-session analysis that extracts lessons learned, errors encountered, and improvement recommendations. Creates a file-based retrospective document.

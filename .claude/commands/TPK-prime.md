@@ -4,6 +4,8 @@ allowed-tools: Read, Write, Edit, Glob, Grep, Bash
 model: sonnet
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-prime] 🤖 Modèle : sonnet` comme première ligne de sortie.
+
 # Prime
 
 ## Purpose

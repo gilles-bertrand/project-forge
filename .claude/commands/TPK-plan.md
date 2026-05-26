@@ -5,6 +5,8 @@ model: opus
 argument-hint: [feature or task description]
 ---
 
+> **Démarrage** : affiche immédiatement `[TPK-plan] 🤖 Modèle : opus` comme première ligne de sortie.
+
 # Quick Plan
 
 ## Purpose
