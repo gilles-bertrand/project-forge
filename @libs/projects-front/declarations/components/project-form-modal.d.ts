@@ -1,7 +1,6 @@
 import Component from '@glimmer/component';
 import { type IntlService } from 'ember-intl';
 import type { Store } from '@warp-drive/core';
-import type SessionService from 'ember-simple-auth/services/session';
 import type CurrentUserService from '@libs/users-front/services/current-user';
 import type ProjectsService from '../services/projects.ts';
 import type { Project, ProjectStatus } from '../schemas/projects.ts';
@@ -24,7 +23,6 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
     currentUser: CurrentUserService;
     store: Store;
     intl: IntlService;
-    session: SessionService;
     name: string;
     description: string;
     status: ProjectStatus;
@@ -33,6 +31,8 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
     users: UserLite[];
     submitting: boolean;
     error: string;
+    sprintDurationDays: number;
+    defaultVelocityPoints: number;
     private originalMemberIds;
     membersLoaded: boolean;
     constructor(owner: unknown, args: ProjectFormModalSignature['Args']);
@@ -59,6 +59,8 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
     onStatusChange(e: Event): void;
     onResponsibleChange(e: Event): void;
     toggleMember(id: string): void;
+    onSprintDurationInput(e: Event): void;
+    onDefaultVelocityInput(e: Event): void;
     submit(e: Event): Promise<void>;
 }
 export {};

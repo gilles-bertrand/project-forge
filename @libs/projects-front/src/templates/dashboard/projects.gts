@@ -13,6 +13,7 @@ import ProjectFormModal from '../../components/project-form-modal.gts';
 import ProjectsTable from '../../components/projects-table.gts';
 import type ProjectsService from '../../services/projects.ts';
 import type { Project } from '../../schemas/projects.ts';
+import type { MemberLite } from '../../components/member-avatar-stack.gts';
 import type RouterService from '@ember/routing/router-service';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
 
@@ -82,13 +83,33 @@ export default class DashboardProjectsTemplate extends Component {
   @tracked deleteTarget: Project | null = null;
   @tracked deleteError = '';
   @tracked tableReload: (() => void) | null = null;
+  @tracked private freshMembersMap: Map<string, MemberLite[]> = new Map();
 
   @action registerTableReload(reload: () => void) {
     this.tableReload = reload;
   }
 
-  @action handleUpdated() {
+  membersForProject = (projectId: string | null | undefined): MemberLite[] | undefined => {
+    if (!projectId) return undefined;
+    return this.freshMembersMap.get(projectId);
+  };
+
+  isCurrentProject = (projectId: string | null | undefined): boolean => {
+    return !!projectId && projectId === this.currentProject.currentProjectId;
+  };
+
+  @action async handleUpdated(updatedProject: Project) {
     this.editProject = null;
+    if (updatedProject.id) {
+      try {
+        const members = await this.projects.loadMembers(updatedProject.id);
+        const next = new Map(this.freshMembersMap);
+        next.set(updatedProject.id, members);
+        this.freshMembersMap = next;
+      } catch {
+        // membres restent ceux du cache lazy si le rechargement échoue
+      }
+    }
     this.tableReload?.();
   }
 
@@ -120,10 +141,9 @@ export default class DashboardProjectsTemplate extends Component {
     this.addModalOpen = false;
   }
 
-  @action goToKanban(project: Project) {
+  @action selectProject(project: Project) {
     if (project.id) {
       this.currentProject.setCurrent(project.id);
-      void this.router.transitionTo('dashboard.kanban');
     }
   }
 
@@ -217,7 +237,9 @@ export default class DashboardProjectsTemplate extends Component {
           {{#each this.projects.list as |p|}}
             <ProjectCard
               @project={{p}}
-              @onActivate={{this.goToKanban}}
+              @members={{this.membersForProject p.id}}
+              @isCurrent={{this.isCurrentProject p.id}}
+              @onActivate={{this.selectProject}}
               @onEdit={{this.openEdit}}
               @onDelete={{this.requestDelete}}
             />
@@ -243,7 +265,7 @@ export default class DashboardProjectsTemplate extends Component {
         </div>
       {{else}}
         <ProjectsTable
-          @onActivate={{this.goToKanban}}
+          @onActivate={{this.selectProject}}
           @onEdit={{this.openEdit}}
           @onDelete={{this.requestDelete}}
           @registerReload={{this.registerTableReload}}

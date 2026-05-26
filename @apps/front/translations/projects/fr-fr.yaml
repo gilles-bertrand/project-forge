@@ -14,6 +14,7 @@ card:
   sprintsLabel: 'Sprints'
   moreMembers: 'membres supplémentaires'
   noMembers: 'Aucun membre'
+  currentProject: 'Projet actuel'
 status:
   planned: 'Planifié'
   active: 'Actif'

@@ -5,8 +5,8 @@ import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { t, type IntlService } from 'ember-intl';
 import type { Store } from '@warp-drive/core';
-import type SessionService from 'ember-simple-auth/services/session';
 import type CurrentUserService from '@libs/users-front/services/current-user';
+import { authFetch } from '@libs/shared-front/utils/auth-fetch';
 import type ProjectsService from '../services/projects.ts';
 import type { Project, ProjectStatus } from '../schemas/projects.ts';
 
@@ -28,7 +28,6 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
   @service declare currentUser: CurrentUserService;
   @service declare store: Store;
   @service declare intl: IntlService;
-  @service declare session: SessionService;
 
   @tracked name = '';
   @tracked description = '';
@@ -108,13 +107,8 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
 
   async loadUsers() {
     try {
-      const auth = this.session.data.authenticated as
-        | { data?: { accessToken?: string } }
-        | undefined;
-      const accessToken = auth?.data?.accessToken;
-      const response = await fetch('/api/v1/users', {
-        headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
-      });
+      const response = await authFetch('/api/v1/users');
+      if (!response.ok) throw new Error(`loadUsers: ${String(response.status)}`);
       const json = (await response.json()) as {
         data: { id: string; attributes: UserLite }[];
       };
@@ -246,10 +240,18 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
           (id) => !this.selectedMemberIds.includes(id)
         );
 
-        await Promise.all([
+        const memberResults = await Promise.allSettled([
           ...toAdd.map((id) => this.projects.addMember(projectId, id)),
           ...toRemove.map((id) => this.projects.removeMember(projectId, id)),
         ]);
+        const memberError = memberResults.find((r) => r.status === 'rejected');
+        if (memberError) {
+          throw new Error(
+            memberError.status === 'rejected' && memberError.reason instanceof Error
+              ? memberError.reason.message
+              : this.errorFallbackLabel,
+          );
+        }
 
         this.args.onUpdated?.(updated);
       }

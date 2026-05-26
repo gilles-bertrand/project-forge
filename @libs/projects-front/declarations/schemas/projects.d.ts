@@ -13,6 +13,8 @@ export type Project = WithLegacy<{
     githubUrl: string | null;
     responsibleId: string;
     createdById: string;
+    sprintDurationDays: number;
+    defaultVelocityPoints: number;
     [Type]: "projects";
 }>;
 //# sourceMappingURL=projects.d.ts.map

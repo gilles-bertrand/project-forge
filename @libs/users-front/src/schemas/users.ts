@@ -15,6 +15,8 @@ const UserSchema = withDefaults({
     { name: 'password', kind: 'attribute' },
     { name: 'role', kind: 'attribute' },
     { name: 'projectIds', kind: 'attribute' },
+    { name: 'color', kind: 'attribute' },
+    { name: 'avatar', kind: 'attribute' },
   ],
 });
 
@@ -45,5 +47,7 @@ export type User = WithLegacy<{
   password: string;
   role: UserRole;
   projectIds: string[];
+  color: string;
+  avatar: string | null;
   [Type]: 'users';
 }>;

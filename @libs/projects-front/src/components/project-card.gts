@@ -14,6 +14,22 @@ import MemberAvatarStack, {
 } from './member-avatar-stack.gts';
 import ProjectActionBar from './project-action-bar.gts';
 
+const StarIcon: TOC<{ Element: SVGSVGElement }> = <template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    class="size-4"
+    aria-hidden="true"
+  >
+    <path
+      fill-rule="evenodd"
+      d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+      clip-rule="evenodd"
+    />
+  </svg>
+</template>;
+
 const CalendarIcon: TOC<{ Element: SVGSVGElement }> = <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -90,6 +106,7 @@ interface ProjectCardSignature {
   Args: {
     project: Project;
     members?: MemberLite[];
+    isCurrent?: boolean;
     responsibleShortName?: string;
     onActivate: (project: Project) => void;
     onEdit?: (project: Project) => void;
@@ -104,6 +121,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
 
   @tracked private _fetchedMembers: MemberLite[] = [];
   @tracked private _stats: ProjectStats | null = null;
+  private _alive = true;
 
   constructor(owner: unknown, args: ProjectCardSignature['Args']) {
     super(owner as never, args);
@@ -111,11 +129,17 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     void this.loadStats();
   }
 
+  override willDestroy(): void {
+    this._alive = false;
+    super.willDestroy();
+  }
+
   private async loadMembers(): Promise<void> {
     const id = this.args.project.id;
     if (!id) return;
     try {
-      this._fetchedMembers = await this.projects.loadMembers(id);
+      const members = await this.projects.loadMembers(id);
+      if (this._alive) this._fetchedMembers = members;
     } catch (e) {
       console.error('[ProjectCard] loadMembers failed:', e);
     }
@@ -125,7 +149,8 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     const id = this.args.project.id;
     if (!id) return;
     try {
-      this._stats = await this.projects.loadStats(id);
+      const stats = await this.projects.loadStats(id);
+      if (this._alive) this._stats = stats;
     } catch (e) {
       console.error('[ProjectCard] loadStats failed:', e);
     }
@@ -170,17 +195,9 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     return `+${String(extra)} ${this.intl.t('projects.card.moreMembers')}`;
   }
 
-  @action handleActivate(e: Event) {
-    // Only fire when clicking the card body, not a nested button
-    if ((e.target as Element)?.closest('button')) return;
+  @action handleActivate(e: Event): void {
+    e.stopPropagation();
     this.args.onActivate(this.args.project);
-  }
-
-  @action handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      this.args.onActivate(this.args.project);
-    }
   }
 
   @action handleEdit(e: Event) {
@@ -195,12 +212,11 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
 
   <template>
     <div
-      role="button"
-      tabindex="0"
-      class="card bg-base-200 border border-base-300/40 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-      {{on "click" this.handleActivate}}
-      {{on "keydown" this.handleKeydown}}
+      role="article"
+      class="card bg-base-200 border shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 {{if @isCurrent 'border-primary ring-1 ring-primary/20' 'border-base-300/40'}}"
       data-test-project-card
+      data-test-project-current={{@isCurrent}}
+      {{on "click" this.handleActivate}}
       ...attributes
     >
       <div class="card-body p-5 gap-3">
@@ -210,11 +226,28 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
           >
             <span class="text-xl font-bold">{{this.initials}}</span>
           </div>
-          <StatusBadge @status={{@project.status}} />
+          <div class="flex items-center gap-2">
+            {{#if @isCurrent}}
+              <span
+                class="text-accent"
+                title={{t "projects.card.currentProject"}}
+                aria-label={{t "projects.card.currentProject"}}
+              >
+                <StarIcon />
+              </span>
+            {{/if}}
+            <StatusBadge @status={{@project.status}} />
+          </div>
         </div>
 
         <div>
-          <h3 class="text-lg font-semibold">{{@project.name}}</h3>
+          <button
+            type="button"
+            class="text-lg font-semibold text-left hover:text-primary transition-colors cursor-pointer"
+            aria-label={{@project.name}}
+            data-test-project-card-open
+            {{on "click" this.handleActivate}}
+          >{{@project.name}}</button>
         </div>
 
         <p class="text-sm text-base-content/80 line-clamp-2">{{@project.description}}</p>
@@ -247,7 +280,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
         {{!-- 4 mini-counters --}}
         <div class="grid grid-cols-4 gap-1">
           <div class="bg-base-300/20 rounded p-1.5 text-center">
-            <div class="text-xs text-secondary font-medium truncate">
+            <div class="text-xs text-success font-medium truncate">
               {{t "projects.card.epicsLabel"}}
             </div>
             <div class="text-sm font-bold">{{this.epicsDone}}/{{this.epicsTotal}}</div>
@@ -256,7 +289,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
             <div class="text-xs text-primary font-medium truncate">
               {{t "projects.card.userStoriesLabel"}}
             </div>
-            <div class="text-sm font-bold">{{this.userStoriesTotal}}</div>
+            <div class="text-sm font-bold">{{this.userStoriesDone}}/{{this.userStoriesTotal}}</div>
           </div>
           <div class="bg-base-300/20 rounded p-1.5 text-center">
             <div class="text-xs text-info font-medium truncate">

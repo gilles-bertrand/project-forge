@@ -15,6 +15,8 @@ describe('Schema | Projects | Unit', () => {
     expect(fieldNames).toContain('createdById');
     expect(fieldNames).toContain('createdAt');
     expect(fieldNames).toContain('updatedAt');
+    expect(fieldNames).toContain('sprintDurationDays');
+    expect(fieldNames).toContain('defaultVelocityPoints');
   });
 
   test('all fields are attributes (no relations declared in P4)', () => {
