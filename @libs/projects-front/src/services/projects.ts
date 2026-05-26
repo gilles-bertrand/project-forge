@@ -76,11 +76,14 @@ export default class ProjectsService extends Service {
   }
 
   public async loadMembers(projectId: string): Promise<MemberLite[]> {
-    const { content } = await this.store.request<MemberResponse>({
-      url: `/api/v1/projects/${projectId}/members`,
-      method: "GET",
-    });
-    return content.data
+    // Use authFetch — the JSONAPICache flattens attributes onto the record
+    // so `m.attributes.firstName` is no longer accessible after caching.
+    const res = await authFetch(`/api/v1/projects/${projectId}/members`);
+    if (!res.ok) {
+      throw new Error(`loadMembers failed: ${String(res.status)}`);
+    }
+    const json = (await res.json()) as MemberResponse;
+    return json.data
       .filter((m) => m.attributes.firstName && m.attributes.lastName)
       .map((m) => ({
         id: m.attributes.userId,
@@ -91,11 +94,14 @@ export default class ProjectsService extends Service {
   }
 
   public async loadStats(projectId: string): Promise<ProjectStats> {
-    const { content } = await this.store.request<{ data: ProjectStats }>({
-      url: `/api/v1/projects/${projectId}/stats`,
-      method: "GET",
-    });
-    return content.data;
+    // Use authFetch — payload is not JSON:API (no id/type wrapper), so it
+    // cannot go through WarpDrive's JSONAPICache.
+    const res = await authFetch(`/api/v1/projects/${projectId}/stats`);
+    if (!res.ok) {
+      throw new Error(`loadStats failed: ${String(res.status)}`);
+    }
+    const json = (await res.json()) as { data: ProjectStats };
+    return json.data;
   }
 
   public async create(data: NewProjectPayload): Promise<Project> {

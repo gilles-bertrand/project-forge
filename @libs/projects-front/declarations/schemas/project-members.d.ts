@@ -6,9 +6,11 @@ export type ProjectMember = WithLegacy<{
     projectId: string;
     userId: string;
     role: string | null;
-    firstName: string;
-    lastName: string;
-    email: string;
+    joinedAt: string;
+    firstName: string | null;
+    lastName: string | null;
+    email: string | null;
+    color: string | null;
     [Type]: "project-members";
 }>;
 //# sourceMappingURL=project-members.d.ts.map
