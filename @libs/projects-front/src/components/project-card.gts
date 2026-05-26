@@ -104,6 +104,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
 
   @tracked private _fetchedMembers: MemberLite[] = [];
   @tracked private _stats: ProjectStats | null = null;
+  private _alive = true;
 
   constructor(owner: unknown, args: ProjectCardSignature['Args']) {
     super(owner as never, args);
@@ -111,11 +112,17 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     void this.loadStats();
   }
 
+  override willDestroy(): void {
+    this._alive = false;
+    super.willDestroy();
+  }
+
   private async loadMembers(): Promise<void> {
     const id = this.args.project.id;
     if (!id) return;
     try {
-      this._fetchedMembers = await this.projects.loadMembers(id);
+      const members = await this.projects.loadMembers(id);
+      if (this._alive) this._fetchedMembers = members;
     } catch (e) {
       console.error('[ProjectCard] loadMembers failed:', e);
     }
@@ -125,7 +132,8 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     const id = this.args.project.id;
     if (!id) return;
     try {
-      this._stats = await this.projects.loadStats(id);
+      const stats = await this.projects.loadStats(id);
+      if (this._alive) this._stats = stats;
     } catch (e) {
       console.error('[ProjectCard] loadStats failed:', e);
     }
@@ -250,7 +258,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
             <div class="text-xs text-primary font-medium truncate">
               {{t "projects.card.userStoriesLabel"}}
             </div>
-            <div class="text-sm font-bold">{{this.userStoriesTotal}}</div>
+            <div class="text-sm font-bold">{{this.userStoriesDone}}/{{this.userStoriesTotal}}</div>
           </div>
           <div class="bg-base-300/20 rounded p-1.5 text-center">
             <div class="text-xs text-info font-medium truncate">

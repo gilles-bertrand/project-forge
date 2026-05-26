@@ -108,6 +108,7 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
   async loadUsers() {
     try {
       const response = await authFetch('/api/v1/users');
+      if (!response.ok) throw new Error(`loadUsers: ${String(response.status)}`);
       const json = (await response.json()) as {
         data: { id: string; attributes: UserLite }[];
       };
@@ -239,10 +240,18 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
           (id) => !this.selectedMemberIds.includes(id)
         );
 
-        await Promise.all([
+        const memberResults = await Promise.allSettled([
           ...toAdd.map((id) => this.projects.addMember(projectId, id)),
           ...toRemove.map((id) => this.projects.removeMember(projectId, id)),
         ]);
+        const memberError = memberResults.find((r) => r.status === 'rejected');
+        if (memberError) {
+          throw new Error(
+            memberError.status === 'rejected' && memberError.reason instanceof Error
+              ? memberError.reason.message
+              : this.errorFallbackLabel,
+          );
+        }
 
         this.args.onUpdated?.(updated);
       }

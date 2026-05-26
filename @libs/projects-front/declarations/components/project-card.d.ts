@@ -19,7 +19,9 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     projects: ProjectsService;
     private _fetchedMembers;
     private _stats;
+    private _alive;
     constructor(owner: unknown, args: ProjectCardSignature['Args']);
+    willDestroy(): void;
     private loadMembers;
     private loadStats;
     get initials(): string;
