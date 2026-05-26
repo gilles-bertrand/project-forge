@@ -196,7 +196,8 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
     return `+${String(extra)} ${this.intl.t('projects.card.moreMembers')}`;
   }
 
-  @action handleActivate(): void {
+  @action handleActivate(e: Event): void {
+    e.stopPropagation();
     this.args.onActivate(this.args.project);
   }
 
@@ -213,9 +214,10 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
   <template>
     <div
       role="article"
-      class="card bg-base-200 border shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 {{if @isCurrent 'border-primary ring-1 ring-primary/20' 'border-base-300/40'}}"
+      class="card bg-base-200 border shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 {{if @isCurrent 'border-primary ring-1 ring-primary/20' 'border-base-300/40'}}"
       data-test-project-card
       data-test-project-current={{@isCurrent}}
+      {{on "click" this.handleActivate}}
       ...attributes
     >
       <div class="card-body p-5 gap-3">
@@ -279,7 +281,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
         {{!-- 4 mini-counters --}}
         <div class="grid grid-cols-4 gap-1">
           <div class="bg-base-300/20 rounded p-1.5 text-center">
-            <div class="text-xs text-secondary font-medium truncate">
+            <div class="text-xs text-warning font-medium truncate">
               {{t "projects.card.epicsLabel"}}
             </div>
             <div class="text-sm font-bold">{{this.epicsDone}}/{{this.epicsTotal}}</div>
