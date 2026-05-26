@@ -191,7 +191,6 @@ export async function mountSearch(
 ): Promise<void> {
   await mountRoutes(parent, "/search", [new SearchRoute(em)]);
 }
-
 export async function mountDashboard(
   parent: FastifyInstanceTypeForModule,
   em: EntityManager,
