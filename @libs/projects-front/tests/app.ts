@@ -48,6 +48,7 @@ const TRANSLATIONS_FR = {
       tasksLabel: "Tâches",
       sprintsLabel: "Sprints",
       moreMembers: "membres supplémentaires",
+      noMembers: "Aucun membre",
     },
     status: {
       planned: "Planifié",
@@ -142,6 +143,7 @@ const TRANSLATIONS_EN = {
       tasksLabel: "Tasks",
       sprintsLabel: "Sprints",
       moreMembers: "more members",
+      noMembers: "No members",
     },
     status: {
       planned: "Planned",

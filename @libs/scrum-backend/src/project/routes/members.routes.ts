@@ -18,28 +18,19 @@ import {
   type Route,
 } from "@libs/backend-shared";
 import { ProjectMemberRoleSchema } from "#src/types.js";
-type UserRow = { id: string; first_name: string; last_name: string; email: string; color: string };
-function toUserLite(r: UserRow): UserLite {
-  return {
-    id: r.id,
-    firstName: r.first_name,
-    lastName: r.last_name,
-    email: r.email,
-    color: r.color,
-  };
-}
-
-const USER_COLS = "id, first_name, last_name, email, color";
+type OrmUser = { id: string; firstName: string; lastName: string; email: string; color: string };
 
 async function fetchUsersByIds(em: EntityManager, ids: string[]): Promise<UserLite[]> {
   if (ids.length === 0) return [];
-  const ph = ids.map((_, i) => `$${String(i + 1)}`).join(", ");
   try {
-    return (
-      (await em
-        .getConnection("read")
-        .execute(`SELECT ${USER_COLS} FROM users WHERE id IN (${ph})`, ids)) as UserRow[]
-    ).map(toUserLite);
+    const rows = await em.find<OrmUser>("User" as never, { id: { $in: ids } } as never);
+    return rows.map((r) => ({
+      id: r.id,
+      firstName: r.firstName,
+      lastName: r.lastName,
+      email: r.email,
+      color: r.color,
+    }));
   } catch {
     return [];
   }
@@ -47,10 +38,16 @@ async function fetchUsersByIds(em: EntityManager, ids: string[]): Promise<UserLi
 
 async function fetchUserById(em: EntityManager, id: string): Promise<UserLite | null> {
   try {
-    const rows = (await em
-      .getConnection("read")
-      .execute(`SELECT ${USER_COLS} FROM users WHERE id = $1`, [id])) as UserRow[];
-    return rows[0] ? toUserLite(rows[0]) : null;
+    const row = await em.findOne<OrmUser>("User" as never, { id } as never);
+    return row
+      ? {
+          id: row.id,
+          firstName: row.firstName,
+          lastName: row.lastName,
+          email: row.email,
+          color: row.color,
+        }
+      : null;
   } catch {
     return null;
   }
