@@ -45,6 +45,7 @@ export * from "#src/sprint/sprint.serializer.js";
 // Routes
 export * from "#src/project/routes/list.route.js";
 export * from "#src/project/routes/get.route.js";
+export * from "#src/project/routes/stats.route.js";
 export * from "#src/project/routes/create.route.js";
 export * from "#src/project/routes/update.route.js";
 export * from "#src/project/routes/delete.route.js";

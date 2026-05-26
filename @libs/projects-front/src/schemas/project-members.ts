@@ -10,9 +10,11 @@ const ProjectMemberSchema = withDefaults({
     { name: "projectId", kind: "attribute" },
     { name: "userId", kind: "attribute" },
     { name: "role", kind: "attribute" },
+    { name: "joinedAt", kind: "attribute" },
     { name: "firstName", kind: "attribute" },
     { name: "lastName", kind: "attribute" },
     { name: "email", kind: "attribute" },
+    { name: "color", kind: "attribute" },
   ],
 });
 
@@ -22,8 +24,10 @@ export type ProjectMember = WithLegacy<{
   projectId: string;
   userId: string;
   role: string | null;
-  firstName: string;
-  lastName: string;
-  email: string;
+  joinedAt: string;
+  firstName: string | null;
+  lastName: string | null;
+  email: string | null;
+  color: string | null;
   [Type]: "project-members";
 }>;

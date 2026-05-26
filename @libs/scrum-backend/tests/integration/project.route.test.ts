@@ -370,3 +370,162 @@ test("DELETE /projects/:id/members/:userId removes", async () => {
   });
   expect(response.statusCode).toBe(204);
 });
+
+test("GET /projects/:id/stats returns 404 for unknown project", async () => {
+  const response = await module.fastifyInstance.inject({
+    method: "GET",
+    url: "/projects/no-such-id/stats",
+    headers: { authorization: module.generateBearerToken() },
+  });
+  expect(response.statusCode).toBe(404);
+  expect(response.json().errors[0].code).toBe("PROJECT_NOT_FOUND");
+});
+
+test("GET /projects/:id/stats returns correct aggregated counters", async () => {
+  const now = new Date();
+  const id = await seedProject();
+
+  // 2 epics: 1 done
+  const epicDoneId = randomUUID();
+  const epicTodoId = randomUUID();
+  await module.em
+    .getRepository(EpicEntity)
+    .insert({
+      id: epicDoneId,
+      title: "E1",
+      description: "",
+      projectId: id,
+      status: "done",
+      createdAt: now,
+      updatedAt: now,
+    });
+  await module.em
+    .getRepository(EpicEntity)
+    .insert({
+      id: epicTodoId,
+      title: "E2",
+      description: "",
+      projectId: id,
+      status: "todo",
+      createdAt: now,
+      updatedAt: now,
+    });
+
+  // 5 user stories: 2 done
+  const storyIds = [randomUUID(), randomUUID(), randomUUID(), randomUUID(), randomUUID()];
+  for (const [i, sid] of storyIds.entries()) {
+    await module.em.getRepository(UserStoryEntity).insert({
+      id: sid,
+      title: `S${String(i)}`,
+      description: "",
+      projectId: id,
+      epicId: null,
+      status: i < 2 ? "done" : "todo",
+      points: 1,
+      priority: i,
+      createdAt: now,
+      updatedAt: now,
+    });
+  }
+
+  // 8 tasks: 3 done
+  for (let i = 0; i < 8; i++) {
+    await module.em.getRepository(TaskEntity).insert({
+      id: randomUUID(),
+      number: 1000 + i,
+      title: `T${String(i)}`,
+      description: "",
+      status: i < 3 ? "done" : "todo",
+      type: "Frontend",
+      nature: "Feature",
+      priority: "medium",
+      points: 1,
+      estimatedHours: null,
+      projectId: id,
+      userStoryId: null,
+      epicId: null,
+      sprintId: null,
+      createdById: ScrumTestModule.TEST_USER_ID,
+      dueDate: null,
+      createdAt: now,
+      updatedAt: now,
+    });
+  }
+
+  // 2 sprints: 1 active
+  const activeSprintId = randomUUID();
+  await module.em
+    .getRepository(SprintEntity)
+    .insert({
+      id: activeSprintId,
+      name: "Sprint 1",
+      goal: null,
+      projectId: id,
+      startDate: now,
+      endDate: now,
+      status: "active",
+      velocityPoints: 0,
+      completedPoints: 0,
+      createdAt: now,
+      updatedAt: now,
+    });
+  await module.em
+    .getRepository(SprintEntity)
+    .insert({
+      id: randomUUID(),
+      name: "Sprint 2",
+      goal: null,
+      projectId: id,
+      startDate: now,
+      endDate: now,
+      status: "completed",
+      velocityPoints: 0,
+      completedPoints: 0,
+      createdAt: now,
+      updatedAt: now,
+    });
+
+  const response = await module.fastifyInstance.inject({
+    method: "GET",
+    url: `/projects/${id}/stats`,
+    headers: { authorization: module.generateBearerToken() },
+  });
+
+  expect(response.statusCode).toBe(200);
+  const { data } = response.json() as { data: Record<string, unknown> };
+  expect(data.projectId).toBe(id);
+  expect(data.epics).toEqual({ total: 2, done: 1 });
+  expect(data.userStories).toEqual({ total: 5, done: 2 });
+  expect(data.tasks).toEqual({ total: 8, done: 3 });
+  expect(data.sprints).toEqual({ total: 2, active: 1 });
+  expect((data.currentSprint as Record<string, unknown>).id).toBe(activeSprintId);
+});
+
+test("GET /projects/:id/members includes user name fields in attributes", async () => {
+  const id = await seedProject();
+  await module.createUser({
+    id: "user-named",
+    email: "named@test.com",
+    firstName: "Alice",
+    lastName: "Borg",
+    color: "#abc",
+  });
+  await module.fastifyInstance.inject({
+    method: "POST",
+    url: `/projects/${id}/members`,
+    headers: { authorization: module.generateBearerToken() },
+    payload: { data: { attributes: { userId: "user-named", role: "member" } } },
+  });
+
+  const response = await module.fastifyInstance.inject({
+    method: "GET",
+    url: `/projects/${id}/members`,
+    headers: { authorization: module.generateBearerToken() },
+  });
+
+  expect(response.statusCode).toBe(200);
+  const member = response.json().data[0].attributes;
+  expect(member.firstName).toBe("Alice");
+  expect(member.lastName).toBe("Borg");
+  expect(member.userId).toBe("user-named");
+});

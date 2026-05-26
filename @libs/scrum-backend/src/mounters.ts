@@ -19,13 +19,13 @@ import {
   ListProjectMembersRoute,
   RemoveProjectMemberRoute,
 } from "#src/project/routes/members.routes.js";
+import { GetProjectStatsRoute } from "#src/project/routes/stats.route.js";
 import {
   ListProjectEpicsRoute,
   ListProjectSprintsRoute,
   ListProjectTasksRoute,
   ListProjectUserStoriesRoute,
 } from "#src/project/routes/relationships.routes.js";
-
 import { ListEpicsRoute } from "#src/epic/routes/list.route.js";
 import { GetEpicRoute } from "#src/epic/routes/get.route.js";
 import { CreateEpicRoute } from "#src/epic/routes/create.route.js";
@@ -100,6 +100,7 @@ export async function mountProjects(
     new CreateProjectRoute(repo),
     new UpdateProjectRoute(repo),
     new DeleteProjectRoute(repo, em, timeTrackingPort),
+    new GetProjectStatsRoute(em),
     new ListProjectMembersRoute(em),
     new AddProjectMemberRoute(em),
     new RemoveProjectMemberRoute(em),
