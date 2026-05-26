@@ -14,6 +14,23 @@ import MemberAvatarStack, {
 } from './member-avatar-stack.gts';
 import ProjectActionBar from './project-action-bar.gts';
 
+const CheckCircleIcon: TOC<{ Element: SVGSVGElement }> = <template>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    class="size-3 stroke-primary-content"
+    aria-hidden="true"
+  >
+    <path
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      stroke-width="3"
+      d="M5 13l4 4L19 7"
+    />
+  </svg>
+</template>;
+
 const CalendarIcon: TOC<{ Element: SVGSVGElement }> = <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -90,6 +107,7 @@ interface ProjectCardSignature {
   Args: {
     project: Project;
     members?: MemberLite[];
+    isCurrent?: boolean;
     responsibleShortName?: string;
     onActivate: (project: Project) => void;
     onEdit?: (project: Project) => void;
@@ -195,16 +213,28 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
   <template>
     <div
       role="article"
-      class="card bg-base-200 border border-base-300/40 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+      class="card bg-base-200 border shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 {{if @isCurrent 'border-primary ring-1 ring-primary/20' 'border-base-300/40'}}"
       data-test-project-card
+      data-test-project-current={{@isCurrent}}
       ...attributes
     >
       <div class="card-body p-5 gap-3">
         <div class="flex items-start justify-between">
-          <div
-            class="rounded-xl size-14 flex items-center justify-center {{this.avatarColorClass}}"
-          >
-            <span class="text-xl font-bold">{{this.initials}}</span>
+          <div class="relative">
+            <div
+              class="rounded-xl size-14 flex items-center justify-center {{this.avatarColorClass}}"
+            >
+              <span class="text-xl font-bold">{{this.initials}}</span>
+            </div>
+            {{#if @isCurrent}}
+              <span
+                class="absolute -bottom-1 -right-1 size-5 bg-primary rounded-full flex items-center justify-center shadow"
+                title={{t "projects.card.currentProject"}}
+                aria-label={{t "projects.card.currentProject"}}
+              >
+                <CheckCircleIcon />
+              </span>
+            {{/if}}
           </div>
           <StatusBadge @status={{@project.status}} />
         </div>

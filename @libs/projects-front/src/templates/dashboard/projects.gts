@@ -94,6 +94,10 @@ export default class DashboardProjectsTemplate extends Component {
     return this.freshMembersMap.get(projectId);
   };
 
+  isCurrentProject = (projectId: string | null | undefined): boolean => {
+    return !!projectId && projectId === this.currentProject.currentProjectId;
+  };
+
   @action async handleUpdated(updatedProject: Project) {
     this.editProject = null;
     if (updatedProject.id) {
@@ -137,10 +141,9 @@ export default class DashboardProjectsTemplate extends Component {
     this.addModalOpen = false;
   }
 
-  @action goToKanban(project: Project) {
+  @action selectProject(project: Project) {
     if (project.id) {
       this.currentProject.setCurrent(project.id);
-      void this.router.transitionTo('dashboard.kanban');
     }
   }
 
@@ -235,7 +238,8 @@ export default class DashboardProjectsTemplate extends Component {
             <ProjectCard
               @project={{p}}
               @members={{this.membersForProject p.id}}
-              @onActivate={{this.goToKanban}}
+              @isCurrent={{this.isCurrentProject p.id}}
+              @onActivate={{this.selectProject}}
               @onEdit={{this.openEdit}}
               @onDelete={{this.requestDelete}}
             />
@@ -261,7 +265,7 @@ export default class DashboardProjectsTemplate extends Component {
         </div>
       {{else}}
         <ProjectsTable
-          @onActivate={{this.goToKanban}}
+          @onActivate={{this.selectProject}}
           @onEdit={{this.openEdit}}
           @onDelete={{this.requestDelete}}
           @registerReload={{this.registerTableReload}}
