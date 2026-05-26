@@ -126,6 +126,7 @@
     "main": "addon-main.cjs",
     "app-js": {
       "./components/add-sprint-modal.js": "./dist/_app_/components/add-sprint-modal.js",
+      "./components/close-sprint-modal.js": "./dist/_app_/components/close-sprint-modal.js",
       "./components/sprint-card.js": "./dist/_app_/components/sprint-card.js",
       "./components/sprints-pagination.js": "./dist/_app_/components/sprints-pagination.js",
       "./routes/dashboard/sprints.js": "./dist/_app_/routes/dashboard/sprints.js",
