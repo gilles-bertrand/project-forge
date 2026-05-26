@@ -109,9 +109,6 @@ interface ProjectActionBarSignature {
   Element: HTMLDivElement;
 }
 
-// TODO(a11y): ProjectActionBar lives inside a role=button card (project-card.gts) —
-// nested interactive content. Resolve by changing ProjectCard's role to "article"
-// or "listitem" and moving the click handler to an explicit "Open" button.
 export default class ProjectActionBar extends Component<ProjectActionBarSignature> {
   @service declare router: RouterService;
   @service('current-project') declare currentProject: CurrentProjectService;
