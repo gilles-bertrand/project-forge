@@ -18,9 +18,7 @@ import {
   type Route,
 } from "@libs/backend-shared";
 import { ProjectMemberRoleSchema } from "#src/types.js";
-
 type UserRow = { id: string; first_name: string; last_name: string; email: string; color: string };
-
 function toUserLite(r: UserRow): UserLite {
   return {
     id: r.id,
