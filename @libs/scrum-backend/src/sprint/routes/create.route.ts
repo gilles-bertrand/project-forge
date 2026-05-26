@@ -1,17 +1,22 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
-import type { SprintEntityType } from "#src/sprint/sprint.entity.js";
-import type { EntityRepository } from "@mikro-orm/core";
-import { randomUUID } from "crypto";
+import type { EntityManager } from "@mikro-orm/core";
+import { number, object, string } from "zod";
+import { ProjectEntity } from "#src/project/project.entity.js";
+import { SprintEntity } from "#src/sprint/sprint.entity.js";
 import {
   jsonApiSerializeSingleSprintDocument,
   SerializedSprintSchema,
 } from "#src/sprint/sprint.serializer.js";
-import { number, object, string } from "zod";
-import { makeSingleJsonApiTopDocument, type Route } from "@libs/backend-shared";
-import { SprintStatusSchema } from "#src/types.js";
+import {
+  jsonApiErrorDocumentSchema,
+  makeJsonApiError,
+  makeSingleJsonApiTopDocument,
+  type Route,
+} from "@libs/backend-shared";
+import { createSprintForProject } from "#src/sprint/utils/create-sprint.js";
 
 export class CreateSprintRoute implements Route {
-  public constructor(private repository: EntityRepository<SprintEntityType>) {}
+  public constructor(private em: EntityManager) {}
 
   public routeDefinition(f: FastifyInstanceTypeForModule) {
     return f.post(
@@ -20,38 +25,65 @@ export class CreateSprintRoute implements Route {
         schema: {
           body: makeSingleJsonApiTopDocument(
             object({
-              id: string().optional().nullable(),
               attributes: object({
-                name: string(),
-                goal: string().nullable().optional(),
                 projectId: string(),
-                startDate: string(),
-                endDate: string(),
-                status: SprintStatusSchema,
-                velocityPoints: number().int().optional(),
-                completedPoints: number().int().optional(),
+                name: string().optional(),
+                goal: string().nullable().optional(),
+                startDate: string().optional(),
+                endDate: string().optional(),
+                velocityPoints: number().int().min(1).optional(),
               }),
             }),
           ),
           response: {
             200: makeSingleJsonApiTopDocument(SerializedSprintSchema),
+            404: jsonApiErrorDocumentSchema,
+            400: jsonApiErrorDocumentSchema,
           },
         },
       },
       async (request, reply) => {
-        const body = request.body.data.attributes;
-        const sprint = this.repository.create({
-          id: request.body.data.id || randomUUID(),
-          name: body.name,
-          goal: body.goal ?? null,
-          projectId: body.projectId,
-          startDate: new Date(body.startDate),
-          endDate: new Date(body.endDate),
-          status: body.status,
-          velocityPoints: body.velocityPoints ?? 0,
-          completedPoints: body.completedPoints ?? 0,
-        });
-        await this.repository.getEntityManager().flush();
+        const attrs = request.body.data.attributes;
+
+        const project = await this.em.findOne(ProjectEntity, { id: attrs.projectId });
+        if (!project) {
+          return reply.code(404).send(
+            makeJsonApiError(404, "Not Found", {
+              code: "PROJECT_NOT_FOUND",
+              detail: `Project with id ${attrs.projectId} not found`,
+            }),
+          );
+        }
+
+        const previousSprint = await this.em.findOne(
+          SprintEntity,
+          { projectId: project.id },
+          { orderBy: { endDate: "DESC" } },
+        );
+
+        const overrides: {
+          name?: string;
+          goal?: string | null;
+          startDate?: Date;
+          endDate?: Date;
+          velocityPoints?: number;
+        } = {};
+        if (attrs.name) overrides.name = attrs.name;
+        if (attrs.goal !== undefined) overrides.goal = attrs.goal;
+        if (attrs.startDate) overrides.startDate = new Date(attrs.startDate);
+        if (attrs.endDate) overrides.endDate = new Date(attrs.endDate);
+        if (attrs.velocityPoints) overrides.velocityPoints = attrs.velocityPoints;
+
+        if (overrides.startDate && overrides.endDate && overrides.endDate <= overrides.startDate) {
+          return reply.code(400).send(
+            makeJsonApiError(400, "Bad Request", {
+              code: "INVALID_DATE_RANGE",
+              detail: "endDate must be after startDate",
+            }),
+          );
+        }
+
+        const sprint = await createSprintForProject(this.em, project, previousSprint, overrides);
         return reply.send(jsonApiSerializeSingleSprintDocument(sprint));
       },
     );

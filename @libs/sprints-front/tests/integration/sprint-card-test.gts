@@ -10,6 +10,7 @@ const expect = hardExpect.soft;
 function makeSprint(extra: Partial<SprintData> = {}): SprintData {
   return {
     id: 'sprint-1',
+    number: 1,
     name: 'Sprint 1 — Auth',
     goal: 'Login complet',
     projectId: 'proj-1',

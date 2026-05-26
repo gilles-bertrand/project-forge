@@ -9,7 +9,6 @@ import { EpicEntity } from "#src/epic/epic.entity.js";
 import { UserStoryEntity } from "#src/user-story/user-story.entity.js";
 import { TaskEntity } from "#src/task/task.entity.js";
 import { SprintEntity } from "#src/sprint/sprint.entity.js";
-
 import { ListProjectsRoute } from "#src/project/routes/list.route.js";
 import { GetProjectRoute } from "#src/project/routes/get.route.js";
 import { CreateProjectRoute } from "#src/project/routes/create.route.js";
@@ -20,13 +19,13 @@ import {
   ListProjectMembersRoute,
   RemoveProjectMemberRoute,
 } from "#src/project/routes/members.routes.js";
+import { GetProjectStatsRoute } from "#src/project/routes/stats.route.js";
 import {
   ListProjectEpicsRoute,
   ListProjectSprintsRoute,
   ListProjectTasksRoute,
   ListProjectUserStoriesRoute,
 } from "#src/project/routes/relationships.routes.js";
-
 import { ListEpicsRoute } from "#src/epic/routes/list.route.js";
 import { GetEpicRoute } from "#src/epic/routes/get.route.js";
 import { CreateEpicRoute } from "#src/epic/routes/create.route.js";
@@ -36,14 +35,12 @@ import {
   ListEpicTasksRoute,
   ListEpicUserStoriesRoute,
 } from "#src/epic/routes/relationships.routes.js";
-
 import { ListUserStoriesRoute } from "#src/user-story/routes/list.route.js";
 import { GetUserStoryRoute } from "#src/user-story/routes/get.route.js";
 import { CreateUserStoryRoute } from "#src/user-story/routes/create.route.js";
 import { UpdateUserStoryRoute } from "#src/user-story/routes/update.route.js";
 import { DeleteUserStoryRoute } from "#src/user-story/routes/delete.route.js";
 import { ListUserStoryTasksRoute } from "#src/user-story/routes/relationships.routes.js";
-
 import { ListTasksRoute } from "#src/task/routes/list.route.js";
 import { GetTaskRoute } from "#src/task/routes/get.route.js";
 import { CreateTaskRoute } from "#src/task/routes/create.route.js";
@@ -65,15 +62,16 @@ import {
   ListTaskAssigneesRoute,
   RemoveTaskAssigneeRoute,
 } from "#src/task/routes/assignees.routes.js";
-
 import { ListSprintsRoute } from "#src/sprint/routes/list.route.js";
 import { GetSprintRoute } from "#src/sprint/routes/get.route.js";
 import { CreateSprintRoute } from "#src/sprint/routes/create.route.js";
 import { UpdateSprintRoute } from "#src/sprint/routes/update.route.js";
 import { DeleteSprintRoute } from "#src/sprint/routes/delete.route.js";
-import { StartSprintRoute, StopSprintRoute } from "#src/sprint/routes/actions.routes.js";
+import { StartSprintRoute } from "#src/sprint/routes/actions.routes.js";
+import { StopSprintRoute } from "#src/sprint/routes/stop-sprint.route.js";
+import { CloseSprintPreviewRoute } from "#src/sprint/routes/close-preview.route.js";
+import { AddSprintItemsRoute } from "#src/sprint/routes/items.routes.js";
 import { ListSprintTasksRoute } from "#src/sprint/routes/relationships.routes.js";
-
 import { SearchRoute } from "#src/search/search.route.js";
 import { DashboardRoute } from "#src/dashboard/dashboard.route.js";
 
@@ -102,6 +100,7 @@ export async function mountProjects(
     new CreateProjectRoute(repo),
     new UpdateProjectRoute(repo),
     new DeleteProjectRoute(repo, em, timeTrackingPort),
+    new GetProjectStatsRoute(em),
     new ListProjectMembersRoute(em),
     new AddProjectMemberRoute(em),
     new RemoveProjectMemberRoute(em),
@@ -175,11 +174,13 @@ export async function mountSprints(
   await mountRoutes(parent, "/sprints", [
     new ListSprintsRoute(em),
     new GetSprintRoute(repo),
-    new CreateSprintRoute(repo),
+    new CreateSprintRoute(em),
     new UpdateSprintRoute(repo),
     new DeleteSprintRoute(repo),
     new StartSprintRoute(em),
     new StopSprintRoute(em),
+    new CloseSprintPreviewRoute(em),
+    new AddSprintItemsRoute(em),
     new ListSprintTasksRoute(em),
   ]);
 }
@@ -190,7 +191,6 @@ export async function mountSearch(
 ): Promise<void> {
   await mountRoutes(parent, "/search", [new SearchRoute(em)]);
 }
-
 export async function mountDashboard(
   parent: FastifyInstanceTypeForModule,
   em: EntityManager,

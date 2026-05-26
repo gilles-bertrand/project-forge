@@ -1,6 +1,6 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import { wrap, type EntityRepository } from "@mikro-orm/core";
-import { object, string } from "zod";
+import { number, object, string } from "zod";
 import {
   jsonApiSerializeSingleProjectDocument,
   SerializedProjectSchema,
@@ -34,6 +34,8 @@ export class UpdateProjectRoute implements Route {
                 avatar: string().nullable().optional(),
                 githubUrl: string().nullable().optional(),
                 responsibleId: string().optional(),
+                sprintDurationDays: number().int().min(1).max(60).optional(),
+                defaultVelocityPoints: number().int().min(1).max(200).optional(),
               }).partial(),
             }),
           ),

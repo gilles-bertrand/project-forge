@@ -78,33 +78,43 @@ let mockProjects: MockProject[] = [
 
 const mockMembers = [
   {
-    id: "1",
-    type: "users" as const,
+    id: "mem-1",
+    type: "project-members" as const,
     attributes: {
+      userId: "user-1",
+      projectId: "proj-1",
+      role: "owner" as const,
+      joinedAt: "2025-01-01T10:00:00Z",
       firstName: "John",
       lastName: "Doe",
       email: "john.doe@example.com",
+      color: "#66C7B8",
     },
   },
   {
-    id: "2",
-    type: "users" as const,
+    id: "mem-2",
+    type: "project-members" as const,
     attributes: {
+      userId: "user-2",
+      projectId: "proj-1",
+      role: "member" as const,
+      joinedAt: "2025-01-02T10:00:00Z",
       firstName: "Jane",
       lastName: "Smith",
       email: "jane.smith@example.com",
-    },
-  },
-  {
-    id: "3",
-    type: "users" as const,
-    attributes: {
-      firstName: "Bob Johnson",
-      lastName: "Johnson",
-      email: "bob.johnson@example.com",
+      color: "#F4A261",
     },
   },
 ];
+
+const mockStats = {
+  projectId: "proj-1",
+  epics: { total: 5, done: 2 },
+  userStories: { total: 18, done: 7 },
+  tasks: { total: 42, done: 15 },
+  sprints: { total: 3, active: 1 },
+  currentSprint: { id: "sprint-1", tasksDone: 8, tasksTotal: 14 },
+};
 
 function notFound(id: string) {
   return HttpResponse.json(
@@ -261,7 +271,17 @@ export const allProjectsHandlers = [
     }
     return HttpResponse.json({
       data: mockMembers,
-      meta: { count: mockMembers.length },
+      meta: { total: mockMembers.length },
+    });
+  }),
+  http.get("/api/v1/projects/:id/stats", (req) => {
+    const { id } = req.params as { id: string };
+    const project = mockProjects.find((p) => p.id === id);
+    if (!project) {
+      return notFound(id);
+    }
+    return HttpResponse.json({
+      data: { ...mockStats, projectId: id },
     });
   }),
 ];

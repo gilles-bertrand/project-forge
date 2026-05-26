@@ -134,6 +134,8 @@ export class DatabaseSeeder extends Seeder {
         githubUrl: null,
         responsibleId: "user-bob",
         createdById: "user-bob",
+        sprintDurationDays: 14,
+        defaultVelocityPoints: 20,
         createdAt: new Date(`${p.createdAt}T00:00:00Z`),
         updatedAt: new Date(`${p.createdAt}T00:00:00Z`),
       });
@@ -224,7 +226,7 @@ export class DatabaseSeeder extends Seeder {
       },
     ];
     for (const s of stories) {
-      em.create(UserStoryEntity, { ...s, projectId: "project-ecommerce" });
+      em.create(UserStoryEntity, { ...s, projectId: "project-ecommerce", sprintId: null });
     }
   }
 
@@ -267,6 +269,7 @@ export class DatabaseSeeder extends Seeder {
     for (const s of historic) {
       em.create(SprintEntity, {
         id: s.id,
+        number: Number(s.name.replace(/^Sprint\s+/, "")),
         name: s.name,
         goal: null,
         projectId: "project-ecommerce",
@@ -279,6 +282,7 @@ export class DatabaseSeeder extends Seeder {
     }
     em.create(SprintEntity, {
       id: "sprint-88",
+      number: 88,
       name: "Sprint 88",
       goal: "Finaliser le tunnel d'achat et intégrer le paiement Stripe",
       projectId: "project-ecommerce",
@@ -290,6 +294,7 @@ export class DatabaseSeeder extends Seeder {
     });
     em.create(SprintEntity, {
       id: "sprint-89",
+      number: 89,
       name: "Sprint 89",
       goal: "Amélioration de la gestion des expéditions et suivi colis",
       projectId: "project-ecommerce",
@@ -301,6 +306,7 @@ export class DatabaseSeeder extends Seeder {
     });
     em.create(SprintEntity, {
       id: "sprint-90",
+      number: 90,
       name: "Sprint 90",
       goal: "Optimisation des performances et refonte du tableau de bord admin",
       projectId: "project-ecommerce",

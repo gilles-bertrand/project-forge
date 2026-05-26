@@ -9,6 +9,7 @@ import {
   jsonApiSerializeManyProjectMembers,
   jsonApiSerializeProjectMember,
   SerializedProjectMemberSchema,
+  type UserLite,
 } from "#src/project/project-member.serializer.js";
 import {
   jsonApiErrorDocumentSchema,
@@ -17,6 +18,40 @@ import {
   type Route,
 } from "@libs/backend-shared";
 import { ProjectMemberRoleSchema } from "#src/types.js";
+type OrmUser = { id: string; firstName: string; lastName: string; email: string; color: string };
+
+async function fetchUsersByIds(em: EntityManager, ids: string[]): Promise<UserLite[]> {
+  if (ids.length === 0) return [];
+  try {
+    const rows = await em.find<OrmUser>("User" as never, { id: { $in: ids } } as never);
+    return rows.map((r) => ({
+      id: r.id,
+      firstName: r.firstName,
+      lastName: r.lastName,
+      email: r.email,
+      color: r.color,
+    }));
+  } catch {
+    return [];
+  }
+}
+
+async function fetchUserById(em: EntityManager, id: string): Promise<UserLite | null> {
+  try {
+    const row = await em.findOne<OrmUser>("User" as never, { id } as never);
+    return row
+      ? {
+          id: row.id,
+          firstName: row.firstName,
+          lastName: row.lastName,
+          email: row.email,
+          color: row.color,
+        }
+      : null;
+  } catch {
+    return null;
+  }
+}
 
 export class ListProjectMembersRoute implements Route {
   public constructor(private em: EntityManager) {}
@@ -47,12 +82,15 @@ export class ListProjectMembersRoute implements Route {
             }),
           );
         }
-
         const members = await this.em
           .getRepository(ProjectMemberEntity)
           .findAll({ where: { projectId: id } });
+        const users = await fetchUsersByIds(
+          this.em,
+          members.map((m) => m.userId),
+        );
         return reply.send({
-          data: jsonApiSerializeManyProjectMembers(members),
+          data: jsonApiSerializeManyProjectMembers(members, users),
           meta: { total: members.length },
         });
       },
@@ -80,10 +118,8 @@ export class AddProjectMemberRoute implements Route {
         }),
       );
     }
-
     const attrs = request.body.data.attributes;
     const repo = this.em.getRepository(ProjectMemberEntity);
-
     const existing = await repo.findOne({ projectId: id, userId: attrs.userId });
     if (existing) {
       return reply.code(409).send(
@@ -93,7 +129,6 @@ export class AddProjectMemberRoute implements Route {
         }),
       );
     }
-
     const member = repo.create({
       id: randomUUID(),
       projectId: id,
@@ -101,7 +136,8 @@ export class AddProjectMemberRoute implements Route {
       role: attrs.role,
     });
     await this.em.flush();
-    return reply.send({ data: jsonApiSerializeProjectMember(member) });
+    const user = await fetchUserById(this.em, attrs.userId);
+    return reply.send({ data: jsonApiSerializeProjectMember(member, user) });
   }
 
   public routeDefinition(f: FastifyInstanceTypeForModule) {
@@ -111,12 +147,7 @@ export class AddProjectMemberRoute implements Route {
         schema: {
           params: object({ id: string() }),
           body: makeSingleJsonApiTopDocument(
-            object({
-              attributes: object({
-                userId: string(),
-                role: ProjectMemberRoleSchema,
-              }),
-            }),
+            object({ attributes: object({ userId: string(), role: ProjectMemberRoleSchema }) }),
           ),
           response: {
             200: makeSingleJsonApiTopDocument(SerializedProjectMemberSchema),
@@ -150,7 +181,6 @@ export class RemoveProjectMemberRoute implements Route {
         const member = await this.em
           .getRepository(ProjectMemberEntity)
           .findOne({ projectId: id, userId });
-
         if (!member) {
           return reply.code(404).send(
             makeJsonApiError(404, "Not Found", {
@@ -159,7 +189,6 @@ export class RemoveProjectMemberRoute implements Route {
             }),
           );
         }
-
         await this.em.remove(member).flush();
         return reply.code(204).send({ data: null });
       },

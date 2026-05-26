@@ -5,12 +5,23 @@ import Service from '@ember/service';
 import ProjectCard from '#src/components/project-card.gts';
 import type { Project } from '#src/schemas/projects.ts';
 import type { MemberLite } from '#src/components/member-avatar-stack.gts';
+import type { ProjectStats } from '#src/services/projects.ts';
 import { initializeTestApp, TestApp } from '../app.ts';
 
 const expect = hardExpect.soft;
 
+const FAKE_STATS: ProjectStats = {
+  projectId: 'proj-test',
+  epics: { total: 4, done: 2 },
+  userStories: { total: 10, done: 3 },
+  tasks: { total: 20, done: 5 },
+  sprints: { total: 2, active: 1 },
+  currentSprint: { id: 's1', tasksDone: 4, tasksTotal: 8 },
+};
+
 class FakeProjectsService extends Service {
   loadMembers = vi.fn().mockResolvedValue([] as MemberLite[]);
+  loadStats = vi.fn().mockResolvedValue(FAKE_STATS);
 }
 
 function fakeProject(overrides: Partial<Project> = {}): Project {
@@ -89,6 +100,68 @@ describe('Integration | ProjectCard', function () {
       expect(fakeService.loadMembers).not.toHaveBeenCalled();
       expect(document.body.textContent).toContain('AW');
       expect(document.body.textContent).toContain('BB');
+    },
+  );
+
+  renderingTest(
+    'Displays real stats counters after loadStats resolves',
+    async function ({ context }) {
+      initializeTestApp(context.owner, 'fr-fr');
+      context.owner.register('service:projects', FakeProjectsService);
+
+      const project = fakeProject();
+      const noop = vi.fn();
+      await render(
+        <template><ProjectCard @project={{project}} @onActivate={{noop}} /></template>,
+      );
+
+      const text = document.body.textContent ?? '';
+      expect(text).toContain('2/4');   // epics done/total
+      expect(text).toContain('3/10');  // userStories done/total
+      expect(text).toContain('5/20');  // tasks done/total
+      expect(text).toContain('1/2');   // sprints active/total
+    },
+  );
+
+  renderingTest(
+    'Displays fetched member avatars with correct initials',
+    async function ({ context }) {
+      initializeTestApp(context.owner, 'fr-fr');
+      const members: MemberLite[] = [
+        { id: 'u1', firstName: 'Alice', lastName: 'Smith' },
+        { id: 'u2', firstName: 'Bob', lastName: 'Jones' },
+      ];
+      class ServiceWithMembers extends FakeProjectsService {
+        override loadMembers = vi.fn().mockResolvedValue(members);
+      }
+      context.owner.register('service:projects', ServiceWithMembers);
+
+      const project = fakeProject();
+      const noop = vi.fn();
+      await render(
+        <template><ProjectCard @project={{project}} @onActivate={{noop}} /></template>,
+      );
+
+      const text = document.body.textContent ?? '';
+      expect(text).toContain('AS');
+      expect(text).toContain('BJ');
+    },
+  );
+
+  renderingTest(
+    'Shows empty state when no members are available',
+    async function ({ context }) {
+      initializeTestApp(context.owner, 'fr-fr');
+      context.owner.register('service:projects', FakeProjectsService);
+
+      const project = fakeProject();
+      const noop = vi.fn();
+      await render(
+        <template><ProjectCard @project={{project}} @onActivate={{noop}} /></template>,
+      );
+
+      expect(document.querySelector('[data-test-project-card-no-members]')).toBeTruthy();
+      expect(document.body.textContent).toContain('Aucun membre');
     },
   );
 });

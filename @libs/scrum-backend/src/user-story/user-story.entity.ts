@@ -9,6 +9,7 @@ export const UserStoryEntity = defineEntity({
     description: p.string(),
     projectId: p.string().index(),
     epicId: p.string().nullable().index(),
+    sprintId: p.string().nullable().index(),
     status: p.string(),
     points: p.integer(),
     priority: p.integer(),

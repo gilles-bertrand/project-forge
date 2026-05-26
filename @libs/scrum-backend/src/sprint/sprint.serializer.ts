@@ -7,6 +7,7 @@ import { SprintStatusSchema } from "#src/types.js";
 export const SerializedSprintSchema = makeJsonApiDocumentSchema(
   "sprints",
   object({
+    number: number().int(),
     name: string(),
     goal: string().nullable(),
     projectId: string(),
@@ -27,6 +28,7 @@ export function jsonApiSerializeSprint(
     id: s.id,
     type: "sprints" as const,
     attributes: {
+      number: s.number ?? 0,
       name: s.name,
       goal: s.goal ?? null,
       projectId: s.projectId,
