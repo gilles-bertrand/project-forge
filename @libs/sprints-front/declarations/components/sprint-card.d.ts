@@ -19,6 +19,8 @@ export default class SprintCard extends Component<SprintCardSignature> {
     get statusBadgeClass(): string;
     get statusKey(): string;
     get progressPercent(): number;
+    get sprintCode(): string;
+    get isOverVelocity(): boolean;
     get tasksCount(): number;
     get doneTasksCount(): number;
     onStartClick(): void;
