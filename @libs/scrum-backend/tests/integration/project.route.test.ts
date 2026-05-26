@@ -458,6 +458,7 @@ test("GET /projects/:id/stats returns correct aggregated counters", async () => 
     .getRepository(SprintEntity)
     .insert({
       id: activeSprintId,
+      number: 1,
       name: "Sprint 1",
       goal: null,
       projectId: id,
@@ -473,6 +474,7 @@ test("GET /projects/:id/stats returns correct aggregated counters", async () => 
     .getRepository(SprintEntity)
     .insert({
       id: randomUUID(),
+      number: 2,
       name: "Sprint 2",
       goal: null,
       projectId: id,
