@@ -3,7 +3,12 @@ import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import { cacheKeyFor, type Store } from '@warp-drive/core';
 import { createRecord } from '@warp-drive/utilities/json-api';
-import type { UserStory } from '#src/schemas/user-stories.ts';
+import { authFetch } from '@libs/shared-front/utils/auth-fetch';
+import type {
+  UserStory,
+  StoryStatus,
+  StoryPoints,
+} from '#src/schemas/user-stories.ts';
 
 export type NewUserStoryPayload = {
   title: string;
@@ -14,6 +19,15 @@ export type NewUserStoryPayload = {
   points: UserStory['points'];
   priority: number;
 };
+
+export interface UpdateUserStoryPayload {
+  title?: string;
+  description?: string;
+  status?: StoryStatus;
+  points?: StoryPoints | null;
+  priority?: number;
+  epicId?: string | null;
+}
 
 export default class UserStoriesService extends Service {
   @service declare store: Store;
@@ -61,6 +75,27 @@ export default class UserStoriesService extends Service {
     await this.store.request<{ data: UserStory }>(request);
     await this.loadByProject(data.projectId);
     return this.list[this.list.length - 1]!;
+  }
+
+  async update(
+    id: string,
+    projectId: string,
+    attrs: UpdateUserStoryPayload
+  ): Promise<void> {
+    await this.store.request({
+      url: `/api/v1/user-stories/${id}`,
+      method: 'PATCH',
+      body: JSON.stringify({
+        data: { type: 'user-stories', id, attributes: attrs },
+      }),
+    });
+    await this.loadByProject(projectId);
+  }
+
+  async delete(id: string, projectId: string): Promise<void> {
+    // authFetch required: WarpDrive adds Content-Type on DELETE which Fastify v5 rejects (415)
+    await authFetch(`/api/v1/user-stories/${id}`, { method: 'DELETE' });
+    await this.loadByProject(projectId);
   }
 }
 
