@@ -128,6 +128,8 @@
       "./components/add-task-modal.js": "./dist/_app_/components/add-task-modal.js",
       "./components/add-user-story-modal.js": "./dist/_app_/components/add-user-story-modal.js",
       "./components/backlog-filters.js": "./dist/_app_/components/backlog-filters.js",
+      "./components/delete-epic-confirm-modal.js": "./dist/_app_/components/delete-epic-confirm-modal.js",
+      "./components/edit-epic-modal.js": "./dist/_app_/components/edit-epic-modal.js",
       "./components/epic-row.js": "./dist/_app_/components/epic-row.js",
       "./components/kanban-board.js": "./dist/_app_/components/kanban-board.js",
       "./components/kanban-column.js": "./dist/_app_/components/kanban-column.js",

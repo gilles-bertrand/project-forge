@@ -7,6 +7,8 @@ import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
 import EpicRow from '../../components/epic-row.gts';
 import AddEpicModal from '../../components/add-epic-modal.gts';
+import EditEpicModal from '../../components/edit-epic-modal.gts';
+import DeleteEpicConfirmModal from '../../components/delete-epic-confirm-modal.gts';
 import AddUserStoryModal from '../../components/add-user-story-modal.gts';
 import AddTaskModal from '../../components/add-task-modal.gts';
 import TaskDetailModal from '../../components/task-detail-modal.gts';
@@ -31,11 +33,18 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
   @tracked addTaskOpen = false;
   @tracked detailTask: Task | null = null;
   @tracked selectedEpicForUS: Epic | null = null;
+  @tracked editEpicTarget: Epic | null = null;
+  @tracked deleteEpicTarget: Epic | null = null;
 
   get userStoryFor(): (task: Task) => UserStory | null {
     const usMap = new Map(this.args.model.userStories.map((us) => [us.id, us]));
     return (task: Task) =>
       task.userStoryId ? (usMap.get(task.userStoryId) ?? null) : null;
+  }
+
+  get orphanCountFor(): (epic: Epic) => number {
+    return (epic: Epic) =>
+      this.args.model.userStories.filter((us) => us.epicId === epic.id).length;
   }
 
   @action openAddEpic() {
@@ -70,6 +79,31 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
 
   @action closeDetail() {
     this.detailTask = null;
+  }
+
+  @action openEditEpic(epic: Epic) {
+    this.editEpicTarget = epic;
+  }
+
+  @action closeEditEpic() {
+    this.editEpicTarget = null;
+  }
+
+  @action openDeleteEpic(epic: Epic) {
+    this.deleteEpicTarget = epic;
+  }
+
+  @action closeDeleteEpic() {
+    this.deleteEpicTarget = null;
+  }
+
+  @action async confirmDeleteEpic() {
+    const epic = this.deleteEpicTarget;
+    const projectId = this.currentProject.currentProjectId;
+    const epicId = epic?.id;
+    if (!epic || !epicId || !projectId) return;
+    await this.epics.delete(epicId, projectId);
+    this.deleteEpicTarget = null;
   }
 
   <template>
@@ -113,6 +147,8 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
               @tasks={{@model.tasks}}
               @onAddUserStory={{this.openAddUS}}
               @onOpenTask={{this.openDetail}}
+              @onEditEpic={{this.openEditEpic}}
+              @onDeleteEpic={{this.openDeleteEpic}}
             />
           {{else}}
             <div class="py-12 text-center opacity-60">
@@ -147,6 +183,22 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
         @task={{this.detailTask}}
         @userStory={{this.userStoryFor this.detailTask}}
         @onClose={{this.closeDetail}}
+      />
+    {{/if}}
+
+    {{#if this.editEpicTarget}}
+      <EditEpicModal
+        @epic={{this.editEpicTarget}}
+        @onClose={{this.closeEditEpic}}
+      />
+    {{/if}}
+
+    {{#if this.deleteEpicTarget}}
+      <DeleteEpicConfirmModal
+        @epic={{this.deleteEpicTarget}}
+        @orphanCount={{this.orphanCountFor this.deleteEpicTarget}}
+        @onConfirm={{this.confirmDeleteEpic}}
+        @onClose={{this.closeDeleteEpic}}
       />
     {{/if}}
   </template>

@@ -48,6 +48,16 @@ modal:
     submit: "Créer l'épique"
     submitting: 'Création...'
     errorFallback: 'Erreur lors de la création'
+  editEpic:
+    title: "Modifier l'épique"
+    closeAria: 'Fermer'
+    name: 'Titre'
+    description: 'Description'
+    status: 'Statut'
+    cancel: 'Annuler'
+    submit: 'Enregistrer'
+    submitting: 'Enregistrement...'
+    errorFallback: 'Erreur lors de la modification'
   addUserStory:
     title: 'Nouvelle User Story'
     closeAria: 'Fermer'
