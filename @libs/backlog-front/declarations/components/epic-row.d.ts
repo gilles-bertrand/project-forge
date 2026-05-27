@@ -9,6 +9,8 @@ interface EpicRowSignature {
         tasks?: Task[];
         onAddUserStory?: (epic: Epic) => void;
         onOpenTask?: (task: Task) => void;
+        onEditEpic?: (epic: Epic) => void;
+        onDeleteEpic?: (epic: Epic) => void;
     };
     Element: HTMLDivElement;
 }
@@ -17,6 +19,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
     get epicUserStories(): UserStory[];
     get usCount(): number;
     get taskCount(): number;
+    get totalPoints(): number;
     toggleExpand(): void;
 }
 export {};

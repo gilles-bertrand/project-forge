@@ -48,6 +48,16 @@ modal:
     submit: 'Create Epic'
     submitting: 'Creating...'
     errorFallback: 'Error during creation'
+  editEpic:
+    title: 'Edit Epic'
+    closeAria: 'Close'
+    name: 'Title'
+    description: 'Description'
+    status: 'Status'
+    cancel: 'Cancel'
+    submit: 'Save'
+    submitting: 'Saving...'
+    errorFallback: 'Error while saving'
   addUserStory:
     title: 'New User Story'
     closeAria: 'Close'

@@ -12,3 +12,13 @@ noUserStories: 'Aucune user story dans cette épique.'
 noTasks: 'Aucune tâche dans cette user story.'
 addUserStoryInline: 'Ajouter une US'
 emptyState: 'Aucune épique pour ce projet.'
+pointsAbbr: 'pts'
+addUserStoryTooltip: 'Ajouter une US à cette épique'
+editEpicTooltip: "Modifier l'épique"
+deleteEpicTooltip: "Supprimer l'épique"
+deleteEpicConfirmTitle: "Supprimer l'épique ?"
+deleteEpicConfirmBody: 'L''épique "{title}" sera supprimée. Les {count} US rattachées seront détachées.'
+deleteEpicCloseAria: 'Fermer'
+deleteEpicCancel: 'Annuler'
+deleteEpicConfirmAction: 'Supprimer'
+deleteEpicSubmitting: 'Suppression...'

@@ -861,6 +861,42 @@ export const allBacklogHandlers = [
     return HttpResponse.json({ data: created }, { status: 201 });
   }),
 
+  http.patch('/api/v1/epics/:id', async (req) => {
+    const { id } = req.params as { id: string };
+    const json = (await req.request.json()) as Record<string, any>;
+    const attrs = json.data?.attributes ?? {};
+    const idx = mockEpics.findIndex((e) => e.id === id);
+    if (idx === -1) return HttpResponse.json({ errors: [] }, { status: 404 });
+    mockEpics[idx] = {
+      ...mockEpics[idx]!,
+      attributes: {
+        ...mockEpics[idx]!.attributes,
+        ...(attrs.title !== undefined && { title: attrs.title as string }),
+        ...(attrs.description !== undefined && {
+          description: attrs.description as string,
+        }),
+        ...(attrs.status !== undefined && {
+          status: attrs.status as EpicStatus,
+        }),
+        updatedAt: new Date().toISOString(),
+      },
+    };
+    return HttpResponse.json({ data: mockEpics[idx] });
+  }),
+
+  http.delete('/api/v1/epics/:id', (req) => {
+    const { id } = req.params as { id: string };
+    const idx = mockEpics.findIndex((e) => e.id === id);
+    if (idx === -1) return HttpResponse.json({ errors: [] }, { status: 404 });
+    mockEpics = mockEpics.filter((e) => e.id !== id);
+    mockUserStories = mockUserStories.map((us) =>
+      us.attributes.epicId === id
+        ? { ...us, attributes: { ...us.attributes, epicId: null } }
+        : us
+    );
+    return new HttpResponse(null, { status: 204 });
+  }),
+
   // User Stories
   http.get('/api/v1/projects/:id/user-stories', (req) => {
     const { id } = req.params as { id: string };
