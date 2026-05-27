@@ -18,6 +18,9 @@ interface EpicRowSignature {
     onOpenTask?: (task: Task) => void;
     onEditEpic?: (epic: Epic) => void;
     onDeleteEpic?: (epic: Epic) => void;
+    onEditUserStory?: (us: UserStory) => void;
+    onDeleteUserStory?: (us: UserStory) => void;
+    onAddTask?: (us: UserStory) => void;
   };
   Element: HTMLDivElement;
 }
@@ -190,6 +193,9 @@ export default class EpicRow extends Component<EpicRowSignature> {
               @userStory={{us}}
               @tasks={{@tasks}}
               @onOpenTask={{@onOpenTask}}
+              @onEditUserStory={{@onEditUserStory}}
+              @onDeleteUserStory={{@onDeleteUserStory}}
+              @onAddTask={{@onAddTask}}
             />
           {{else}}
             <p class="py-3 text-sm opacity-40">{{t
