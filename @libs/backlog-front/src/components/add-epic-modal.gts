@@ -4,6 +4,8 @@ import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { t, type IntlService } from 'ember-intl';
+import type Owner from '@ember/owner';
+import type { Store } from '@warp-drive/core';
 import type EpicsService from '../services/epics.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
 import type { EpicStatus } from '../schemas/epics.ts';
@@ -18,12 +20,37 @@ export default class AddEpicModal extends Component<AddEpicModalSignature> {
   @service declare epics: EpicsService;
   @service declare currentProject: CurrentProjectService;
   @service declare intl: IntlService;
+  @service declare store: Store;
 
   @tracked title = '';
   @tracked description = '';
   @tracked status: EpicStatus = 'todo';
   @tracked submitting = false;
   @tracked error = '';
+  @tracked currentProjectName = '';
+
+  constructor(owner: Owner, args: AddEpicModalSignature['Args']) {
+    super(owner, args);
+    // Show the ID immediately as a fallback so the field is never empty during
+    // the async name lookup. Replaced by the readable name on success.
+    this.currentProjectName = this.currentProject.currentProjectId ?? '';
+    void this.loadProjectName();
+  }
+
+  private async loadProjectName() {
+    const id = this.currentProject.currentProjectId;
+    if (!id) return;
+    try {
+      const { content } = await this.store.request<{
+        data: { attributes: { name: string } };
+      }>({ url: `/api/v1/projects/${id}`, method: 'GET' });
+      if (!this.isDestroying && !this.isDestroyed) {
+        this.currentProjectName = content.data.attributes.name;
+      }
+    } catch {
+      // currentProjectName already set to the id by the constructor fallback
+    }
+  }
 
   get statusOptions(): { value: EpicStatus; label: string }[] {
     return STATUS_VALUES.map((value) => ({
@@ -101,7 +128,7 @@ export default class AddEpicModal extends Component<AddEpicModalSignature> {
               id="epic-project"
               type="text"
               class="input input-bordered w-full opacity-60"
-              value={{this.currentProject.currentProjectId}}
+              value={{this.currentProjectName}}
               readonly
             />
           </div>

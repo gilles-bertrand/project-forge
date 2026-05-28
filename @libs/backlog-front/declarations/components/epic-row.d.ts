@@ -11,6 +11,9 @@ interface EpicRowSignature {
         onOpenTask?: (task: Task) => void;
         onEditEpic?: (epic: Epic) => void;
         onDeleteEpic?: (epic: Epic) => void;
+        onEditUserStory?: (us: UserStory) => void;
+        onDeleteUserStory?: (us: UserStory) => void;
+        onAddTask?: (us: UserStory) => void;
     };
     Element: HTMLDivElement;
 }

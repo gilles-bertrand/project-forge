@@ -1,5 +1,7 @@
 import Component from '@glimmer/component';
 import { type IntlService } from 'ember-intl';
+import type Owner from '@ember/owner';
+import type { Store } from '@warp-drive/core';
 import type EpicsService from '../services/epics.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
 import type { EpicStatus } from '../schemas/epics.ts';
@@ -12,11 +14,15 @@ export default class AddEpicModal extends Component<AddEpicModalSignature> {
     epics: EpicsService;
     currentProject: CurrentProjectService;
     intl: IntlService;
+    store: Store;
     title: string;
     description: string;
     status: EpicStatus;
     submitting: boolean;
     error: string;
+    currentProjectName: string;
+    constructor(owner: Owner, args: AddEpicModalSignature['Args']);
+    private loadProjectName;
     get statusOptions(): {
         value: EpicStatus;
         label: string;

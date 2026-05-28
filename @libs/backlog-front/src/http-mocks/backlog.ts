@@ -949,6 +949,54 @@ export const allBacklogHandlers = [
     return HttpResponse.json({ data: created }, { status: 201 });
   }),
 
+  http.patch('/api/v1/user-stories/:id', async (req) => {
+    const { id } = req.params as { id: string };
+    const json = (await req.request.json()) as Record<string, any>;
+    const attrs = json.data?.attributes ?? {};
+    const idx = mockUserStories.findIndex((us) => us.id === id);
+    if (idx === -1) return HttpResponse.json({ errors: [] }, { status: 404 });
+    mockUserStories[idx] = {
+      ...mockUserStories[idx]!,
+      attributes: {
+        ...mockUserStories[idx]!.attributes,
+        ...(attrs.title !== undefined && { title: attrs.title as string }),
+        ...(attrs.description !== undefined && {
+          description: attrs.description as string,
+        }),
+        ...(attrs.status !== undefined && {
+          status: attrs.status as 'todo' | 'in-progress' | 'done',
+        }),
+        ...(attrs.points !== undefined && { points: attrs.points as number }),
+        ...(attrs.priority !== undefined && {
+          priority: attrs.priority as number,
+        }),
+        ...(attrs.epicId !== undefined && {
+          epicId: attrs.epicId as string | null,
+        }),
+        updatedAt: new Date().toISOString(),
+      },
+    };
+    return HttpResponse.json({ data: mockUserStories[idx] });
+  }),
+
+  http.delete('/api/v1/user-stories/:id', (req) => {
+    const { id } = req.params as { id: string };
+    const idx = mockUserStories.findIndex((us) => us.id === id);
+    if (idx === -1) return HttpResponse.json({ errors: [] }, { status: 404 });
+    mockUserStories = mockUserStories.filter((us) => us.id !== id);
+    // Cascade: tasks referencing this user-story become orphan (userStoryId=null)
+    // to mirror an explicit FK cleanup. Real backend behavior: no FK cascade
+    // (tasks keep dangling string pointer) — front-end fix improves UX consistency.
+    mockTasks = mockTasks.map((t) =>
+      t.attributes.userStoryId === id
+        ? { ...t, attributes: { ...t.attributes, userStoryId: null } }
+        : t
+    );
+    // Real backend returns 204 with body `{ data: null }` (per
+    // makeSingleJsonApiTopDocument(literal(null))). Mirror that shape.
+    return HttpResponse.json({ data: null }, { status: 204 });
+  }),
+
   // Tasks
   http.get('/api/v1/projects/:id/tasks', (req) => {
     const { id } = req.params as { id: string };

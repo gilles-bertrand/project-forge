@@ -6,6 +6,9 @@ interface UserStoryRowSignature {
         userStory: UserStory;
         tasks?: Task[];
         onOpenTask?: (task: Task) => void;
+        onEditUserStory?: (us: UserStory) => void;
+        onDeleteUserStory?: (us: UserStory) => void;
+        onAddTask?: (us: UserStory) => void;
     };
     Element: HTMLDivElement;
 }

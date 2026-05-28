@@ -18,6 +18,9 @@ interface EpicRowSignature {
     onOpenTask?: (task: Task) => void;
     onEditEpic?: (epic: Epic) => void;
     onDeleteEpic?: (epic: Epic) => void;
+    onEditUserStory?: (us: UserStory) => void;
+    onDeleteUserStory?: (us: UserStory) => void;
+    onAddTask?: (us: UserStory) => void;
   };
   Element: HTMLDivElement;
 }
@@ -110,6 +113,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
                 type="button"
                 class="btn btn-ghost btn-xs btn-circle tooltip tooltip-left"
                 data-tip={{t "user-story-map.addUserStoryTooltip"}}
+                aria-label={{t "user-story-map.addUserStoryTooltip"}}
                 data-test-add-us-to-epic
                 {{on "click" (fn @onAddUserStory @epic)}}
               >
@@ -135,6 +139,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
                 type="button"
                 class="btn btn-ghost btn-xs btn-circle tooltip tooltip-left"
                 data-tip={{t "user-story-map.editEpicTooltip"}}
+                aria-label={{t "user-story-map.editEpicTooltip"}}
                 data-test-edit-epic
                 {{on "click" (fn @onEditEpic @epic)}}
               >
@@ -160,6 +165,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
                 type="button"
                 class="btn btn-ghost btn-xs btn-circle text-error tooltip tooltip-left"
                 data-tip={{t "user-story-map.deleteEpicTooltip"}}
+                aria-label={{t "user-story-map.deleteEpicTooltip"}}
                 data-test-delete-epic
                 {{on "click" (fn @onDeleteEpic @epic)}}
               >
@@ -190,6 +196,9 @@ export default class EpicRow extends Component<EpicRowSignature> {
               @userStory={{us}}
               @tasks={{@tasks}}
               @onOpenTask={{@onOpenTask}}
+              @onEditUserStory={{@onEditUserStory}}
+              @onDeleteUserStory={{@onDeleteUserStory}}
+              @onAddTask={{@onAddTask}}
             />
           {{else}}
             <p class="py-3 text-sm opacity-40">{{t
