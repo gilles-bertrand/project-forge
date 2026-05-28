@@ -6,7 +6,7 @@ import { on } from '@ember/modifier';
 import { t, type IntlService } from 'ember-intl';
 import type Owner from '@ember/owner';
 import type EpicsService from '../services/epics.ts';
-import type { Epic, EpicStatus } from '../schemas/epics.ts';
+import type { Epic, EpicStatus, EpicType } from '../schemas/epics.ts';
 
 interface EditEpicModalSignature {
   Args: {
@@ -16,6 +16,8 @@ interface EditEpicModalSignature {
 }
 
 const STATUS_VALUES: EpicStatus[] = ['todo', 'in-progress', 'done'];
+const TYPE_VALUES: EpicType[] = ['functional', 'architectural'];
+const DEFAULT_COLOR = '#6B7280';
 
 export default class EditEpicModal extends Component<EditEpicModalSignature> {
   @service declare epics: EpicsService;
@@ -24,6 +26,8 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
   @tracked title = '';
   @tracked description = '';
   @tracked status: EpicStatus = 'todo';
+  @tracked color: string = DEFAULT_COLOR;
+  @tracked type: EpicType = 'functional';
   @tracked submitting = false;
   @tracked error = '';
 
@@ -32,12 +36,21 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
     this.title = args.epic.title;
     this.description = args.epic.description;
     this.status = args.epic.status;
+    this.color = args.epic.color ?? DEFAULT_COLOR;
+    this.type = args.epic.type ?? 'functional';
   }
 
   get statusOptions(): { value: EpicStatus; label: string }[] {
     return STATUS_VALUES.map((value) => ({
       value,
       label: this.intl.t(`backlog.status.${value}`),
+    }));
+  }
+
+  get typeOptions(): { value: EpicType; label: string }[] {
+    return TYPE_VALUES.map((value) => ({
+      value,
+      label: this.intl.t(`backlog.epicType.${value}`),
     }));
   }
 
@@ -50,6 +63,7 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
   }
 
   isStatusSelected = (v: EpicStatus): boolean => this.status === v;
+  isTypeSelected = (v: EpicType): boolean => this.type === v;
 
   @action onTitleInput(e: Event) {
     this.title = (e.target as HTMLInputElement).value;
@@ -61,6 +75,17 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
 
   @action onStatusChange(e: Event) {
     this.status = (e.target as HTMLSelectElement).value as EpicStatus;
+  }
+
+  @action onTypeChange(e: Event) {
+    const v = (e.target as HTMLSelectElement).value as EpicType;
+    if (TYPE_VALUES.includes(v)) {
+      this.type = v;
+    }
+  }
+
+  @action onColorInput(e: Event) {
+    this.color = (e.target as HTMLInputElement).value;
   }
 
   @action async submit(e: Event) {
@@ -76,6 +101,8 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
         title: this.title.trim(),
         description: this.description.trim(),
         status: this.status,
+        color: this.color,
+        type: this.type,
       });
       this.args.onClose();
     } catch (err: unknown) {
@@ -137,24 +164,60 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
             >{{this.description}}</textarea>
           </div>
 
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="label text-sm font-medium" for="edit-epic-status">
+                {{t "backlog.modal.editEpic.status"}}
+              </label>
+              <select
+                id="edit-epic-status"
+                class="select select-bordered w-full"
+                {{on "change" this.onStatusChange}}
+              >
+                {{#each this.statusOptions as |opt|}}
+                  <option
+                    value={{opt.value}}
+                    selected={{this.isStatusSelected opt.value}}
+                  >
+                    {{opt.label}}
+                  </option>
+                {{/each}}
+              </select>
+            </div>
+
+            <div>
+              <label class="label text-sm font-medium" for="edit-epic-type">
+                {{t "backlog.modal.editEpic.type"}}
+              </label>
+              <select
+                id="edit-epic-type"
+                class="select select-bordered w-full"
+                {{on "change" this.onTypeChange}}
+              >
+                {{#each this.typeOptions as |opt|}}
+                  <option
+                    value={{opt.value}}
+                    selected={{this.isTypeSelected opt.value}}
+                  >{{opt.label}}</option>
+                {{/each}}
+              </select>
+            </div>
+          </div>
+
           <div>
-            <label class="label text-sm font-medium" for="edit-epic-status">
-              {{t "backlog.modal.editEpic.status"}}
+            <label class="label text-sm font-medium" for="edit-epic-color">
+              {{t "backlog.modal.editEpic.color"}}
             </label>
-            <select
-              id="edit-epic-status"
-              class="select select-bordered w-full"
-              {{on "change" this.onStatusChange}}
-            >
-              {{#each this.statusOptions as |opt|}}
-                <option
-                  value={{opt.value}}
-                  selected={{this.isStatusSelected opt.value}}
-                >
-                  {{opt.label}}
-                </option>
-              {{/each}}
-            </select>
+            <div class="flex items-center gap-3">
+              <input
+                id="edit-epic-color"
+                type="color"
+                class="input input-bordered h-10 w-16 cursor-pointer p-1"
+                value={{this.color}}
+                {{on "input" this.onColorInput}}
+              />
+              <span class="text-xs opacity-70 font-mono">{{this.color}}</span>
+            </div>
           </div>
 
           {{#if this.error}}

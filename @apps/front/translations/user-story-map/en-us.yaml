@@ -29,6 +29,7 @@ editUserStoryModal:
   title: 'Edit user story'
   closeAria: 'Close'
   errorFallback: 'Could not save user story'
+  invalidTransition: 'Invalid status transition: {from} → {to}.'
   pointsNone: '— no points —'
   fields:
     title: 'Title'

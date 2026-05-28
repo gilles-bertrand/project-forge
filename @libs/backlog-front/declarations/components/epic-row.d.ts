@@ -24,6 +24,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
     get taskCount(): number;
     get totalPoints(): number;
     toggleExpand(): void;
+    get borderStyle(): string;
 }
 export {};
 //# sourceMappingURL=epic-row.d.ts.map

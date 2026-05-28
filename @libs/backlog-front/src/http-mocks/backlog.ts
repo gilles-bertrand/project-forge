@@ -2,7 +2,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { http, HttpResponse } from 'msw';
-import type { EpicStatus } from '#src/schemas/epics.ts';
+import type { EpicStatus, EpicType } from '#src/schemas/epics.ts';
+import type { StoryPriority, StoryStatus } from '#src/schemas/user-stories.ts';
 import type {
   TaskNature,
   TaskPriority,
@@ -10,14 +11,23 @@ import type {
   TaskType,
 } from '#src/schemas/tasks.ts';
 
+type SatelliteOwnerType = 'task' | 'story' | 'epic' | 'project';
+
 type MockEpic = {
   id: string;
   type: 'epics';
   attributes: {
     title: string;
     description: string;
+    notes: string | null;
+    color: string;
+    type: EpicType;
+    value: number | null;
+    rank: number;
     projectId: string;
+    createdById: string | null;
     status: EpicStatus;
+    tags: string[];
     createdAt: string;
     updatedAt: string;
   };
@@ -29,11 +39,18 @@ type MockUserStory = {
   attributes: {
     title: string;
     description: string;
+    notes: string | null;
+    color: string | null;
     projectId: string;
     epicId: string | null;
-    status: 'todo' | 'in-progress' | 'done';
-    points: number;
-    priority: number;
+    sprintId: string | null;
+    status: StoryStatus;
+    points: number | null;
+    priority: StoryPriority;
+    rank: number;
+    value: number | null;
+    createdById: string | null;
+    tags: string[];
     createdAt: string;
     updatedAt: string;
   };
@@ -65,192 +82,210 @@ type MockTask = {
 
 const NOW = '2025-03-01T10:00:00Z';
 
+function makeEpic(
+  attrs: Partial<MockEpic['attributes']> & {
+    id: string;
+    title: string;
+    projectId: string;
+  }
+): MockEpic {
+  const { id, ...rest } = attrs;
+  return {
+    id,
+    type: 'epics',
+    attributes: {
+      description: '',
+      notes: null,
+      color: '#6B7280',
+      type: 'functional',
+      value: null,
+      rank: 0,
+      createdById: 'user-2',
+      status: 'todo',
+      tags: [],
+      createdAt: NOW,
+      updatedAt: NOW,
+      ...rest,
+    },
+  };
+}
+
 let mockEpics: MockEpic[] = [
-  {
+  makeEpic({
     id: 'epic-1',
-    type: 'epics',
-    attributes: {
-      title: 'Authentication & Onboarding',
-      description: 'Authentification et onboarding',
-      projectId: 'proj-1',
-      status: 'in-progress',
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
-  {
+    title: 'Authentication & Onboarding',
+    description: 'Authentification et onboarding',
+    projectId: 'proj-1',
+    status: 'in-progress',
+    color: '#3B82F6',
+    type: 'functional',
+    rank: 1,
+  }),
+  makeEpic({
     id: 'epic-2',
-    type: 'epics',
-    attributes: {
-      title: 'Project Management',
-      description: 'Création et gestion des projets Scrum',
-      projectId: 'proj-1',
-      status: 'todo',
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
-  {
+    title: 'Project Management',
+    description: 'Création et gestion des projets Scrum',
+    projectId: 'proj-1',
+    color: '#10B981',
+    rank: 2,
+  }),
+  makeEpic({
     id: 'epic-3',
-    type: 'epics',
+    title: 'Reporting & Analytics',
+    description: 'Tableaux de bord et métriques de performance',
+    projectId: 'proj-1',
+    color: '#F59E0B',
+    type: 'architectural',
+    rank: 3,
+  }),
+];
+
+function makeStory(
+  attrs: Partial<MockUserStory['attributes']> & {
+    id: string;
+    title: string;
+    projectId: string;
+  }
+): MockUserStory {
+  const { id, ...rest } = attrs;
+  return {
+    id,
+    type: 'user-stories',
     attributes: {
-      title: 'Reporting & Analytics',
-      description: 'Tableaux de bord et métriques de performance',
-      projectId: 'proj-1',
-      status: 'todo',
+      description: '',
+      notes: null,
+      color: null,
+      epicId: null,
+      sprintId: null,
+      status: 'accepted',
+      points: null,
+      priority: 'Moyenne',
+      rank: 0,
+      value: null,
+      createdById: 'user-2',
+      tags: [],
       createdAt: NOW,
       updatedAt: NOW,
+      ...rest,
     },
-  },
-];
+  };
+}
 
 let mockUserStories: MockUserStory[] = [
   // Epic-1
-  {
+  makeStory({
     id: 'us-1',
-    type: 'user-stories',
-    attributes: {
-      title: 'Login avec email / mot de passe',
-      description: 'Login avec email et mot de passe',
-      projectId: 'proj-1',
-      epicId: 'epic-1',
-      status: 'done',
-      points: 3,
-      priority: 1,
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
-  {
+    title: 'Login avec email / mot de passe',
+    description: 'Login avec email et mot de passe',
+    projectId: 'proj-1',
+    epicId: 'epic-1',
+    status: 'done',
+    points: 3,
+    priority: 'Haute',
+    rank: 1,
+  }),
+  makeStory({
     id: 'us-2',
-    type: 'user-stories',
-    attributes: {
-      title: 'Réinitialisation du mot de passe',
-      description: 'Recuperer acces au compte via email',
-      projectId: 'proj-1',
-      epicId: 'epic-1',
-      status: 'in-progress',
-      points: 5,
-      priority: 2,
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
-  {
+    title: 'Réinitialisation du mot de passe',
+    description: 'Recuperer acces au compte via email',
+    projectId: 'proj-1',
+    epicId: 'epic-1',
+    status: 'in-progress',
+    points: 5,
+    priority: 'Moyenne',
+    rank: 2,
+  }),
+  makeStory({
     id: 'us-3',
-    type: 'user-stories',
-    attributes: {
-      title: 'Profil utilisateur',
-      description: 'Modification du profil utilisateur',
-      projectId: 'proj-1',
-      epicId: 'epic-1',
-      status: 'todo',
-      points: 2,
-      priority: 3,
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
+    title: 'Profil utilisateur',
+    description: 'Modification du profil utilisateur',
+    projectId: 'proj-1',
+    epicId: 'epic-1',
+    status: 'accepted',
+    points: 2,
+    priority: 'Basse',
+    rank: 3,
+  }),
   // Epic-2
-  {
+  makeStory({
     id: 'us-4',
-    type: 'user-stories',
-    attributes: {
-      title: 'Créer un projet',
-      description: 'En tant que chef de projet je veux créer un nouveau projet',
-      projectId: 'proj-1',
-      epicId: 'epic-2',
-      status: 'done',
-      points: 5,
-      priority: 1,
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
-  {
+    title: 'Créer un projet',
+    description: 'En tant que chef de projet je veux créer un nouveau projet',
+    projectId: 'proj-1',
+    epicId: 'epic-2',
+    status: 'done',
+    points: 5,
+    priority: 'Haute',
+    rank: 4,
+  }),
+  makeStory({
     id: 'us-5',
-    type: 'user-stories',
-    attributes: {
-      title: 'Inviter des membres',
-      description: 'En tant que chef de projet je veux ajouter des membres',
-      projectId: 'proj-1',
-      epicId: 'epic-2',
-      status: 'todo',
-      points: 3,
-      priority: 2,
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
+    title: 'Inviter des membres',
+    description: 'En tant que chef de projet je veux ajouter des membres',
+    projectId: 'proj-1',
+    epicId: 'epic-2',
+    status: 'estimated',
+    points: 3,
+    priority: 'Moyenne',
+    rank: 5,
+  }),
   // Epic-3
-  {
+  makeStory({
     id: 'us-6',
-    type: 'user-stories',
-    attributes: {
-      title: 'Tableau de bord KPIs',
-      description: 'En tant que PM je veux voir les métriques clés',
-      projectId: 'proj-1',
-      epicId: 'epic-3',
-      status: 'todo',
-      points: 8,
-      priority: 1,
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
-  {
+    title: 'Tableau de bord KPIs',
+    description: 'En tant que PM je veux voir les métriques clés',
+    projectId: 'proj-1',
+    epicId: 'epic-3',
+    status: 'accepted',
+    points: 8,
+    priority: 'Haute',
+    rank: 6,
+  }),
+  makeStory({
     id: 'us-7',
-    type: 'user-stories',
-    attributes: {
-      title: 'Export rapport PDF',
-      description: 'En tant que PM je veux exporter les données',
-      projectId: 'proj-1',
-      epicId: 'epic-3',
-      status: 'todo',
-      points: 5,
-      priority: 2,
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
+    title: 'Export rapport PDF',
+    description: 'En tant que PM je veux exporter les données',
+    projectId: 'proj-1',
+    epicId: 'epic-3',
+    status: 'suggested',
+    points: 5,
+    priority: 'Moyenne',
+    rank: 7,
+  }),
   // US orphelines (sans épique)
-  {
+  makeStory({
     id: 'us-8',
-    type: 'user-stories',
-    attributes: {
-      title: 'Mode hors-ligne',
-      description: 'Acces offline sans connexion internet',
-      projectId: 'proj-1',
-      epicId: null,
-      status: 'todo',
-      points: 13,
-      priority: 3,
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
-  {
+    title: 'Mode hors-ligne',
+    description: 'Acces offline sans connexion internet',
+    projectId: 'proj-1',
+    epicId: null,
+    status: 'suggested',
+    points: 13,
+    priority: 'Basse',
+    rank: 8,
+  }),
+  makeStory({
     id: 'us-9',
-    type: 'user-stories',
-    attributes: {
-      title: 'Notifications email',
-      description:
-        "En tant qu'utilisateur je veux recevoir des alertes par email",
-      projectId: 'proj-1',
-      epicId: null,
-      status: 'todo',
-      points: 3,
-      priority: 3,
-      createdAt: NOW,
-      updatedAt: NOW,
-    },
-  },
+    title: 'Notifications email',
+    description:
+      "En tant qu'utilisateur je veux recevoir des alertes par email",
+    projectId: 'proj-1',
+    epicId: null,
+    status: 'suggested',
+    points: null,
+    priority: 'Basse',
+    rank: 9,
+  }),
 ];
 
 type MockComment = {
   id: string;
   type: 'task-comments';
   attributes: {
+    ownerType: SatelliteOwnerType;
+    ownerId: string;
+    // Kept for backwards compatibility with consumers reading `taskId`
+    // — backend deprecates this in favor of ownerType+ownerId polymorphism.
     taskId: string;
     authorId: string;
     content: string;
@@ -705,6 +740,8 @@ const mockComments: MockComment[] = [
     id: 'comment-1',
     type: 'task-comments',
     attributes: {
+      ownerType: 'task',
+      ownerId: 'task-1',
       taskId: 'task-1',
       authorId: 'user-2',
       content: 'Vérifier avec le PM la priorité de cette tâche.',
@@ -715,6 +752,8 @@ const mockComments: MockComment[] = [
     id: 'comment-2',
     type: 'task-comments',
     attributes: {
+      ownerType: 'task',
+      ownerId: 'task-1',
       taskId: 'task-1',
       authorId: 'user-2',
       content: 'Bloqué sur la rotation des clés — voir issue #42.',
@@ -725,6 +764,8 @@ const mockComments: MockComment[] = [
     id: 'comment-3',
     type: 'task-comments',
     attributes: {
+      ownerType: 'task',
+      ownerId: 'task-2',
       taskId: 'task-2',
       authorId: 'user-2',
       content: "Maquette validée par l'équipe design.",
@@ -811,6 +852,32 @@ function notFound(id: string) {
   );
 }
 
+const VALID_STORY_TRANSITIONS: Record<StoryStatus, readonly StoryStatus[]> = {
+  suggested: ['accepted'],
+  accepted: ['suggested', 'estimated'],
+  estimated: ['accepted', 'planned'],
+  planned: ['estimated', 'in-progress'],
+  'in-progress': ['planned', 'done'],
+  done: [],
+};
+
+function invalidTransitionResponse(from: StoryStatus, to: StoryStatus) {
+  return HttpResponse.json(
+    {
+      errors: [
+        {
+          status: '422',
+          code: 'INVALID_STORY_TRANSITION',
+          title: 'Invalid story transition',
+          detail: `Cannot transition story from ${from} to ${to}.`,
+          meta: { from, to },
+        },
+      ],
+    },
+    { status: 422 }
+  );
+}
+
 export const allBacklogHandlers = [
   // Epics
   http.get('/api/v1/projects/:id/epics', (req) => {
@@ -843,16 +910,27 @@ export const allBacklogHandlers = [
 
   http.post('/api/v1/epics', async (req) => {
     const json = (await req.request.json()) as Record<string, any>;
-    const attributes = json.data?.attributes ?? {};
+    const attributes = (json.data?.attributes ?? {}) as Record<string, any>;
     const id = (json.data?.id as string | undefined) ?? `epic-${Date.now()}`;
+    const nextRank =
+      mockEpics
+        .filter((e) => e.attributes.projectId === attributes.projectId)
+        .reduce((max, e) => Math.max(max, e.attributes.rank), 0) + 1;
     const created: MockEpic = {
       id,
       type: 'epics',
       attributes: {
         title: attributes.title ?? '',
         description: attributes.description ?? '',
+        notes: (attributes.notes as string | null) ?? null,
+        color: (attributes.color as string) ?? '#6B7280',
+        type: (attributes.type as EpicType) ?? 'functional',
+        value: (attributes.value as number | null) ?? null,
+        rank: (attributes.rank as number) ?? nextRank,
         projectId: attributes.projectId ?? '',
+        createdById: (attributes.createdById as string | null) ?? 'user-2',
         status: (attributes.status as EpicStatus) ?? 'todo',
+        tags: (attributes.tags as string[]) ?? [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       },
@@ -864,7 +942,7 @@ export const allBacklogHandlers = [
   http.patch('/api/v1/epics/:id', async (req) => {
     const { id } = req.params as { id: string };
     const json = (await req.request.json()) as Record<string, any>;
-    const attrs = json.data?.attributes ?? {};
+    const attrs = (json.data?.attributes ?? {}) as Record<string, any>;
     const idx = mockEpics.findIndex((e) => e.id === id);
     if (idx === -1) return HttpResponse.json({ errors: [] }, { status: 404 });
     mockEpics[idx] = {
@@ -875,6 +953,16 @@ export const allBacklogHandlers = [
         ...(attrs.description !== undefined && {
           description: attrs.description as string,
         }),
+        ...(attrs.notes !== undefined && {
+          notes: attrs.notes as string | null,
+        }),
+        ...(attrs.color !== undefined && { color: attrs.color as string }),
+        ...(attrs.type !== undefined && { type: attrs.type as EpicType }),
+        ...(attrs.value !== undefined && {
+          value: attrs.value as number | null,
+        }),
+        ...(attrs.rank !== undefined && { rank: attrs.rank as number }),
+        ...(attrs.tags !== undefined && { tags: attrs.tags as string[] }),
         ...(attrs.status !== undefined && {
           status: attrs.status as EpicStatus,
         }),
@@ -928,19 +1016,30 @@ export const allBacklogHandlers = [
 
   http.post('/api/v1/user-stories', async (req) => {
     const json = (await req.request.json()) as Record<string, any>;
-    const attributes = json.data?.attributes ?? {};
+    const attributes = (json.data?.attributes ?? {}) as Record<string, any>;
     const id = (json.data?.id as string | undefined) ?? `us-${Date.now()}`;
+    const nextRank =
+      mockUserStories
+        .filter((us) => us.attributes.projectId === attributes.projectId)
+        .reduce((max, us) => Math.max(max, us.attributes.rank), 0) + 1;
     const created: MockUserStory = {
       id,
       type: 'user-stories',
       attributes: {
         title: attributes.title ?? '',
         description: attributes.description ?? '',
+        notes: (attributes.notes as string | null) ?? null,
+        color: (attributes.color as string | null) ?? null,
         projectId: attributes.projectId ?? '',
         epicId: (attributes.epicId as string | null) ?? null,
-        status: attributes.status ?? 'todo',
-        points: (attributes.points as number) ?? 1,
-        priority: (attributes.priority as number) ?? 3,
+        sprintId: (attributes.sprintId as string | null) ?? null,
+        status: (attributes.status as StoryStatus) ?? 'suggested',
+        points: (attributes.points as number | null) ?? null,
+        priority: (attributes.priority as StoryPriority) ?? 'Moyenne',
+        rank: (attributes.rank as number) ?? nextRank,
+        value: (attributes.value as number | null) ?? null,
+        createdById: (attributes.createdById as string | null) ?? 'user-2',
+        tags: (attributes.tags as string[]) ?? [],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       },
@@ -952,26 +1051,53 @@ export const allBacklogHandlers = [
   http.patch('/api/v1/user-stories/:id', async (req) => {
     const { id } = req.params as { id: string };
     const json = (await req.request.json()) as Record<string, any>;
-    const attrs = json.data?.attributes ?? {};
+    const attrs = (json.data?.attributes ?? {}) as Record<string, any>;
     const idx = mockUserStories.findIndex((us) => us.id === id);
     if (idx === -1) return HttpResponse.json({ errors: [] }, { status: 404 });
+    const current = mockUserStories[idx]!;
+    if (attrs.status !== undefined) {
+      const next = attrs.status as StoryStatus;
+      const from = current.attributes.status;
+      if (next !== from) {
+        const allowed = VALID_STORY_TRANSITIONS[from] ?? [];
+        if (!allowed.includes(next)) {
+          return invalidTransitionResponse(from, next);
+        }
+      }
+    }
     mockUserStories[idx] = {
-      ...mockUserStories[idx]!,
+      ...current,
       attributes: {
-        ...mockUserStories[idx]!.attributes,
+        ...current.attributes,
         ...(attrs.title !== undefined && { title: attrs.title as string }),
         ...(attrs.description !== undefined && {
           description: attrs.description as string,
         }),
+        ...(attrs.notes !== undefined && {
+          notes: attrs.notes as string | null,
+        }),
+        ...(attrs.color !== undefined && {
+          color: attrs.color as string | null,
+        }),
         ...(attrs.status !== undefined && {
-          status: attrs.status as 'todo' | 'in-progress' | 'done',
+          status: attrs.status as StoryStatus,
         }),
-        ...(attrs.points !== undefined && { points: attrs.points as number }),
+        ...(attrs.points !== undefined && {
+          points: attrs.points as number | null,
+        }),
         ...(attrs.priority !== undefined && {
-          priority: attrs.priority as number,
+          priority: attrs.priority as StoryPriority,
         }),
+        ...(attrs.rank !== undefined && { rank: attrs.rank as number }),
+        ...(attrs.value !== undefined && {
+          value: attrs.value as number | null,
+        }),
+        ...(attrs.tags !== undefined && { tags: attrs.tags as string[] }),
         ...(attrs.epicId !== undefined && {
           epicId: attrs.epicId as string | null,
+        }),
+        ...(attrs.sprintId !== undefined && {
+          sprintId: attrs.sprintId as string | null,
         }),
         updatedAt: new Date().toISOString(),
       },
@@ -1069,7 +1195,45 @@ export const allBacklogHandlers = [
 
   http.get('/api/v1/tasks/:id/comments', (req) => {
     const { id } = req.params as { id: string };
-    const comments = mockComments.filter((c) => c.attributes.taskId === id);
+    const comments = mockComments.filter(
+      (c) => c.attributes.ownerType === 'task' && c.attributes.ownerId === id
+    );
+    return HttpResponse.json({
+      data: comments,
+      meta: { count: comments.length },
+    });
+  }),
+
+  // Polymorphic comment routes (P1 — Comment.ownerType + ownerId).
+  // Reads only — full POST/DELETE are owned by the comments-front lib if/when
+  // it ships. Mocks keep the backend's response shape for read consumers.
+  http.get('/api/v1/epics/:id/comments', (req) => {
+    const { id } = req.params as { id: string };
+    const comments = mockComments.filter(
+      (c) => c.attributes.ownerType === 'epic' && c.attributes.ownerId === id
+    );
+    return HttpResponse.json({
+      data: comments,
+      meta: { count: comments.length },
+    });
+  }),
+
+  http.get('/api/v1/user-stories/:id/comments', (req) => {
+    const { id } = req.params as { id: string };
+    const comments = mockComments.filter(
+      (c) => c.attributes.ownerType === 'story' && c.attributes.ownerId === id
+    );
+    return HttpResponse.json({
+      data: comments,
+      meta: { count: comments.length },
+    });
+  }),
+
+  http.get('/api/v1/projects/:id/comments', (req) => {
+    const { id } = req.params as { id: string };
+    const comments = mockComments.filter(
+      (c) => c.attributes.ownerType === 'project' && c.attributes.ownerId === id
+    );
     return HttpResponse.json({
       data: comments,
       meta: { count: comments.length },

@@ -16,6 +16,8 @@ export default class UserStoryRow extends Component<UserStoryRowSignature> {
     expanded: boolean;
     get storyTasks(): Task[];
     toggleExpand(): void;
+    get priorityBadgeClass(): string;
+    get statusDotClass(): string;
 }
 export {};
 //# sourceMappingURL=user-story-row.d.ts.map

@@ -34,6 +34,18 @@ status:
   todo: 'To do'
   in-progress: 'In progress'
   done: 'Done'
+  suggested: 'Sandbox'
+  accepted: 'Backlog'
+  estimated: 'Estimated backlog'
+  planned: 'Sprint backlog'
+priority:
+  Basse: 'Low'
+  Moyenne: 'Medium'
+  Haute: 'High'
+  Critique: 'Critical'
+epicType:
+  functional: 'Functional'
+  architectural: 'Architectural'
 modal:
   addEpic:
     title: 'New Epic'
@@ -44,6 +56,8 @@ modal:
     description: 'Description'
     descriptionPlaceholder: 'Goals and scope of this epic...'
     status: 'Initial status'
+    type: 'Type'
+    color: 'Color'
     cancel: 'Cancel'
     submit: 'Create Epic'
     submitting: 'Creating...'
@@ -54,6 +68,8 @@ modal:
     name: 'Title'
     description: 'Description'
     status: 'Status'
+    type: 'Type'
+    color: 'Color'
     cancel: 'Cancel'
     submit: 'Save'
     submitting: 'Saving...'

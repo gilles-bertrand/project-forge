@@ -7,11 +7,13 @@ import { t, type IntlService } from 'ember-intl';
 import type Owner from '@ember/owner';
 import type UserStoriesService from '../services/user-stories.ts';
 import type { UpdateUserStoryPayload } from '../services/user-stories.ts';
+import { InvalidStoryTransitionError } from '../services/user-stories.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
 import type {
   UserStory,
   StoryStatus,
   StoryPoints,
+  StoryPriority,
 } from '../schemas/user-stories.ts';
 
 interface EditUserStoryModalSignature {
@@ -21,8 +23,23 @@ interface EditUserStoryModalSignature {
   };
 }
 
-const STATUS_VALUES: StoryStatus[] = ['todo', 'in-progress', 'done'];
+// All 6 iceScrum status values, displayed in workflow order. Invalid
+// transitions are rejected server-side and surfaced via i18n message.
+const STATUS_VALUES: StoryStatus[] = [
+  'suggested',
+  'accepted',
+  'estimated',
+  'planned',
+  'in-progress',
+  'done',
+];
 const POINT_VALUES: (StoryPoints | null)[] = [null, 1, 2, 3, 5, 8, 13, 21];
+const PRIORITY_VALUES: StoryPriority[] = [
+  'Basse',
+  'Moyenne',
+  'Haute',
+  'Critique',
+];
 
 export default class EditUserStoryModal extends Component<EditUserStoryModalSignature> {
   @service declare userStories: UserStoriesService;
@@ -31,9 +48,9 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
 
   @tracked title = '';
   @tracked description = '';
-  @tracked status: StoryStatus = 'todo';
+  @tracked status: StoryStatus = 'suggested';
   @tracked points: StoryPoints | null = null;
-  @tracked priority = 3;
+  @tracked priority: StoryPriority = 'Moyenne';
   @tracked submitting = false;
   @tracked error = '';
 
@@ -43,7 +60,7 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
     this.description = args.userStory.description ?? '';
     this.status = args.userStory.status;
     this.points = args.userStory.points ?? null;
-    this.priority = args.userStory.priority ?? 3;
+    this.priority = args.userStory.priority ?? 'Moyenne';
   }
 
   // Bound to <option value=> in the points select. Returns '' for the
@@ -70,6 +87,13 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
     }));
   }
 
+  get priorityOptions(): { value: StoryPriority; label: string }[] {
+    return PRIORITY_VALUES.map((value) => ({
+      value,
+      label: this.intl.t(`backlog.priority.${value}`),
+    }));
+  }
+
   get canSubmit(): boolean {
     return this.title.trim().length > 0 && !this.submitting;
   }
@@ -80,6 +104,7 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
 
   isStatusSelected = (v: StoryStatus): boolean => this.status === v;
   isPointSelected = (v: StoryPoints | null): boolean => this.points === v;
+  isPrioritySelected = (v: StoryPriority): boolean => this.priority === v;
 
   @action onTitleInput(e: Event) {
     this.title = (e.target as HTMLInputElement).value;
@@ -107,12 +132,11 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
     this.points = num as StoryPoints;
   }
 
-  @action onPriorityInput(e: Event) {
-    const raw = (e.target as HTMLInputElement).value;
-    if (raw === '') return; // ignore empty (would coerce to 0)
-    const num = Number(raw);
-    if (Number.isNaN(num) || num < 1 || num > 10) return;
-    this.priority = num;
+  @action onPriorityChange(e: Event) {
+    const v = (e.target as HTMLSelectElement).value as StoryPriority;
+    if (PRIORITY_VALUES.includes(v)) {
+      this.priority = v;
+    }
   }
 
   @action async submit(e: Event) {
@@ -139,10 +163,20 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
       await this.userStories.update(usId, projectId, payload);
       this.args.onClose();
     } catch (err: unknown) {
-      this.error =
-        err instanceof Error
-          ? err.message
-          : this.intl.t('user-story-map.editUserStoryModal.errorFallback');
+      if (err instanceof InvalidStoryTransitionError) {
+        this.error = this.intl.t(
+          'user-story-map.editUserStoryModal.invalidTransition',
+          {
+            from: err.from ? this.intl.t(`backlog.status.${err.from}`) : '∅',
+            to: err.to ? this.intl.t(`backlog.status.${err.to}`) : '∅',
+          }
+        );
+      } else {
+        this.error =
+          err instanceof Error
+            ? err.message
+            : this.intl.t('user-story-map.editUserStoryModal.errorFallback');
+      }
     } finally {
       if (!this.isDestroying && !this.isDestroyed) {
         this.submitting = false;
@@ -234,19 +268,25 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
             <label class="label text-sm font-medium" for="edit-us-priority">
               {{t "user-story-map.editUserStoryModal.fields.priority"}}
             </label>
-            <input
+            <select
               id="edit-us-priority"
-              type="number"
-              class="input input-bordered w-full"
-              min="1"
-              max="10"
-              value={{this.priority}}
-              {{on "input" this.onPriorityInput}}
-            />
+              class="select select-bordered w-full"
+              {{on "change" this.onPriorityChange}}
+            >
+              {{#each this.priorityOptions as |opt|}}
+                <option
+                  value={{opt.value}}
+                  selected={{this.isPrioritySelected opt.value}}
+                >{{opt.label}}</option>
+              {{/each}}
+            </select>
           </div>
 
           {{#if this.error}}
-            <div class="alert alert-error text-sm">{{this.error}}</div>
+            <div
+              class="alert alert-error text-sm"
+              data-test-edit-us-error
+            >{{this.error}}</div>
           {{/if}}
 
           <div class="modal-action mt-2">

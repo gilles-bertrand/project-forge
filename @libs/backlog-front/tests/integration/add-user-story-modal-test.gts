@@ -19,11 +19,18 @@ class FakeEpicsService extends Service {
       id: 'epic-1',
       title: 'Epic One',
       description: '',
+      notes: null,
+      color: '#6B7280',
+      type: 'functional',
+      value: null,
+      rank: 0,
       projectId: 'proj-1',
+      createdById: 'user-2',
       status: 'todo',
+      tags: [],
       createdAt: '',
       updatedAt: '',
-    } as Epic,
+    } as unknown as Epic,
   ];
 }
 

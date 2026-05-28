@@ -3,7 +3,7 @@ import { type IntlService } from 'ember-intl';
 import type Owner from '@ember/owner';
 import type UserStoriesService from '../services/user-stories.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
-import type { UserStory, StoryStatus, StoryPoints } from '../schemas/user-stories.ts';
+import type { UserStory, StoryStatus, StoryPoints, StoryPriority } from '../schemas/user-stories.ts';
 interface EditUserStoryModalSignature {
     Args: {
         userStory: UserStory;
@@ -18,7 +18,7 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
     description: string;
     status: StoryStatus;
     points: StoryPoints | null;
-    priority: number;
+    priority: StoryPriority;
     submitting: boolean;
     error: string;
     constructor(owner: Owner, args: EditUserStoryModalSignature['Args']);
@@ -31,15 +31,20 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
         value: StoryPoints | null;
         label: string;
     }[];
+    get priorityOptions(): {
+        value: StoryPriority;
+        label: string;
+    }[];
     get canSubmit(): boolean;
     get cannotSubmit(): boolean;
     isStatusSelected: (v: StoryStatus) => boolean;
     isPointSelected: (v: StoryPoints | null) => boolean;
+    isPrioritySelected: (v: StoryPriority) => boolean;
     onTitleInput(e: Event): void;
     onDescriptionInput(e: Event): void;
     onStatusChange(e: Event): void;
     onPointsChange(e: Event): void;
-    onPriorityInput(e: Event): void;
+    onPriorityChange(e: Event): void;
     submit(e: Event): Promise<void>;
 }
 export {};

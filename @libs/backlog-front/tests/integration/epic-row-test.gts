@@ -13,11 +13,18 @@ function fakeEpic(): Epic {
     id: 'epic-test',
     title: 'Test Epic',
     description: 'Epic desc',
+    notes: null,
+    color: '#6B7280',
+    type: 'functional',
+    value: null,
+    rank: 0,
     projectId: 'proj-1',
+    createdById: 'user-2',
     status: 'todo',
+    tags: [],
     createdAt: '',
     updatedAt: '',
-  } as Epic;
+  } as unknown as Epic;
 }
 
 function fakeUS(epicId: string): UserStory {
@@ -25,14 +32,21 @@ function fakeUS(epicId: string): UserStory {
     id: 'us-test',
     title: 'Story in Epic',
     epicId,
+    sprintId: null,
     projectId: 'proj-1',
-    status: 'todo',
+    status: 'accepted',
     points: 3,
-    priority: 1,
+    priority: 'Moyenne',
+    rank: 0,
+    value: null,
+    color: null,
+    notes: null,
+    createdById: 'user-2',
+    tags: [],
     description: '',
     createdAt: '',
     updatedAt: '',
-  } as UserStory;
+  } as unknown as UserStory;
 }
 
 describe('Integration | EpicRow', function () {

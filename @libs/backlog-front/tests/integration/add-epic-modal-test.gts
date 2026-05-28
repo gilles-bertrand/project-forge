@@ -81,4 +81,32 @@ describe('Integration | AddEpicModal', function () {
     ).map((o) => o.textContent?.trim());
     expect(options).toEqual(['À faire', 'En cours', 'Terminé']);
   });
+
+  renderingTest(
+    'Renders type and color selectors',
+    async function ({ context }) {
+      initializeTestApp(context.owner);
+      context.owner.register('service:epics', FakeEpicsService);
+      context.owner.register(
+        'service:current-project',
+        FakeCurrentProjectService
+      );
+
+      const onClose = vi.fn();
+      await render(<template><AddEpicModal @onClose={{onClose}} /></template>);
+
+      // Type select shows functional + architectural
+      const typeOptions = Array.from(
+        document.querySelectorAll('#epic-type option')
+      ).map((o) => o.textContent?.trim());
+      expect(typeOptions).toEqual(['Fonctionnelle', 'Architecturale']);
+
+      // Color input renders with the iceScrum default
+      const colorInput =
+        document.querySelector<HTMLInputElement>('#epic-color');
+      expect(colorInput).not.toBeNull();
+      expect(colorInput?.type).toBe('color');
+      expect(colorInput?.value.toLowerCase()).toBe('#6b7280');
+    }
+  );
 });
