@@ -32,6 +32,8 @@ Refactorisation majeure du modèle de données agile de SprintForge pour l'align
    - UI StoryDependency (graphe ou liste dans l'edit modal)
    - UI Burndown chart sprint (graphe)
    - Filtres backlog par status (Sandbox / Product Backlog / Sprint Backlog)
+   - UI Comments + Attachments (4 phases — voir `specs/todo/icescrum-refacto-04-comments-attachments-ui.md`)
+   - 🚨 Bug latent : `@libs/backlog-front/src/services/tasks.ts:142` utilise `fetch()` brut sans Bearer → 401 silencieux. À corriger en P1 du chantier ci-dessus.
 5. **Déploiement** : pas de migration DB automatique possible actuellement (bug #3). Avant de déployer en staging, résoudre le bug migration ou appliquer les ALTER manuellement (script SQL disponible dans la spec `icescrum-refacto-03-proposals.md`).
 
 ## Key Files
