@@ -2,10 +2,7 @@ import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import type { EntityManager } from "@mikro-orm/core";
 import { literal, object, string } from "zod";
 import { CommentEntity } from "#src/task/comment.entity.js";
-import {
-  jsonApiSerializeComment,
-  SerializedCommentSchema,
-} from "#src/task/comment.serializer.js";
+import { jsonApiSerializeComment, SerializedCommentSchema } from "#src/task/comment.serializer.js";
 import {
   jsonApiErrorDocumentSchema,
   makeJsonApiError,

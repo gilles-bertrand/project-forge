@@ -1,6 +1,6 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import { wrap, type EntityRepository } from "@mikro-orm/core";
-import { object, string } from "zod";
+import { array, number, object, string } from "zod";
 import {
   jsonApiSerializeSingleEpicDocument,
   SerializedEpicSchema,
@@ -12,7 +12,7 @@ import {
   makeSingleJsonApiTopDocument,
   type Route,
 } from "@libs/backend-shared";
-import { EpicStatusSchema } from "#src/types.js";
+import { EpicStatusSchema, EpicTypeSchema } from "#src/types.js";
 
 export class UpdateEpicRoute implements Route {
   public constructor(private repository: EntityRepository<EpicEntityType>) {}
@@ -31,6 +31,13 @@ export class UpdateEpicRoute implements Route {
                 title: string().optional(),
                 description: string().optional(),
                 status: EpicStatusSchema.optional(),
+                notes: string().nullable().optional(),
+                color: string().optional(),
+                type: EpicTypeSchema.optional(),
+                value: number().int().nullable().optional(),
+                rank: number().int().optional(),
+                createdById: string().nullable().optional(),
+                tags: array(string()).optional(),
               }).partial(),
             }),
           ),

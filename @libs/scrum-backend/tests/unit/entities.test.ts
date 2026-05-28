@@ -48,12 +48,21 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
       id: "epic-auth",
       title: "User Authentication",
       description: "Système d'authentification",
+      notes: null,
+      color: "#6B7280",
+      type: "functional",
+      value: null,
+      rank: 0,
       projectId: "project-ecommerce",
+      createdById: "user-bob",
       status: "in-progress",
+      tags: [],
       createdAt: NOW,
       updatedAt: NOW,
     };
     expect(epic.status).toBe("in-progress");
+    expect(epic.type).toBe("functional");
+    expect(epic.color).toBe("#6B7280");
   });
 
   it("UserStoryEntity has all required properties", () => {
@@ -61,17 +70,25 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
       id: "us1",
       title: "Login utilisateur",
       description: "En tant qu'utilisateur...",
+      notes: null,
+      color: null,
       projectId: "project-ecommerce",
       epicId: "epic-auth",
       sprintId: null,
-      status: "todo",
+      status: "accepted",
       points: 3,
-      priority: 1,
+      priority: "Moyenne",
+      rank: 0,
+      value: null,
+      createdById: "user-bob",
+      tags: [],
       createdAt: NOW,
       updatedAt: NOW,
     };
     expect(story.epicId).toBe("epic-auth");
     expect(story.points).toBe(3);
+    expect(story.priority).toBe("Moyenne");
+    expect(story.status).toBe("accepted");
   });
 
   it("TaskEntity has all required properties", () => {

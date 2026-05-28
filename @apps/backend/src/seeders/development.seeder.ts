@@ -163,20 +163,51 @@ export class DatabaseSeeder extends Seeder {
   }
 
   private async seedBacklog(em: EntityManager) {
-    em.create(EpicEntity, {
-      id: "epic-auth",
-      title: "User Authentication",
-      description: "Système complet d'authentification et autorisation",
-      projectId: "project-ecommerce",
-      status: "in-progress",
-    });
-    em.create(EpicEntity, {
-      id: "epic-catalog",
-      title: "Product Catalog",
-      description: "Catalogue de produits avec recherche et filtres",
-      projectId: "project-ecommerce",
-      status: "in-progress",
-    });
+    const epics = [
+      {
+        id: "epic-auth",
+        title: "User Authentication",
+        description: "Système complet d'authentification et autorisation",
+        status: "in-progress",
+        rank: 0,
+      },
+      {
+        id: "epic-catalog",
+        title: "Product Catalog",
+        description: "Catalogue de produits avec recherche et filtres",
+        status: "in-progress",
+        rank: 1,
+      },
+    ];
+    for (const e of epics) {
+      em.create(EpicEntity, {
+        ...e,
+        projectId: "project-ecommerce",
+        createdById: "user-bob",
+        color: "#6B7280",
+        type: "functional",
+        value: null,
+        notes: null,
+        tags: [],
+      });
+    }
+
+    const priorityFromInt = (p: number): "Basse" | "Moyenne" | "Haute" | "Critique" => {
+      if (p <= 1) return "Basse";
+      if (p === 2) return "Moyenne";
+      if (p === 3) return "Haute";
+      return "Critique";
+    };
+
+    const statusFromLegacy = (
+      s: string,
+    ): "suggested" | "accepted" | "estimated" | "planned" | "in-progress" | "done" => {
+      if (s === "todo") return "accepted";
+      if (s === "in-progress") return "in-progress";
+      if (s === "done") return "done";
+      // Already a new valid status
+      return s as "suggested" | "accepted" | "estimated" | "planned" | "in-progress" | "done";
+    };
 
     const stories = [
       {
@@ -225,8 +256,25 @@ export class DatabaseSeeder extends Seeder {
         priority: 5,
       },
     ];
+    let storyIdx = 0;
     for (const s of stories) {
-      em.create(UserStoryEntity, { ...s, projectId: "project-ecommerce", sprintId: null });
+      em.create(UserStoryEntity, {
+        id: s.id,
+        title: s.title,
+        description: s.description,
+        notes: null,
+        color: null,
+        projectId: "project-ecommerce",
+        epicId: s.epicId,
+        sprintId: null,
+        status: statusFromLegacy(s.status),
+        points: s.points,
+        priority: priorityFromInt(s.priority),
+        rank: storyIdx++,
+        value: null,
+        createdById: "user-bob",
+        tags: [],
+      });
     }
   }
 

@@ -45,9 +45,7 @@ export class ListCommentsByOwnerRoute implements Route {
         if (!exists.ok) {
           return reply
             .code(404)
-            .send(
-              makeJsonApiError(404, "Not Found", { code: exists.code, detail: exists.detail }),
-            );
+            .send(makeJsonApiError(404, "Not Found", { code: exists.code, detail: exists.detail }));
         }
 
         const items = await this.em.getRepository(CommentEntity).findAll({

@@ -1,20 +1,26 @@
 import type { UserStoryEntityType } from "#src/user-story/user-story.entity.js";
-import { number, object, string } from "zod";
+import { array, number, object, string } from "zod";
 import { z } from "zod";
 import { makeJsonApiDocumentSchema } from "@libs/backend-shared";
-import { StoryStatusSchema } from "#src/types.js";
+import { StoryPrioritySchema, StoryStatusSchema } from "#src/types.js";
 
 export const SerializedUserStorySchema = makeJsonApiDocumentSchema(
   "user-stories",
   object({
     title: string(),
     description: string(),
+    notes: string().nullable(),
+    color: string().nullable(),
     projectId: string(),
     epicId: string().nullable(),
     sprintId: string().nullable(),
     status: StoryStatusSchema,
-    points: number().int(),
-    priority: number().int(),
+    points: number().int().nullable(),
+    priority: StoryPrioritySchema,
+    rank: number().int(),
+    value: number().int().nullable(),
+    createdById: string().nullable(),
+    tags: array(string()),
     createdAt: string(),
     updatedAt: string(),
   }),
@@ -29,12 +35,18 @@ export function jsonApiSerializeUserStory(
     attributes: {
       title: s.title,
       description: s.description,
+      notes: s.notes ?? null,
+      color: s.color ?? null,
       projectId: s.projectId,
       epicId: s.epicId ?? null,
       sprintId: s.sprintId ?? null,
       status: s.status as z.infer<typeof StoryStatusSchema>,
-      points: s.points,
-      priority: s.priority,
+      points: s.points ?? null,
+      priority: s.priority as z.infer<typeof StoryPrioritySchema>,
+      rank: s.rank,
+      value: s.value ?? null,
+      createdById: s.createdById ?? null,
+      tags: (s.tags ?? []) as string[],
       createdAt: s.createdAt.toISOString(),
       updatedAt: s.updatedAt.toISOString(),
     },

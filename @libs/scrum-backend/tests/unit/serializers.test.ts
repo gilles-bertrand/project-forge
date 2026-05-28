@@ -51,13 +51,22 @@ describe("scrum-backend serializers", () => {
       id: "e1",
       title: "t",
       description: "d",
+      notes: null,
+      color: "#6B7280",
+      type: "functional",
+      value: null,
+      rank: 0,
       projectId: "p1",
+      createdById: null,
       status: "in-progress",
+      tags: [],
       createdAt: NOW,
       updatedAt: NOW,
     });
     expect(out.type).toBe("epics");
     expect(out.attributes.status).toBe("in-progress");
+    expect(out.attributes.color).toBe("#6B7280");
+    expect(out.attributes.type).toBe("functional");
   });
 
   it("user-story: epicId nullable", () => {
@@ -65,17 +74,25 @@ describe("scrum-backend serializers", () => {
       id: "us1",
       title: "t",
       description: "d",
+      notes: null,
+      color: null,
       projectId: "p1",
       epicId: null,
       sprintId: null,
-      status: "todo",
+      status: "accepted",
       points: 3,
-      priority: 1,
+      priority: "Moyenne",
+      rank: 0,
+      value: null,
+      createdById: null,
+      tags: [],
       createdAt: NOW,
       updatedAt: NOW,
     });
     expect(out.attributes.epicId).toBe(null);
     expect(out.attributes.points).toBe(3);
+    expect(out.attributes.priority).toBe("Moyenne");
+    expect(out.attributes.status).toBe("accepted");
   });
 
   it("task: number + dueDate nullable", () => {

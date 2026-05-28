@@ -239,12 +239,18 @@ async function seedUserStory(
     id,
     title: overrides.title ?? "Story X",
     description: "",
+    notes: null,
+    color: null,
     projectId: overrides.projectId ?? "p-test",
     epicId: null,
-    status: overrides.status ?? "todo",
-    points: 5,
-    priority: 1,
     sprintId: overrides.sprintId ?? null,
+    status: overrides.status ?? "accepted",
+    points: 5,
+    priority: "Moyenne",
+    rank: 0,
+    value: null,
+    createdById: null,
+    tags: [],
     createdAt: now,
     updatedAt: now,
   });
@@ -257,7 +263,7 @@ test("GET /sprints/:id/close-preview → lists unfinished tasks and stories", as
   const sprintId = await seedSprint({ projectId: "p-preview-1", status: "active" });
   await seedTask({ projectId: "p-preview-1", sprintId, status: "in-progress", title: "T1" });
   await seedTask({ projectId: "p-preview-1", sprintId, status: "done", title: "T2-done" });
-  await seedUserStory({ projectId: "p-preview-1", sprintId, status: "todo", title: "US1" });
+  await seedUserStory({ projectId: "p-preview-1", sprintId, status: "accepted", title: "US1" });
 
   const response = await module.fastifyInstance.inject({
     method: "GET",
@@ -374,8 +380,15 @@ async function seedEpic(overrides: Partial<{ id: string; projectId: string }> = 
     id,
     title: "Epic X",
     description: "",
+    notes: null,
+    color: "#6B7280",
+    type: "functional",
+    value: null,
+    rank: 0,
     projectId: overrides.projectId ?? "p-items",
+    createdById: null,
     status: "todo",
+    tags: [],
     createdAt: now,
     updatedAt: now,
   });
@@ -396,12 +409,18 @@ async function seedStory(
     id,
     title: "Story X",
     description: "",
+    notes: null,
+    color: null,
     projectId: overrides.projectId ?? "p-items",
     epicId: overrides.epicId ?? null,
-    status: "todo",
-    points: 3,
-    priority: 1,
     sprintId: overrides.sprintId ?? null,
+    status: "accepted",
+    points: 3,
+    priority: "Moyenne",
+    rank: 0,
+    value: null,
+    createdById: null,
+    tags: [],
     createdAt: now,
     updatedAt: now,
   });

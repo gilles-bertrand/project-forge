@@ -16,15 +16,30 @@ export const PROJECT_MEMBER_ROLES = ["owner", "member"] as const;
 export const ProjectMemberRoleSchema = z.enum(PROJECT_MEMBER_ROLES);
 export type ProjectMemberRole = z.infer<typeof ProjectMemberRoleSchema>;
 
-// Epic
+// Epic (= iceScrum Feature)
 export const EPIC_STATUSES = ["todo", "in-progress", "done"] as const;
 export const EpicStatusSchema = z.enum(EPIC_STATUSES);
 export type EpicStatus = z.infer<typeof EpicStatusSchema>;
 
+export const EPIC_TYPES = ["functional", "architectural"] as const;
+export const EpicTypeSchema = z.enum(EPIC_TYPES);
+export type EpicType = z.infer<typeof EpicTypeSchema>;
+
 // User Story
-export const STORY_STATUSES = ["todo", "in-progress", "done"] as const;
+export const STORY_STATUSES = [
+  "suggested",
+  "accepted",
+  "estimated",
+  "planned",
+  "in-progress",
+  "done",
+] as const;
 export const StoryStatusSchema = z.enum(STORY_STATUSES);
 export type StoryStatus = z.infer<typeof StoryStatusSchema>;
+
+export const STORY_PRIORITIES = ["Basse", "Moyenne", "Haute", "Critique"] as const;
+export const StoryPrioritySchema = z.enum(STORY_PRIORITIES);
+export type StoryPriority = z.infer<typeof StoryPrioritySchema>;
 
 export const STORY_POINTS = [1, 2, 3, 5, 8, 13, 21] as const;
 export const StoryPointsSchema = z
