@@ -15,6 +15,7 @@ import type {
   StoryPoints,
   StoryPriority,
 } from '../schemas/user-stories.ts';
+import AcceptanceTestList from './acceptance-test-list.gts';
 
 interface EditUserStoryModalSignature {
   Args: {
@@ -186,7 +187,7 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
 
   <template>
     <dialog class="modal modal-open" data-test-edit-user-story-modal>
-      <div class="modal-box max-w-lg bg-base-200">
+      <div class="modal-box max-w-xl bg-base-200">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-bold">{{t
               "user-story-map.editUserStoryModal.title"
@@ -309,6 +310,10 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
             </button>
           </div>
         </form>
+
+        {{#if @userStory.id}}
+          <AcceptanceTestList @userStoryId={{@userStory.id}} />
+        {{/if}}
       </div>
       <button
         type="button"

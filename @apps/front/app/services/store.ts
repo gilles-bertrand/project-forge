@@ -8,6 +8,7 @@ import UserStorySchema from '@libs/backlog-front/schemas/user-stories';
 import TaskSchema from '@libs/backlog-front/schemas/tasks';
 import CommentSchema from '@libs/backlog-front/schemas/comments';
 import AttachmentSchema from '@libs/backlog-front/schemas/attachments';
+import AcceptanceTestSchema from '@libs/backlog-front/schemas/acceptance-tests';
 import SprintSchema from '@libs/sprints-front/schemas/sprints';
 import TimeEntrySchema from '@libs/time-tracking-front/schemas/time-entries';
 import { setBuildURLConfig } from '@warp-drive/utilities';
@@ -36,6 +37,7 @@ const legacyStore = useLegacyStore({
     TaskSchema,
     CommentSchema,
     AttachmentSchema,
+    AcceptanceTestSchema,
     SprintSchema,
     TimeEntrySchema,
   ],

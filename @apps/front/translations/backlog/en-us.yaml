@@ -137,6 +137,17 @@ modal:
     logTime: 'Log time'
     logTimeDisabled: 'Available in P9'
     close: 'Close'
+acceptanceTests:
+  title: 'Acceptance tests'
+  loading: 'Loading…'
+  empty: 'No acceptance test.'
+  newPlaceholder: 'New acceptance test…'
+  add: 'Add'
+  deleteAria: 'Delete'
+  state:
+    to-check: 'To check'
+    success: 'Success'
+    failed: 'Failed'
 kanban:
   title: 'Kanban'
   subtitle: 'Active sprint view — drag-drop to change status'
