@@ -9,6 +9,10 @@ taskRow:
   linkedToUS: '→ {title}'
 filters:
   all: 'All'
+  segment:
+    sandbox: 'Sandbox'
+    product-backlog: 'Product Backlog'
+    sprint-backlog: 'Sprint Backlog'
   nature:
     Bug: 'Bug'
     Feature: 'Feature'

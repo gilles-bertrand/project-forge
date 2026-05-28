@@ -5,6 +5,24 @@ import { fn, concat } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
 import type { Task, TaskNature, TaskType } from '../schemas/tasks.ts';
+import type { UserStory, StoryStatus } from '../schemas/user-stories.ts';
+
+export type BacklogSegment = 'sandbox' | 'product-backlog' | 'sprint-backlog';
+
+const ALL_SEGMENTS: BacklogSegment[] = [
+  'sandbox',
+  'product-backlog',
+  'sprint-backlog',
+];
+
+const SEGMENT_OF_STATUS: Record<StoryStatus, BacklogSegment | null> = {
+  suggested: 'sandbox',
+  accepted: 'product-backlog',
+  estimated: 'product-backlog',
+  planned: 'sprint-backlog',
+  'in-progress': 'sprint-backlog',
+  done: null,
+};
 
 const ALL_NATURES: TaskNature[] = [
   'Bug',
@@ -34,6 +52,7 @@ const ALL_TYPES: TaskType[] = [
 interface BacklogFiltersSignature {
   Args: {
     tasks: Task[];
+    userStories?: UserStory[];
     onFilter: (filtered: Task[]) => void;
   };
 }
@@ -41,6 +60,7 @@ interface BacklogFiltersSignature {
 export default class BacklogFilters extends Component<BacklogFiltersSignature> {
   @tracked activeNature: TaskNature | null = null;
   @tracked activeType: TaskType | null = null;
+  @tracked activeSegment: BacklogSegment | null = null;
 
   get availableNatures(): TaskNature[] {
     const usedNatures = new Set(this.args.tasks.map((t) => t.nature));
@@ -52,10 +72,38 @@ export default class BacklogFilters extends Component<BacklogFiltersSignature> {
     return ALL_TYPES.filter((tp) => usedTypes.has(tp));
   }
 
+  // Maps story.id → segment so the segment filter can skip per-task lookups.
+  get segmentByStoryId(): Map<string, BacklogSegment | null> {
+    const stories = this.args.userStories ?? [];
+    const map = new Map<string, BacklogSegment | null>();
+    for (const us of stories) {
+      if (us.id) map.set(us.id, SEGMENT_OF_STATUS[us.status] ?? null);
+    }
+    return map;
+  }
+
+  get availableSegments(): BacklogSegment[] {
+    if (!this.args.userStories?.length) return [];
+    const used = new Set<BacklogSegment>();
+    const byStory = this.segmentByStoryId;
+    for (const task of this.args.tasks) {
+      if (!task.userStoryId) continue;
+      const seg = byStory.get(task.userStoryId);
+      if (seg) used.add(seg);
+    }
+    return ALL_SEGMENTS.filter((s) => used.has(s));
+  }
+
   get filteredTasks(): Task[] {
+    const segmentMap = this.segmentByStoryId;
     return this.args.tasks.filter((task) => {
       if (this.activeNature && task.nature !== this.activeNature) return false;
       if (this.activeType && task.type !== this.activeType) return false;
+      if (this.activeSegment) {
+        if (!task.userStoryId) return false;
+        if (segmentMap.get(task.userStoryId) !== this.activeSegment)
+          return false;
+      }
       return true;
     });
   }
@@ -70,19 +118,31 @@ export default class BacklogFilters extends Component<BacklogFiltersSignature> {
     this.args.onFilter(this.filteredTasks);
   }
 
+  @action setSegment(segment: BacklogSegment | null) {
+    this.activeSegment = this.activeSegment === segment ? null : segment;
+    this.args.onFilter(this.filteredTasks);
+  }
+
   @action clearAll() {
     this.activeNature = null;
     this.activeType = null;
+    this.activeSegment = null;
     this.args.onFilter(this.args.tasks);
   }
 
   get noFilterActive(): boolean {
-    return this.activeNature === null && this.activeType === null;
+    return (
+      this.activeNature === null &&
+      this.activeType === null &&
+      this.activeSegment === null
+    );
   }
 
   isNatureActive = (nature: TaskNature): boolean =>
     this.activeNature === nature;
   isTypeActive = (type: TaskType): boolean => this.activeType === type;
+  isSegmentActive = (segment: BacklogSegment): boolean =>
+    this.activeSegment === segment;
 
   <template>
     <div
@@ -120,6 +180,22 @@ export default class BacklogFilters extends Component<BacklogFiltersSignature> {
           {{t (concat "backlog.filters.type." type)}}
         </button>
       {{/each}}
+
+      {{#if this.availableSegments.length}}
+        <span class="opacity-30">|</span>
+
+        {{#each this.availableSegments as |segment|}}
+          <button
+            type="button"
+            class="btn btn-xs
+              {{if (this.isSegmentActive segment) 'btn-accent' 'btn-ghost'}}"
+            data-test-backlog-segment={{segment}}
+            {{on "click" (fn this.setSegment segment)}}
+          >
+            {{t (concat "backlog.filters.segment." segment)}}
+          </button>
+        {{/each}}
+      {{/if}}
     </div>
   </template>
 }
