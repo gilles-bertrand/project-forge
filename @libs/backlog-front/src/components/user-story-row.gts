@@ -89,6 +89,7 @@ export default class UserStoryRow extends Component<UserStoryRowSignature> {
               type="button"
               class="btn btn-ghost btn-xs btn-circle tooltip tooltip-left"
               data-tip={{t "user-story-map.addTaskTooltip"}}
+              aria-label={{t "user-story-map.addTaskTooltip"}}
               data-test-add-task-to-us
               {{on "click" (fn @onAddTask @userStory)}}
             >
@@ -114,6 +115,7 @@ export default class UserStoryRow extends Component<UserStoryRowSignature> {
               type="button"
               class="btn btn-ghost btn-xs btn-circle tooltip tooltip-left"
               data-tip={{t "user-story-map.editUSTooltip"}}
+              aria-label={{t "user-story-map.editUSTooltip"}}
               data-test-edit-user-story
               {{on "click" (fn @onEditUserStory @userStory)}}
             >
@@ -139,6 +141,7 @@ export default class UserStoryRow extends Component<UserStoryRowSignature> {
               type="button"
               class="btn btn-ghost btn-xs btn-circle text-error tooltip tooltip-left"
               data-tip={{t "user-story-map.deleteUSTooltip"}}
+              aria-label={{t "user-story-map.deleteUSTooltip"}}
               data-test-delete-user-story
               {{on "click" (fn @onDeleteUserStory @userStory)}}
             >

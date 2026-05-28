@@ -1,6 +1,7 @@
 import Component from '@glimmer/component';
 import type EpicsService from '../../services/epics.ts';
 import type UserStoriesService from '../../services/user-stories.ts';
+import type TasksService from '../../services/tasks.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
 import type { Epic } from '../../schemas/epics.ts';
 import type { UserStory } from '../../schemas/user-stories.ts';
@@ -17,6 +18,7 @@ interface USMTemplateSignature {
 export default class DashboardUserStoryMapTemplate extends Component<USMTemplateSignature> {
     epics: EpicsService;
     userStories: UserStoriesService;
+    tasks: TasksService;
     currentProject: CurrentProjectService;
     addEpicOpen: boolean;
     addUSOpen: boolean;
@@ -26,8 +28,13 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
     selectedEpicForUS: Epic | null;
     editEpicTarget: Epic | null;
     deleteEpicTarget: Epic | null;
-    editUSTarget: UserStory | null;
-    deleteUSTarget: UserStory | null;
+    _editUSTarget: UserStory | null;
+    _deleteUSTarget: UserStory | null;
+    get epicsList(): Epic[];
+    get userStoriesList(): UserStory[];
+    get tasksList(): Task[];
+    get editUSTarget(): UserStory | null;
+    get deleteUSTarget(): UserStory | null;
     get userStoryFor(): (task: Task) => UserStory | null;
     get orphanCountFor(): (epic: Epic) => number;
     get taskCountForUS(): (us: UserStory) => number;

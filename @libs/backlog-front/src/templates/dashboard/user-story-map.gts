@@ -16,6 +16,7 @@ import AddTaskModal from '../../components/add-task-modal.gts';
 import TaskDetailModal from '../../components/task-detail-modal.gts';
 import type EpicsService from '../../services/epics.ts';
 import type UserStoriesService from '../../services/user-stories.ts';
+import type TasksService from '../../services/tasks.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
 import type { Epic } from '../../schemas/epics.ts';
 import type { UserStory } from '../../schemas/user-stories.ts';
@@ -30,6 +31,7 @@ interface USMTemplateSignature {
 export default class DashboardUserStoryMapTemplate extends Component<USMTemplateSignature> {
   @service declare epics: EpicsService;
   @service declare userStories: UserStoriesService;
+  @service declare tasks: TasksService;
   @service declare currentProject: CurrentProjectService;
 
   @tracked addEpicOpen = false;
@@ -40,23 +42,53 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
   @tracked selectedEpicForUS: Epic | null = null;
   @tracked editEpicTarget: Epic | null = null;
   @tracked deleteEpicTarget: Epic | null = null;
-  @tracked editUSTarget: UserStory | null = null;
-  @tracked deleteUSTarget: UserStory | null = null;
+  @tracked _editUSTarget: UserStory | null = null;
+  @tracked _deleteUSTarget: UserStory | null = null;
+
+  // Sources of truth: WarpDrive services (tracked) — the route's @model is a
+  // one-shot snapshot and goes stale after update/delete mutations.
+  get epicsList(): Epic[] {
+    return this.epics.list;
+  }
+
+  get userStoriesList(): UserStory[] {
+    return this.userStories.list;
+  }
+
+  get tasksList(): Task[] {
+    return this.tasks.all;
+  }
+
+  // Guard modal targets against project switch — if the user changes project
+  // while a modal is open, hide the modal rather than submit to the wrong scope.
+  get editUSTarget(): UserStory | null {
+    const target = this._editUSTarget;
+    if (!target) return null;
+    if (target.projectId !== this.currentProject.currentProjectId) return null;
+    return target;
+  }
+
+  get deleteUSTarget(): UserStory | null {
+    const target = this._deleteUSTarget;
+    if (!target) return null;
+    if (target.projectId !== this.currentProject.currentProjectId) return null;
+    return target;
+  }
 
   get userStoryFor(): (task: Task) => UserStory | null {
-    const usMap = new Map(this.args.model.userStories.map((us) => [us.id, us]));
+    const usMap = new Map(this.userStoriesList.map((us) => [us.id, us]));
     return (task: Task) =>
       task.userStoryId ? (usMap.get(task.userStoryId) ?? null) : null;
   }
 
   get orphanCountFor(): (epic: Epic) => number {
     return (epic: Epic) =>
-      this.args.model.userStories.filter((us) => us.epicId === epic.id).length;
+      this.userStoriesList.filter((us) => us.epicId === epic.id).length;
   }
 
   get taskCountForUS(): (us: UserStory) => number {
     return (us: UserStory) =>
-      this.args.model.tasks.filter((t) => t.userStoryId === us.id).length;
+      this.tasksList.filter((t) => t.userStoryId === us.id).length;
   }
 
   @action openAddEpic() {
@@ -126,28 +158,28 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
   }
 
   @action openEditUS(us: UserStory) {
-    this.editUSTarget = us;
+    this._editUSTarget = us;
   }
 
   @action closeEditUS() {
-    this.editUSTarget = null;
+    this._editUSTarget = null;
   }
 
   @action openDeleteUS(us: UserStory) {
-    this.deleteUSTarget = us;
+    this._deleteUSTarget = us;
   }
 
   @action closeDeleteUS() {
-    this.deleteUSTarget = null;
+    this._deleteUSTarget = null;
   }
 
   @action async confirmDeleteUS() {
-    const us = this.deleteUSTarget;
+    const us = this._deleteUSTarget;
     const projectId = this.currentProject.currentProjectId;
     const usId = us?.id;
     if (!us || !usId || !projectId) return;
     await this.userStories.delete(usId, projectId);
-    this.deleteUSTarget = null;
+    this._deleteUSTarget = null;
   }
 
   <template>
@@ -184,11 +216,11 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
 
       {{#if this.currentProject.currentProjectId}}
         <div class="space-y-2">
-          {{#each @model.epics as |epic|}}
+          {{#each this.epicsList as |epic|}}
             <EpicRow
               @epic={{epic}}
-              @userStories={{@model.userStories}}
-              @tasks={{@model.tasks}}
+              @userStories={{this.userStoriesList}}
+              @tasks={{this.tasksList}}
               @onAddUserStory={{this.openAddUS}}
               @onOpenTask={{this.openDetail}}
               @onEditEpic={{this.openEditEpic}}

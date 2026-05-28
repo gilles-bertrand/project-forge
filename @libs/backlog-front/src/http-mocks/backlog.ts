@@ -984,7 +984,17 @@ export const allBacklogHandlers = [
     const idx = mockUserStories.findIndex((us) => us.id === id);
     if (idx === -1) return HttpResponse.json({ errors: [] }, { status: 404 });
     mockUserStories = mockUserStories.filter((us) => us.id !== id);
-    return new HttpResponse(null, { status: 204 });
+    // Cascade: tasks referencing this user-story become orphan (userStoryId=null)
+    // to mirror an explicit FK cleanup. Real backend behavior: no FK cascade
+    // (tasks keep dangling string pointer) — front-end fix improves UX consistency.
+    mockTasks = mockTasks.map((t) =>
+      t.attributes.userStoryId === id
+        ? { ...t, attributes: { ...t.attributes, userStoryId: null } }
+        : t
+    );
+    // Real backend returns 204 with body `{ data: null }` (per
+    // makeSingleJsonApiTopDocument(literal(null))). Mirror that shape.
+    return HttpResponse.json({ data: null }, { status: 204 });
   }),
 
   // Tasks

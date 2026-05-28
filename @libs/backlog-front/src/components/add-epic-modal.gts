@@ -31,6 +31,9 @@ export default class AddEpicModal extends Component<AddEpicModalSignature> {
 
   constructor(owner: Owner, args: AddEpicModalSignature['Args']) {
     super(owner, args);
+    // Show the ID immediately as a fallback so the field is never empty during
+    // the async name lookup. Replaced by the readable name on success.
+    this.currentProjectName = this.currentProject.currentProjectId ?? '';
     void this.loadProjectName();
   }
 
@@ -45,9 +48,7 @@ export default class AddEpicModal extends Component<AddEpicModalSignature> {
         this.currentProjectName = content.data.attributes.name;
       }
     } catch {
-      if (!this.isDestroying && !this.isDestroyed) {
-        this.currentProjectName = id;
-      }
+      // currentProjectName already set to the id by the constructor fallback
     }
   }
 

@@ -94,7 +94,12 @@ export default class UserStoriesService extends Service {
 
   async delete(id: string, projectId: string): Promise<void> {
     // authFetch required: WarpDrive adds Content-Type on DELETE which Fastify v5 rejects (415)
-    await authFetch(`/api/v1/user-stories/${id}`, { method: 'DELETE' });
+    const res = await authFetch(`/api/v1/user-stories/${id}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok && res.status !== 404) {
+      throw new Error(`Delete user-story failed: ${String(res.status)}`);
+    }
     await this.loadByProject(projectId);
   }
 }

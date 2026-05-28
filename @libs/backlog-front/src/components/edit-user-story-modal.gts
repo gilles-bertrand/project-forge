@@ -6,6 +6,7 @@ import { on } from '@ember/modifier';
 import { t, type IntlService } from 'ember-intl';
 import type Owner from '@ember/owner';
 import type UserStoriesService from '../services/user-stories.ts';
+import type { UpdateUserStoryPayload } from '../services/user-stories.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
 import type {
   UserStory,
@@ -38,12 +39,19 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
 
   constructor(owner: Owner, args: EditUserStoryModalSignature['Args']) {
     super(owner, args);
-    this.title = args.userStory.title;
-    this.description = args.userStory.description;
+    this.title = args.userStory.title ?? '';
+    this.description = args.userStory.description ?? '';
     this.status = args.userStory.status;
     this.points = args.userStory.points ?? null;
     this.priority = args.userStory.priority ?? 3;
   }
+
+  // Bound to <option value=> in the points select. Returns '' for the
+  // "no points" entry and the stringified number otherwise. Using a method
+  // avoids the falsy-zero trap of `{{if opt.value opt.value ""}}` if 0 is
+  // ever added to StoryPoints.
+  pointOptionValue = (v: StoryPoints | null): string =>
+    v === null ? '' : String(v);
 
   get statusOptions(): { value: StoryStatus; label: string }[] {
     return STATUS_VALUES.map((value) => ({
@@ -87,11 +95,24 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
 
   @action onPointsChange(e: Event) {
     const v = (e.target as HTMLSelectElement).value;
-    this.points = v === '' ? null : (Number(v) as StoryPoints);
+    if (v === '') {
+      this.points = null;
+      return;
+    }
+    const num = Number(v);
+    // Validate runtime: only accept values from POINT_VALUES (Fibonacci union)
+    if (!POINT_VALUES.includes(num as StoryPoints | null) || num === 0) {
+      return;
+    }
+    this.points = num as StoryPoints;
   }
 
   @action onPriorityInput(e: Event) {
-    this.priority = Number((e.target as HTMLInputElement).value);
+    const raw = (e.target as HTMLInputElement).value;
+    if (raw === '') return; // ignore empty (would coerce to 0)
+    const num = Number(raw);
+    if (Number.isNaN(num) || num < 1 || num > 10) return;
+    this.priority = num;
   }
 
   @action async submit(e: Event) {
@@ -103,13 +124,19 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
     this.submitting = true;
     this.error = '';
     try {
-      await this.userStories.update(usId, projectId, {
+      // Backend Zod schema accepts points as number().int().optional() (NOT
+      // nullable). Omit the key when "no points" is selected instead of
+      // sending `null` which would 400.
+      const payload: UpdateUserStoryPayload = {
         title: this.title.trim(),
         description: this.description.trim(),
         status: this.status,
-        points: this.points,
         priority: this.priority,
-      });
+      };
+      if (this.points !== null) {
+        payload.points = this.points;
+      }
+      await this.userStories.update(usId, projectId, payload);
       this.args.onClose();
     } catch (err: unknown) {
       this.error =
@@ -195,7 +222,7 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
               >
                 {{#each this.pointOptions as |opt|}}
                   <option
-                    value={{if opt.value opt.value ""}}
+                    value={{this.pointOptionValue opt.value}}
                     selected={{this.isPointSelected opt.value}}
                   >{{opt.label}}</option>
                 {{/each}}

@@ -113,6 +113,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
                 type="button"
                 class="btn btn-ghost btn-xs btn-circle tooltip tooltip-left"
                 data-tip={{t "user-story-map.addUserStoryTooltip"}}
+                aria-label={{t "user-story-map.addUserStoryTooltip"}}
                 data-test-add-us-to-epic
                 {{on "click" (fn @onAddUserStory @epic)}}
               >
@@ -138,6 +139,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
                 type="button"
                 class="btn btn-ghost btn-xs btn-circle tooltip tooltip-left"
                 data-tip={{t "user-story-map.editEpicTooltip"}}
+                aria-label={{t "user-story-map.editEpicTooltip"}}
                 data-test-edit-epic
                 {{on "click" (fn @onEditEpic @epic)}}
               >
@@ -163,6 +165,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
                 type="button"
                 class="btn btn-ghost btn-xs btn-circle text-error tooltip tooltip-left"
                 data-tip={{t "user-story-map.deleteEpicTooltip"}}
+                aria-label={{t "user-story-map.deleteEpicTooltip"}}
                 data-test-delete-epic
                 {{on "click" (fn @onDeleteEpic @epic)}}
               >
