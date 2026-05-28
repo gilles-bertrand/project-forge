@@ -1,16 +1,28 @@
 import Service from '@ember/service';
 import { type Store } from '@warp-drive/core';
-import type { Epic } from '#src/schemas/epics.ts';
+import type { Epic, EpicType } from '#src/schemas/epics.ts';
 export type NewEpicPayload = {
     title: string;
     description: string;
     projectId: string;
-    status: Epic['status'];
+    status?: Epic['status'];
+    notes?: string | null;
+    color?: string;
+    type?: EpicType;
+    value?: number | null;
+    rank?: number;
+    tags?: string[];
 };
 export type UpdateEpicPayload = {
     title?: string;
     description?: string;
     status?: Epic['status'];
+    notes?: string | null;
+    color?: string;
+    type?: EpicType;
+    value?: number | null;
+    rank?: number;
+    tags?: string[];
 };
 export default class EpicsService extends Service {
     store: Store;

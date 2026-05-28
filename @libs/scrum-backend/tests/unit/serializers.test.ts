@@ -9,6 +9,8 @@ import { jsonApiSerializeAttachment } from "#src/task/attachment.serializer.js";
 import { jsonApiSerializeHistoryEntry } from "#src/task/history-entry.serializer.js";
 import { jsonApiSerializeTaskAssignee } from "#src/task/task-assignee.serializer.js";
 import { jsonApiSerializeProjectMember } from "#src/project/project-member.serializer.js";
+import { jsonApiSerializeAcceptanceTest } from "#src/acceptance-test/acceptance-test.serializer.js";
+import { jsonApiSerializeStoryDependency } from "#src/story-dependency/story-dependency.serializer.js";
 
 const NOW = new Date("2025-01-20T00:00:00Z");
 
@@ -51,13 +53,22 @@ describe("scrum-backend serializers", () => {
       id: "e1",
       title: "t",
       description: "d",
+      notes: null,
+      color: "#6B7280",
+      type: "functional",
+      value: null,
+      rank: 0,
       projectId: "p1",
+      createdById: null,
       status: "in-progress",
+      tags: [],
       createdAt: NOW,
       updatedAt: NOW,
     });
     expect(out.type).toBe("epics");
     expect(out.attributes.status).toBe("in-progress");
+    expect(out.attributes.color).toBe("#6B7280");
+    expect(out.attributes.type).toBe("functional");
   });
 
   it("user-story: epicId nullable", () => {
@@ -65,17 +76,25 @@ describe("scrum-backend serializers", () => {
       id: "us1",
       title: "t",
       description: "d",
+      notes: null,
+      color: null,
       projectId: "p1",
       epicId: null,
       sprintId: null,
-      status: "todo",
+      status: "accepted",
       points: 3,
-      priority: 1,
+      priority: "Moyenne",
+      rank: 0,
+      value: null,
+      createdById: null,
+      tags: [],
       createdAt: NOW,
       updatedAt: NOW,
     });
     expect(out.attributes.epicId).toBe(null);
     expect(out.attributes.points).toBe(3);
+    expect(out.attributes.priority).toBe("Moyenne");
+    expect(out.attributes.status).toBe("accepted");
   });
 
   it("task: number + dueDate nullable", () => {
@@ -90,6 +109,8 @@ describe("scrum-backend serializers", () => {
       priority: "Haute",
       points: 3,
       estimatedHours: null,
+      remainingHours: null,
+      tags: [],
       projectId: "p1",
       userStoryId: null,
       epicId: null,
@@ -102,6 +123,8 @@ describe("scrum-backend serializers", () => {
     expect(out.attributes.number).toBe(1001);
     expect(out.attributes.dueDate).toBe(null);
     expect(out.attributes.estimatedHours).toBe(null);
+    expect(out.attributes.remainingHours).toBe(null);
+    expect(out.attributes.tags).toEqual([]);
   });
 
   it("task: dueDate ISO when set", () => {
@@ -116,6 +139,8 @@ describe("scrum-backend serializers", () => {
       priority: "Critique",
       points: 1,
       estimatedHours: 2.5,
+      remainingHours: 2.5,
+      tags: ["urgent", "billing"],
       projectId: "p1",
       userStoryId: "us1",
       epicId: "e1",
@@ -127,6 +152,8 @@ describe("scrum-backend serializers", () => {
     });
     expect(out.attributes.dueDate).toBe(NOW.toISOString());
     expect(out.attributes.estimatedHours).toBe(2.5);
+    expect(out.attributes.remainingHours).toBe(2.5);
+    expect(out.attributes.tags).toEqual(["urgent", "billing"]);
   });
 
   it("sprint: dates ISO + status", () => {
@@ -152,7 +179,8 @@ describe("scrum-backend serializers", () => {
   it("comment: metadata json", () => {
     const out = jsonApiSerializeComment({
       id: "c1",
-      taskId: "t1",
+      ownerType: "task",
+      ownerId: "t1",
       userId: "u1",
       content: "ok",
       type: "status-change",
@@ -160,12 +188,13 @@ describe("scrum-backend serializers", () => {
       createdAt: NOW,
     });
     expect(out.attributes.metadata).toEqual({ from: "todo", to: "done" });
+    expect(out.attributes.ownerType).toBe("task");
   });
   it("attachment: sizeBytes int", () => {
     const out = jsonApiSerializeAttachment({
       id: "a1",
-      taskId: "t1",
-      projectId: "p1",
+      ownerType: "task",
+      ownerId: "t1",
       name: "doc.pdf",
       url: "https://x/y",
       mimeType: "application/pdf",
@@ -174,7 +203,7 @@ describe("scrum-backend serializers", () => {
       createdAt: NOW,
     });
     expect(out.attributes.sizeBytes).toBe(1024);
-    expect(out.attributes.taskId).toBe("t1");
+    expect(out.attributes.ownerId).toBe("t1");
   });
   it("history-entry: ownerType + metadata", () => {
     const out = jsonApiSerializeHistoryEntry({
@@ -198,6 +227,56 @@ describe("scrum-backend serializers", () => {
       assignedAt: NOW,
     });
     expect(out.attributes.assignedAt).toBe(NOW.toISOString());
+  });
+
+  it("acceptance-test: state + rank + ISO dates", () => {
+    const out = jsonApiSerializeAcceptanceTest({
+      id: "at1",
+      userStoryId: "us1",
+      name: "Login OK",
+      description: "happy path",
+      state: "success",
+      rank: 2,
+      createdById: "u1",
+      createdAt: NOW,
+      updatedAt: NOW,
+    });
+    expect(out.type).toBe("acceptance-tests");
+    expect(out.attributes.state).toBe("success");
+    expect(out.attributes.rank).toBe(2);
+    expect(out.attributes.userStoryId).toBe("us1");
+    expect(out.attributes.createdAt).toBe(NOW.toISOString());
+  });
+
+  it("acceptance-test: createdById nullable", () => {
+    const out = jsonApiSerializeAcceptanceTest({
+      id: "at2",
+      userStoryId: "us2",
+      name: "Fail path",
+      description: "",
+      state: "failed",
+      rank: 0,
+      createdById: null,
+      createdAt: NOW,
+      updatedAt: NOW,
+    });
+    expect(out.attributes.createdById).toBe(null);
+    expect(out.attributes.state).toBe("failed");
+  });
+
+  it("story-dependency: type + ISO date", () => {
+    const out = jsonApiSerializeStoryDependency({
+      id: "dep1",
+      fromStoryId: "us1",
+      toStoryId: "us2",
+      type: "blocks",
+      createdAt: NOW,
+    });
+    expect(out.type).toBe("story-dependencies");
+    expect(out.attributes.type).toBe("blocks");
+    expect(out.attributes.fromStoryId).toBe("us1");
+    expect(out.attributes.toStoryId).toBe("us2");
+    expect(out.attributes.createdAt).toBe(NOW.toISOString());
   });
 
   it("project-member: role enum + joinedAt ISO", () => {

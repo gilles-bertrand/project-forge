@@ -1,16 +1,19 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import type { EntityManager } from "@mikro-orm/core";
 import { array, number, object, string } from "zod";
-import { TaskEntity } from "#src/task/task.entity.js";
 import { HistoryEntryEntity } from "#src/task/history-entry.entity.js";
 import {
   jsonApiSerializeManyHistoryEntries,
   SerializedHistoryEntrySchema,
 } from "#src/task/history-entry.serializer.js";
 import { jsonApiErrorDocumentSchema, makeJsonApiError, type Route } from "@libs/backend-shared";
+import { ensureOwnerExists, type AuditableOwnerType } from "#src/task/owner-resolver.js";
 
-export class ListTaskHistoryRoute implements Route {
-  public constructor(private em: EntityManager) {}
+export class ListHistoryByOwnerRoute implements Route {
+  public constructor(
+    private em: EntityManager,
+    private ownerType: AuditableOwnerType,
+  ) {}
 
   public routeDefinition(f: FastifyInstanceTypeForModule) {
     return f.get(
@@ -29,18 +32,15 @@ export class ListTaskHistoryRoute implements Route {
       },
       async (request, reply) => {
         const { id } = request.params as { id: string };
-        const task = await this.em.findOne(TaskEntity, { id });
-        if (!task) {
-          return reply.code(404).send(
-            makeJsonApiError(404, "Not Found", {
-              code: "TASK_NOT_FOUND",
-              detail: `Task with id ${id} not found`,
-            }),
-          );
+        const exists = await ensureOwnerExists(this.em, this.ownerType, id);
+        if (!exists.ok) {
+          return reply
+            .code(404)
+            .send(makeJsonApiError(404, "Not Found", { code: exists.code, detail: exists.detail }));
         }
 
         const items = await this.em.getRepository(HistoryEntryEntity).findAll({
-          where: { ownerType: "task", ownerId: id },
+          where: { ownerType: this.ownerType, ownerId: id },
           orderBy: { createdAt: "DESC" },
         });
         return reply.send({
@@ -49,5 +49,12 @@ export class ListTaskHistoryRoute implements Route {
         });
       },
     );
+  }
+}
+
+// Legacy alias preserved for back-compat with mounters.ts and existing tests.
+export class ListTaskHistoryRoute extends ListHistoryByOwnerRoute {
+  public constructor(em: EntityManager) {
+    super(em, "task");
   }
 }

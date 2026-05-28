@@ -13,14 +13,21 @@ function fakeUS(): UserStory {
     id: 'us-1',
     title: 'My User Story',
     description: '',
+    notes: null,
+    color: null,
     projectId: 'proj-1',
     epicId: 'epic-1',
-    status: 'todo',
+    sprintId: null,
+    status: 'accepted',
     points: 5,
-    priority: 1,
+    priority: 'Moyenne',
+    rank: 0,
+    value: null,
+    createdById: 'user-2',
+    tags: [],
     createdAt: '',
     updatedAt: '',
-  } as UserStory;
+  } as unknown as UserStory;
 }
 
 function fakeTask(usId: string): Task {

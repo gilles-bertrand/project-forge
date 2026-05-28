@@ -34,6 +34,18 @@ status:
   todo: 'À faire'
   in-progress: 'En cours'
   done: 'Terminé'
+  suggested: 'Sandbox'
+  accepted: 'Backlog'
+  estimated: 'Backlog estimé'
+  planned: 'Sprint Backlog'
+priority:
+  Basse: 'Basse'
+  Moyenne: 'Moyenne'
+  Haute: 'Haute'
+  Critique: 'Critique'
+epicType:
+  functional: 'Fonctionnelle'
+  architectural: 'Architecturale'
 modal:
   addEpic:
     title: 'Nouvelle épique'
@@ -44,6 +56,8 @@ modal:
     description: 'Description'
     descriptionPlaceholder: "Objectifs et périmètre de l'épique..."
     status: 'Statut initial'
+    type: 'Type'
+    color: 'Couleur'
     cancel: 'Annuler'
     submit: "Créer l'épique"
     submitting: 'Création...'
@@ -54,6 +68,8 @@ modal:
     name: 'Titre'
     description: 'Description'
     status: 'Statut'
+    type: 'Type'
+    color: 'Couleur'
     cancel: 'Annuler'
     submit: 'Enregistrer'
     submitting: 'Enregistrement...'

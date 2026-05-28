@@ -51,8 +51,22 @@ export default class EpicRow extends Component<EpicRowSignature> {
     this.expanded = !this.expanded;
   }
 
+  get borderStyle(): string {
+    // Inline style: the color is dynamic per epic and can't be expressed as
+    // a Tailwind utility. CSS-trusted via the attribute setter (hex strings
+    // are validated by the backend's Zod schema before persistence).
+    const color = this.args.epic.color ?? '#6B7280';
+    return `border-left: 4px solid ${color}`;
+  }
+
   <template>
-    <div class="rounded-lg bg-base-200" data-test-epic-row ...attributes>
+    <div
+      class="rounded-lg bg-base-200"
+      style={{this.borderStyle}}
+      data-test-epic-row
+      data-test-epic-color={{@epic.color}}
+      ...attributes
+    >
       <div
         class="flex items-center gap-2 px-4 py-3 hover:bg-base-300 rounded-lg"
       >

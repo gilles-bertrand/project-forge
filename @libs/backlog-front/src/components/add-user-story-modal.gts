@@ -7,7 +7,11 @@ import { t, type IntlService } from 'ember-intl';
 import type UserStoriesService from '../services/user-stories.ts';
 import type EpicsService from '../services/epics.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
-import type { StoryStatus, StoryPoints } from '../schemas/user-stories.ts';
+import type {
+  StoryStatus,
+  StoryPoints,
+  StoryPriority,
+} from '../schemas/user-stories.ts';
 
 interface AddUserStoryModalSignature {
   Args: {
@@ -16,8 +20,16 @@ interface AddUserStoryModalSignature {
   };
 }
 
-const STATUS_VALUES: StoryStatus[] = ['todo', 'in-progress', 'done'];
-const POINT_VALUES: StoryPoints[] = [1, 2, 3, 5, 8, 13, 21];
+// Initial creation only allows `suggested` (sandbox) or `accepted` (backlog),
+// per the iceScrum workflow. Other statuses are reached via valid transitions.
+const STATUS_VALUES: StoryStatus[] = ['suggested', 'accepted'];
+const POINT_VALUES: (StoryPoints | null)[] = [null, 1, 2, 3, 5, 8, 13, 21];
+const PRIORITY_VALUES: StoryPriority[] = [
+  'Basse',
+  'Moyenne',
+  'Haute',
+  'Critique',
+];
 
 export default class AddUserStoryModal extends Component<AddUserStoryModalSignature> {
   @service declare userStories: UserStoriesService;
@@ -27,17 +39,37 @@ export default class AddUserStoryModal extends Component<AddUserStoryModalSignat
 
   @tracked title = '';
   @tracked description = '';
-  @tracked status: StoryStatus = 'todo';
+  @tracked status: StoryStatus = 'suggested';
   @tracked epicId: string | null = this.args.preselectedEpicId ?? null;
-  @tracked points: StoryPoints = 3;
-  @tracked priority = 3;
+  @tracked points: StoryPoints | null = null;
+  @tracked priority: StoryPriority = 'Moyenne';
   @tracked submitting = false;
   @tracked error = '';
+
+  pointOptionValue = (v: StoryPoints | null): string =>
+    v === null ? '' : String(v);
 
   get statusOptions(): { value: StoryStatus; label: string }[] {
     return STATUS_VALUES.map((value) => ({
       value,
       label: this.intl.t(`backlog.status.${value}`),
+    }));
+  }
+
+  get pointOptions(): { value: StoryPoints | null; label: string }[] {
+    return POINT_VALUES.map((value) => ({
+      value,
+      label:
+        value === null
+          ? this.intl.t('user-story-map.editUserStoryModal.pointsNone')
+          : String(value),
+    }));
+  }
+
+  get priorityOptions(): { value: StoryPriority; label: string }[] {
+    return PRIORITY_VALUES.map((value) => ({
+      value,
+      label: this.intl.t(`backlog.priority.${value}`),
     }));
   }
 
@@ -50,7 +82,8 @@ export default class AddUserStoryModal extends Component<AddUserStoryModalSignat
   }
 
   isStatusSelected = (v: StoryStatus): boolean => this.status === v;
-  isPointSelected = (v: StoryPoints): boolean => this.points === v;
+  isPointSelected = (v: StoryPoints | null): boolean => this.points === v;
+  isPrioritySelected = (v: StoryPriority): boolean => this.priority === v;
   isEpicSelected = (id: string | null): boolean => this.epicId === id;
 
   @action onTitleInput(e: Event) {
@@ -71,11 +104,21 @@ export default class AddUserStoryModal extends Component<AddUserStoryModalSignat
   }
 
   @action onPointsChange(e: Event) {
-    this.points = Number((e.target as HTMLSelectElement).value) as StoryPoints;
+    const v = (e.target as HTMLSelectElement).value;
+    if (v === '') {
+      this.points = null;
+      return;
+    }
+    const num = Number(v);
+    if (!POINT_VALUES.includes(num as StoryPoints | null) || num === 0) return;
+    this.points = num as StoryPoints;
   }
 
-  @action onPriorityInput(e: Event) {
-    this.priority = Number((e.target as HTMLInputElement).value);
+  @action onPriorityChange(e: Event) {
+    const v = (e.target as HTMLSelectElement).value as StoryPriority;
+    if (PRIORITY_VALUES.includes(v)) {
+      this.priority = v;
+    }
   }
 
   @action async submit(e: Event) {
@@ -92,7 +135,9 @@ export default class AddUserStoryModal extends Component<AddUserStoryModalSignat
         projectId,
         epicId: this.epicId,
         status: this.status,
-        points: this.points,
+        // Omit points entirely when unset — backend treats it as nullable, but
+        // sending `null` triggers Zod number().int().nullable() variance.
+        ...(this.points !== null ? { points: this.points } : {}),
         priority: this.priority,
       });
       this.args.onClose();
@@ -102,7 +147,9 @@ export default class AddUserStoryModal extends Component<AddUserStoryModalSignat
           ? err.message
           : this.intl.t('backlog.modal.addUserStory.errorFallback');
     } finally {
-      this.submitting = false;
+      if (!this.isDestroying && !this.isDestroyed) {
+        this.submitting = false;
+      }
     }
   }
 
@@ -203,10 +250,11 @@ export default class AddUserStoryModal extends Component<AddUserStoryModalSignat
                 class="select select-bordered w-full"
                 {{on "change" this.onPointsChange}}
               >
-                {{#each POINT_VALUES as |pts|}}
-                  <option value={{pts}} selected={{this.isPointSelected pts}}>
-                    {{pts}}
-                  </option>
+                {{#each this.pointOptions as |opt|}}
+                  <option
+                    value={{this.pointOptionValue opt.value}}
+                    selected={{this.isPointSelected opt.value}}
+                  >{{opt.label}}</option>
                 {{/each}}
               </select>
             </div>
@@ -216,15 +264,18 @@ export default class AddUserStoryModal extends Component<AddUserStoryModalSignat
             <label class="label text-sm font-medium" for="us-priority">
               {{t "backlog.modal.addUserStory.priority"}}
             </label>
-            <input
+            <select
               id="us-priority"
-              type="number"
-              class="input input-bordered w-full"
-              min="1"
-              max="5"
-              value={{this.priority}}
-              {{on "input" this.onPriorityInput}}
-            />
+              class="select select-bordered w-full"
+              {{on "change" this.onPriorityChange}}
+            >
+              {{#each this.priorityOptions as |opt|}}
+                <option
+                  value={{opt.value}}
+                  selected={{this.isPrioritySelected opt.value}}
+                >{{opt.label}}</option>
+              {{/each}}
+            </select>
           </div>
 
           {{#if this.error}}

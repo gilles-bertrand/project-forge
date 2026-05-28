@@ -6,9 +6,9 @@ import {
   jsonApiSerializeSingleEpicDocument,
   SerializedEpicSchema,
 } from "#src/epic/epic.serializer.js";
-import { object, string } from "zod";
+import { array, number, object, string } from "zod";
 import { makeSingleJsonApiTopDocument, type Route } from "@libs/backend-shared";
-import { EpicStatusSchema } from "#src/types.js";
+import { EpicStatusSchema, EpicTypeSchema } from "#src/types.js";
 
 export class CreateEpicRoute implements Route {
   public constructor(private repository: EntityRepository<EpicEntityType>) {}
@@ -26,6 +26,13 @@ export class CreateEpicRoute implements Route {
                 description: string(),
                 projectId: string(),
                 status: EpicStatusSchema,
+                notes: string().nullable().optional(),
+                color: string().optional().default("#6B7280"),
+                type: EpicTypeSchema.optional().default("functional"),
+                value: number().int().nullable().optional(),
+                rank: number().int().optional().default(0),
+                createdById: string().nullable().optional(),
+                tags: array(string()).optional().default([]),
               }),
             }),
           ),
@@ -42,6 +49,13 @@ export class CreateEpicRoute implements Route {
           description: body.description,
           projectId: body.projectId,
           status: body.status,
+          notes: body.notes ?? null,
+          color: body.color,
+          type: body.type,
+          value: body.value ?? null,
+          rank: body.rank,
+          createdById: body.createdById ?? null,
+          tags: body.tags,
         });
         await this.repository.getEntityManager().flush();
         return reply.send(jsonApiSerializeSingleEpicDocument(epic));

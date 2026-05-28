@@ -1,6 +1,6 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import { wrap, type EntityRepository } from "@mikro-orm/core";
-import { number, object, string } from "zod";
+import { number, object, string, z } from "zod";
 import {
   jsonApiSerializeSingleTaskDocument,
   SerializedTaskSchema,
@@ -41,6 +41,8 @@ export class UpdateTaskRoute implements Route {
                 priority: TaskPrioritySchema.optional(),
                 points: number().int().optional(),
                 estimatedHours: number().nullable().optional(),
+                remainingHours: number().nullable().optional(),
+                tags: z.array(string()).optional(),
                 userStoryId: string().nullable().optional(),
                 epicId: string().nullable().optional(),
                 sprintId: string().nullable().optional(),
@@ -70,6 +72,9 @@ export class UpdateTaskRoute implements Route {
         const update: Record<string, unknown> = { ...attrs };
         if (attrs.dueDate !== undefined)
           update.dueDate = attrs.dueDate ? new Date(attrs.dueDate) : null;
+        if (attrs.status === "done" && attrs.remainingHours === undefined) {
+          update.remainingHours = 0;
+        }
 
         wrap(task).assign(update);
         await this.repository.getEntityManager().flush();

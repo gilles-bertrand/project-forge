@@ -1,3 +1,18 @@
 {
-    "extends": ["node_modules/@libs/repo-utils/configs/oxlintrc.json"]
+    "extends": ["node_modules/@libs/repo-utils/configs/oxlintrc.json"],
+    "overrides": [
+        {
+            "files": ["src/mounters.ts"],
+            "rules": {
+                "max-lines": "off"
+            }
+        },
+        {
+            "files": ["tests/**/*.ts"],
+            "rules": {
+                "max-lines-per-function": "off",
+                "max-lines": "off"
+            }
+        }
+    ]
 }

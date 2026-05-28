@@ -28,6 +28,8 @@ const CreateTaskAttributesSchema = object({
   priority: TaskPrioritySchema,
   points: number().int(),
   estimatedHours: number().nullable().optional(),
+  remainingHours: number().nullable().optional(),
+  tags: z.array(string()).optional(),
   projectId: string(),
   userStoryId: string().nullable().optional(),
   epicId: string().nullable().optional(),
@@ -53,6 +55,8 @@ export class CreateTaskRoute implements Route {
     const body = request.body.data.attributes;
     const number = body.number ?? (await getNextTaskNumber(this.em, body.projectId));
 
+    const estimatedHours = body.estimatedHours ?? null;
+    const remainingHours = body.remainingHours ?? estimatedHours;
     const task = this.repository.create({
       id: request.body.data.id || randomUUID(),
       number,
@@ -63,7 +67,9 @@ export class CreateTaskRoute implements Route {
       nature: body.nature,
       priority: body.priority,
       points: body.points,
-      estimatedHours: body.estimatedHours ?? null,
+      estimatedHours,
+      remainingHours,
+      tags: body.tags ?? [],
       projectId: body.projectId,
       userStoryId: body.userStoryId ?? null,
       epicId: body.epicId ?? null,

@@ -14,6 +14,8 @@ export const TaskEntity = defineEntity({
     priority: p.string(),
     points: p.integer(),
     estimatedHours: p.float().nullable(),
+    remainingHours: p.float().nullable(),
+    tags: p.array().default([]),
     projectId: p.string().index(),
     userStoryId: p.string().nullable().index(),
     epicId: p.string().nullable().index(),

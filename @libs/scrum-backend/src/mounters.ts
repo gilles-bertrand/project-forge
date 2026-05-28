@@ -46,17 +46,17 @@ import { GetTaskRoute } from "#src/task/routes/get.route.js";
 import { CreateTaskRoute } from "#src/task/routes/create.route.js";
 import { UpdateTaskRoute } from "#src/task/routes/update.route.js";
 import { DeleteTaskRoute } from "#src/task/routes/delete.route.js";
-import {
-  AddTaskCommentRoute,
-  DeleteTaskCommentRoute,
-  ListTaskCommentsRoute,
-} from "#src/task/routes/comments.routes.js";
+import { AddTaskCommentRoute, ListTaskCommentsRoute } from "#src/task/routes/comments.routes.js";
 import {
   AddTaskAttachmentRoute,
-  DeleteTaskAttachmentRoute,
   ListTaskAttachmentsRoute,
 } from "#src/task/routes/attachments.routes.js";
-import { ListTaskHistoryRoute } from "#src/task/routes/history.routes.js";
+import { DeleteCommentRoute, GetCommentRoute } from "#src/task/routes/comments-flat.routes.js";
+import {
+  DeleteAttachmentRoute,
+  GetAttachmentRoute,
+} from "#src/task/routes/attachments-flat.routes.js";
+import { ListHistoryByOwnerRoute, ListTaskHistoryRoute } from "#src/task/routes/history.routes.js";
 import {
   AddTaskAssigneeRoute,
   ListTaskAssigneesRoute,
@@ -72,8 +72,23 @@ import { StopSprintRoute } from "#src/sprint/routes/stop-sprint.route.js";
 import { CloseSprintPreviewRoute } from "#src/sprint/routes/close-preview.route.js";
 import { AddSprintItemsRoute } from "#src/sprint/routes/items.routes.js";
 import { ListSprintTasksRoute } from "#src/sprint/routes/relationships.routes.js";
+import {
+  CreateSprintBurndownSnapshotRoute,
+  GetSprintBurndownRoute,
+} from "#src/sprint/routes/burndown.route.js";
 import { SearchRoute } from "#src/search/search.route.js";
 import { DashboardRoute } from "#src/dashboard/dashboard.route.js";
+import { satelliteRoutesFor } from "#src/satellite-routes.js";
+import { AcceptanceTestEntity } from "#src/acceptance-test/acceptance-test.entity.js";
+import { ListByStoryAcceptanceTestRoute } from "#src/acceptance-test/routes/list-by-story.route.js";
+import { CreateOnStoryAcceptanceTestRoute } from "#src/acceptance-test/routes/create-on-story.route.js";
+import { UpdateAcceptanceTestRoute } from "#src/acceptance-test/routes/update.route.js";
+import { DeleteAcceptanceTestRoute } from "#src/acceptance-test/routes/delete.route.js";
+import { AcceptanceTestSummaryByStoryRoute } from "#src/acceptance-test/routes/summary.route.js";
+import { StoryDependencyEntity } from "#src/story-dependency/story-dependency.entity.js";
+import { ListByStoryDependenciesRoute } from "#src/story-dependency/routes/list-by-story.route.js";
+import { CreateOnStoryDependencyRoute } from "#src/story-dependency/routes/create-on-story.route.js";
+import { DeleteStoryDependencyRoute } from "#src/story-dependency/routes/delete.route.js";
 
 async function mountRoutes(
   parent: FastifyInstanceTypeForModule,
@@ -108,6 +123,7 @@ export async function mountProjects(
     new ListProjectSprintsRoute(em),
     new ListProjectEpicsRoute(em),
     new ListProjectUserStoriesRoute(em),
+    ...satelliteRoutesFor(em, "project"),
   ]);
 }
 
@@ -124,6 +140,8 @@ export async function mountEpics(
     new DeleteEpicRoute(repo),
     new ListEpicUserStoriesRoute(em),
     new ListEpicTasksRoute(em),
+    new ListHistoryByOwnerRoute(em, "epic"),
+    ...satelliteRoutesFor(em, "epic"),
   ]);
 }
 
@@ -139,7 +157,33 @@ export async function mountUserStories(
     new UpdateUserStoryRoute(repo),
     new DeleteUserStoryRoute(repo),
     new ListUserStoryTasksRoute(em),
+    new ListHistoryByOwnerRoute(em, "story"),
+    new ListByStoryAcceptanceTestRoute(em),
+    new CreateOnStoryAcceptanceTestRoute(em),
+    new AcceptanceTestSummaryByStoryRoute(em),
+    new ListByStoryDependenciesRoute(em),
+    new CreateOnStoryDependencyRoute(em),
+    ...satelliteRoutesFor(em, "story"),
   ]);
+}
+
+export async function mountAcceptanceTests(
+  parent: FastifyInstanceTypeForModule,
+  em: EntityManager,
+): Promise<void> {
+  const repo = em.getRepository(AcceptanceTestEntity);
+  await mountRoutes(parent, "/acceptance-tests", [
+    new UpdateAcceptanceTestRoute(repo),
+    new DeleteAcceptanceTestRoute(repo),
+  ]);
+}
+
+export async function mountStoryDependencies(
+  parent: FastifyInstanceTypeForModule,
+  em: EntityManager,
+): Promise<void> {
+  const repo = em.getRepository(StoryDependencyEntity);
+  await mountRoutes(parent, "/story-dependencies", [new DeleteStoryDependencyRoute(repo)]);
 }
 
 export async function mountTasks(
@@ -155,10 +199,8 @@ export async function mountTasks(
     new DeleteTaskRoute(repo),
     new ListTaskCommentsRoute(em),
     new AddTaskCommentRoute(em),
-    new DeleteTaskCommentRoute(em),
     new ListTaskAttachmentsRoute(em),
     new AddTaskAttachmentRoute(em),
-    new DeleteTaskAttachmentRoute(em),
     new ListTaskHistoryRoute(em),
     new ListTaskAssigneesRoute(em),
     new AddTaskAssigneeRoute(em),
@@ -182,6 +224,26 @@ export async function mountSprints(
     new CloseSprintPreviewRoute(em),
     new AddSprintItemsRoute(em),
     new ListSprintTasksRoute(em),
+    new ListHistoryByOwnerRoute(em, "sprint"),
+    new GetSprintBurndownRoute(em),
+    new CreateSprintBurndownSnapshotRoute(em),
+  ]);
+}
+
+export async function mountComments(
+  parent: FastifyInstanceTypeForModule,
+  em: EntityManager,
+): Promise<void> {
+  await mountRoutes(parent, "/comments", [new GetCommentRoute(em), new DeleteCommentRoute(em)]);
+}
+
+export async function mountAttachments(
+  parent: FastifyInstanceTypeForModule,
+  em: EntityManager,
+): Promise<void> {
+  await mountRoutes(parent, "/attachments", [
+    new GetAttachmentRoute(em),
+    new DeleteAttachmentRoute(em),
   ]);
 }
 
@@ -191,6 +253,7 @@ export async function mountSearch(
 ): Promise<void> {
   await mountRoutes(parent, "/search", [new SearchRoute(em)]);
 }
+
 export async function mountDashboard(
   parent: FastifyInstanceTypeForModule,
   em: EntityManager,

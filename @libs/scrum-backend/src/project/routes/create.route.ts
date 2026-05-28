@@ -6,6 +6,7 @@ import {
   jsonApiSerializeSingleProjectDocument,
   SerializedProjectSchema,
 } from "#src/project/project.serializer.js";
+import { ProjectTaskCounterEntity } from "#src/project/project-task-counter.entity.js";
 import { object, string } from "zod";
 import { makeSingleJsonApiTopDocument, type Route } from "@libs/backend-shared";
 import { ProjectStatusSchema } from "#src/types.js";
@@ -40,6 +41,7 @@ export class CreateProjectRoute implements Route {
       async (request, reply) => {
         const body = request.body.data.attributes;
 
+        const em = this.repository.getEntityManager();
         const project = this.repository.create({
           id: request.body.data.id || randomUUID(),
           name: body.name,
@@ -50,8 +52,12 @@ export class CreateProjectRoute implements Route {
           responsibleId: body.responsibleId,
           createdById: body.createdById,
         });
+        em.create(ProjectTaskCounterEntity, {
+          projectId: project.id,
+          nextNumber: 1001,
+        });
 
-        await this.repository.getEntityManager().flush();
+        await em.flush();
 
         return reply.send(jsonApiSerializeSingleProjectDocument(project));
       },

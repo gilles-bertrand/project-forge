@@ -11,6 +11,10 @@ import { CommentEntity } from "#src/task/comment.entity.js";
 import { AttachmentEntity } from "#src/task/attachment.entity.js";
 import { HistoryEntryEntity } from "#src/task/history-entry.entity.js";
 import { ProjectMemberEntity } from "#src/project/project-member.entity.js";
+import { ProjectTaskCounterEntity } from "#src/project/project-task-counter.entity.js";
+import { SprintBurndownSnapshotEntity } from "#src/sprint/sprint-burndown-snapshot.entity.js";
+import { AcceptanceTestEntity } from "#src/acceptance-test/acceptance-test.entity.js";
+import { StoryDependencyEntity } from "#src/story-dependency/story-dependency.entity.js";
 
 let module: ScrumTestModule;
 
@@ -148,8 +152,15 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
     id: epicId,
     title: "Epic",
     description: "desc",
+    notes: null,
+    color: "#6B7280",
+    type: "functional",
+    value: null,
+    rank: 0,
     projectId: id,
+    createdById: null,
     status: "todo",
+    tags: [],
     createdAt: now,
     updatedAt: now,
   });
@@ -159,12 +170,18 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
     id: userStoryId,
     title: "US",
     description: "desc",
+    notes: null,
+    color: null,
     projectId: id,
     epicId,
     sprintId: null,
-    status: "todo",
+    status: "accepted",
     points: 3,
-    priority: 1,
+    priority: "Moyenne",
+    rank: 0,
+    value: null,
+    createdById: null,
+    tags: [],
     createdAt: now,
     updatedAt: now,
   });
@@ -185,6 +202,22 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
     updatedAt: now,
   });
 
+  const snapshotId = randomUUID();
+  await module.em.getRepository(SprintBurndownSnapshotEntity).insert({
+    id: snapshotId,
+    sprintId,
+    snapshotDate: now,
+    remainingHoursTotal: 8,
+    remainingPointsTotal: 3,
+    taskCount: 2,
+    createdAt: now,
+  });
+
+  await module.em.getRepository(ProjectTaskCounterEntity).insert({
+    projectId: id,
+    nextNumber: 1010,
+  });
+
   const taskId = randomUUID();
   await module.em.getRepository(TaskEntity).insert({
     id: taskId,
@@ -197,6 +230,8 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
     priority: "medium",
     points: 2,
     estimatedHours: null,
+    remainingHours: null,
+    tags: [],
     projectId: id,
     userStoryId,
     epicId,
@@ -216,7 +251,8 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
 
   await module.em.getRepository(CommentEntity).insert({
     id: randomUUID(),
-    taskId,
+    ownerType: "task",
+    ownerId: taskId,
     userId: ScrumTestModule.TEST_USER_ID,
     content: "comment",
     type: "text",
@@ -226,8 +262,8 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
 
   await module.em.getRepository(AttachmentEntity).insert({
     id: randomUUID(),
-    taskId,
-    projectId: null,
+    ownerType: "task",
+    ownerId: taskId,
     name: "file.txt",
     url: "https://example.com/file.txt",
     mimeType: "text/plain",
@@ -238,7 +274,7 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
 
   await module.em.getRepository(HistoryEntryEntity).insert({
     id: randomUUID(),
-    ownerType: "Task",
+    ownerType: "task",
     ownerId: taskId,
     type: "created",
     description: "Task created",
@@ -255,6 +291,50 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
     joinedAt: now,
   });
 
+  const acceptanceTestId = randomUUID();
+  await module.em.getRepository(AcceptanceTestEntity).insert({
+    id: acceptanceTestId,
+    userStoryId,
+    name: "AT cascade",
+    description: "d",
+    state: "to-check",
+    rank: 0,
+    createdById: null,
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  // Second story to wire a dependency on
+  const secondStoryId = randomUUID();
+  await module.em.getRepository(UserStoryEntity).insert({
+    id: secondStoryId,
+    title: "US2",
+    description: "desc",
+    notes: null,
+    color: null,
+    projectId: id,
+    epicId: null,
+    sprintId: null,
+    status: "accepted",
+    points: 3,
+    priority: "Moyenne",
+    rank: 1,
+    value: null,
+    createdById: null,
+    tags: [],
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  const storyDepId = randomUUID();
+  await module.em.getRepository(StoryDependencyEntity).insert({
+    id: storyDepId,
+    fromStoryId: userStoryId,
+    toStoryId: secondStoryId,
+    type: "blocks",
+    createdAt: now,
+  });
+
   const response = await module.fastifyInstance.inject({
     method: "DELETE",
     url: `/projects/${id}`,
@@ -269,10 +349,14 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
   expect(await module.em.count(SprintEntity, { projectId: id })).toBe(0);
   expect(await module.em.count(TaskEntity, { projectId: id })).toBe(0);
   expect(await module.em.count(TaskAssigneeEntity, { taskId })).toBe(0);
-  expect(await module.em.count(CommentEntity, { taskId })).toBe(0);
-  expect(await module.em.count(AttachmentEntity, { taskId })).toBe(0);
+  expect(await module.em.count(CommentEntity, { ownerType: "task", ownerId: taskId })).toBe(0);
+  expect(await module.em.count(AttachmentEntity, { ownerType: "task", ownerId: taskId })).toBe(0);
   expect(await module.em.count(HistoryEntryEntity, { ownerId: taskId })).toBe(0);
   expect(await module.em.count(ProjectMemberEntity, { projectId: id })).toBe(0);
+  expect(await module.em.count(AcceptanceTestEntity, { id: acceptanceTestId })).toBe(0);
+  expect(await module.em.count(StoryDependencyEntity, { id: storyDepId })).toBe(0);
+  expect(await module.em.count(SprintBurndownSnapshotEntity, { sprintId })).toBe(0);
+  expect(await module.em.count(ProjectTaskCounterEntity, { projectId: id })).toBe(0);
 });
 
 test("DELETE /projects/:id rolls back when timeTrackingPort throws", async () => {
@@ -388,28 +472,38 @@ test("GET /projects/:id/stats returns correct aggregated counters", async () => 
   // 2 epics: 1 done
   const epicDoneId = randomUUID();
   const epicTodoId = randomUUID();
-  await module.em
-    .getRepository(EpicEntity)
-    .insert({
-      id: epicDoneId,
-      title: "E1",
-      description: "",
-      projectId: id,
-      status: "done",
-      createdAt: now,
-      updatedAt: now,
-    });
-  await module.em
-    .getRepository(EpicEntity)
-    .insert({
-      id: epicTodoId,
-      title: "E2",
-      description: "",
-      projectId: id,
-      status: "todo",
-      createdAt: now,
-      updatedAt: now,
-    });
+  await module.em.getRepository(EpicEntity).insert({
+    id: epicDoneId,
+    title: "E1",
+    description: "",
+    notes: null,
+    color: "#6B7280",
+    type: "functional",
+    value: null,
+    rank: 0,
+    projectId: id,
+    createdById: null,
+    status: "done",
+    tags: [],
+    createdAt: now,
+    updatedAt: now,
+  });
+  await module.em.getRepository(EpicEntity).insert({
+    id: epicTodoId,
+    title: "E2",
+    description: "",
+    notes: null,
+    color: "#6B7280",
+    type: "functional",
+    value: null,
+    rank: 0,
+    projectId: id,
+    createdById: null,
+    status: "todo",
+    tags: [],
+    createdAt: now,
+    updatedAt: now,
+  });
 
   // 5 user stories: 2 done
   const storyIds = [randomUUID(), randomUUID(), randomUUID(), randomUUID(), randomUUID()];
@@ -418,11 +512,18 @@ test("GET /projects/:id/stats returns correct aggregated counters", async () => 
       id: sid,
       title: `S${String(i)}`,
       description: "",
+      notes: null,
+      color: null,
       projectId: id,
       epicId: null,
-      status: i < 2 ? "done" : "todo",
+      sprintId: null,
+      status: i < 2 ? "done" : "accepted",
       points: 1,
-      priority: i,
+      priority: "Moyenne",
+      rank: i,
+      value: null,
+      createdById: null,
+      tags: [],
       createdAt: now,
       updatedAt: now,
     });
@@ -454,38 +555,34 @@ test("GET /projects/:id/stats returns correct aggregated counters", async () => 
 
   // 2 sprints: 1 active
   const activeSprintId = randomUUID();
-  await module.em
-    .getRepository(SprintEntity)
-    .insert({
-      id: activeSprintId,
-      number: 1,
-      name: "Sprint 1",
-      goal: null,
-      projectId: id,
-      startDate: now,
-      endDate: now,
-      status: "active",
-      velocityPoints: 0,
-      completedPoints: 0,
-      createdAt: now,
-      updatedAt: now,
-    });
-  await module.em
-    .getRepository(SprintEntity)
-    .insert({
-      id: randomUUID(),
-      number: 2,
-      name: "Sprint 2",
-      goal: null,
-      projectId: id,
-      startDate: now,
-      endDate: now,
-      status: "completed",
-      velocityPoints: 0,
-      completedPoints: 0,
-      createdAt: now,
-      updatedAt: now,
-    });
+  await module.em.getRepository(SprintEntity).insert({
+    id: activeSprintId,
+    number: 1,
+    name: "Sprint 1",
+    goal: null,
+    projectId: id,
+    startDate: now,
+    endDate: now,
+    status: "active",
+    velocityPoints: 0,
+    completedPoints: 0,
+    createdAt: now,
+    updatedAt: now,
+  });
+  await module.em.getRepository(SprintEntity).insert({
+    id: randomUUID(),
+    number: 2,
+    name: "Sprint 2",
+    goal: null,
+    projectId: id,
+    startDate: now,
+    endDate: now,
+    status: "completed",
+    velocityPoints: 0,
+    completedPoints: 0,
+    createdAt: now,
+    updatedAt: now,
+  });
 
   const response = await module.fastifyInstance.inject({
     method: "GET",

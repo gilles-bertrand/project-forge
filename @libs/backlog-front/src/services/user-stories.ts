@@ -8,6 +8,7 @@ import type {
   UserStory,
   StoryStatus,
   StoryPoints,
+  StoryPriority,
 } from '#src/schemas/user-stories.ts';
 
 export type NewUserStoryPayload = {
@@ -15,9 +16,14 @@ export type NewUserStoryPayload = {
   description: string;
   projectId: string;
   epicId: string | null;
-  status: UserStory['status'];
-  points: UserStory['points'];
-  priority: number;
+  status?: StoryStatus;
+  points?: StoryPoints | null;
+  priority?: StoryPriority;
+  notes?: string | null;
+  color?: string | null;
+  rank?: number;
+  value?: number | null;
+  tags?: string[];
 };
 
 export interface UpdateUserStoryPayload {
@@ -25,8 +31,57 @@ export interface UpdateUserStoryPayload {
   description?: string;
   status?: StoryStatus;
   points?: StoryPoints | null;
-  priority?: number;
+  priority?: StoryPriority;
   epicId?: string | null;
+  notes?: string | null;
+  color?: string | null;
+  rank?: number;
+  value?: number | null;
+  tags?: string[];
+}
+
+export class InvalidStoryTransitionError extends Error {
+  readonly code = 'INVALID_STORY_TRANSITION';
+  readonly from: StoryStatus | null;
+  readonly to: StoryStatus | null;
+
+  constructor(
+    message: string,
+    from: StoryStatus | null,
+    to: StoryStatus | null
+  ) {
+    super(message);
+    this.name = 'InvalidStoryTransitionError';
+    this.from = from;
+    this.to = to;
+  }
+}
+
+type JsonApiError = {
+  status?: string;
+  code?: string;
+  title?: string;
+  detail?: string;
+  meta?: { from?: StoryStatus; to?: StoryStatus };
+};
+
+function extractInvalidTransition(
+  raw: unknown,
+  fallbackTo: StoryStatus | null
+): InvalidStoryTransitionError | null {
+  if (typeof raw !== 'object' || raw === null) return null;
+  const errors = (raw as { errors?: unknown }).errors;
+  if (!Array.isArray(errors)) return null;
+  for (const err of errors as JsonApiError[]) {
+    if (err.code === 'INVALID_STORY_TRANSITION') {
+      return new InvalidStoryTransitionError(
+        err.detail ?? err.title ?? 'Invalid story transition',
+        err.meta?.from ?? null,
+        err.meta?.to ?? fallbackTo
+      );
+    }
+  }
+  return null;
 }
 
 export default class UserStoriesService extends Service {
@@ -67,7 +122,13 @@ export default class UserStoriesService extends Service {
   }
 
   async create(data: NewUserStoryPayload): Promise<UserStory> {
-    const us = this.store.createRecord<UserStory>('user-stories', data);
+    // Default status for new stories follows the iceScrum sandbox flow.
+    const payload: NewUserStoryPayload = {
+      status: 'suggested',
+      priority: 'Moyenne',
+      ...data,
+    };
+    const us = this.store.createRecord<UserStory>('user-stories', payload);
     const request = createRecord(us);
     request.body = JSON.stringify({
       data: this.store.cache.peek(cacheKeyFor(us)),
@@ -82,14 +143,32 @@ export default class UserStoriesService extends Service {
     projectId: string,
     attrs: UpdateUserStoryPayload
   ): Promise<void> {
-    await this.store.request({
-      url: `/api/v1/user-stories/${id}`,
-      method: 'PATCH',
-      body: JSON.stringify({
-        data: { type: 'user-stories', id, attributes: attrs },
-      }),
-    });
+    try {
+      await this.store.request({
+        url: `/api/v1/user-stories/${id}`,
+        method: 'PATCH',
+        body: JSON.stringify({
+          data: { type: 'user-stories', id, attributes: attrs },
+        }),
+      });
+    } catch (err: unknown) {
+      // WarpDrive surfaces non-2xx as a thrown error whose `content` (when
+      // present) holds the JSON:API error document. Translate the backend's
+      // 422 INVALID_STORY_TRANSITION into a typed error UIs can present.
+      const content = (err as { content?: unknown }).content;
+      const typed = extractInvalidTransition(content, attrs.status ?? null);
+      if (typed) throw typed;
+      throw err;
+    }
     await this.loadByProject(projectId);
+  }
+
+  async setStatus(
+    id: string,
+    projectId: string,
+    status: StoryStatus
+  ): Promise<void> {
+    await this.update(id, projectId, { status });
   }
 
   async delete(id: string, projectId: string): Promise<void> {

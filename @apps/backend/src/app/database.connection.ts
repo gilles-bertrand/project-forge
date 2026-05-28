@@ -1,7 +1,7 @@
 import { defineConfig, MikroORM } from "@mikro-orm/postgresql";
 import type { AppConfiguration } from "../configuration.js";
 import { entities as usersEntities } from "@libs/users-backend";
-import { entities as scrumEntities } from "@libs/scrum-backend";
+import { AuditSubscriber, entities as scrumEntities } from "@libs/scrum-backend";
 import { entities as timeTrackingEntities } from "@libs/time-tracking-backend";
 
 export function databaseConfig(config: Pick<AppConfiguration, "DATABASE_URI">) {
@@ -9,8 +9,16 @@ export function databaseConfig(config: Pick<AppConfiguration, "DATABASE_URI">) {
     seeder: {
       pathTs: "./src/seeders",
     },
+    migrations: {
+      path: "./src/migrations",
+      glob: "!(*.d).{js,ts}",
+      transactional: true,
+      allOrNothing: true,
+      emit: "ts",
+    },
     clientUrl: config.DATABASE_URI,
     entities: [...usersEntities, ...scrumEntities, ...timeTrackingEntities],
+    subscribers: [new AuditSubscriber()],
   });
 }
 

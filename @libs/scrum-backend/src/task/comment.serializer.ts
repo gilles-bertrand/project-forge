@@ -2,12 +2,13 @@ import type { CommentEntityType } from "#src/task/comment.entity.js";
 import { object, record, string, unknown } from "zod";
 import { z } from "zod";
 import { makeJsonApiDocumentSchema } from "@libs/backend-shared";
-import { CommentTypeSchema } from "#src/types.js";
+import { CommentTypeSchema, SatelliteOwnerTypeSchema } from "#src/types.js";
 
 export const SerializedCommentSchema = makeJsonApiDocumentSchema(
   "comments",
   object({
-    taskId: string(),
+    ownerType: SatelliteOwnerTypeSchema,
+    ownerId: string(),
     userId: string(),
     content: string(),
     type: CommentTypeSchema,
@@ -23,7 +24,8 @@ export function jsonApiSerializeComment(
     id: c.id,
     type: "comments" as const,
     attributes: {
-      taskId: c.taskId,
+      ownerType: c.ownerType as z.infer<typeof SatelliteOwnerTypeSchema>,
+      ownerId: c.ownerId,
       userId: c.userId,
       content: c.content,
       type: c.type as z.infer<typeof CommentTypeSchema>,

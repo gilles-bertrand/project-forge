@@ -19,18 +19,27 @@ aroundEach(async (runTest) => {
   await module.em.rollback();
 });
 
-async function seedUserStory(overrides: Partial<{ id: string; title: string }> = {}) {
+async function seedUserStory(
+  overrides: Partial<{ id: string; title: string; status: string }> = {},
+) {
   const now = new Date();
   const id = overrides.id ?? randomUUID();
   await module.em.getRepository(UserStoryEntity).insert({
     id,
     title: overrides.title ?? "Test US",
     description: "desc",
+    notes: null,
+    color: null,
     projectId: "p-test",
     epicId: null,
-    status: "todo",
+    sprintId: null,
+    status: overrides.status ?? "accepted",
     points: 3,
-    priority: 1,
+    priority: "Moyenne",
+    rank: 0,
+    value: null,
+    createdById: null,
+    tags: [],
     createdAt: now,
     updatedAt: now,
   });
@@ -74,16 +83,38 @@ test("POST /user-stories creates with points", async () => {
           title: "New Story",
           description: "d",
           projectId: "p1",
-          status: "todo",
+          status: "suggested",
           points: 5,
-          priority: 2,
+          priority: "Haute",
         },
       },
     },
   });
   expect(response.statusCode).toBe(200);
   expect(response.json().data.attributes.points).toBe(5);
+  expect(response.json().data.attributes.priority).toBe("Haute");
   expect(response.json().data.attributes.epicId).toBe(null);
+});
+
+test("POST /user-stories applies defaults when status/priority omitted", async () => {
+  const response = await module.fastifyInstance.inject({
+    method: "POST",
+    url: "/user-stories",
+    headers: { authorization: module.generateBearerToken() },
+    payload: {
+      data: {
+        attributes: {
+          title: "Default Story",
+          description: "d",
+          projectId: "p1",
+        },
+      },
+    },
+  });
+  expect(response.statusCode).toBe(200);
+  expect(response.json().data.attributes.status).toBe("suggested");
+  expect(response.json().data.attributes.priority).toBe("Moyenne");
+  expect(response.json().data.attributes.points).toBe(null);
 });
 
 test("PATCH /user-stories/:id updates points", async () => {
@@ -96,6 +127,30 @@ test("PATCH /user-stories/:id updates points", async () => {
   });
   expect(response.statusCode).toBe(200);
   expect(response.json().data.attributes.points).toBe(8);
+});
+
+test("PATCH /user-stories/:id valid transition (accepted → estimated)", async () => {
+  const id = await seedUserStory({ status: "accepted" });
+  const response = await module.fastifyInstance.inject({
+    method: "PATCH",
+    url: `/user-stories/${id}`,
+    headers: { authorization: module.generateBearerToken() },
+    payload: { data: { attributes: { status: "estimated" } } },
+  });
+  expect(response.statusCode).toBe(200);
+  expect(response.json().data.attributes.status).toBe("estimated");
+});
+
+test("PATCH /user-stories/:id invalid transition (suggested → done) returns 422", async () => {
+  const id = await seedUserStory({ status: "suggested" });
+  const response = await module.fastifyInstance.inject({
+    method: "PATCH",
+    url: `/user-stories/${id}`,
+    headers: { authorization: module.generateBearerToken() },
+    payload: { data: { attributes: { status: "done" } } },
+  });
+  expect(response.statusCode).toBe(422);
+  expect(response.json().errors[0].code).toBe("INVALID_STORY_TRANSITION");
 });
 
 test("DELETE /user-stories/:id returns 204", async () => {

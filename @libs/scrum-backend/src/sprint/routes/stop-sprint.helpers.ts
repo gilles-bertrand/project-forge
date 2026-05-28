@@ -22,7 +22,7 @@ export async function recomputeCompletedPoints(
   );
   if (storyIds.length === 0) return 0;
   const stories = await em.find(UserStoryEntity, { id: { $in: storyIds }, status: "done" });
-  return stories.reduce((acc, s) => acc + s.points, 0);
+  return stories.reduce((acc, s) => acc + (s.points ?? 0), 0);
 }
 
 export async function getUnfinishedItems(em: EntityManager, sprintId: string) {

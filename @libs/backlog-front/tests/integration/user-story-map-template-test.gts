@@ -76,11 +76,18 @@ describe('Integration | Template /user-story-map', function () {
         id: 'epic-1',
         title: 'Test Epic',
         description: 'Description',
+        notes: null,
+        color: '#6B7280',
+        type: 'functional',
+        value: null,
+        rank: 1,
         projectId: 'proj-1',
+        createdById: 'user-2',
         status: 'todo',
+        tags: [],
         createdAt: '',
         updatedAt: '',
-      } as Epic;
+      } as unknown as Epic;
 
       // Le template lit this.epics.list (cache service), pas @model
       const epicsService = context.owner.lookup(

@@ -66,7 +66,25 @@ const BACKLOG_FR = {
         Testing: 'Testing',
       },
     },
-    status: { todo: 'À faire', 'in-progress': 'En cours', done: 'Terminé' },
+    status: {
+      todo: 'À faire',
+      'in-progress': 'En cours',
+      done: 'Terminé',
+      suggested: 'Sandbox',
+      accepted: 'Backlog',
+      estimated: 'Backlog estimé',
+      planned: 'Sprint Backlog',
+    },
+    priority: {
+      Basse: 'Basse',
+      Moyenne: 'Moyenne',
+      Haute: 'Haute',
+      Critique: 'Critique',
+    },
+    epicType: {
+      functional: 'Fonctionnelle',
+      architectural: 'Architecturale',
+    },
     modal: {
       addEpic: {
         title: 'Nouvelle épique',
@@ -77,9 +95,24 @@ const BACKLOG_FR = {
         description: 'Description',
         descriptionPlaceholder: 'Objectifs...',
         status: 'Statut initial',
+        type: 'Type',
+        color: 'Couleur',
         cancel: 'Annuler',
         submit: "Créer l'épique",
         submitting: 'Création...',
+        errorFallback: 'Erreur',
+      },
+      editEpic: {
+        title: "Modifier l'épique",
+        closeAria: 'Fermer',
+        name: 'Titre',
+        description: 'Description',
+        status: 'Statut',
+        type: 'Type',
+        color: 'Couleur',
+        cancel: 'Annuler',
+        submit: 'Enregistrer',
+        submitting: 'Enregistrement...',
         errorFallback: 'Erreur',
       },
       addUserStory: {
@@ -190,6 +223,25 @@ const BACKLOG_FR = {
     noTasks: 'Aucune tâche.',
     addUserStoryInline: 'Ajouter une US',
     emptyState: 'Aucune épique.',
+    editUserStoryModal: {
+      title: 'Modifier la user story',
+      closeAria: 'Fermer',
+      errorFallback: 'Erreur',
+      invalidTransition: 'Transition invalide : {from} → {to}.',
+      pointsNone: '— sans points —',
+      fields: {
+        title: 'Titre',
+        description: 'Description',
+        status: 'Statut',
+        points: 'Points',
+        priority: 'Priorité',
+      },
+      actions: {
+        save: 'Sauvegarder',
+        saving: 'Sauvegarde...',
+        cancel: 'Annuler',
+      },
+    },
   },
   tasks: {
     status: {

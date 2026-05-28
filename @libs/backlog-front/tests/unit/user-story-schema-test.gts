@@ -10,11 +10,18 @@ describe('Schema | UserStories | Unit', () => {
     const fieldNames = UserStorySchema.fields.map((f) => f.name);
     expect(fieldNames).toContain('title');
     expect(fieldNames).toContain('description');
+    expect(fieldNames).toContain('notes');
+    expect(fieldNames).toContain('color');
     expect(fieldNames).toContain('projectId');
     expect(fieldNames).toContain('epicId');
+    expect(fieldNames).toContain('sprintId');
     expect(fieldNames).toContain('status');
     expect(fieldNames).toContain('points');
     expect(fieldNames).toContain('priority');
+    expect(fieldNames).toContain('rank');
+    expect(fieldNames).toContain('value');
+    expect(fieldNames).toContain('createdById');
+    expect(fieldNames).toContain('tags');
     expect(fieldNames).toContain('createdAt');
     expect(fieldNames).toContain('updatedAt');
   });

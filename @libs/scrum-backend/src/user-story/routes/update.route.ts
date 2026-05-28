@@ -1,6 +1,6 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import { wrap, type EntityRepository } from "@mikro-orm/core";
-import { number, object, string } from "zod";
+import { array, number, object, string } from "zod";
 import {
   jsonApiSerializeSingleUserStoryDocument,
   SerializedUserStorySchema,
@@ -12,7 +12,8 @@ import {
   makeSingleJsonApiTopDocument,
   type Route,
 } from "@libs/backend-shared";
-import { StoryStatusSchema } from "#src/types.js";
+import { StoryPrioritySchema, StoryStatusSchema, type StoryStatus } from "#src/types.js";
+import { assertStoryTransition, InvalidStoryTransitionError } from "#src/user-story/transitions.js";
 
 export class UpdateUserStoryRoute implements Route {
   public constructor(private repository: EntityRepository<UserStoryEntityType>) {}
@@ -32,14 +33,21 @@ export class UpdateUserStoryRoute implements Route {
                 description: string().optional(),
                 epicId: string().nullable().optional(),
                 status: StoryStatusSchema.optional(),
-                points: number().int().optional(),
-                priority: number().int().optional(),
+                points: number().int().nullable().optional(),
+                priority: StoryPrioritySchema.optional(),
+                notes: string().nullable().optional(),
+                color: string().nullable().optional(),
+                rank: number().int().optional(),
+                value: number().int().nullable().optional(),
+                createdById: string().nullable().optional(),
+                tags: array(string()).optional(),
               }).partial(),
             }),
           ),
           response: {
             200: makeSingleJsonApiTopDocument(SerializedUserStorySchema),
             404: jsonApiErrorDocumentSchema,
+            422: jsonApiErrorDocumentSchema,
           },
         },
       },
@@ -54,7 +62,23 @@ export class UpdateUserStoryRoute implements Route {
             }),
           );
         }
-        wrap(story).assign(request.body.data.attributes);
+        const attrs = request.body.data.attributes;
+        if (attrs.status !== undefined) {
+          try {
+            assertStoryTransition(story.status as StoryStatus, attrs.status);
+          } catch (error) {
+            if (error instanceof InvalidStoryTransitionError) {
+              return reply.code(422).send(
+                makeJsonApiError(422, "Invalid Story Transition", {
+                  code: "INVALID_STORY_TRANSITION",
+                  detail: error.message,
+                }),
+              );
+            }
+            throw error;
+          }
+        }
+        wrap(story).assign(attrs);
         await this.repository.getEntityManager().flush();
         return reply.send(jsonApiSerializeSingleUserStoryDocument(story));
       },

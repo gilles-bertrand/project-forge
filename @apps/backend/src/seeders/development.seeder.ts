@@ -4,6 +4,7 @@ import {
   EpicEntity,
   ProjectEntity,
   ProjectMemberEntity,
+  ProjectTaskCounterEntity,
   SprintEntity,
   TaskAssigneeEntity,
   TaskEntity,
@@ -24,6 +25,7 @@ export class DatabaseSeeder extends Seeder {
     await em.nativeDelete(EpicEntity, {});
     await em.nativeDelete(SprintEntity, {});
     await em.nativeDelete(ProjectMemberEntity, {});
+    await em.nativeDelete(ProjectTaskCounterEntity, {});
     await em.nativeDelete(ProjectEntity, {});
     await em.nativeDelete(UserEntity, {});
 
@@ -34,7 +36,22 @@ export class DatabaseSeeder extends Seeder {
     await this.seedSprints(em);
     await this.seedTasks(em);
     await this.seedTimeEntries(em);
+    await this.seedTaskCounters(em);
     await em.flush();
+  }
+
+  private async seedTaskCounters(em: EntityManager) {
+    // For each project, set the counter to max(task.number) + 1, default 1001
+    await em.flush();
+    const projects = await em.find(ProjectEntity, {}, { fields: ["id"] });
+    for (const project of projects) {
+      const tasks = await em.find(TaskEntity, { projectId: project.id }, { fields: ["number"] });
+      const maxNumber = tasks.reduce((acc, t) => (t.number > acc ? t.number : acc), 1000);
+      em.create(ProjectTaskCounterEntity, {
+        projectId: project.id,
+        nextNumber: maxNumber + 1,
+      });
+    }
   }
 
   // oxlint-disable-next-line max-lines-per-function
@@ -163,20 +180,51 @@ export class DatabaseSeeder extends Seeder {
   }
 
   private async seedBacklog(em: EntityManager) {
-    em.create(EpicEntity, {
-      id: "epic-auth",
-      title: "User Authentication",
-      description: "Système complet d'authentification et autorisation",
-      projectId: "project-ecommerce",
-      status: "in-progress",
-    });
-    em.create(EpicEntity, {
-      id: "epic-catalog",
-      title: "Product Catalog",
-      description: "Catalogue de produits avec recherche et filtres",
-      projectId: "project-ecommerce",
-      status: "in-progress",
-    });
+    const epics = [
+      {
+        id: "epic-auth",
+        title: "User Authentication",
+        description: "Système complet d'authentification et autorisation",
+        status: "in-progress",
+        rank: 0,
+      },
+      {
+        id: "epic-catalog",
+        title: "Product Catalog",
+        description: "Catalogue de produits avec recherche et filtres",
+        status: "in-progress",
+        rank: 1,
+      },
+    ];
+    for (const e of epics) {
+      em.create(EpicEntity, {
+        ...e,
+        projectId: "project-ecommerce",
+        createdById: "user-bob",
+        color: "#6B7280",
+        type: "functional",
+        value: null,
+        notes: null,
+        tags: [],
+      });
+    }
+
+    const priorityFromInt = (p: number): "Basse" | "Moyenne" | "Haute" | "Critique" => {
+      if (p <= 1) return "Basse";
+      if (p === 2) return "Moyenne";
+      if (p === 3) return "Haute";
+      return "Critique";
+    };
+
+    const statusFromLegacy = (
+      s: string,
+    ): "suggested" | "accepted" | "estimated" | "planned" | "in-progress" | "done" => {
+      if (s === "todo") return "accepted";
+      if (s === "in-progress") return "in-progress";
+      if (s === "done") return "done";
+      // Already a new valid status
+      return s as "suggested" | "accepted" | "estimated" | "planned" | "in-progress" | "done";
+    };
 
     const stories = [
       {
@@ -225,8 +273,25 @@ export class DatabaseSeeder extends Seeder {
         priority: 5,
       },
     ];
+    let storyIdx = 0;
     for (const s of stories) {
-      em.create(UserStoryEntity, { ...s, projectId: "project-ecommerce", sprintId: null });
+      em.create(UserStoryEntity, {
+        id: s.id,
+        title: s.title,
+        description: s.description,
+        notes: null,
+        color: null,
+        projectId: "project-ecommerce",
+        epicId: s.epicId,
+        sprintId: null,
+        status: statusFromLegacy(s.status),
+        points: s.points,
+        priority: priorityFromInt(s.priority),
+        rank: storyIdx++,
+        value: null,
+        createdById: "user-bob",
+        tags: [],
+      });
     }
   }
 
@@ -553,7 +618,8 @@ export class DatabaseSeeder extends Seeder {
     // Comment
     em.create(CommentEntity, {
       id: "comment-001",
-      taskId: "task-1005",
+      ownerType: "task",
+      ownerId: "task-1005",
       userId: "user-claire",
       content: "Démarrage du formulaire d'inscription — structure HTML en place",
       type: "comment",
@@ -562,7 +628,8 @@ export class DatabaseSeeder extends Seeder {
     });
     em.create(CommentEntity, {
       id: "comment-002",
-      taskId: "task-1011",
+      ownerType: "task",
+      ownerId: "task-1011",
       userId: "user-claire",
       content: "Filtres catégories terminés",
       type: "status-change",

@@ -41,7 +41,12 @@ Les modules SprintForge (projects, backlog, sprints, time-tracking) arrivent en 
 | `pnpm dev:front` | Frontend seul |
 | `pnpm lint` / `pnpm lint:fix` | Lint tout le monorepo (turbo) |
 | `pnpm format` | Format tout le monorepo |
-| `cd @apps/backend && pnpm schema:fresh` | Recrée le schéma DB (drop + create) |
+| `cd @apps/backend && pnpm schema:fresh` | Recrée le schéma DB (drop + recreate depuis entités) — DEV uniquement |
+| `cd @apps/backend && pnpm migration:fresh` | Drop + rejoue toutes les migrations + seed — chemin prod |
+| `cd @apps/backend && pnpm migration:create` | Crée une nouvelle migration MikroORM depuis le diff entités→DB |
+| `cd @apps/backend && pnpm migration:up` | Applique les migrations en attente |
+| `cd @apps/backend && pnpm migration:down` | Rollback la dernière migration |
+| `cd @apps/backend && pnpm migration:status` | Liste l'état des migrations |
 | `cd @apps/backend && pnpm seed` | Seed données (development.seeder.ts) |
 | `cd @apps/backend && pnpm test` | Tests vitest backend |
 | `cd @apps/e2e && pnpm test` | Tests Playwright E2E |

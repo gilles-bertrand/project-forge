@@ -1,12 +1,37 @@
 import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
 import { action } from '@ember/object';
-import { fn } from '@ember/helper';
+import { concat, fn } from '@ember/helper';
 import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
-import type { UserStory } from '../schemas/user-stories.ts';
+import type {
+  StoryPriority,
+  StoryStatus,
+  UserStory,
+} from '../schemas/user-stories.ts';
 import type { Task } from '../schemas/tasks.ts';
 import TaskRow from './task-row.gts';
+
+// daisyUI badge palette per priority. Critique gets `error` so it stands out
+// at a glance; Haute keeps `warning`; Moyenne is neutral; Basse fades back.
+const PRIORITY_BADGE_CLASS: Record<StoryPriority, string> = {
+  Basse: 'badge-ghost',
+  Moyenne: 'badge-info',
+  Haute: 'badge-warning',
+  Critique: 'badge-error',
+};
+
+// Status indicator color follows the 6-state iceScrum workflow grouped into
+// "sandbox" (suggested), "ready for sprint" (accepted/estimated),
+// "in flight" (planned/in-progress) and "completed" (done).
+const STATUS_DOT_CLASS: Record<StoryStatus, string> = {
+  suggested: 'bg-base-300',
+  accepted: 'bg-info/70',
+  estimated: 'bg-info',
+  planned: 'bg-primary/70',
+  'in-progress': 'bg-primary',
+  done: 'bg-success',
+};
 
 interface UserStoryRowSignature {
   Args: {
@@ -31,6 +56,15 @@ export default class UserStoryRow extends Component<UserStoryRowSignature> {
 
   @action toggleExpand() {
     this.expanded = !this.expanded;
+  }
+
+  get priorityBadgeClass(): string {
+    const priority = this.args.userStory.priority ?? 'Moyenne';
+    return PRIORITY_BADGE_CLASS[priority] ?? 'badge-ghost';
+  }
+
+  get statusDotClass(): string {
+    return STATUS_DOT_CLASS[this.args.userStory.status] ?? 'bg-base-300';
   }
 
   <template>
@@ -68,6 +102,21 @@ export default class UserStoryRow extends Component<UserStoryRowSignature> {
             class="badge badge-xs badge-primary badge-soft font-medium uppercase tracking-wider"
           >
             {{t "user-story-map.usLabel"}}
+          </span>
+
+          <span
+            class="size-2 rounded-full flex-shrink-0 {{this.statusDotClass}}"
+            data-test-us-status-dot
+            data-test-us-status={{@userStory.status}}
+            aria-label={{t (concat "backlog.status." @userStory.status)}}
+            title={{t (concat "backlog.status." @userStory.status)}}
+          ></span>
+
+          <span
+            class="badge badge-xs {{this.priorityBadgeClass}} font-medium"
+            data-test-us-priority={{@userStory.priority}}
+          >
+            {{t (concat "backlog.priority." @userStory.priority)}}
           </span>
 
           <span class="flex-1 min-w-0 truncate text-sm font-medium">

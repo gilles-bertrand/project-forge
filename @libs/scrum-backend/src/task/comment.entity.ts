@@ -5,7 +5,8 @@ export const CommentEntity = defineEntity({
   tableName: "comments",
   properties: {
     id: p.string().primary(),
-    taskId: p.string().index(),
+    ownerType: p.string(),
+    ownerId: p.string().index(),
     userId: p.string().index(),
     content: p.string(),
     type: p.string(),
