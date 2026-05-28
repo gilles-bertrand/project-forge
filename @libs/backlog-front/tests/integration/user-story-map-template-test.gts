@@ -18,6 +18,14 @@ class FakeEpicsService extends Service {
   list: Epic[] = [];
 }
 
+class FakeUserStoriesService extends Service {
+  list: UserStory[] = [];
+}
+
+class FakeTasksService extends Service {
+  all: Task[] = [];
+}
+
 describe('Integration | Template /user-story-map', function () {
   // eslint-disable-next-line no-empty-pattern
   renderingTest.scoped({ app: ({}, use) => use(TestApp) });
@@ -31,6 +39,8 @@ describe('Integration | Template /user-story-map', function () {
         FakeCurrentProjectService
       );
       context.owner.register('service:epics', FakeEpicsService);
+      context.owner.register('service:user-stories', FakeUserStoriesService);
+      context.owner.register('service:tasks', FakeTasksService);
 
       const model = {
         epics: [] as Epic[],
@@ -59,6 +69,8 @@ describe('Integration | Template /user-story-map', function () {
         FakeCurrentProjectService
       );
       context.owner.register('service:epics', FakeEpicsService);
+      context.owner.register('service:user-stories', FakeUserStoriesService);
+      context.owner.register('service:tasks', FakeTasksService);
 
       const epic = {
         id: 'epic-1',
@@ -70,8 +82,14 @@ describe('Integration | Template /user-story-map', function () {
         updatedAt: '',
       } as Epic;
 
+      // Le template lit this.epics.list (cache service), pas @model
+      const epicsService = context.owner.lookup(
+        'service:epics'
+      ) as FakeEpicsService;
+      epicsService.list = [epic];
+
       const model = {
-        epics: [epic],
+        epics: [] as Epic[],
         userStories: [] as UserStory[],
         tasks: [] as Task[],
       };
