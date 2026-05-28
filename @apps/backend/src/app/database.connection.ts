@@ -9,6 +9,13 @@ export function databaseConfig(config: Pick<AppConfiguration, "DATABASE_URI">) {
     seeder: {
       pathTs: "./src/seeders",
     },
+    migrations: {
+      path: "./src/migrations",
+      glob: "!(*.d).{js,ts}",
+      transactional: true,
+      allOrNothing: true,
+      emit: "ts",
+    },
     clientUrl: config.DATABASE_URI,
     entities: [...usersEntities, ...scrumEntities, ...timeTrackingEntities],
   });

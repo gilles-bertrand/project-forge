@@ -28,7 +28,12 @@
     "schema:update": "pnpm mikro-orm schema:update --run",
     "schema:drop": "pnpm mikro-orm schema:drop --run",
     "seed": "pnpm mikro-orm seeder:run",
-    "schema:fresh": "vite-node src/cli/schema-fresh.ts"
+    "schema:fresh": "vite-node src/cli/schema-fresh.ts",
+    "migration:create": "pnpm mikro-orm migration:create",
+    "migration:up": "pnpm mikro-orm migration:up",
+    "migration:down": "pnpm mikro-orm migration:down",
+    "migration:status": "pnpm mikro-orm migration:list",
+    "migration:fresh": "vite-node src/cli/migration-fresh.ts"
   },
   "dependencies": {
     "@fastify/cookie": "catalog:",
@@ -42,6 +47,7 @@
     "@libs/time-tracking-backend": "workspace:*",
     "@libs/users-backend": "workspace:*",
     "@mikro-orm/core": "catalog:",
+    "@mikro-orm/migrations": "catalog:",
     "@mikro-orm/seeder": "catalog:",
     "@types/nodemailer": "catalog:",
     "date-fns": "catalog:",

@@ -63,6 +63,7 @@ catalog:
   '@glint/tsserver-plugin': ^2.0.0
   '@mikro-orm/cli': 7.0.14
   '@mikro-orm/core': 7.0.14
+  '@mikro-orm/migrations': 7.0.14
   '@mikro-orm/postgresql': 7.0.14
   '@mikro-orm/seeder': 7.0.14
   '@ngneat/falso': ^8.0.2
