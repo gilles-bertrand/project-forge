@@ -85,3 +85,8 @@ export type CommentType = z.infer<typeof CommentTypeSchema>;
 export const SPRINT_STATUSES = ["planned", "active", "completed"] as const;
 export const SprintStatusSchema = z.enum(SPRINT_STATUSES);
 export type SprintStatus = z.infer<typeof SprintStatusSchema>;
+
+// Polymorphic satellite entities (Comment, Attachment, HistoryEntry)
+export const SATELLITE_OWNER_TYPES = ["task", "story", "epic", "project"] as const;
+export const SatelliteOwnerTypeSchema = z.enum(SATELLITE_OWNER_TYPES);
+export type SatelliteOwnerType = z.infer<typeof SatelliteOwnerTypeSchema>;

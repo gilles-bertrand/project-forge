@@ -553,7 +553,8 @@ export class DatabaseSeeder extends Seeder {
     // Comment
     em.create(CommentEntity, {
       id: "comment-001",
-      taskId: "task-1005",
+      ownerType: "task",
+      ownerId: "task-1005",
       userId: "user-claire",
       content: "Démarrage du formulaire d'inscription — structure HTML en place",
       type: "comment",
@@ -562,7 +563,8 @@ export class DatabaseSeeder extends Seeder {
     });
     em.create(CommentEntity, {
       id: "comment-002",
-      taskId: "task-1011",
+      ownerType: "task",
+      ownerId: "task-1011",
       userId: "user-claire",
       content: "Filtres catégories terminés",
       type: "status-change",

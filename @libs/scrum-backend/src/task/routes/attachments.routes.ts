@@ -1,9 +1,8 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import type { EntityManager } from "@mikro-orm/core";
 import type { FastifyReply, FastifyRequest } from "fastify";
-import { array, literal, number, object, string } from "zod";
+import { array, number, object, string } from "zod";
 import { randomUUID } from "crypto";
-import { TaskEntity } from "#src/task/task.entity.js";
 import { AttachmentEntity } from "#src/task/attachment.entity.js";
 import {
   jsonApiSerializeAttachment,
@@ -16,9 +15,14 @@ import {
   makeSingleJsonApiTopDocument,
   type Route,
 } from "@libs/backend-shared";
+import type { SatelliteOwnerType } from "#src/types.js";
+import { ensureOwnerExists } from "#src/task/owner-resolver.js";
 
-export class ListTaskAttachmentsRoute implements Route {
-  public constructor(private em: EntityManager) {}
+export class ListAttachmentsByOwnerRoute implements Route {
+  public constructor(
+    private em: EntityManager,
+    private ownerType: SatelliteOwnerType,
+  ) {}
 
   public routeDefinition(f: FastifyInstanceTypeForModule) {
     return f.get(
@@ -37,19 +41,19 @@ export class ListTaskAttachmentsRoute implements Route {
       },
       async (request, reply) => {
         const { id } = request.params as { id: string };
-        const task = await this.em.findOne(TaskEntity, { id });
-        if (!task) {
-          return reply.code(404).send(
-            makeJsonApiError(404, "Not Found", {
-              code: "TASK_NOT_FOUND",
-              detail: `Task with id ${id} not found`,
-            }),
-          );
+        const exists = await ensureOwnerExists(this.em, this.ownerType, id);
+        if (!exists.ok) {
+          return reply
+            .code(404)
+            .send(
+              makeJsonApiError(404, "Not Found", { code: exists.code, detail: exists.detail }),
+            );
         }
 
-        const items = await this.em
-          .getRepository(AttachmentEntity)
-          .findAll({ where: { taskId: id }, orderBy: { createdAt: "DESC" } });
+        const items = await this.em.getRepository(AttachmentEntity).findAll({
+          where: { ownerType: this.ownerType, ownerId: id },
+          orderBy: { createdAt: "DESC" },
+        });
         return reply.send({
           data: jsonApiSerializeManyAttachments(items),
           meta: { total: items.length },
@@ -59,8 +63,11 @@ export class ListTaskAttachmentsRoute implements Route {
   }
 }
 
-export class AddTaskAttachmentRoute implements Route {
-  public constructor(private em: EntityManager) {}
+export class AddAttachmentByOwnerRoute implements Route {
+  public constructor(
+    private em: EntityManager,
+    private ownerType: SatelliteOwnerType,
+  ) {}
 
   private async handle(
     request: FastifyRequest<{
@@ -73,7 +80,6 @@ export class AddTaskAttachmentRoute implements Route {
             mimeType: string;
             sizeBytes: number;
             uploadedById: string;
-            projectId?: string | null;
           };
         };
       };
@@ -81,21 +87,18 @@ export class AddTaskAttachmentRoute implements Route {
     reply: FastifyReply,
   ) {
     const { id } = request.params;
-    const task = await this.em.findOne(TaskEntity, { id });
-    if (!task) {
-      return reply.code(404).send(
-        makeJsonApiError(404, "Not Found", {
-          code: "TASK_NOT_FOUND",
-          detail: `Task with id ${id} not found`,
-        }),
-      );
+    const exists = await ensureOwnerExists(this.em, this.ownerType, id);
+    if (!exists.ok) {
+      return reply
+        .code(404)
+        .send(makeJsonApiError(404, "Not Found", { code: exists.code, detail: exists.detail }));
     }
 
     const attrs = request.body.data.attributes;
     const item = this.em.getRepository(AttachmentEntity).create({
       id: randomUUID(),
-      taskId: id,
-      projectId: attrs.projectId ?? task.projectId,
+      ownerType: this.ownerType,
+      ownerId: id,
       name: attrs.name,
       url: attrs.url,
       mimeType: attrs.mimeType,
@@ -120,7 +123,6 @@ export class AddTaskAttachmentRoute implements Route {
                 mimeType: string(),
                 sizeBytes: number().int(),
                 uploadedById: string(),
-                projectId: string().nullable().optional(),
               }),
             }),
           ),
@@ -135,40 +137,20 @@ export class AddTaskAttachmentRoute implements Route {
   }
 }
 
-export class DeleteTaskAttachmentRoute implements Route {
-  public constructor(private em: EntityManager) {}
-
-  public routeDefinition(f: FastifyInstanceTypeForModule) {
-    return f.delete(
-      "/:id/attachments/:attachmentId",
-      {
-        schema: {
-          params: object({ id: string(), attachmentId: string() }),
-          response: {
-            204: makeSingleJsonApiTopDocument(literal(null)),
-            404: jsonApiErrorDocumentSchema,
-          },
-        },
-      },
-      async (request, reply) => {
-        const { id, attachmentId } = request.params as {
-          id: string;
-          attachmentId: string;
-        };
-        const item = await this.em
-          .getRepository(AttachmentEntity)
-          .findOne({ id: attachmentId, taskId: id });
-        if (!item) {
-          return reply.code(404).send(
-            makeJsonApiError(404, "Not Found", {
-              code: "ATTACHMENT_NOT_FOUND",
-              detail: `Attachment ${attachmentId} not found on task ${id}`,
-            }),
-          );
-        }
-        await this.em.remove(item).flush();
-        return reply.code(204).send({ data: null });
-      },
-    );
+// Legacy aliases preserved for backward compatibility with existing routes
+export class ListTaskAttachmentsRoute extends ListAttachmentsByOwnerRoute {
+  public constructor(em: EntityManager) {
+    super(em, "task");
   }
 }
+
+export class AddTaskAttachmentRoute extends AddAttachmentByOwnerRoute {
+  public constructor(em: EntityManager) {
+    super(em, "task");
+  }
+}
+
+export {
+  GetAttachmentRoute,
+  DeleteAttachmentRoute,
+} from "#src/task/routes/attachments-flat.routes.js";

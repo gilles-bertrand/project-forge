@@ -54,28 +54,26 @@ export class DeleteProjectRoute implements Route {
         await this.em.transactional(async (em) => {
           const tasks = await em.find(TaskEntity, { projectId: id }, { fields: ["id"] });
           const taskIds = tasks.map((t) => t.id);
+          const stories = await em.find(UserStoryEntity, { projectId: id }, { fields: ["id"] });
+          const storyIds = stories.map((s) => s.id);
+          const epics = await em.find(EpicEntity, { projectId: id }, { fields: ["id"] });
+          const epicIds = epics.map((e) => e.id);
 
           if (taskIds.length > 0) {
             await em.nativeDelete(TaskAssigneeEntity, { taskId: { $in: taskIds } });
-            await em.nativeDelete(CommentEntity, { taskId: { $in: taskIds } });
           }
 
-          const attachmentFilter =
-            taskIds.length > 0
-              ? { $or: [{ taskId: { $in: taskIds } }, { projectId: id }] }
-              : { projectId: id };
-          await em.nativeDelete(AttachmentEntity, attachmentFilter);
+          // Comments / Attachments / HistoryEntries — polymorphic cascade
+          const ownerSiblings = [
+            { ownerType: "project", ownerId: id },
+            ...(taskIds.length > 0 ? [{ ownerType: "task", ownerId: { $in: taskIds } }] : []),
+            ...(storyIds.length > 0 ? [{ ownerType: "story", ownerId: { $in: storyIds } }] : []),
+            ...(epicIds.length > 0 ? [{ ownerType: "epic", ownerId: { $in: epicIds } }] : []),
+          ];
 
-          const historyFilter =
-            taskIds.length > 0
-              ? {
-                  $or: [
-                    { ownerType: "Task", ownerId: { $in: taskIds } },
-                    { ownerType: "Project", ownerId: id },
-                  ],
-                }
-              : { ownerType: "Project", ownerId: id };
-          await em.nativeDelete(HistoryEntryEntity, historyFilter);
+          await em.nativeDelete(CommentEntity, { $or: ownerSiblings });
+          await em.nativeDelete(AttachmentEntity, { $or: ownerSiblings });
+          await em.nativeDelete(HistoryEntryEntity, { $or: ownerSiblings });
 
           await em.nativeDelete(TaskEntity, { projectId: id });
           await em.nativeDelete(UserStoryEntity, { projectId: id });

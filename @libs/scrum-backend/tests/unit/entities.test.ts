@@ -113,7 +113,8 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
   it("CommentEntity has all required properties", () => {
     const comment: CommentEntityType = {
       id: "comment-1",
-      taskId: "task-1005",
+      ownerType: "task",
+      ownerId: "task-1005",
       userId: "user-claire",
       content: "Démarrage du développement",
       type: "comment",
@@ -122,13 +123,14 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
     };
     expect(comment.type).toBe("comment");
     expect(comment.metadata).toBeNull();
+    expect(comment.ownerType).toBe("task");
   });
 
   it("AttachmentEntity has all required properties", () => {
     const attachment: AttachmentEntityType = {
       id: "att-1",
-      taskId: "task-1005",
-      projectId: null,
+      ownerType: "task",
+      ownerId: "task-1005",
       name: "maquette.png",
       url: "https://storage.example.com/maquette.png",
       mimeType: "image/png",
@@ -136,7 +138,7 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
       uploadedById: "user-emma",
       createdAt: NOW,
     };
-    expect(attachment.projectId).toBeNull();
+    expect(attachment.ownerType).toBe("task");
     expect(attachment.sizeBytes).toBeGreaterThan(0);
   });
 

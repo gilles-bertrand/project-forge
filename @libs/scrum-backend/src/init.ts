@@ -10,6 +10,8 @@ import { handleJsonApiErrors, type ModuleInterface } from "@libs/backend-shared"
 import { createJwtAuthMiddleware } from "@libs/users-backend";
 import type { ScrumLibraryContext } from "#src/context.js";
 import {
+  mountAttachments,
+  mountComments,
   mountDashboard,
   mountEpics,
   mountProjects,
@@ -53,6 +55,8 @@ export class ScrumModule implements ModuleInterface<FastifyInstanceTypeForModule
       await mountUserStories(f, this.context.em);
       await mountTasks(f, this.context.em);
       await mountSprints(f, this.context.em);
+      await mountComments(f, this.context.em);
+      await mountAttachments(f, this.context.em);
       await mountSearch(f, this.context.em);
       await mountDashboard(f, this.context.em, this.context.timeTrackingPort);
     });

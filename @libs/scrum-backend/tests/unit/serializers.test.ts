@@ -152,7 +152,8 @@ describe("scrum-backend serializers", () => {
   it("comment: metadata json", () => {
     const out = jsonApiSerializeComment({
       id: "c1",
-      taskId: "t1",
+      ownerType: "task",
+      ownerId: "t1",
       userId: "u1",
       content: "ok",
       type: "status-change",
@@ -160,12 +161,13 @@ describe("scrum-backend serializers", () => {
       createdAt: NOW,
     });
     expect(out.attributes.metadata).toEqual({ from: "todo", to: "done" });
+    expect(out.attributes.ownerType).toBe("task");
   });
   it("attachment: sizeBytes int", () => {
     const out = jsonApiSerializeAttachment({
       id: "a1",
-      taskId: "t1",
-      projectId: "p1",
+      ownerType: "task",
+      ownerId: "t1",
       name: "doc.pdf",
       url: "https://x/y",
       mimeType: "application/pdf",
@@ -174,7 +176,7 @@ describe("scrum-backend serializers", () => {
       createdAt: NOW,
     });
     expect(out.attributes.sizeBytes).toBe(1024);
-    expect(out.attributes.taskId).toBe("t1");
+    expect(out.attributes.ownerId).toBe("t1");
   });
   it("history-entry: ownerType + metadata", () => {
     const out = jsonApiSerializeHistoryEntry({

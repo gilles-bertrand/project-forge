@@ -216,7 +216,8 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
 
   await module.em.getRepository(CommentEntity).insert({
     id: randomUUID(),
-    taskId,
+    ownerType: "task",
+    ownerId: taskId,
     userId: ScrumTestModule.TEST_USER_ID,
     content: "comment",
     type: "text",
@@ -226,8 +227,8 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
 
   await module.em.getRepository(AttachmentEntity).insert({
     id: randomUUID(),
-    taskId,
-    projectId: null,
+    ownerType: "task",
+    ownerId: taskId,
     name: "file.txt",
     url: "https://example.com/file.txt",
     mimeType: "text/plain",
@@ -238,7 +239,7 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
 
   await module.em.getRepository(HistoryEntryEntity).insert({
     id: randomUUID(),
-    ownerType: "Task",
+    ownerType: "task",
     ownerId: taskId,
     type: "created",
     description: "Task created",
@@ -269,8 +270,8 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
   expect(await module.em.count(SprintEntity, { projectId: id })).toBe(0);
   expect(await module.em.count(TaskEntity, { projectId: id })).toBe(0);
   expect(await module.em.count(TaskAssigneeEntity, { taskId })).toBe(0);
-  expect(await module.em.count(CommentEntity, { taskId })).toBe(0);
-  expect(await module.em.count(AttachmentEntity, { taskId })).toBe(0);
+  expect(await module.em.count(CommentEntity, { ownerType: "task", ownerId: taskId })).toBe(0);
+  expect(await module.em.count(AttachmentEntity, { ownerType: "task", ownerId: taskId })).toBe(0);
   expect(await module.em.count(HistoryEntryEntity, { ownerId: taskId })).toBe(0);
   expect(await module.em.count(ProjectMemberEntity, { projectId: id })).toBe(0);
 });
@@ -388,28 +389,24 @@ test("GET /projects/:id/stats returns correct aggregated counters", async () => 
   // 2 epics: 1 done
   const epicDoneId = randomUUID();
   const epicTodoId = randomUUID();
-  await module.em
-    .getRepository(EpicEntity)
-    .insert({
-      id: epicDoneId,
-      title: "E1",
-      description: "",
-      projectId: id,
-      status: "done",
-      createdAt: now,
-      updatedAt: now,
-    });
-  await module.em
-    .getRepository(EpicEntity)
-    .insert({
-      id: epicTodoId,
-      title: "E2",
-      description: "",
-      projectId: id,
-      status: "todo",
-      createdAt: now,
-      updatedAt: now,
-    });
+  await module.em.getRepository(EpicEntity).insert({
+    id: epicDoneId,
+    title: "E1",
+    description: "",
+    projectId: id,
+    status: "done",
+    createdAt: now,
+    updatedAt: now,
+  });
+  await module.em.getRepository(EpicEntity).insert({
+    id: epicTodoId,
+    title: "E2",
+    description: "",
+    projectId: id,
+    status: "todo",
+    createdAt: now,
+    updatedAt: now,
+  });
 
   // 5 user stories: 2 done
   const storyIds = [randomUUID(), randomUUID(), randomUUID(), randomUUID(), randomUUID()];
@@ -454,38 +451,34 @@ test("GET /projects/:id/stats returns correct aggregated counters", async () => 
 
   // 2 sprints: 1 active
   const activeSprintId = randomUUID();
-  await module.em
-    .getRepository(SprintEntity)
-    .insert({
-      id: activeSprintId,
-      number: 1,
-      name: "Sprint 1",
-      goal: null,
-      projectId: id,
-      startDate: now,
-      endDate: now,
-      status: "active",
-      velocityPoints: 0,
-      completedPoints: 0,
-      createdAt: now,
-      updatedAt: now,
-    });
-  await module.em
-    .getRepository(SprintEntity)
-    .insert({
-      id: randomUUID(),
-      number: 2,
-      name: "Sprint 2",
-      goal: null,
-      projectId: id,
-      startDate: now,
-      endDate: now,
-      status: "completed",
-      velocityPoints: 0,
-      completedPoints: 0,
-      createdAt: now,
-      updatedAt: now,
-    });
+  await module.em.getRepository(SprintEntity).insert({
+    id: activeSprintId,
+    number: 1,
+    name: "Sprint 1",
+    goal: null,
+    projectId: id,
+    startDate: now,
+    endDate: now,
+    status: "active",
+    velocityPoints: 0,
+    completedPoints: 0,
+    createdAt: now,
+    updatedAt: now,
+  });
+  await module.em.getRepository(SprintEntity).insert({
+    id: randomUUID(),
+    number: 2,
+    name: "Sprint 2",
+    goal: null,
+    projectId: id,
+    startDate: now,
+    endDate: now,
+    status: "completed",
+    velocityPoints: 0,
+    completedPoints: 0,
+    createdAt: now,
+    updatedAt: now,
+  });
 
   const response = await module.fastifyInstance.inject({
     method: "GET",

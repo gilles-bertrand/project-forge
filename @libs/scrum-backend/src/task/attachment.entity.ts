@@ -5,8 +5,8 @@ export const AttachmentEntity = defineEntity({
   tableName: "attachments",
   properties: {
     id: p.string().primary(),
-    taskId: p.string().nullable().index(),
-    projectId: p.string().nullable().index(),
+    ownerType: p.string(),
+    ownerId: p.string().index(),
     name: p.string(),
     url: p.string(),
     mimeType: p.string(),
