@@ -110,6 +110,8 @@ async function setupTree() {
     priority: "Haute",
     points: 3,
     estimatedHours: null,
+    remainingHours: null,
+    tags: [],
     projectId,
     userStoryId: storyId,
     epicId,

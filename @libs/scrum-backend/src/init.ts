@@ -9,7 +9,9 @@ import { type ZodTypeProvider } from "fastify-type-provider-zod";
 import { handleJsonApiErrors, type ModuleInterface } from "@libs/backend-shared";
 import { createJwtAuthMiddleware } from "@libs/users-backend";
 import type { ScrumLibraryContext } from "#src/context.js";
+import { withAuditContext } from "#src/audit/audit.hook.js";
 import {
+  mountAcceptanceTests,
   mountAttachments,
   mountComments,
   mountDashboard,
@@ -17,6 +19,7 @@ import {
   mountProjects,
   mountSearch,
   mountSprints,
+  mountStoryDependencies,
   mountTasks,
   mountUserStories,
 } from "#src/mounters.js";
@@ -49,6 +52,7 @@ export class ScrumModule implements ModuleInterface<FastifyInstanceTypeForModule
         this.context.configuration.jwtSecret,
       );
       f.addHook("preValidation", jwtAuth);
+      f.addHook("preHandler", withAuditContext);
 
       await mountProjects(f, this.context.em, this.context.timeTrackingPort);
       await mountEpics(f, this.context.em);
@@ -57,6 +61,8 @@ export class ScrumModule implements ModuleInterface<FastifyInstanceTypeForModule
       await mountSprints(f, this.context.em);
       await mountComments(f, this.context.em);
       await mountAttachments(f, this.context.em);
+      await mountAcceptanceTests(f, this.context.em);
+      await mountStoryDependencies(f, this.context.em);
       await mountSearch(f, this.context.em);
       await mountDashboard(f, this.context.em, this.context.timeTrackingPort);
     });

@@ -1,4 +1,5 @@
 import {
+  AuditSubscriber,
   ScrumModule,
   type FastifyInstanceTypeForModule,
   entities,
@@ -56,6 +57,7 @@ export class ScrumTestModule {
     const orm = await MikroORM.init({
       entities: [...usersEntities, ...entities],
       clientUrl: connectionUrl,
+      subscribers: [new AuditSubscriber()],
     });
 
     const fastifyInstance = fastify().withTypeProvider<ZodTypeProvider>();

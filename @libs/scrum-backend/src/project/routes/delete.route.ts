@@ -12,6 +12,10 @@ import { AttachmentEntity } from "#src/task/attachment.entity.js";
 import { HistoryEntryEntity } from "#src/task/history-entry.entity.js";
 import { UserStoryEntity } from "#src/user-story/user-story.entity.js";
 import { ProjectMemberEntity } from "#src/project/project-member.entity.js";
+import { ProjectTaskCounterEntity } from "#src/project/project-task-counter.entity.js";
+import { SprintBurndownSnapshotEntity } from "#src/sprint/sprint-burndown-snapshot.entity.js";
+import { AcceptanceTestEntity } from "#src/acceptance-test/acceptance-test.entity.js";
+import { StoryDependencyEntity } from "#src/story-dependency/story-dependency.entity.js";
 import {
   jsonApiErrorDocumentSchema,
   makeJsonApiError,
@@ -58,9 +62,16 @@ export class DeleteProjectRoute implements Route {
           const storyIds = stories.map((s) => s.id);
           const epics = await em.find(EpicEntity, { projectId: id }, { fields: ["id"] });
           const epicIds = epics.map((e) => e.id);
+          const sprints = await em.find(SprintEntity, { projectId: id }, { fields: ["id"] });
+          const sprintIds = sprints.map((s) => s.id);
 
           if (taskIds.length > 0) {
             await em.nativeDelete(TaskAssigneeEntity, { taskId: { $in: taskIds } });
+          }
+          if (sprintIds.length > 0) {
+            await em.nativeDelete(SprintBurndownSnapshotEntity, {
+              sprintId: { $in: sprintIds },
+            });
           }
 
           // Comments / Attachments / HistoryEntries — polymorphic cascade
@@ -75,11 +86,19 @@ export class DeleteProjectRoute implements Route {
           await em.nativeDelete(AttachmentEntity, { $or: ownerSiblings });
           await em.nativeDelete(HistoryEntryEntity, { $or: ownerSiblings });
 
+          if (storyIds.length > 0) {
+            await em.nativeDelete(AcceptanceTestEntity, { userStoryId: { $in: storyIds } });
+            await em.nativeDelete(StoryDependencyEntity, {
+              $or: [{ fromStoryId: { $in: storyIds } }, { toStoryId: { $in: storyIds } }],
+            });
+          }
+
           await em.nativeDelete(TaskEntity, { projectId: id });
           await em.nativeDelete(UserStoryEntity, { projectId: id });
           await em.nativeDelete(EpicEntity, { projectId: id });
           await em.nativeDelete(SprintEntity, { projectId: id });
           await em.nativeDelete(ProjectMemberEntity, { projectId: id });
+          await em.nativeDelete(ProjectTaskCounterEntity, { projectId: id });
 
           await this.timeTrackingPort.deleteByProjectId(id);
 

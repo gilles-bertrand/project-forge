@@ -105,3 +105,22 @@ export type SprintStatus = z.infer<typeof SprintStatusSchema>;
 export const SATELLITE_OWNER_TYPES = ["task", "story", "epic", "project"] as const;
 export const SatelliteOwnerTypeSchema = z.enum(SATELLITE_OWNER_TYPES);
 export type SatelliteOwnerType = z.infer<typeof SatelliteOwnerTypeSchema>;
+
+// AcceptanceTest
+export const ACCEPTANCE_TEST_STATES = ["to-check", "failed", "success"] as const;
+export const AcceptanceTestStateSchema = z.enum(ACCEPTANCE_TEST_STATES);
+export type AcceptanceTestState = z.infer<typeof AcceptanceTestStateSchema>;
+
+export const ACCEPTANCE_TEST_AGGREGATE_STATES = [
+  "none",
+  "all-success",
+  "has-failed",
+  "pending",
+] as const;
+export const AcceptanceTestAggregateStateSchema = z.enum(ACCEPTANCE_TEST_AGGREGATE_STATES);
+export type AcceptanceTestAggregateState = z.infer<typeof AcceptanceTestAggregateStateSchema>;
+
+// StoryDependency
+export const STORY_DEPENDENCY_TYPES = ["blocks", "relates-to"] as const;
+export const StoryDependencyTypeSchema = z.enum(STORY_DEPENDENCY_TYPES);
+export type StoryDependencyType = z.infer<typeof StoryDependencyTypeSchema>;

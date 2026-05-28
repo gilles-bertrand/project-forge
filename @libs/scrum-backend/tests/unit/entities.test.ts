@@ -9,6 +9,10 @@ import type { CommentEntityType } from "#src/task/comment.entity.js";
 import type { AttachmentEntityType } from "#src/task/attachment.entity.js";
 import type { HistoryEntryEntityType } from "#src/task/history-entry.entity.js";
 import type { SprintEntityType } from "#src/sprint/sprint.entity.js";
+import type { SprintBurndownSnapshotEntityType } from "#src/sprint/sprint-burndown-snapshot.entity.js";
+import type { ProjectTaskCounterEntityType } from "#src/project/project-task-counter.entity.js";
+import type { AcceptanceTestEntityType } from "#src/acceptance-test/acceptance-test.entity.js";
+import type { StoryDependencyEntityType } from "#src/story-dependency/story-dependency.entity.js";
 
 const NOW = new Date("2025-01-20T00:00:00Z");
 
@@ -103,6 +107,8 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
       priority: "Moyenne",
       points: 2,
       estimatedHours: 4.0,
+      remainingHours: 2.5,
+      tags: ["frontend"],
       projectId: "project-ecommerce",
       userStoryId: "us2",
       epicId: "epic-auth",
@@ -115,6 +121,8 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
     expect(task.number).toBe(1005);
     expect(task.sprintId).toBe("sprint-88");
     expect(task.estimatedHours).toBe(4.0);
+    expect(task.remainingHours).toBe(2.5);
+    expect(task.tags).toEqual(["frontend"]);
   });
 
   it("TaskAssigneeEntity has all required properties", () => {
@@ -174,6 +182,36 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
     expect(entry.metadata).toEqual({ from: "todo", to: "in-progress" });
   });
 
+  it("AcceptanceTestEntity has all required properties", () => {
+    const at: AcceptanceTestEntityType = {
+      id: "at-1",
+      userStoryId: "us1",
+      name: "Login valide",
+      description: "Submit le formulaire avec un mot de passe correct",
+      state: "to-check",
+      rank: 0,
+      createdById: "user-bob",
+      createdAt: NOW,
+      updatedAt: NOW,
+    };
+    expect(at.userStoryId).toBe("us1");
+    expect(at.state).toBe("to-check");
+    expect(at.rank).toBe(0);
+  });
+
+  it("StoryDependencyEntity has all required properties", () => {
+    const dep: StoryDependencyEntityType = {
+      id: "dep-1",
+      fromStoryId: "us1",
+      toStoryId: "us2",
+      type: "blocks",
+      createdAt: NOW,
+    };
+    expect(dep.fromStoryId).toBe("us1");
+    expect(dep.toStoryId).toBe("us2");
+    expect(dep.type).toBe("blocks");
+  });
+
   it("SprintEntity has all required properties", () => {
     const sprint: SprintEntityType = {
       id: "sprint-88",
@@ -191,5 +229,29 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
     };
     expect(sprint.status).toBe("active");
     expect(sprint.velocityPoints).toBe(26);
+  });
+
+  it("SprintBurndownSnapshotEntity has all required properties", () => {
+    const snap: SprintBurndownSnapshotEntityType = {
+      id: "snap-1",
+      sprintId: "sprint-88",
+      snapshotDate: NOW,
+      remainingHoursTotal: 42.5,
+      remainingPointsTotal: 12,
+      taskCount: 8,
+      createdAt: NOW,
+    };
+    expect(snap.sprintId).toBe("sprint-88");
+    expect(snap.remainingHoursTotal).toBe(42.5);
+    expect(snap.taskCount).toBe(8);
+  });
+
+  it("ProjectTaskCounterEntity has all required properties", () => {
+    const counter: ProjectTaskCounterEntityType = {
+      projectId: "project-ecommerce",
+      nextNumber: 1042,
+    };
+    expect(counter.projectId).toBe("project-ecommerce");
+    expect(counter.nextNumber).toBe(1042);
   });
 });

@@ -70,13 +70,29 @@
           "enumItems": [],
           "mappedType": "string"
         },
-        "project_id": {
-          "name": "project_id",
+        "owner_id": {
+          "name": "owner_id",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": true,
+          "nullable": false,
+          "unique": false,
+          "length": 255,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "owner_type": {
+          "name": "owner_type",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
           "unique": false,
           "length": 255,
           "precision": null,
@@ -101,22 +117,6 @@
           "comment": null,
           "enumItems": [],
           "mappedType": "integer"
-        },
-        "task_id": {
-          "name": "task_id",
-          "type": "varchar(255)",
-          "unsigned": false,
-          "autoincrement": false,
-          "primary": false,
-          "nullable": true,
-          "unique": false,
-          "length": 255,
-          "precision": null,
-          "scale": null,
-          "default": null,
-          "comment": null,
-          "enumItems": [],
-          "mappedType": "string"
         },
         "uploaded_by_id": {
           "name": "uploaded_by_id",
@@ -153,28 +153,20 @@
       },
       "indexes": [
         {
+          "columnNames": ["owner_id"],
+          "composite": false,
+          "constraint": false,
+          "keyName": "attachments_owner_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
           "columnNames": ["id"],
           "composite": false,
           "constraint": true,
           "keyName": "attachments_pkey",
           "primary": true,
           "unique": true
-        },
-        {
-          "columnNames": ["project_id"],
-          "composite": false,
-          "constraint": false,
-          "keyName": "attachments_project_id_index",
-          "primary": false,
-          "unique": false
-        },
-        {
-          "columnNames": ["task_id"],
-          "composite": false,
-          "constraint": false,
-          "keyName": "attachments_task_id_index",
-          "primary": false,
-          "unique": false
         },
         {
           "columnNames": ["uploaded_by_id"],
@@ -257,8 +249,24 @@
           "enumItems": [],
           "mappedType": "json"
         },
-        "task_id": {
-          "name": "task_id",
+        "owner_id": {
+          "name": "owner_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": false,
+          "unique": false,
+          "length": 255,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
+        "owner_type": {
+          "name": "owner_type",
           "type": "varchar(255)",
           "unsigned": false,
           "autoincrement": false,
@@ -308,20 +316,20 @@
       },
       "indexes": [
         {
+          "columnNames": ["owner_id"],
+          "composite": false,
+          "constraint": false,
+          "keyName": "comments_owner_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
           "columnNames": ["id"],
           "composite": false,
           "constraint": true,
           "keyName": "comments_pkey",
           "primary": true,
           "unique": true
-        },
-        {
-          "columnNames": ["task_id"],
-          "composite": false,
-          "constraint": false,
-          "keyName": "comments_task_id_index",
-          "primary": false,
-          "unique": false
         },
         {
           "columnNames": ["user_id"],

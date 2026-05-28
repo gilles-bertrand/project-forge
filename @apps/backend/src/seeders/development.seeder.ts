@@ -4,6 +4,7 @@ import {
   EpicEntity,
   ProjectEntity,
   ProjectMemberEntity,
+  ProjectTaskCounterEntity,
   SprintEntity,
   TaskAssigneeEntity,
   TaskEntity,
@@ -24,6 +25,7 @@ export class DatabaseSeeder extends Seeder {
     await em.nativeDelete(EpicEntity, {});
     await em.nativeDelete(SprintEntity, {});
     await em.nativeDelete(ProjectMemberEntity, {});
+    await em.nativeDelete(ProjectTaskCounterEntity, {});
     await em.nativeDelete(ProjectEntity, {});
     await em.nativeDelete(UserEntity, {});
 
@@ -34,7 +36,22 @@ export class DatabaseSeeder extends Seeder {
     await this.seedSprints(em);
     await this.seedTasks(em);
     await this.seedTimeEntries(em);
+    await this.seedTaskCounters(em);
     await em.flush();
+  }
+
+  private async seedTaskCounters(em: EntityManager) {
+    // For each project, set the counter to max(task.number) + 1, default 1001
+    await em.flush();
+    const projects = await em.find(ProjectEntity, {}, { fields: ["id"] });
+    for (const project of projects) {
+      const tasks = await em.find(TaskEntity, { projectId: project.id }, { fields: ["number"] });
+      const maxNumber = tasks.reduce((acc, t) => (t.number > acc ? t.number : acc), 1000);
+      em.create(ProjectTaskCounterEntity, {
+        projectId: project.id,
+        nextNumber: maxNumber + 1,
+      });
+    }
   }
 
   // oxlint-disable-next-line max-lines-per-function

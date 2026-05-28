@@ -11,6 +11,10 @@ import { CommentEntity } from "#src/task/comment.entity.js";
 import { AttachmentEntity } from "#src/task/attachment.entity.js";
 import { HistoryEntryEntity } from "#src/task/history-entry.entity.js";
 import { ProjectMemberEntity } from "#src/project/project-member.entity.js";
+import { ProjectTaskCounterEntity } from "#src/project/project-task-counter.entity.js";
+import { SprintBurndownSnapshotEntity } from "#src/sprint/sprint-burndown-snapshot.entity.js";
+import { AcceptanceTestEntity } from "#src/acceptance-test/acceptance-test.entity.js";
+import { StoryDependencyEntity } from "#src/story-dependency/story-dependency.entity.js";
 
 let module: ScrumTestModule;
 
@@ -198,6 +202,22 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
     updatedAt: now,
   });
 
+  const snapshotId = randomUUID();
+  await module.em.getRepository(SprintBurndownSnapshotEntity).insert({
+    id: snapshotId,
+    sprintId,
+    snapshotDate: now,
+    remainingHoursTotal: 8,
+    remainingPointsTotal: 3,
+    taskCount: 2,
+    createdAt: now,
+  });
+
+  await module.em.getRepository(ProjectTaskCounterEntity).insert({
+    projectId: id,
+    nextNumber: 1010,
+  });
+
   const taskId = randomUUID();
   await module.em.getRepository(TaskEntity).insert({
     id: taskId,
@@ -210,6 +230,8 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
     priority: "medium",
     points: 2,
     estimatedHours: null,
+    remainingHours: null,
+    tags: [],
     projectId: id,
     userStoryId,
     epicId,
@@ -269,6 +291,50 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
     joinedAt: now,
   });
 
+  const acceptanceTestId = randomUUID();
+  await module.em.getRepository(AcceptanceTestEntity).insert({
+    id: acceptanceTestId,
+    userStoryId,
+    name: "AT cascade",
+    description: "d",
+    state: "to-check",
+    rank: 0,
+    createdById: null,
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  // Second story to wire a dependency on
+  const secondStoryId = randomUUID();
+  await module.em.getRepository(UserStoryEntity).insert({
+    id: secondStoryId,
+    title: "US2",
+    description: "desc",
+    notes: null,
+    color: null,
+    projectId: id,
+    epicId: null,
+    sprintId: null,
+    status: "accepted",
+    points: 3,
+    priority: "Moyenne",
+    rank: 1,
+    value: null,
+    createdById: null,
+    tags: [],
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  const storyDepId = randomUUID();
+  await module.em.getRepository(StoryDependencyEntity).insert({
+    id: storyDepId,
+    fromStoryId: userStoryId,
+    toStoryId: secondStoryId,
+    type: "blocks",
+    createdAt: now,
+  });
+
   const response = await module.fastifyInstance.inject({
     method: "DELETE",
     url: `/projects/${id}`,
@@ -287,6 +353,10 @@ test("DELETE /projects/:id cascades and returns 204 when project has children", 
   expect(await module.em.count(AttachmentEntity, { ownerType: "task", ownerId: taskId })).toBe(0);
   expect(await module.em.count(HistoryEntryEntity, { ownerId: taskId })).toBe(0);
   expect(await module.em.count(ProjectMemberEntity, { projectId: id })).toBe(0);
+  expect(await module.em.count(AcceptanceTestEntity, { id: acceptanceTestId })).toBe(0);
+  expect(await module.em.count(StoryDependencyEntity, { id: storyDepId })).toBe(0);
+  expect(await module.em.count(SprintBurndownSnapshotEntity, { sprintId })).toBe(0);
+  expect(await module.em.count(ProjectTaskCounterEntity, { projectId: id })).toBe(0);
 });
 
 test("DELETE /projects/:id rolls back when timeTrackingPort throws", async () => {

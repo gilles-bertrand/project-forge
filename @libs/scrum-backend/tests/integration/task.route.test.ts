@@ -2,6 +2,7 @@ import { afterAll, aroundEach, beforeAll, expect, test } from "vitest";
 import { randomUUID } from "crypto";
 import { ScrumTestModule } from "#tests/utils/setup-module.js";
 import { TaskEntity } from "#src/task/task.entity.js";
+import { ProjectTaskCounterEntity } from "#src/project/project-task-counter.entity.js";
 
 let module: ScrumTestModule;
 
@@ -35,6 +36,8 @@ async function seedTask(
     priority: "Moyenne",
     points: 3,
     estimatedHours: null,
+    remainingHours: null,
+    tags: [],
     projectId: overrides.projectId ?? "p-test",
     userStoryId: null,
     epicId: null,
@@ -102,7 +105,9 @@ test("POST /tasks auto-numbers (1001 if empty project)", async () => {
 });
 
 test("POST /tasks: 2 creates in same project → consecutive numbers", async () => {
-  await seedTask({ projectId: "p-seq", number: 1042 });
+  await module.em
+    .getRepository(ProjectTaskCounterEntity)
+    .insert({ projectId: "p-seq", nextNumber: 1043 });
   const r1 = await module.fastifyInstance.inject({
     method: "POST",
     url: "/tasks",
@@ -142,6 +147,53 @@ test("PATCH /tasks/:id updates status", async () => {
   });
   expect(response.statusCode).toBe(200);
   expect(response.json().data.attributes.status).toBe("done");
+});
+
+test("POST /tasks: remainingHours defaults to estimatedHours", async () => {
+  const response = await module.fastifyInstance.inject({
+    method: "POST",
+    url: "/tasks",
+    headers: { authorization: module.generateBearerToken() },
+    payload: baseCreatePayload({ estimatedHours: 5, projectId: "p-rh-default" }),
+  });
+  expect(response.statusCode).toBe(200);
+  expect(response.json().data.attributes.estimatedHours).toBe(5);
+  expect(response.json().data.attributes.remainingHours).toBe(5);
+});
+
+test("PATCH /tasks/:id status=done forces remainingHours=0", async () => {
+  const id = await seedTask();
+  const response = await module.fastifyInstance.inject({
+    method: "PATCH",
+    url: `/tasks/${id}`,
+    headers: { authorization: module.generateBearerToken() },
+    payload: { data: { attributes: { status: "done" } } },
+  });
+  expect(response.statusCode).toBe(200);
+  expect(response.json().data.attributes.remainingHours).toBe(0);
+});
+
+test("PATCH /tasks/:id status=done + explicit remainingHours is respected", async () => {
+  const id = await seedTask();
+  const response = await module.fastifyInstance.inject({
+    method: "PATCH",
+    url: `/tasks/${id}`,
+    headers: { authorization: module.generateBearerToken() },
+    payload: { data: { attributes: { status: "done", remainingHours: 2.5 } } },
+  });
+  expect(response.statusCode).toBe(200);
+  expect(response.json().data.attributes.remainingHours).toBe(2.5);
+});
+
+test("POST /tasks persists tags array", async () => {
+  const response = await module.fastifyInstance.inject({
+    method: "POST",
+    url: "/tasks",
+    headers: { authorization: module.generateBearerToken() },
+    payload: baseCreatePayload({ projectId: "p-tags", tags: ["urgent", "frontend"] }),
+  });
+  expect(response.statusCode).toBe(200);
+  expect(response.json().data.attributes.tags).toEqual(["urgent", "frontend"]);
 });
 
 test("DELETE /tasks/:id returns 204", async () => {
