@@ -13,6 +13,7 @@ interface SprintCardSignature {
     Element: HTMLDivElement;
 }
 export default class SprintCard extends Component<SprintCardSignature> {
+    burndownOpen: boolean;
     get isActive(): boolean;
     get isPlanned(): boolean;
     get isCompleted(): boolean;
@@ -23,6 +24,9 @@ export default class SprintCard extends Component<SprintCardSignature> {
     get isOverVelocity(): boolean;
     get tasksCount(): number;
     get doneTasksCount(): number;
+    get showBurndown(): boolean;
+    openBurndown(): void;
+    closeBurndown(): void;
     onStartClick(): void;
     onStopClick(): void;
     onDragOver(e: DragEvent): void;
