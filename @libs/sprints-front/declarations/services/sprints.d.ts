@@ -16,6 +16,19 @@ export interface SprintData {
     createdAt: string;
     updatedAt: string;
 }
+export interface BurndownActualPoint {
+    day: string;
+    remaining: number;
+    taskCount: number;
+}
+export interface BurndownIdealPoint {
+    day: string;
+    remaining: number;
+}
+export interface BurndownData {
+    actual: BurndownActualPoint[];
+    ideal: BurndownIdealPoint[];
+}
 export interface NewSprintPayload {
     projectId: string;
     name?: string;
@@ -84,6 +97,7 @@ export default class SprintsService extends Service {
         conflictCount: number;
     }>;
     loadTasks(sprintId: string): Promise<Array<Record<string, unknown>>>;
+    loadBurndown(sprintId: string): Promise<BurndownData>;
     delete(id: string, projectId: string): Promise<void>;
 }
 declare module "@ember/service" {

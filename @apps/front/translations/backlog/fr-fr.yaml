@@ -151,6 +151,17 @@ acceptanceTests:
     to-check: 'À vérifier'
     success: 'Succès'
     failed: 'Échec'
+dependencies:
+  loading: 'Chargement des dépendances…'
+  empty: 'Aucune dépendance.'
+  add: 'Ajouter'
+  addPlaceholder: 'Lier une autre US…'
+  removeAria: 'Supprimer la dépendance'
+  incoming: 'Entrante'
+  typeAria: 'Type de dépendance'
+  type:
+    blocks: 'bloque'
+    relates-to: 'liée à'
 kanban:
   title: 'Kanban'
   subtitle: 'Vue du sprint actif — drag-drop pour changer le statut'

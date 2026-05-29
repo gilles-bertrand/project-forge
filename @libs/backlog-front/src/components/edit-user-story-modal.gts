@@ -17,6 +17,7 @@ import type {
   StoryPriority,
 } from '../schemas/user-stories.ts';
 import AcceptanceTestList from './acceptance-test-list.gts';
+import StoryDependencyList from './story-dependency-list.gts';
 import CommentThread from '@libs/shared-front/components/comment-thread';
 import AttachmentList from '@libs/shared-front/components/attachment-list';
 
@@ -326,6 +327,16 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
           {{#if @userStory.id}}
             <div class="space-y-4">
               <AcceptanceTestList @userStoryId={{@userStory.id}} />
+
+              <section class="border-t border-base-300 pt-4">
+                <h4 class="font-semibold mb-2 text-sm">{{t
+                    "user-story-map.editUserStoryModal.dependenciesTitle"
+                  }}</h4>
+                <StoryDependencyList
+                  @storyId={{@userStory.id}}
+                  @projectId={{this.currentProject.currentProjectId}}
+                />
+              </section>
 
               <section class="border-t border-base-300 pt-4">
                 <h4 class="font-semibold mb-2 text-sm">{{t

@@ -16,6 +16,16 @@ card:
   progress: '{done}/{total} tasks ({percent}%)'
   tasksLabel: 'Tasks ({count})'
   tasksEmpty: 'No tasks assigned'
+  burndown: 'Burndown'
+burndown:
+  title: 'Burndown'
+  closeAria: 'Close'
+  close: 'Close'
+  loading: 'Loading burndown…'
+  empty: 'No burndown data for this sprint.'
+  actual: 'Actual'
+  ideal: 'Ideal'
+  remaining: '{points} pts remaining'
 pagination:
   range: 'Sprint {from} to {to} of {total}'
 modal:

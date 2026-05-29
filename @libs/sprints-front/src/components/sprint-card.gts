@@ -1,9 +1,11 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { on } from '@ember/modifier';
 import { t } from 'ember-intl';
 import { concat } from '@ember/helper';
 import TaskCard from '@libs/backlog-front/components/task-card';
+import SprintBurndownModal from './sprint-burndown-modal.gts';
 import type { SprintData } from '../services/sprints.ts';
 import type { Task } from '@libs/backlog-front/schemas/tasks';
 import { formatSprintCode } from '../utils/format-sprint-code.ts';
@@ -30,6 +32,8 @@ function formatDate(iso: string): string {
 }
 
 export default class SprintCard extends Component<SprintCardSignature> {
+  @tracked burndownOpen = false;
+
   get isActive(): boolean {
     return this.args.sprint.status === 'active';
   }
@@ -73,6 +77,18 @@ export default class SprintCard extends Component<SprintCardSignature> {
 
   get doneTasksCount(): number {
     return this.args.tasks.filter((t) => t.status === 'done').length;
+  }
+
+  get showBurndown(): boolean {
+    return this.isActive || this.isCompleted;
+  }
+
+  @action openBurndown() {
+    this.burndownOpen = true;
+  }
+
+  @action closeBurndown() {
+    this.burndownOpen = false;
   }
 
   @action onStartClick() {
@@ -132,6 +148,18 @@ export default class SprintCard extends Component<SprintCardSignature> {
         -
         {{formatDate @sprint.endDate}}
       </div>
+
+      {{#if this.showBurndown}}
+        <button
+          type="button"
+          class="btn btn-xs btn-ghost self-start gap-1"
+          data-test-sprint-burndown
+          {{on "click" this.openBurndown}}
+        >
+          📉
+          {{t "sprints.card.burndown"}}
+        </button>
+      {{/if}}
 
       {{#if this.isActive}}
         <div class="flex items-center gap-2 text-sm">
@@ -199,5 +227,13 @@ export default class SprintCard extends Component<SprintCardSignature> {
         </div>
       </div>
     </div>
+
+    {{#if this.burndownOpen}}
+      <SprintBurndownModal
+        @sprintId={{@sprint.id}}
+        @sprintName={{@sprint.name}}
+        @onClose={{this.closeBurndown}}
+      />
+    {{/if}}
   </template>
 }

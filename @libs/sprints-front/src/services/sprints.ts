@@ -22,6 +22,22 @@ export interface SprintData {
   updatedAt: string;
 }
 
+export interface BurndownActualPoint {
+  day: string;
+  remaining: number;
+  taskCount: number;
+}
+
+export interface BurndownIdealPoint {
+  day: string;
+  remaining: number;
+}
+
+export interface BurndownData {
+  actual: BurndownActualPoint[];
+  ideal: BurndownIdealPoint[];
+}
+
 export interface NewSprintPayload {
   projectId: string;
   name?: string;
@@ -234,6 +250,13 @@ export default class SprintsService extends Service {
       data?: Array<{ id: string; attributes: Record<string, unknown> }>;
     };
     return (json.data ?? []).map((t) => ({ id: t.id, ...t.attributes }));
+  }
+
+  async loadBurndown(sprintId: string): Promise<BurndownData> {
+    const res = await authFetch(`/api/v1/sprints/${sprintId}/burndown`);
+    if (!res.ok) return { actual: [], ideal: [] };
+    const json = (await res.json()) as { data: { attributes: BurndownData } };
+    return json.data.attributes;
   }
 
   async delete(id: string, projectId: string): Promise<void> {
