@@ -37,6 +37,7 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
     membersLoaded: boolean;
     constructor(owner: unknown, args: ProjectFormModalSignature['Args']);
     get mode(): 'create' | 'edit';
+    get currentUserId(): string | null;
     get titleLabel(): string;
     get submitLabel(): string;
     get submittingLabel(): string;

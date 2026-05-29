@@ -6,7 +6,10 @@ import { on } from '@ember/modifier';
 import { t, type IntlService } from 'ember-intl';
 import type Owner from '@ember/owner';
 import type EpicsService from '../services/epics.ts';
+import type CurrentUserService from '@libs/users-front/services/current-user';
 import type { Epic, EpicStatus, EpicType } from '../schemas/epics.ts';
+import CommentThread from '@libs/shared-front/components/comment-thread';
+import AttachmentList from '@libs/shared-front/components/attachment-list';
 
 interface EditEpicModalSignature {
   Args: {
@@ -21,6 +24,7 @@ const DEFAULT_COLOR = '#6B7280';
 
 export default class EditEpicModal extends Component<EditEpicModalSignature> {
   @service declare epics: EpicsService;
+  @service('current-user') declare currentUser: CurrentUserService;
   @service declare intl: IntlService;
 
   @tracked title = '';
@@ -52,6 +56,10 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
       value,
       label: this.intl.t(`backlog.epicType.${value}`),
     }));
+  }
+
+  get currentUserId(): string | null {
+    return this.currentUser.user?.id ?? null;
   }
 
   get canSubmit(): boolean {
@@ -121,7 +129,7 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
 
   <template>
     <dialog class="modal modal-open" data-test-edit-epic-modal>
-      <div class="modal-box max-w-lg bg-base-200">
+      <div class="modal-box max-w-xl lg:max-w-5xl bg-base-200">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-bold">{{t
               "backlog.modal.editEpic.title"
@@ -134,116 +142,141 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
           >✕</button>
         </div>
 
-        <form {{on "submit" this.submit}} class="flex flex-col gap-4">
-          <div>
-            <label class="label text-sm font-medium" for="edit-epic-title">
-              {{t "backlog.modal.editEpic.name"}}
-              *
-            </label>
-            <input
-              id="edit-epic-title"
-              type="text"
-              class="input input-bordered w-full"
-              value={{this.title}}
-              {{on "input" this.onTitleInput}}
-              required
-            />
-          </div>
-
-          <div>
-            <label
-              class="label text-sm font-medium"
-              for="edit-epic-description"
-            >
-              {{t "backlog.modal.editEpic.description"}}
-            </label>
-            <textarea
-              id="edit-epic-description"
-              class="textarea textarea-bordered w-full h-24"
-              {{on "input" this.onDescriptionInput}}
-            >{{this.description}}</textarea>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <form {{on "submit" this.submit}} class="flex flex-col gap-4">
             <div>
-              <label class="label text-sm font-medium" for="edit-epic-status">
-                {{t "backlog.modal.editEpic.status"}}
+              <label class="label text-sm font-medium" for="edit-epic-title">
+                {{t "backlog.modal.editEpic.name"}}
+                *
               </label>
-              <select
-                id="edit-epic-status"
-                class="select select-bordered w-full"
-                {{on "change" this.onStatusChange}}
-              >
-                {{#each this.statusOptions as |opt|}}
-                  <option
-                    value={{opt.value}}
-                    selected={{this.isStatusSelected opt.value}}
-                  >
-                    {{opt.label}}
-                  </option>
-                {{/each}}
-              </select>
-            </div>
-
-            <div>
-              <label class="label text-sm font-medium" for="edit-epic-type">
-                {{t "backlog.modal.editEpic.type"}}
-              </label>
-              <select
-                id="edit-epic-type"
-                class="select select-bordered w-full"
-                {{on "change" this.onTypeChange}}
-              >
-                {{#each this.typeOptions as |opt|}}
-                  <option
-                    value={{opt.value}}
-                    selected={{this.isTypeSelected opt.value}}
-                  >{{opt.label}}</option>
-                {{/each}}
-              </select>
-            </div>
-          </div>
-
-          <div>
-            <label class="label text-sm font-medium" for="edit-epic-color">
-              {{t "backlog.modal.editEpic.color"}}
-            </label>
-            <div class="flex items-center gap-3">
               <input
-                id="edit-epic-color"
-                type="color"
-                class="input input-bordered h-10 w-16 cursor-pointer p-1"
-                value={{this.color}}
-                {{on "input" this.onColorInput}}
+                id="edit-epic-title"
+                type="text"
+                class="input input-bordered w-full"
+                value={{this.title}}
+                {{on "input" this.onTitleInput}}
+                required
               />
-              <span class="text-xs opacity-70 font-mono">{{this.color}}</span>
             </div>
-          </div>
 
-          {{#if this.error}}
-            <div class="alert alert-error text-sm">{{this.error}}</div>
+            <div>
+              <label
+                class="label text-sm font-medium"
+                for="edit-epic-description"
+              >
+                {{t "backlog.modal.editEpic.description"}}
+              </label>
+              <textarea
+                id="edit-epic-description"
+                class="textarea textarea-bordered w-full h-24"
+                {{on "input" this.onDescriptionInput}}
+              >{{this.description}}</textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="label text-sm font-medium" for="edit-epic-status">
+                  {{t "backlog.modal.editEpic.status"}}
+                </label>
+                <select
+                  id="edit-epic-status"
+                  class="select select-bordered w-full"
+                  {{on "change" this.onStatusChange}}
+                >
+                  {{#each this.statusOptions as |opt|}}
+                    <option
+                      value={{opt.value}}
+                      selected={{this.isStatusSelected opt.value}}
+                    >
+                      {{opt.label}}
+                    </option>
+                  {{/each}}
+                </select>
+              </div>
+
+              <div>
+                <label class="label text-sm font-medium" for="edit-epic-type">
+                  {{t "backlog.modal.editEpic.type"}}
+                </label>
+                <select
+                  id="edit-epic-type"
+                  class="select select-bordered w-full"
+                  {{on "change" this.onTypeChange}}
+                >
+                  {{#each this.typeOptions as |opt|}}
+                    <option
+                      value={{opt.value}}
+                      selected={{this.isTypeSelected opt.value}}
+                    >{{opt.label}}</option>
+                  {{/each}}
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="label text-sm font-medium" for="edit-epic-color">
+                {{t "backlog.modal.editEpic.color"}}
+              </label>
+              <div class="flex items-center gap-3">
+                <input
+                  id="edit-epic-color"
+                  type="color"
+                  class="input input-bordered h-10 w-16 cursor-pointer p-1"
+                  value={{this.color}}
+                  {{on "input" this.onColorInput}}
+                />
+                <span class="text-xs opacity-70 font-mono">{{this.color}}</span>
+              </div>
+            </div>
+
+            {{#if this.error}}
+              <div class="alert alert-error text-sm">{{this.error}}</div>
+            {{/if}}
+
+            <div class="modal-action mt-2">
+              <button
+                type="button"
+                class="btn"
+                disabled={{this.submitting}}
+                {{on "click" @onClose}}
+              >{{t "backlog.modal.editEpic.cancel"}}</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                disabled={{this.cannotSubmit}}
+              >
+                {{if
+                  this.submitting
+                  (t "backlog.modal.editEpic.submitting")
+                  (t "backlog.modal.editEpic.submit")
+                }}
+              </button>
+            </div>
+          </form>
+
+          {{#if @epic.id}}
+            <div class="space-y-4">
+              <section>
+                <h4 class="font-semibold mb-2 text-sm">{{t
+                    "shared.attachments.title"
+                  }}</h4>
+                <AttachmentList @ownerType="epic" @ownerId={{@epic.id}} />
+              </section>
+
+              <section class="border-t border-base-300 pt-4">
+                <h4 class="font-semibold mb-2 text-sm">{{t
+                    "shared.comments.title"
+                  }}</h4>
+                <CommentThread
+                  @ownerType="epic"
+                  @ownerId={{@epic.id}}
+                  @currentUserId={{this.currentUserId}}
+                  @projectId={{@epic.projectId}}
+                />
+              </section>
+            </div>
           {{/if}}
-
-          <div class="modal-action mt-2">
-            <button
-              type="button"
-              class="btn"
-              disabled={{this.submitting}}
-              {{on "click" @onClose}}
-            >{{t "backlog.modal.editEpic.cancel"}}</button>
-            <button
-              type="submit"
-              class="btn btn-primary"
-              disabled={{this.cannotSubmit}}
-            >
-              {{if
-                this.submitting
-                (t "backlog.modal.editEpic.submitting")
-                (t "backlog.modal.editEpic.submit")
-              }}
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
       <button
         type="button"
