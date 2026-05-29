@@ -5,7 +5,7 @@ export default class AttachmentsService extends Service {
     store: Store;
     loading: boolean;
     loadByOwner(ownerType: AttachmentOwnerType, ownerId: string): Promise<Attachment[]>;
-    upload(ownerType: AttachmentOwnerType, ownerId: string, file: File, uploadedById: string): Promise<Attachment | null>;
+    upload(ownerType: AttachmentOwnerType, ownerId: string, file: File): Promise<Attachment | null>;
     remove(attachmentId: string): Promise<void>;
 }
 declare module '@ember/service' {

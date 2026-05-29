@@ -12,6 +12,7 @@ export default class CommentsService extends Service {
     loading: boolean;
     loadByOwner(ownerType: CommentOwnerType, ownerId: string): Promise<Comment[]>;
     create(ownerType: CommentOwnerType, ownerId: string, payload: NewCommentPayload): Promise<Comment>;
+    update(commentId: string, content: string): Promise<Comment>;
     remove(commentId: string): Promise<void>;
 }
 declare module '@ember/service' {

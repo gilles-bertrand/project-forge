@@ -50,8 +50,13 @@ import { AddTaskCommentRoute, ListTaskCommentsRoute } from "#src/task/routes/com
 import {
   AddTaskAttachmentRoute,
   ListTaskAttachmentsRoute,
+  UploadTaskAttachmentRoute,
 } from "#src/task/routes/attachments.routes.js";
-import { DeleteCommentRoute, GetCommentRoute } from "#src/task/routes/comments-flat.routes.js";
+import {
+  DeleteCommentRoute,
+  GetCommentRoute,
+  UpdateCommentRoute,
+} from "#src/task/routes/comments-flat.routes.js";
 import {
   DeleteAttachmentRoute,
   GetAttachmentRoute,
@@ -201,6 +206,7 @@ export async function mountTasks(
     new AddTaskCommentRoute(em),
     new ListTaskAttachmentsRoute(em),
     new AddTaskAttachmentRoute(em),
+    new UploadTaskAttachmentRoute(em),
     new ListTaskHistoryRoute(em),
     new ListTaskAssigneesRoute(em),
     new AddTaskAssigneeRoute(em),
@@ -234,7 +240,11 @@ export async function mountComments(
   parent: FastifyInstanceTypeForModule,
   em: EntityManager,
 ): Promise<void> {
-  await mountRoutes(parent, "/comments", [new GetCommentRoute(em), new DeleteCommentRoute(em)]);
+  await mountRoutes(parent, "/comments", [
+    new GetCommentRoute(em),
+    new UpdateCommentRoute(em),
+    new DeleteCommentRoute(em),
+  ]);
 }
 
 export async function mountAttachments(

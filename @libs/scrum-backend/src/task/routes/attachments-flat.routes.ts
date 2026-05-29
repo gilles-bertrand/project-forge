@@ -1,6 +1,8 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import type { EntityManager } from "@mikro-orm/core";
 import { literal, object, string } from "zod";
+import { unlink } from "node:fs/promises";
+import path from "node:path";
 import { AttachmentEntity } from "#src/task/attachment.entity.js";
 import {
   jsonApiSerializeAttachment,
@@ -70,6 +72,12 @@ export class DeleteAttachmentRoute implements Route {
               detail: `Attachment ${id} not found`,
             }),
           );
+        }
+        // Best-effort cleanup of the locally-stored binary (served at /public/*).
+        // Externally-referenced attachments (non-/public URLs) are left untouched.
+        if (item.url.startsWith("/public/")) {
+          const fileName = item.url.slice("/public/".length);
+          await unlink(path.join(process.cwd(), "dist/uploads", fileName)).catch(() => undefined);
         }
         await this.em.remove(item).flush();
         return reply.code(204).send({ data: null });

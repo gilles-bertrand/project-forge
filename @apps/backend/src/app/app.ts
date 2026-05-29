@@ -119,6 +119,10 @@ export class App {
       transformSpecificationClone: true,
     });
 
+    await fastify.register(await import("@fastify/multipart").then((m) => m.default), {
+      limits: { fileSize: 25 * 1024 * 1024, files: 1 }, // 25 MB, single file
+    });
+
     await fastify.register(
       await import("@fastify/static").then(({ default: staticPlugin }) => staticPlugin),
       {

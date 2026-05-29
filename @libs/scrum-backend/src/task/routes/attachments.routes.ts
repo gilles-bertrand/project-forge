@@ -152,3 +152,8 @@ export {
   GetAttachmentRoute,
   DeleteAttachmentRoute,
 } from "#src/task/routes/attachments-flat.routes.js";
+
+export {
+  UploadAttachmentByOwnerRoute,
+  UploadTaskAttachmentRoute,
+} from "#src/task/routes/attachments-upload.routes.js";
