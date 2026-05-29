@@ -31,6 +31,7 @@ editUserStoryModal:
   errorFallback: 'Could not save user story'
   invalidTransition: 'Invalid status transition: {from} → {to}.'
   pointsNone: '— no points —'
+  dependenciesTitle: 'Dependencies'
   fields:
     title: 'Title'
     description: 'Description'

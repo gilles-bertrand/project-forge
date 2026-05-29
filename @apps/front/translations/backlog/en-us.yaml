@@ -151,6 +151,17 @@ acceptanceTests:
     to-check: 'To check'
     success: 'Success'
     failed: 'Failed'
+dependencies:
+  loading: 'Loading dependencies…'
+  empty: 'No dependencies.'
+  add: 'Add'
+  addPlaceholder: 'Link another US…'
+  removeAria: 'Remove dependency'
+  incoming: 'Incoming'
+  typeAria: 'Dependency type'
+  type:
+    blocks: 'blocks'
+    relates-to: 'relates to'
 kanban:
   title: 'Kanban'
   subtitle: 'Active sprint view — drag-drop to change status'
