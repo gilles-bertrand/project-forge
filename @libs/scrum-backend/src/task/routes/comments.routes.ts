@@ -145,4 +145,8 @@ export class AddTaskCommentRoute extends AddCommentByOwnerRoute {
   }
 }
 
-export { GetCommentRoute, DeleteCommentRoute } from "#src/task/routes/comments-flat.routes.js";
+export {
+  GetCommentRoute,
+  UpdateCommentRoute,
+  DeleteCommentRoute,
+} from "#src/task/routes/comments-flat.routes.js";

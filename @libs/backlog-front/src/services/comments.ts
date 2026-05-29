@@ -69,6 +69,21 @@ export default class CommentsService extends Service {
     return content.data;
   }
 
+  async update(commentId: string, content: string): Promise<Comment> {
+    const { content: body } = await this.store.request<{ data: Comment }>({
+      url: `/api/v1/comments/${commentId}`,
+      method: 'PATCH',
+      body: JSON.stringify({
+        data: {
+          type: 'comments',
+          id: commentId,
+          attributes: { content },
+        },
+      }),
+    });
+    return body.data;
+  }
+
   async remove(commentId: string): Promise<void> {
     await this.store.request<{ data: null }>({
       url: `/api/v1/comments/${commentId}`,

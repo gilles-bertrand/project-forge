@@ -1,5 +1,6 @@
 import type { FastifyInstanceTypeForModule } from "#src/init.js";
 import type { EntityManager } from "@mikro-orm/core";
+import type { FastifyReply, FastifyRequest } from "fastify";
 import { literal, object, string } from "zod";
 import { CommentEntity } from "#src/task/comment.entity.js";
 import { jsonApiSerializeComment, SerializedCommentSchema } from "#src/task/comment.serializer.js";
@@ -38,6 +39,53 @@ export class GetCommentRoute implements Route {
         }
         return reply.send({ data: jsonApiSerializeComment(comment) });
       },
+    );
+  }
+}
+
+export class UpdateCommentRoute implements Route {
+  public constructor(private em: EntityManager) {}
+
+  private async handle(
+    request: FastifyRequest<{
+      Params: { id: string };
+      Body: { data: { attributes: { content: string } } };
+    }>,
+    reply: FastifyReply,
+  ) {
+    const { id } = request.params;
+    const comment = await this.em.getRepository(CommentEntity).findOne({ id });
+    if (!comment) {
+      return reply.code(404).send(
+        makeJsonApiError(404, "Not Found", {
+          code: "COMMENT_NOT_FOUND",
+          detail: `Comment ${id} not found`,
+        }),
+      );
+    }
+    comment.content = request.body.data.attributes.content;
+    await this.em.flush();
+    return reply.send({ data: jsonApiSerializeComment(comment) });
+  }
+
+  public routeDefinition(f: FastifyInstanceTypeForModule) {
+    return f.patch(
+      "/:id",
+      {
+        schema: {
+          params: object({ id: string() }),
+          body: makeSingleJsonApiTopDocument(
+            object({
+              attributes: object({ content: string() }),
+            }),
+          ),
+          response: {
+            200: makeSingleJsonApiTopDocument(SerializedCommentSchema),
+            404: jsonApiErrorDocumentSchema,
+          },
+        },
+      },
+      (request, reply) => this.handle(request as never, reply),
     );
   }
 }

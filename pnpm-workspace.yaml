@@ -50,6 +50,7 @@ catalog:
   '@fastify/cookie': ^11.0.2
   '@fastify/cors': ^11.0.0
   '@fastify/flash': ^6.0.3
+  '@fastify/multipart': ^9.0.3
   '@fastify/passport': ^3.0.2
   '@fastify/secure-session': ^8.1.1
   '@fastify/session': ^11.1.0

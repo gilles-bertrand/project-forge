@@ -37,6 +37,11 @@ const apiProxy =
           target: process.env.VITE_API_URL || 'http://localhost:8000',
           changeOrigin: true,
         },
+        // Uploaded attachments are served by the backend at /public/*
+        '/public': {
+          target: process.env.VITE_API_URL || 'http://localhost:8000',
+          changeOrigin: true,
+        },
       }
     : undefined;
 

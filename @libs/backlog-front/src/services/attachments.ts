@@ -39,18 +39,17 @@ export default class AttachmentsService extends Service {
     }
   }
 
-  // Upload utilise authFetch (multipart) — store.request ne gère pas FormData en JSON:API.
+  // Upload multipart via authFetch — store.request ne gère pas FormData.
+  // L'endpoint `/upload` stocke le binaire et dérive `uploadedById` du JWT.
   async upload(
     ownerType: AttachmentOwnerType,
     ownerId: string,
-    file: File,
-    uploadedById: string
+    file: File
   ): Promise<Attachment | null> {
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('uploadedById', uploadedById);
     const res = await authFetch(
-      `/api/v1/${OWNER_SEGMENT[ownerType]}/${ownerId}/attachments`,
+      `/api/v1/${OWNER_SEGMENT[ownerType]}/${ownerId}/attachments/upload`,
       { method: 'POST', body: formData }
     );
     if (!res.ok) return null;
