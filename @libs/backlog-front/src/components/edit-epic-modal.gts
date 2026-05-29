@@ -6,7 +6,10 @@ import { on } from '@ember/modifier';
 import { t, type IntlService } from 'ember-intl';
 import type Owner from '@ember/owner';
 import type EpicsService from '../services/epics.ts';
+import type CurrentUserService from '@libs/users-front/services/current-user';
 import type { Epic, EpicStatus, EpicType } from '../schemas/epics.ts';
+import CommentThread from '@libs/shared-front/components/comment-thread';
+import AttachmentList from '@libs/shared-front/components/attachment-list';
 
 interface EditEpicModalSignature {
   Args: {
@@ -21,6 +24,7 @@ const DEFAULT_COLOR = '#6B7280';
 
 export default class EditEpicModal extends Component<EditEpicModalSignature> {
   @service declare epics: EpicsService;
+  @service('current-user') declare currentUser: CurrentUserService;
   @service declare intl: IntlService;
 
   @tracked title = '';
@@ -52,6 +56,10 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
       value,
       label: this.intl.t(`backlog.epicType.${value}`),
     }));
+  }
+
+  get currentUserId(): string | null {
+    return this.currentUser.user?.id ?? null;
   }
 
   get canSubmit(): boolean {
@@ -121,7 +129,7 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
 
   <template>
     <dialog class="modal modal-open" data-test-edit-epic-modal>
-      <div class="modal-box max-w-lg bg-base-200">
+      <div class="modal-box max-w-xl bg-base-200">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-bold">{{t
               "backlog.modal.editEpic.title"
@@ -244,6 +252,27 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
             </button>
           </div>
         </form>
+
+        {{#if @epic.id}}
+          <section class="border-t border-base-300 pt-4 mt-4">
+            <h4 class="font-semibold mb-2 text-sm">{{t
+                "shared.attachments.title"
+              }}</h4>
+            <AttachmentList @ownerType="epic" @ownerId={{@epic.id}} />
+          </section>
+
+          <section class="border-t border-base-300 pt-4 mt-4">
+            <h4 class="font-semibold mb-2 text-sm">{{t
+                "shared.comments.title"
+              }}</h4>
+            <CommentThread
+              @ownerType="epic"
+              @ownerId={{@epic.id}}
+              @currentUserId={{this.currentUserId}}
+              @projectId={{@epic.projectId}}
+            />
+          </section>
+        {{/if}}
       </div>
       <button
         type="button"

@@ -9,6 +9,8 @@ import type CurrentUserService from '@libs/users-front/services/current-user';
 import { authFetch } from '@libs/shared-front/utils/auth-fetch';
 import type ProjectsService from '../services/projects.ts';
 import type { Project, ProjectStatus } from '../schemas/projects.ts';
+import CommentThread from '@libs/shared-front/components/comment-thread';
+import AttachmentList from '@libs/shared-front/components/attachment-list';
 
 type UserLite = { id: string; firstName: string; lastName: string; email: string };
 
@@ -61,6 +63,10 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
 
   get mode(): 'create' | 'edit' {
     return this.args.project ? 'edit' : 'create';
+  }
+
+  get currentUserId(): string | null {
+    return this.currentUser.user?.id ?? null;
   }
 
   get titleLabel(): string {
@@ -431,6 +437,27 @@ export default class ProjectFormModal extends Component<ProjectFormModalSignatur
             </button>
           </div>
         </form>
+
+        {{#if @project.id}}
+          <section class="border-t border-base-300 pt-4 mt-4">
+            <h4 class="font-semibold mb-2 text-sm">{{t
+                "shared.attachments.title"
+              }}</h4>
+            <AttachmentList @ownerType="project" @ownerId={{@project.id}} />
+          </section>
+
+          <section class="border-t border-base-300 pt-4 mt-4">
+            <h4 class="font-semibold mb-2 text-sm">{{t
+                "shared.comments.title"
+              }}</h4>
+            <CommentThread
+              @ownerType="project"
+              @ownerId={{@project.id}}
+              @currentUserId={{this.currentUserId}}
+              @projectId={{@project.id}}
+            />
+          </section>
+        {{/if}}
       </div>
       <div class="modal-backdrop" {{on "click" @onClose}}></div>
     </dialog>

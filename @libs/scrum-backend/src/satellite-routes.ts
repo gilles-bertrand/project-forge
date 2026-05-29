@@ -10,11 +10,12 @@ import {
   AddAttachmentByOwnerRoute,
   ListAttachmentsByOwnerRoute,
 } from "#src/task/routes/attachments.routes.js";
+import { UploadAttachmentByOwnerRoute } from "#src/task/routes/attachments-upload.routes.js";
 
 /**
- * Returns the Comment+Attachment list/add routes for a given owner type.
+ * Returns the Comment+Attachment list/add/upload routes for a given owner type.
  * Used by mountProjects/mountEpics/mountUserStories to attach polymorphic
- * satellites without repeating the same 4 route instantiations everywhere.
+ * satellites without repeating the same route instantiations everywhere.
  */
 export function satelliteRoutesFor(
   em: EntityManager,
@@ -25,5 +26,6 @@ export function satelliteRoutesFor(
     new AddCommentByOwnerRoute(em, ownerType),
     new ListAttachmentsByOwnerRoute(em, ownerType),
     new AddAttachmentByOwnerRoute(em, ownerType),
+    new UploadAttachmentByOwnerRoute(em, ownerType),
   ];
 }

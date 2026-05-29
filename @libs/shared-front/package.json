@@ -132,7 +132,11 @@
     "type": "addon",
     "main": "addon-main.cjs",
     "app-js": {
+      "./schemas/attachments.js": "./dist/_app_/schemas/attachments.js",
+      "./schemas/comments.js": "./dist/_app_/schemas/comments.js",
       "./services/add-item-router.js": "./dist/_app_/services/add-item-router.js",
+      "./services/attachments.js": "./dist/_app_/services/attachments.js",
+      "./services/comments.js": "./dist/_app_/services/comments.js",
       "./services/error-reporter.js": "./dist/_app_/services/error-reporter.js",
       "./services/handle-save.js": "./dist/_app_/services/handle-save.js",
       "./services/theme.js": "./dist/_app_/services/theme.js"

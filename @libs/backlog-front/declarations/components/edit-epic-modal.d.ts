@@ -2,6 +2,7 @@ import Component from '@glimmer/component';
 import { type IntlService } from 'ember-intl';
 import type Owner from '@ember/owner';
 import type EpicsService from '../services/epics.ts';
+import type CurrentUserService from '@libs/users-front/services/current-user';
 import type { Epic, EpicStatus, EpicType } from '../schemas/epics.ts';
 interface EditEpicModalSignature {
     Args: {
@@ -11,6 +12,7 @@ interface EditEpicModalSignature {
 }
 export default class EditEpicModal extends Component<EditEpicModalSignature> {
     epics: EpicsService;
+    currentUser: CurrentUserService;
     intl: IntlService;
     title: string;
     description: string;
@@ -28,6 +30,7 @@ export default class EditEpicModal extends Component<EditEpicModalSignature> {
         value: EpicType;
         label: string;
     }[];
+    get currentUserId(): string | null;
     get canSubmit(): boolean;
     get cannotSubmit(): boolean;
     isStatusSelected: (v: EpicStatus) => boolean;

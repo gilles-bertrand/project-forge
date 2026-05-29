@@ -1,7 +1,7 @@
 import Service, { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { Store } from '@warp-drive/core';
-import { authFetch } from '@libs/shared-front/utils/auth-fetch';
+import { authFetch } from '#src/utils/auth-fetch.ts';
 import type {
   Attachment,
   AttachmentOwnerType,

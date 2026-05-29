@@ -3,6 +3,7 @@ import { type IntlService } from 'ember-intl';
 import type Owner from '@ember/owner';
 import type UserStoriesService from '../services/user-stories.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
+import type CurrentUserService from '@libs/users-front/services/current-user';
 import type { UserStory, StoryStatus, StoryPoints, StoryPriority } from '../schemas/user-stories.ts';
 interface EditUserStoryModalSignature {
     Args: {
@@ -13,6 +14,7 @@ interface EditUserStoryModalSignature {
 export default class EditUserStoryModal extends Component<EditUserStoryModalSignature> {
     userStories: UserStoriesService;
     currentProject: CurrentProjectService;
+    currentUser: CurrentUserService;
     intl: IntlService;
     title: string;
     description: string;
@@ -35,6 +37,7 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
         value: StoryPriority;
         label: string;
     }[];
+    get currentUserId(): string | null;
     get canSubmit(): boolean;
     get cannotSubmit(): boolean;
     isStatusSelected: (v: StoryStatus) => boolean;

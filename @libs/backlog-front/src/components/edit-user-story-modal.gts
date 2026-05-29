@@ -9,6 +9,7 @@ import type UserStoriesService from '../services/user-stories.ts';
 import type { UpdateUserStoryPayload } from '../services/user-stories.ts';
 import { InvalidStoryTransitionError } from '../services/user-stories.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
+import type CurrentUserService from '@libs/users-front/services/current-user';
 import type {
   UserStory,
   StoryStatus,
@@ -16,6 +17,8 @@ import type {
   StoryPriority,
 } from '../schemas/user-stories.ts';
 import AcceptanceTestList from './acceptance-test-list.gts';
+import CommentThread from '@libs/shared-front/components/comment-thread';
+import AttachmentList from '@libs/shared-front/components/attachment-list';
 
 interface EditUserStoryModalSignature {
   Args: {
@@ -45,6 +48,7 @@ const PRIORITY_VALUES: StoryPriority[] = [
 export default class EditUserStoryModal extends Component<EditUserStoryModalSignature> {
   @service declare userStories: UserStoriesService;
   @service declare currentProject: CurrentProjectService;
+  @service('current-user') declare currentUser: CurrentUserService;
   @service declare intl: IntlService;
 
   @tracked title = '';
@@ -93,6 +97,10 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
       value,
       label: this.intl.t(`backlog.priority.${value}`),
     }));
+  }
+
+  get currentUserId(): string | null {
+    return this.currentUser.user?.id ?? null;
   }
 
   get canSubmit(): boolean {
@@ -313,6 +321,28 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
 
         {{#if @userStory.id}}
           <AcceptanceTestList @userStoryId={{@userStory.id}} />
+
+          <section class="border-t border-base-300 pt-4 mt-4">
+            <h4 class="font-semibold mb-2 text-sm">{{t
+                "shared.attachments.title"
+              }}</h4>
+            <AttachmentList
+              @ownerType="user-story"
+              @ownerId={{@userStory.id}}
+            />
+          </section>
+
+          <section class="border-t border-base-300 pt-4 mt-4">
+            <h4 class="font-semibold mb-2 text-sm">{{t
+                "shared.comments.title"
+              }}</h4>
+            <CommentThread
+              @ownerType="user-story"
+              @ownerId={{@userStory.id}}
+              @currentUserId={{this.currentUserId}}
+              @projectId={{this.currentProject.currentProjectId}}
+            />
+          </section>
         {{/if}}
       </div>
       <button
