@@ -195,7 +195,7 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
 
   <template>
     <dialog class="modal modal-open" data-test-edit-user-story-modal>
-      <div class="modal-box max-w-xl bg-base-200">
+      <div class="modal-box max-w-xl lg:max-w-5xl bg-base-200">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-bold">{{t
               "user-story-map.editUserStoryModal.title"
@@ -208,142 +208,149 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
           >✕</button>
         </div>
 
-        <form {{on "submit" this.submit}} class="flex flex-col gap-4">
-          <div>
-            <label class="label text-sm font-medium" for="edit-us-title">
-              {{t "user-story-map.editUserStoryModal.fields.title"}}
-              *
-            </label>
-            <input
-              id="edit-us-title"
-              type="text"
-              class="input input-bordered w-full"
-              value={{this.title}}
-              {{on "input" this.onTitleInput}}
-              required
-            />
-          </div>
-
-          <div>
-            <label class="label text-sm font-medium" for="edit-us-description">
-              {{t "user-story-map.editUserStoryModal.fields.description"}}
-            </label>
-            <textarea
-              id="edit-us-description"
-              class="textarea textarea-bordered w-full h-24"
-              {{on "input" this.onDescriptionInput}}
-            >{{this.description}}</textarea>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <form {{on "submit" this.submit}} class="flex flex-col gap-4">
             <div>
-              <label class="label text-sm font-medium" for="edit-us-status">
-                {{t "user-story-map.editUserStoryModal.fields.status"}}
+              <label class="label text-sm font-medium" for="edit-us-title">
+                {{t "user-story-map.editUserStoryModal.fields.title"}}
+                *
+              </label>
+              <input
+                id="edit-us-title"
+                type="text"
+                class="input input-bordered w-full"
+                value={{this.title}}
+                {{on "input" this.onTitleInput}}
+                required
+              />
+            </div>
+
+            <div>
+              <label
+                class="label text-sm font-medium"
+                for="edit-us-description"
+              >
+                {{t "user-story-map.editUserStoryModal.fields.description"}}
+              </label>
+              <textarea
+                id="edit-us-description"
+                class="textarea textarea-bordered w-full h-24"
+                {{on "input" this.onDescriptionInput}}
+              >{{this.description}}</textarea>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="label text-sm font-medium" for="edit-us-status">
+                  {{t "user-story-map.editUserStoryModal.fields.status"}}
+                </label>
+                <select
+                  id="edit-us-status"
+                  class="select select-bordered w-full"
+                  {{on "change" this.onStatusChange}}
+                >
+                  {{#each this.statusOptions as |opt|}}
+                    <option
+                      value={{opt.value}}
+                      selected={{this.isStatusSelected opt.value}}
+                    >{{opt.label}}</option>
+                  {{/each}}
+                </select>
+              </div>
+
+              <div>
+                <label class="label text-sm font-medium" for="edit-us-points">
+                  {{t "user-story-map.editUserStoryModal.fields.points"}}
+                </label>
+                <select
+                  id="edit-us-points"
+                  class="select select-bordered w-full"
+                  {{on "change" this.onPointsChange}}
+                >
+                  {{#each this.pointOptions as |opt|}}
+                    <option
+                      value={{this.pointOptionValue opt.value}}
+                      selected={{this.isPointSelected opt.value}}
+                    >{{opt.label}}</option>
+                  {{/each}}
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="label text-sm font-medium" for="edit-us-priority">
+                {{t "user-story-map.editUserStoryModal.fields.priority"}}
               </label>
               <select
-                id="edit-us-status"
+                id="edit-us-priority"
                 class="select select-bordered w-full"
-                {{on "change" this.onStatusChange}}
+                {{on "change" this.onPriorityChange}}
               >
-                {{#each this.statusOptions as |opt|}}
+                {{#each this.priorityOptions as |opt|}}
                   <option
                     value={{opt.value}}
-                    selected={{this.isStatusSelected opt.value}}
+                    selected={{this.isPrioritySelected opt.value}}
                   >{{opt.label}}</option>
                 {{/each}}
               </select>
             </div>
 
-            <div>
-              <label class="label text-sm font-medium" for="edit-us-points">
-                {{t "user-story-map.editUserStoryModal.fields.points"}}
-              </label>
-              <select
-                id="edit-us-points"
-                class="select select-bordered w-full"
-                {{on "change" this.onPointsChange}}
+            {{#if this.error}}
+              <div
+                class="alert alert-error text-sm"
+                data-test-edit-us-error
+              >{{this.error}}</div>
+            {{/if}}
+
+            <div class="modal-action mt-2">
+              <button
+                type="button"
+                class="btn"
+                disabled={{this.submitting}}
+                {{on "click" @onClose}}
+              >{{t "user-story-map.editUserStoryModal.actions.cancel"}}</button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                disabled={{this.cannotSubmit}}
               >
-                {{#each this.pointOptions as |opt|}}
-                  <option
-                    value={{this.pointOptionValue opt.value}}
-                    selected={{this.isPointSelected opt.value}}
-                  >{{opt.label}}</option>
-                {{/each}}
-              </select>
+                {{if
+                  this.submitting
+                  (t "user-story-map.editUserStoryModal.actions.saving")
+                  (t "user-story-map.editUserStoryModal.actions.save")
+                }}
+              </button>
             </div>
-          </div>
+          </form>
 
-          <div>
-            <label class="label text-sm font-medium" for="edit-us-priority">
-              {{t "user-story-map.editUserStoryModal.fields.priority"}}
-            </label>
-            <select
-              id="edit-us-priority"
-              class="select select-bordered w-full"
-              {{on "change" this.onPriorityChange}}
-            >
-              {{#each this.priorityOptions as |opt|}}
-                <option
-                  value={{opt.value}}
-                  selected={{this.isPrioritySelected opt.value}}
-                >{{opt.label}}</option>
-              {{/each}}
-            </select>
-          </div>
+          {{#if @userStory.id}}
+            <div class="space-y-4">
+              <AcceptanceTestList @userStoryId={{@userStory.id}} />
 
-          {{#if this.error}}
-            <div
-              class="alert alert-error text-sm"
-              data-test-edit-us-error
-            >{{this.error}}</div>
+              <section class="border-t border-base-300 pt-4">
+                <h4 class="font-semibold mb-2 text-sm">{{t
+                    "shared.attachments.title"
+                  }}</h4>
+                <AttachmentList
+                  @ownerType="user-story"
+                  @ownerId={{@userStory.id}}
+                />
+              </section>
+
+              <section class="border-t border-base-300 pt-4">
+                <h4 class="font-semibold mb-2 text-sm">{{t
+                    "shared.comments.title"
+                  }}</h4>
+                <CommentThread
+                  @ownerType="user-story"
+                  @ownerId={{@userStory.id}}
+                  @currentUserId={{this.currentUserId}}
+                  @projectId={{this.currentProject.currentProjectId}}
+                />
+              </section>
+            </div>
           {{/if}}
-
-          <div class="modal-action mt-2">
-            <button
-              type="button"
-              class="btn"
-              disabled={{this.submitting}}
-              {{on "click" @onClose}}
-            >{{t "user-story-map.editUserStoryModal.actions.cancel"}}</button>
-            <button
-              type="submit"
-              class="btn btn-primary"
-              disabled={{this.cannotSubmit}}
-            >
-              {{if
-                this.submitting
-                (t "user-story-map.editUserStoryModal.actions.saving")
-                (t "user-story-map.editUserStoryModal.actions.save")
-              }}
-            </button>
-          </div>
-        </form>
-
-        {{#if @userStory.id}}
-          <AcceptanceTestList @userStoryId={{@userStory.id}} />
-
-          <section class="border-t border-base-300 pt-4 mt-4">
-            <h4 class="font-semibold mb-2 text-sm">{{t
-                "shared.attachments.title"
-              }}</h4>
-            <AttachmentList
-              @ownerType="user-story"
-              @ownerId={{@userStory.id}}
-            />
-          </section>
-
-          <section class="border-t border-base-300 pt-4 mt-4">
-            <h4 class="font-semibold mb-2 text-sm">{{t
-                "shared.comments.title"
-              }}</h4>
-            <CommentThread
-              @ownerType="user-story"
-              @ownerId={{@userStory.id}}
-              @currentUserId={{this.currentUserId}}
-              @projectId={{this.currentProject.currentProjectId}}
-            />
-          </section>
-        {{/if}}
+        </div>
       </div>
       <button
         type="button"
