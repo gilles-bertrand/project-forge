@@ -59,7 +59,7 @@ export default class AcceptanceTestList extends Component<AcceptanceTestListSign
       const items = await this.acceptanceTests.loadByStory(
         this.args.userStoryId
       );
-      this.items = (items ?? []).sort((a, b) => a.rank - b.rank);
+      this.items = [...(items ?? [])].sort((a, b) => a.rank - b.rank);
     } catch (err) {
       this.error = err instanceof Error ? err.message : String(err);
     } finally {

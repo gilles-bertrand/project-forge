@@ -164,4 +164,21 @@ describe('Integration | ProjectCard', function () {
       expect(document.body.textContent).toContain('Aucun membre');
     },
   );
+
+  renderingTest(
+    'Mini-counters have visible border (dark mode fix)',
+    async function ({ context }) {
+      initializeTestApp(context.owner, 'fr-fr');
+      context.owner.register('service:projects', FakeProjectsService);
+
+      const project = fakeProject();
+      const noop = vi.fn();
+      await render(
+        <template><ProjectCard @project={{project}} @onActivate={{noop}} /></template>,
+      );
+
+      const counters = document.querySelectorAll('[data-test-project-card] .bg-base-100.border');
+      expect(counters.length).toBeGreaterThanOrEqual(4);
+    },
+  );
 });

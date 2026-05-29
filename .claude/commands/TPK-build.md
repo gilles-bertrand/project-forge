@@ -94,10 +94,21 @@ PATH_TO_PLAN: $ARGUMENTS
    - Phase(s) frontend ensuite : délégation GLM → appliquer → commit
 
 6. **Validate**
-   - `pnpm lint` — vérifier lint explicitement
-   - Si le projet a des tests, les lancer : `pnpm test` (ou la commande appropriée)
-   - Si frontend : `pnpm build` pour détecter les erreurs TypeScript
+   - `pnpm turbo lint` from repo root — use turbo, not `pnpm lint` in a single package, to match CI exactly
+   - Si le projet a des tests, les lancer : `pnpm turbo test` (ou la commande appropriée)
+   - Si frontend : `pnpm turbo build --filter='@libs/<lib>'` pour détecter les erreurs TypeScript
    - Corriger tous les problèmes avant de continuer
+
+6c. **Lockfile reminder** ← si `package.json` a été modifié
+   - Vérifier si `pnpm-lock.yaml` figure dans `git status`
+   - Si oui : **Claude ne peut pas stager ce fichier** (hook damage-control bloque `git add pnpm-lock.yaml`)
+   - Afficher ce message à l'utilisateur :
+     ```
+     ⚠️  pnpm-lock.yaml a changé. Claude ne peut pas le committer (hook).
+     Lance cette commande toi-même avant le prochain push :
+       ! git add pnpm-lock.yaml
+     Sans ça, la CI échouera avec ERR_PNPM_OUTDATED_LOCKFILE.
+     ```
 
 6b. **Verify success criteria** ← étape obligatoire avant de déplacer vers done/
    - Lire la section "Critères de succès" du plan

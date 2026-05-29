@@ -57,8 +57,8 @@
   --color-base-content: #e3f2fd;
   --color-primary: #7fdbca;
   --color-primary-content: #0a1929;
-  --color-secondary: #1e3a5f;
-  --color-secondary-content: #b0bec5;
+  --color-secondary: #5e7a9f;
+  --color-secondary-content: #e3f2fd;
   --color-accent: #7fdbca;
   --color-accent-content: #0a1929;
   --color-neutral: #0b1e2e;
@@ -67,7 +67,7 @@
   --color-info-content: #0a1929;
   --color-success: #66c7b8;
   --color-success-content: #0a1929;
-  --color-warning: #f48fb1;
+  --color-warning: #f4c28f;
   --color-warning-content: #0a1929;
   --color-error: #f48fb1;
   --color-error-content: #0a1929;
@@ -135,7 +135,7 @@
   --color-info-content: #ffffff;
   --color-success: #4db3a3;
   --color-success-content: #ffffff;
-  --color-warning: #ef5350;
+  --color-warning: #d97706;
   --color-warning-content: #ffffff;
   --color-error: #ef5350;
   --color-error-content: #ffffff;
@@ -172,6 +172,42 @@
 .tpk-dashboard-content {
   background-color: var(--background);
   color: var(--foreground);
+}
+
+/* ─── Badge horizontal padding — SprintForge ───
+ * DaisyUI rend `padding-inline: calc(var(--size)/2 - var(--border))`, trop
+ * serré : le texte est écrasé contre les bords. On ajoute ~0.3rem de chaque
+ * côté (proportionnel à la taille du badge). Règle unlayered → bat @layer daisyui.
+ */
+.badge {
+  padding-inline: calc(var(--size) / 2 + 0.3rem);
+}
+
+/* ─── Badge-soft contrast boost — SprintForge palette ───
+ * DaisyUI 5 rend `badge-soft` avec un fond teinté à 8 % + le texte à la couleur
+ * brute du badge. Sur la palette SprintForge ça perd le contraste pour les
+ * teintes claires (teal) et devient illisible pour les rôles SOMBRES
+ * (`neutral` #0b1e2e). Cette règle UNLAYERED bat `@layer daisyui` : on éclaircit
+ * le texte vers `base-content` (lisible quelle que soit la couleur, y compris
+ * neutral), on remonte le tint de fond et on ajoute une bordure subtile pour un
+ * rendu « pilule teintée » propre. Voir feedback-no-badge-soft-dark-mode.
+ */
+.badge.badge-soft {
+  color: color-mix(
+    in oklab,
+    var(--badge-color, var(--color-base-content)) 55%,
+    var(--color-base-content)
+  );
+  background-color: color-mix(
+    in oklab,
+    var(--badge-color, var(--color-base-content)) 22%,
+    var(--color-base-100)
+  );
+  border-color: color-mix(
+    in oklab,
+    var(--badge-color, var(--color-base-content)) 40%,
+    transparent
+  );
 }
 
 @theme inline {

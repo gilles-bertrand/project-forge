@@ -259,7 +259,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
             <span>{{this.userStoriesDone}}/{{this.userStoriesTotal}}</span>
           </div>
           <progress
-            class="progress progress-primary w-full h-2"
+            class="progress progress-primary w-full h-2 bg-base-300/60"
             value={{this.userStoriesDone}}
             max={{if this.userStoriesTotal this.userStoriesTotal 1}}
           ></progress>
@@ -271,7 +271,7 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
             <span>{{this.sprintDone}}/{{this.sprintTotal}}</span>
           </div>
           <progress
-            class="progress progress-primary w-full h-2"
+            class="progress progress-primary w-full h-2 bg-base-300/60"
             value={{this.sprintDone}}
             max={{if this.sprintTotal this.sprintTotal 1}}
           ></progress>
@@ -279,25 +279,25 @@ export default class ProjectCard extends Component<ProjectCardSignature> {
 
         {{!-- 4 mini-counters --}}
         <div class="grid grid-cols-4 gap-1">
-          <div class="bg-base-300/20 rounded p-1.5 text-center">
+          <div class="bg-base-100 rounded p-1.5 text-center border border-base-300/60">
             <div class="text-xs text-success font-medium truncate">
               {{t "projects.card.epicsLabel"}}
             </div>
             <div class="text-sm font-bold">{{this.epicsDone}}/{{this.epicsTotal}}</div>
           </div>
-          <div class="bg-base-300/20 rounded p-1.5 text-center">
+          <div class="bg-base-100 rounded p-1.5 text-center border border-base-300/60">
             <div class="text-xs text-primary font-medium truncate">
               {{t "projects.card.userStoriesLabel"}}
             </div>
             <div class="text-sm font-bold">{{this.userStoriesDone}}/{{this.userStoriesTotal}}</div>
           </div>
-          <div class="bg-base-300/20 rounded p-1.5 text-center">
+          <div class="bg-base-100 rounded p-1.5 text-center border border-base-300/60">
             <div class="text-xs text-info font-medium truncate">
               {{t "projects.card.tasksLabel"}}
             </div>
             <div class="text-sm font-bold">{{this.tasksDone}}/{{this.tasksTotal}}</div>
           </div>
-          <div class="bg-base-300/20 rounded p-1.5 text-center">
+          <div class="bg-base-100 rounded p-1.5 text-center border border-base-300/60">
             <div class="text-xs text-accent font-medium truncate">
               {{t "projects.card.sprintsLabel"}}
             </div>
