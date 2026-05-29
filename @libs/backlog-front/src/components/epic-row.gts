@@ -219,17 +219,6 @@ export default class EpicRow extends Component<EpicRowSignature> {
                 "user-story-map.noUserStories"
               }}</p>
           {{/each}}
-
-          {{#if @onAddUserStory}}
-            <button
-              type="button"
-              class="btn btn-ghost btn-xs text-secondary"
-              {{on "click" (fn @onAddUserStory @epic)}}
-            >
-              +
-              {{t "user-story-map.addUserStoryInline"}}
-            </button>
-          {{/if}}
         </div>
       {{/if}}
     </div>
