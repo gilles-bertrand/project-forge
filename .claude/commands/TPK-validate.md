@@ -144,13 +144,29 @@ Output the validation results in this format:
 
 For workspaces with multiple packages (e.g. `@libs/*`, `@apps/*`):
 
-- Prefer `pnpm turbo lint` / `pnpm turbo test` from the repo root to run all packages in dependency order.
+- **Always use `pnpm turbo lint` from the repo root** — running `npx eslint .` or `oxlint` directly in a package may miss inter-package issues and does not match CI. `pnpm turbo lint` is the single source of truth.
+- **`pnpm turbo test` for all front libs** — run from root to cover all packages in dependency order.
 - After editing a lib source file, the consumer (Vite dev server) may need a restart if the lib had not been built:
   ```bash
   cd @libs/<lib> && pnpm build   # or pnpm start (watch mode)
   # Then restart Vite in @apps/front
   ```
 - Check for a `pretest` script (`rollup -c`) — missing dist/ will cause Vite import errors.
+
+## CI-equivalent Vite cold-cache test (⚠️ important for shared addon libs)
+
+**Problem**: Tests that pass locally can fail in CI with `[vitest] Vite unexpectedly reloaded a test` when new modules are added to a shared lib (`@libs/shared-front` etc.) and their deps are discovered at runtime (not at scan time).
+
+**Before pushing after adding modules to a shared lib:**
+
+1. Force Vite re-optimization to simulate a cold cache — change `optimizeDeps` in the lib's `vite.config.mts` (any trivial edit), then run:
+   ```bash
+   CI=true pnpm test  # from inside the lib
+   ```
+2. If Vite logs `"new dependencies optimized: ..."` and the tests still pass → safe to push.
+3. If tests fail with `Failed to fetch dynamically imported module` → copy the exact dep names from Vite's error/log into `optimizeDeps.include` in `vite.config.mts`, then re-run.
+
+**Root cause**: Vite's static scan misses deps imported only at runtime (via `compatModules` / `moduleRegistry()` / app re-exports). Pre-bundling them in `optimizeDeps.include` fixes it. Never use `moduleRegistry()` (eager `import.meta.glob`) in a TestApp — register services explicitly instead.
 
 ## Auth-related checks
 
