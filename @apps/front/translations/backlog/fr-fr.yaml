@@ -9,6 +9,10 @@ taskRow:
   linkedToUS: '→ {title}'
 filters:
   all: 'Tous'
+  segment:
+    sandbox: 'Sandbox'
+    product-backlog: 'Product Backlog'
+    sprint-backlog: 'Sprint Backlog'
   nature:
     Bug: 'Bug'
     Feature: 'Feature'
@@ -137,6 +141,17 @@ modal:
     logTime: 'Logger du temps'
     logTimeDisabled: 'Disponible en P9'
     close: 'Fermer'
+acceptanceTests:
+  title: "Tests d'acceptation"
+  loading: 'Chargement…'
+  empty: "Aucun test d'acceptation."
+  newPlaceholder: "Nouveau test d'acceptation…"
+  add: 'Ajouter'
+  deleteAria: 'Supprimer'
+  state:
+    to-check: 'À vérifier'
+    success: 'Succès'
+    failed: 'Échec'
 kanban:
   title: 'Kanban'
   subtitle: 'Vue du sprint actif — drag-drop pour changer le statut'

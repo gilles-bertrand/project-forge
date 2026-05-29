@@ -2,6 +2,7 @@ import Service from '@ember/service';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { Store } from '@warp-drive/core';
+import { authFetchJson } from '@libs/shared-front/utils/auth-fetch';
 import type {
   Task,
   TaskStatus,
@@ -136,30 +137,32 @@ export default class TasksService extends Service {
     return content.data;
   }
 
-  // Sub-resources (comments, history, assignees) — pas de schemas WarpDrive
-  // enregistrés pour ces types ; on bypass le cache avec fetch direct.
+  // Sub-resources (comments, history, assignees). On utilise authFetchJson pour
+  // attacher le Bearer token (sinon 401 silencieux). Comments + Attachments ont
+  // désormais des schémas WarpDrive ; passer par le service polymorphique
+  // `comments` / `attachments` pour de nouveaux call sites.
   async loadComments(taskId: string): Promise<TaskComment[]> {
-    const res = await fetch(`/api/v1/tasks/${taskId}/comments`);
-    const json = (await res.json()) as {
+    const json = await authFetchJson<{
       data: Array<{ id: string; attributes: Omit<TaskComment, 'id'> }>;
-    };
-    return json.data.map((c) => ({ id: c.id, ...c.attributes }));
+    }>(`/api/v1/tasks/${taskId}/comments`);
+    if (!json) return [];
+    return (json.data ?? []).map((c) => ({ id: c.id, ...c.attributes }));
   }
 
   async loadHistory(taskId: string): Promise<TaskHistoryEvent[]> {
-    const res = await fetch(`/api/v1/tasks/${taskId}/history`);
-    const json = (await res.json()) as {
+    const json = await authFetchJson<{
       data: Array<{ id: string; attributes: Omit<TaskHistoryEvent, 'id'> }>;
-    };
-    return json.data.map((h) => ({ id: h.id, ...h.attributes }));
+    }>(`/api/v1/tasks/${taskId}/history`);
+    if (!json) return [];
+    return (json.data ?? []).map((h) => ({ id: h.id, ...h.attributes }));
   }
 
   async loadAssignees(taskId: string): Promise<TaskAssignee[]> {
-    const res = await fetch(`/api/v1/tasks/${taskId}/assignees`);
-    const json = (await res.json()) as {
+    const json = await authFetchJson<{
       data: Array<{ id: string; attributes: Omit<TaskAssignee, 'id'> }>;
-    };
-    return json.data.map((a) => ({ id: a.id, ...a.attributes }));
+    }>(`/api/v1/tasks/${taskId}/assignees`);
+    if (!json) return [];
+    return (json.data ?? []).map((a) => ({ id: a.id, ...a.attributes }));
   }
 }
 

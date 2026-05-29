@@ -76,7 +76,11 @@ export default class DashboardBacklogTemplate extends Component<BacklogTemplateS
       </div>
 
       {{#if this.currentProject.currentProjectId}}
-        <BacklogFilters @tasks={{@model.tasks}} @onFilter={{this.onFilter}} />
+        <BacklogFilters
+          @tasks={{@model.tasks}}
+          @userStories={{@model.userStories}}
+          @onFilter={{this.onFilter}}
+        />
 
         <div class="mt-4 space-y-2">
           {{#each this.displayedTasks as |task|}}
