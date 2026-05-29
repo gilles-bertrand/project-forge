@@ -1,7 +1,6 @@
-import Service, { service } from '@ember/service';
+import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import type { Store } from '@warp-drive/core';
-import { authFetch } from '#src/utils/auth-fetch.ts';
+import { authFetch, authFetchJson } from '#src/utils/auth-fetch.ts';
 import type {
   Attachment,
   AttachmentOwnerType,
@@ -14,9 +13,15 @@ const OWNER_SEGMENT: Record<AttachmentOwnerType, string> = {
   project: 'projects',
 };
 
-export default class AttachmentsService extends Service {
-  @service declare store: Store;
+type RawAttachment = { id: string; attributes: Omit<Attachment, 'id'> };
 
+// Flatten { id, type, attributes } → { id, ...attributes } so `.name`,
+// `.sizeBytes`, `.url` are readable directly (raw nested shape rendered NaN).
+function flatten(raw: RawAttachment): Attachment {
+  return { id: raw.id, ...raw.attributes };
+}
+
+export default class AttachmentsService extends Service {
   @tracked loading = false;
 
   async loadByOwner(
@@ -25,15 +30,10 @@ export default class AttachmentsService extends Service {
   ): Promise<Attachment[]> {
     this.loading = true;
     try {
-      const { content } = await this.store.request<{
-        data: Attachment[];
-        meta?: { total: number };
-      }>({
-        url: `/api/v1/${OWNER_SEGMENT[ownerType]}/${ownerId}/attachments`,
-        method: 'GET',
-        cacheOptions: { reload: true },
-      });
-      return content.data ?? [];
+      const json = await authFetchJson<{ data: RawAttachment[] }>(
+        `/api/v1/${OWNER_SEGMENT[ownerType]}/${ownerId}/attachments`
+      );
+      return (json?.data ?? []).map(flatten);
     } finally {
       this.loading = false;
     }
@@ -53,15 +53,17 @@ export default class AttachmentsService extends Service {
       { method: 'POST', body: formData }
     );
     if (!res.ok) return null;
-    const json = (await res.json()) as { data: Attachment };
-    return json.data;
+    const json = (await res.json()) as { data: RawAttachment };
+    return flatten(json.data);
   }
 
   async remove(attachmentId: string): Promise<void> {
-    await this.store.request<{ data: null }>({
-      url: `/api/v1/attachments/${attachmentId}`,
+    const res = await authFetch(`/api/v1/attachments/${attachmentId}`, {
       method: 'DELETE',
     });
+    if (!res.ok) {
+      throw new Error(`Attachment deletion failed: ${String(res.status)}`);
+    }
   }
 }
 

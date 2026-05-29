@@ -1,6 +1,6 @@
-import Service, { service } from '@ember/service';
+import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import type { Store } from '@warp-drive/core';
+import { authFetch, authFetchJson } from '#src/utils/auth-fetch.ts';
 import type {
   Comment,
   CommentKind,
@@ -21,9 +21,16 @@ export interface NewCommentPayload {
   metadata?: Record<string, unknown> | null;
 }
 
-export default class CommentsService extends Service {
-  @service declare store: Store;
+type RawComment = { id: string; attributes: Omit<Comment, 'id'> };
 
+// JSON:API resources arrive as { id, type, attributes }. Flatten to the same
+// shape `loadByOwner` returns so callers can read `.userId`, `.content`, etc.
+// uniformly (mixing flat + nested shapes is what caused blank/NaN renders).
+function flatten(raw: RawComment): Comment {
+  return { id: raw.id, ...raw.attributes };
+}
+
+export default class CommentsService extends Service {
   @tracked loading = false;
 
   async loadByOwner(
@@ -32,15 +39,10 @@ export default class CommentsService extends Service {
   ): Promise<Comment[]> {
     this.loading = true;
     try {
-      const { content } = await this.store.request<{
-        data: Comment[];
-        meta?: { total: number };
-      }>({
-        url: `/api/v1/${OWNER_SEGMENT[ownerType]}/${ownerId}/comments`,
-        method: 'GET',
-        cacheOptions: { reload: true },
-      });
-      return content.data ?? [];
+      const json = await authFetchJson<{ data: RawComment[] }>(
+        `/api/v1/${OWNER_SEGMENT[ownerType]}/${ownerId}/comments`
+      );
+      return (json?.data ?? []).map(flatten);
     } finally {
       this.loading = false;
     }
@@ -51,44 +53,50 @@ export default class CommentsService extends Service {
     ownerId: string,
     payload: NewCommentPayload
   ): Promise<Comment> {
-    const { content } = await this.store.request<{ data: Comment }>({
-      url: `/api/v1/${OWNER_SEGMENT[ownerType]}/${ownerId}/comments`,
-      method: 'POST',
-      body: JSON.stringify({
-        data: {
-          type: 'comments',
-          attributes: {
-            userId: payload.userId,
-            content: payload.content,
-            type: payload.type ?? 'comment',
-            metadata: payload.metadata ?? null,
+    const json = await authFetchJson<{ data: RawComment }>(
+      `/api/v1/${OWNER_SEGMENT[ownerType]}/${ownerId}/comments`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          data: {
+            type: 'comments',
+            attributes: {
+              userId: payload.userId,
+              content: payload.content,
+              type: payload.type ?? 'comment',
+              metadata: payload.metadata ?? null,
+            },
           },
-        },
-      }),
-    });
-    return content.data;
+        }),
+      }
+    );
+    if (!json) throw new Error('Comment creation failed');
+    return flatten(json.data);
   }
 
   async update(commentId: string, content: string): Promise<Comment> {
-    const { content: body } = await this.store.request<{ data: Comment }>({
-      url: `/api/v1/comments/${commentId}`,
-      method: 'PATCH',
-      body: JSON.stringify({
-        data: {
-          type: 'comments',
-          id: commentId,
-          attributes: { content },
-        },
-      }),
-    });
-    return body.data;
+    const json = await authFetchJson<{ data: RawComment }>(
+      `/api/v1/comments/${commentId}`,
+      {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          data: { type: 'comments', id: commentId, attributes: { content } },
+        }),
+      }
+    );
+    if (!json) throw new Error('Comment update failed');
+    return flatten(json.data);
   }
 
   async remove(commentId: string): Promise<void> {
-    await this.store.request<{ data: null }>({
-      url: `/api/v1/comments/${commentId}`,
+    const res = await authFetch(`/api/v1/comments/${commentId}`, {
       method: 'DELETE',
     });
+    if (!res.ok) {
+      throw new Error(`Comment deletion failed: ${String(res.status)}`);
+    }
   }
 }
 
