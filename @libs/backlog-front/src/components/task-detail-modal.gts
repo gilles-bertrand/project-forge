@@ -19,7 +19,13 @@ import type UserStoriesService from '../services/user-stories.ts';
 import type RouterService from '@ember/routing/router-service';
 import type CurrentUserService from '@libs/users-front/services/current-user';
 import type { TaskHistoryEvent, TaskAssignee } from '../services/tasks.ts';
-import type { Task, TaskStatus, TaskPriority } from '../schemas/tasks.ts';
+import type {
+  Task,
+  TaskStatus,
+  TaskPriority,
+  TaskType,
+  TaskNature,
+} from '../schemas/tasks.ts';
 import type { UserStory } from '../schemas/user-stories.ts';
 
 type TaskDetailTab = 'details' | 'comments' | 'history';
@@ -36,6 +42,29 @@ const PRIORITY_VALUES: TaskPriority[] = [
   'Moyenne',
   'Haute',
   'Critique',
+];
+const TYPE_VALUES: TaskType[] = [
+  'Frontend',
+  'Backend',
+  'Database',
+  'UX',
+  'Analyse',
+  'DevOps',
+  'API',
+  'Security',
+  'Testing',
+];
+const NATURE_VALUES: TaskNature[] = [
+  'Bug',
+  'Feature',
+  'Maintenance',
+  'Hotfix',
+  'Refacto',
+  'Techdebt',
+  'Spike',
+  'Review',
+  'Deployment',
+  'Infra',
 ];
 const POINT_VALUES = [1, 2, 3, 5, 8, 13, 21] as const;
 
@@ -68,8 +97,11 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
   @tracked title = '';
   @tracked status: TaskStatus = 'todo';
   @tracked priority: TaskPriority = 'Moyenne';
+  @tracked type: TaskType = 'Frontend';
+  @tracked nature: TaskNature = 'Feature';
   @tracked description = '';
   @tracked points = 0;
+  @tracked estimatedHours = 0;
   @tracked userStoryId: string | null = null;
   @tracked assigneeIds: string[] = [];
   @tracked assigneeSearch = '';
@@ -87,8 +119,11 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
     this.title = this.args.task.title;
     this.status = this.args.task.status;
     this.priority = this.args.task.priority;
+    this.type = this.args.task.type;
+    this.nature = this.args.task.nature;
     this.description = this.args.task.description;
     this.points = this.args.task.points;
+    this.estimatedHours = this.args.task.estimatedHours ?? 0;
     this.userStoryId = this.args.task.userStoryId;
   }
 
@@ -226,12 +261,26 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
       label: this.intl.t(`tasks.priority.${value}`),
     }));
   }
+  get typeOptions(): { value: TaskType; label: string }[] {
+    return TYPE_VALUES.map((value) => ({
+      value,
+      label: this.intl.t(`backlog.filters.type.${value}`),
+    }));
+  }
+  get natureOptions(): { value: TaskNature; label: string }[] {
+    return NATURE_VALUES.map((value) => ({
+      value,
+      label: this.intl.t(`backlog.filters.nature.${value}`),
+    }));
+  }
   get pointValues(): readonly number[] {
     return POINT_VALUES;
   }
 
   isStatusSelected = (v: TaskStatus): boolean => this.status === v;
   isPrioritySelected = (v: TaskPriority): boolean => this.priority === v;
+  isTypeSelected = (v: TaskType): boolean => this.type === v;
+  isNatureSelected = (v: TaskNature): boolean => this.nature === v;
   isPointSelected = (v: number): boolean => this.points === v;
   isUSSelected = (id: string | null): boolean => this.userStoryId === id;
   isAssigneeSelected = (id: string): boolean => this.assigneeIds.includes(id);
@@ -270,6 +319,18 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
   }
   @action onPriorityChange(e: Event) {
     this.priority = (e.target as HTMLSelectElement).value as TaskPriority;
+    this.dirty = true;
+  }
+  @action onTypeChange(e: Event) {
+    this.type = (e.target as HTMLSelectElement).value as TaskType;
+    this.dirty = true;
+  }
+  @action onNatureChange(e: Event) {
+    this.nature = (e.target as HTMLSelectElement).value as TaskNature;
+    this.dirty = true;
+  }
+  @action onEstimatedHoursInput(e: Event) {
+    this.estimatedHours = Number((e.target as HTMLInputElement).value);
     this.dirty = true;
   }
   @action onDescriptionInput(e: Event) {
@@ -314,8 +375,11 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
         title: this.title.trim(),
         status: this.status,
         priority: this.priority,
+        type: this.type,
+        nature: this.nature,
         description: this.description.trim(),
         points: this.points,
+        estimatedHours: this.estimatedHours || null,
         userStoryId: this.userStoryId,
       });
       await this.tasks.syncAssignees(
@@ -466,6 +530,46 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
                         <option
                           value={{opt.value}}
                           selected={{this.isPrioritySelected opt.value}}
+                        >{{opt.label}}</option>
+                      {{/each}}
+                    </select>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      class="opacity-50 text-xs uppercase"
+                      for="task-edit-type"
+                    >{{t "backlog.modal.addTask.type"}}</label>
+                    <select
+                      id="task-edit-type"
+                      class="select select-bordered select-sm w-full"
+                      {{on "change" this.onTypeChange}}
+                      data-test-task-type-select
+                    >
+                      {{#each this.typeOptions as |opt|}}
+                        <option
+                          value={{opt.value}}
+                          selected={{this.isTypeSelected opt.value}}
+                        >{{opt.label}}</option>
+                      {{/each}}
+                    </select>
+                  </div>
+                  <div>
+                    <label
+                      class="opacity-50 text-xs uppercase"
+                      for="task-edit-nature"
+                    >{{t "backlog.modal.addTask.nature"}}</label>
+                    <select
+                      id="task-edit-nature"
+                      class="select select-bordered select-sm w-full"
+                      {{on "change" this.onNatureChange}}
+                      data-test-task-nature-select
+                    >
+                      {{#each this.natureOptions as |opt|}}
+                        <option
+                          value={{opt.value}}
+                          selected={{this.isNatureSelected opt.value}}
                         >{{opt.label}}</option>
                       {{/each}}
                     </select>
@@ -665,7 +769,24 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
                 {{/if}}
               </div>
 
-              {{#if @task.estimatedHours}}
+              {{#if this.isEditing}}
+                <div>
+                  <label
+                    class="opacity-50 text-xs uppercase"
+                    for="task-edit-hours"
+                  >{{t "backlog.modal.taskDetail.meta.time"}}</label>
+                  <input
+                    id="task-edit-hours"
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    class="input input-bordered input-sm w-full"
+                    value={{this.estimatedHours}}
+                    {{on "input" this.onEstimatedHoursInput}}
+                    data-test-task-hours-input
+                  />
+                </div>
+              {{else if @task.estimatedHours}}
                 <div>
                   <div class="opacity-50 text-xs uppercase">{{t
                       "backlog.modal.taskDetail.meta.time"

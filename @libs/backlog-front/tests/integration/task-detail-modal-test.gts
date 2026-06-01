@@ -314,6 +314,12 @@ describe('Integration | TaskDetailModal', function () {
       expect(tasks.updateCalls[0]?.partial['title']).toBe('Titre modifié');
       expect(tasks.updateCalls[0]?.partial['status']).toBe('in-progress');
       expect(tasks.updateCalls[0]?.partial['priority']).toBe('Haute');
+      // tous les champs de création sont éditables → présents dans le payload
+      expect(tasks.updateCalls[0]?.partial['type']).toBe('Frontend');
+      expect(tasks.updateCalls[0]?.partial['nature']).toBe('Bug');
+      expect('estimatedHours' in (tasks.updateCalls[0]?.partial ?? {})).toBe(
+        true
+      );
       // l'historique est rechargé après save (1× à l'ouverture + 1× après save)
       expect(tasks.loadHistoryCalls).toBe(2);
     }

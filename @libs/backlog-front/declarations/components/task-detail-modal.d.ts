@@ -6,7 +6,7 @@ import type UserStoriesService from '../services/user-stories.ts';
 import type RouterService from '@ember/routing/router-service';
 import type CurrentUserService from '@libs/users-front/services/current-user';
 import type { TaskHistoryEvent, TaskAssignee } from '../services/tasks.ts';
-import type { Task, TaskStatus, TaskPriority } from '../schemas/tasks.ts';
+import type { Task, TaskStatus, TaskPriority, TaskType, TaskNature } from '../schemas/tasks.ts';
 import type { UserStory } from '../schemas/user-stories.ts';
 type TaskDetailTab = 'details' | 'comments' | 'history';
 interface TaskDetailModalSignature {
@@ -33,8 +33,11 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
     title: string;
     status: TaskStatus;
     priority: TaskPriority;
+    type: TaskType;
+    nature: TaskNature;
     description: string;
     points: number;
+    estimatedHours: number;
     userStoryId: string | null;
     assigneeIds: string[];
     assigneeSearch: string;
@@ -67,9 +70,19 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
         value: TaskPriority;
         label: string;
     }[];
+    get typeOptions(): {
+        value: TaskType;
+        label: string;
+    }[];
+    get natureOptions(): {
+        value: TaskNature;
+        label: string;
+    }[];
     get pointValues(): readonly number[];
     isStatusSelected: (v: TaskStatus) => boolean;
     isPrioritySelected: (v: TaskPriority) => boolean;
+    isTypeSelected: (v: TaskType) => boolean;
+    isNatureSelected: (v: TaskNature) => boolean;
     isPointSelected: (v: number) => boolean;
     isUSSelected: (id: string | null) => boolean;
     isAssigneeSelected: (id: string) => boolean;
@@ -81,6 +94,9 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
     onTitleInput(e: Event): void;
     onStatusChange(e: Event): void;
     onPriorityChange(e: Event): void;
+    onTypeChange(e: Event): void;
+    onNatureChange(e: Event): void;
+    onEstimatedHoursInput(e: Event): void;
     onDescriptionInput(e: Event): void;
     onPointsChange(e: Event): void;
     onUSChange(e: Event): void;
