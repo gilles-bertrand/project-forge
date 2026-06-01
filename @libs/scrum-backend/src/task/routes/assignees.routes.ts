@@ -5,6 +5,7 @@ import { array, literal, number, object, string } from "zod";
 import { randomUUID } from "crypto";
 import { TaskEntity } from "#src/task/task.entity.js";
 import { TaskAssigneeEntity } from "#src/task/task-assignee.entity.js";
+import { ProjectMemberEntity } from "#src/project/project-member.entity.js";
 import {
   jsonApiSerializeManyTaskAssignees,
   jsonApiSerializeTaskAssignee,
@@ -80,6 +81,21 @@ export class AddTaskAssigneeRoute implements Route {
     }
 
     const { userId } = request.body.data.attributes;
+
+    // L'assigné doit être membre du projet de la task (cohérence sprint/US/membres).
+    const membership = await this.em.findOne(ProjectMemberEntity, {
+      projectId: task.projectId,
+      userId,
+    });
+    if (!membership) {
+      return reply.code(422).send(
+        makeJsonApiError(422, "Unprocessable Entity", {
+          code: "USER_NOT_PROJECT_MEMBER",
+          detail: `User ${userId} is not a member of project ${task.projectId}`,
+        }),
+      );
+    }
+
     const repo = this.em.getRepository(TaskAssigneeEntity);
     const existing = await repo.findOne({ taskId: id, userId });
     if (existing) {
@@ -111,6 +127,7 @@ export class AddTaskAssigneeRoute implements Route {
             200: makeSingleJsonApiTopDocument(SerializedTaskAssigneeSchema),
             404: jsonApiErrorDocumentSchema,
             409: jsonApiErrorDocumentSchema,
+            422: jsonApiErrorDocumentSchema,
           },
         },
       },

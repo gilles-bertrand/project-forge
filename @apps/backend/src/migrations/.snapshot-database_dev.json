@@ -1,6 +1,8 @@
 {
   "name": "public",
-  "namespaces": ["public"],
+  "namespaces": [
+    "public"
+  ],
   "tables": [
     {
       "name": "acceptance_tests",
@@ -118,6 +120,22 @@
           "enumItems": [],
           "mappedType": "string"
         },
+        "task_id": {
+          "name": "task_id",
+          "type": "varchar(255)",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "unique": false,
+          "length": 255,
+          "precision": null,
+          "scale": null,
+          "default": null,
+          "comment": null,
+          "enumItems": [],
+          "mappedType": "string"
+        },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamptz(6)",
@@ -140,7 +158,7 @@
           "unsigned": false,
           "autoincrement": false,
           "primary": false,
-          "nullable": false,
+          "nullable": true,
           "unique": false,
           "length": 255,
           "precision": null,
@@ -153,7 +171,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["created_by_id"],
+          "columnNames": [
+            "created_by_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "acceptance_tests_created_by_id_index",
@@ -161,7 +181,9 @@
           "unique": false
         },
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "acceptance_tests_pkey",
@@ -169,7 +191,19 @@
           "unique": true
         },
         {
-          "columnNames": ["user_story_id"],
+          "columnNames": [
+            "task_id"
+          ],
+          "composite": false,
+          "constraint": false,
+          "keyName": "acceptance_tests_task_id_index",
+          "primary": false,
+          "unique": false
+        },
+        {
+          "columnNames": [
+            "user_story_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "acceptance_tests_user_story_id_index",
@@ -332,7 +366,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["owner_id"],
+          "columnNames": [
+            "owner_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "attachments_owner_id_index",
@@ -340,7 +376,9 @@
           "unique": false
         },
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "attachments_pkey",
@@ -348,7 +386,9 @@
           "unique": true
         },
         {
-          "columnNames": ["uploaded_by_id"],
+          "columnNames": [
+            "uploaded_by_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "attachments_uploaded_by_id_index",
@@ -495,7 +535,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["owner_id"],
+          "columnNames": [
+            "owner_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "comments_owner_id_index",
@@ -503,7 +545,9 @@
           "unique": false
         },
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "comments_pkey",
@@ -511,7 +555,9 @@
           "unique": true
         },
         {
-          "columnNames": ["user_id"],
+          "columnNames": [
+            "user_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "comments_user_id_index",
@@ -754,7 +800,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["created_by_id"],
+          "columnNames": [
+            "created_by_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "epics_created_by_id_index",
@@ -762,7 +810,9 @@
           "unique": false
         },
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "epics_pkey",
@@ -770,7 +820,9 @@
           "unique": true
         },
         {
-          "columnNames": ["project_id"],
+          "columnNames": [
+            "project_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "epics_project_id_index",
@@ -917,7 +969,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["owner_id"],
+          "columnNames": [
+            "owner_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "history_entries_owner_id_index",
@@ -925,7 +979,9 @@
           "unique": false
         },
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "history_entries_pkey",
@@ -933,7 +989,9 @@
           "unique": true
         },
         {
-          "columnNames": ["user_id"],
+          "columnNames": [
+            "user_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "history_entries_user_id_index",
@@ -1032,7 +1090,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "project_members_pkey",
@@ -1040,7 +1100,9 @@
           "unique": true
         },
         {
-          "columnNames": ["project_id"],
+          "columnNames": [
+            "project_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "project_members_project_id_index",
@@ -1048,7 +1110,9 @@
           "unique": false
         },
         {
-          "columnNames": ["user_id"],
+          "columnNames": [
+            "user_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "project_members_user_id_index",
@@ -1099,7 +1163,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["project_id"],
+          "columnNames": [
+            "project_id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "project_task_counters_pkey",
@@ -1310,7 +1376,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["created_by_id"],
+          "columnNames": [
+            "created_by_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "projects_created_by_id_index",
@@ -1318,7 +1386,9 @@
           "unique": false
         },
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "projects_pkey",
@@ -1326,7 +1396,9 @@
           "unique": true
         },
         {
-          "columnNames": ["responsible_id"],
+          "columnNames": [
+            "responsible_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "projects_responsible_id_index",
@@ -1505,7 +1577,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["expires_at"],
+          "columnNames": [
+            "expires_at"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "refresh_tokens_expires_at_index",
@@ -1513,7 +1587,9 @@
           "unique": false
         },
         {
-          "columnNames": ["family_id"],
+          "columnNames": [
+            "family_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "refresh_tokens_family_id_index",
@@ -1521,7 +1597,9 @@
           "unique": false
         },
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "refresh_tokens_pkey",
@@ -1529,7 +1607,9 @@
           "unique": true
         },
         {
-          "columnNames": ["token_hash"],
+          "columnNames": [
+            "token_hash"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "refresh_tokens_token_hash_index",
@@ -1537,7 +1617,9 @@
           "unique": false
         },
         {
-          "columnNames": ["user_id"],
+          "columnNames": [
+            "user_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "refresh_tokens_user_id_index",
@@ -1668,7 +1750,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "sprint_burndown_snapshots_pkey",
@@ -1676,7 +1760,9 @@
           "unique": true
         },
         {
-          "columnNames": ["snapshot_date"],
+          "columnNames": [
+            "snapshot_date"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "sprint_burndown_snapshots_snapshot_date_index",
@@ -1684,7 +1770,9 @@
           "unique": false
         },
         {
-          "columnNames": ["sprint_id"],
+          "columnNames": [
+            "sprint_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "sprint_burndown_snapshots_sprint_id_index",
@@ -1895,7 +1983,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["number"],
+          "columnNames": [
+            "number"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "sprints_number_index",
@@ -1903,7 +1993,9 @@
           "unique": false
         },
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "sprints_pkey",
@@ -1911,7 +2003,9 @@
           "unique": true
         },
         {
-          "columnNames": ["project_id"],
+          "columnNames": [
+            "project_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "sprints_project_id_index",
@@ -2010,7 +2104,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["from_story_id"],
+          "columnNames": [
+            "from_story_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "story_dependencies_from_story_id_index",
@@ -2018,7 +2114,9 @@
           "unique": false
         },
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "story_dependencies_pkey",
@@ -2026,7 +2124,9 @@
           "unique": true
         },
         {
-          "columnNames": ["to_story_id"],
+          "columnNames": [
+            "to_story_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "story_dependencies_to_story_id_index",
@@ -2109,7 +2209,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "task_assignees_pkey",
@@ -2117,7 +2219,9 @@
           "unique": true
         },
         {
-          "columnNames": ["task_id"],
+          "columnNames": [
+            "task_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "task_assignees_task_id_index",
@@ -2125,7 +2229,9 @@
           "unique": false
         },
         {
-          "columnNames": ["user_id"],
+          "columnNames": [
+            "user_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "task_assignees_user_id_index",
@@ -2464,7 +2570,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["created_by_id"],
+          "columnNames": [
+            "created_by_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "tasks_created_by_id_index",
@@ -2472,7 +2580,9 @@
           "unique": false
         },
         {
-          "columnNames": ["epic_id"],
+          "columnNames": [
+            "epic_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "tasks_epic_id_index",
@@ -2480,7 +2590,9 @@
           "unique": false
         },
         {
-          "columnNames": ["number"],
+          "columnNames": [
+            "number"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "tasks_number_index",
@@ -2488,7 +2600,9 @@
           "unique": false
         },
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "tasks_pkey",
@@ -2496,7 +2610,9 @@
           "unique": true
         },
         {
-          "columnNames": ["project_id"],
+          "columnNames": [
+            "project_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "tasks_project_id_index",
@@ -2504,7 +2620,9 @@
           "unique": false
         },
         {
-          "columnNames": ["sprint_id"],
+          "columnNames": [
+            "sprint_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "tasks_sprint_id_index",
@@ -2512,7 +2630,9 @@
           "unique": false
         },
         {
-          "columnNames": ["user_story_id"],
+          "columnNames": [
+            "user_story_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "tasks_user_story_id_index",
@@ -2659,7 +2779,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "time_entries_pkey",
@@ -2667,7 +2789,9 @@
           "unique": true
         },
         {
-          "columnNames": ["project_id"],
+          "columnNames": [
+            "project_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "time_entries_project_id_index",
@@ -2675,7 +2799,9 @@
           "unique": false
         },
         {
-          "columnNames": ["task_id"],
+          "columnNames": [
+            "task_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "time_entries_task_id_index",
@@ -2683,7 +2809,9 @@
           "unique": false
         },
         {
-          "columnNames": ["user_id"],
+          "columnNames": [
+            "user_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "time_entries_user_id_index",
@@ -2862,7 +2990,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["email"],
+          "columnNames": [
+            "email"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "user_email_unique",
@@ -2870,7 +3000,9 @@
           "unique": true
         },
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "user_pkey",
@@ -3161,7 +3293,9 @@
       },
       "indexes": [
         {
-          "columnNames": ["created_by_id"],
+          "columnNames": [
+            "created_by_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "user_stories_created_by_id_index",
@@ -3169,7 +3303,9 @@
           "unique": false
         },
         {
-          "columnNames": ["epic_id"],
+          "columnNames": [
+            "epic_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "user_stories_epic_id_index",
@@ -3177,7 +3313,9 @@
           "unique": false
         },
         {
-          "columnNames": ["id"],
+          "columnNames": [
+            "id"
+          ],
           "composite": false,
           "constraint": true,
           "keyName": "user_stories_pkey",
@@ -3185,7 +3323,9 @@
           "unique": true
         },
         {
-          "columnNames": ["project_id"],
+          "columnNames": [
+            "project_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "user_stories_project_id_index",
@@ -3193,7 +3333,9 @@
           "unique": false
         },
         {
-          "columnNames": ["sprint_id"],
+          "columnNames": [
+            "sprint_id"
+          ],
           "composite": false,
           "constraint": false,
           "keyName": "user_stories_sprint_id_index",
