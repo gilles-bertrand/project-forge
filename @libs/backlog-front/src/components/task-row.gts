@@ -65,7 +65,7 @@ export default class TaskRow extends Component<TaskRowSignature> {
           <span class="text-xs font-mono opacity-50">{{this.numberLabel}}</span>
           <span class="truncate font-medium">{{@task.title}}</span>
         </div>
-        <div class="mt-1 flex flex-wrap items-center gap-1">
+        <div class="mt-2 flex flex-wrap items-center gap-2">
           <TaskNatureBadge @nature={{@task.nature}} />
           <TaskTypeBadge @type={{@task.type}} />
           {{#if @userStory}}

@@ -35,13 +35,15 @@ export interface TaskComment {
   createdAt: string;
 }
 
+// Forme réelle du serializer history-entries (audit serveur).
 export interface TaskHistoryEvent {
   id: string;
-  taskId: string;
-  field: string;
-  oldValue: string | null;
-  newValue: string | null;
-  changedById: string;
+  ownerType: string;
+  ownerId: string;
+  type: string;
+  description: string;
+  userId: string;
+  metadata: Record<string, unknown> | null;
   createdAt: string;
 }
 

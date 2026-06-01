@@ -215,7 +215,7 @@ export default class DashboardUserStoryMapTemplate extends Component<USMTemplate
       </div>
 
       {{#if this.currentProject.currentProjectId}}
-        <div class="space-y-2">
+        <div class="space-y-4">
           {{#each this.epicsList as |epic|}}
             <EpicRow
               @epic={{epic}}

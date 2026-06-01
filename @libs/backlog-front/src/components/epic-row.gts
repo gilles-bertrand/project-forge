@@ -68,7 +68,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
       ...attributes
     >
       <div
-        class="flex items-center gap-2 px-4 py-3 hover:bg-base-300 rounded-lg"
+        class="flex items-center gap-2 px-4 py-4 hover:bg-base-300 rounded-lg"
       >
         <button
           type="button"
@@ -204,7 +204,7 @@ export default class EpicRow extends Component<EpicRowSignature> {
       </div>
 
       {{#if this.expanded}}
-        <div class="border-t border-base-300 px-4 py-2 space-y-2">
+        <div class="border-t border-base-300 px-4 py-3 space-y-3">
           {{#each this.epicUserStories as |us|}}
             <UserStoryRow
               @userStory={{us}}

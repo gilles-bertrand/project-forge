@@ -159,6 +159,36 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
     return this.assignedMembers.length > 0;
   }
 
+  // Résout un userId en nom complet via les membres du projet (sinon l'id brut).
+  memberName = (userId: string): string => {
+    const m = this.projectMembers.find((member) => member.id === userId);
+    return m ? `${m.firstName} ${m.lastName}` : userId;
+  };
+
+  // Libellé lisible d'une entrée d'historique (résout l'assigné concerné).
+  describeHistory = (event: TaskHistoryEvent): string => {
+    if (event.type === 'assignee-added' || event.type === 'assignee-removed') {
+      const uid =
+        typeof event.metadata?.['userId'] === 'string'
+          ? event.metadata['userId']
+          : '';
+      const name = uid ? this.memberName(uid) : '';
+      return name ? `${event.description} : ${name}` : event.description;
+    }
+    return event.description;
+  };
+
+  formatHistoryDate = (iso: string): string => {
+    const d = new Date(iso);
+    return d.toLocaleString('fr-FR', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
   // Membres filtrés par la recherche du dropdown d'assignation.
   get filteredMembers(): MemberLite[] {
     const q = this.assigneeSearch.trim().toLowerCase();
@@ -657,13 +687,16 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
         {{#if this.isHistoryTab}}
           <div class="space-y-2" data-test-tab-content="history">
             {{#each this.history as |event|}}
-              <div class="text-sm border-l-2 border-base-300 pl-3 py-1">
-                <span class="opacity-60">{{event.createdAt}}</span>
-                —
-                <span class="font-medium">{{event.field}}</span>:
-                <span class="opacity-70">{{event.oldValue}}</span>
-                →
-                <span>{{event.newValue}}</span>
+              <div
+                class="text-sm border-l-2 border-base-300 pl-3 py-1"
+                data-test-history-entry={{event.type}}
+              >
+                <span class="font-medium">{{this.describeHistory event}}</span>
+                <div class="text-xs opacity-50">
+                  {{this.formatHistoryDate event.createdAt}}
+                  •
+                  {{this.memberName event.userId}}
+                </div>
               </div>
             {{else}}
               <p class="italic opacity-60 text-sm">{{t

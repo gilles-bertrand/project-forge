@@ -109,11 +109,12 @@ class FakeTasksService extends Service {
     return Promise.resolve([
       {
         id: 'h1',
-        taskId: 'task-test',
-        field: 'status',
-        oldValue: null,
-        newValue: 'todo',
-        changedById: 'user-2',
+        ownerType: 'task',
+        ownerId: 'task-test',
+        type: 'status-change',
+        description: 'Status todo → in-progress',
+        userId: 'user-2',
+        metadata: { from: 'todo', to: 'in-progress' },
         createdAt: '2025-01-01T00:00:00Z',
       },
     ]);
@@ -241,7 +242,11 @@ describe('Integration | TaskDetailModal', function () {
     const content = document.querySelector('[data-test-tab-content="history"]');
     expect(content).toBeTruthy();
     const text = content?.textContent ?? '';
-    expect(text).toContain('status');
+    // affichage lisible de la description d'audit
+    expect(text).toContain('Status todo → in-progress');
+    expect(
+      document.querySelector('[data-test-history-entry="status-change"]')
+    ).toBeTruthy();
   });
 
   renderingTest('posts a new comment', async function ({ context }) {

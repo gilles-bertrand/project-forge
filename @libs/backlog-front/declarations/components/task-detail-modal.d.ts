@@ -52,6 +52,9 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
     get createdAtFormatted(): string;
     get assignedMembers(): MemberLite[];
     get hasAssignees(): boolean;
+    memberName: (userId: string) => string;
+    describeHistory: (event: TaskHistoryEvent) => string;
+    formatHistoryDate: (iso: string) => string;
     get filteredMembers(): MemberLite[];
     get assigneeSummaryLabel(): string;
     get canSave(): boolean;
