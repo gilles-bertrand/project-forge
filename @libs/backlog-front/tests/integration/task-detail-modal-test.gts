@@ -325,6 +325,12 @@ describe('Integration | TaskDetailModal', function () {
       await click(
         document.querySelector('[data-test-task-edit]') as HTMLButtonElement
       );
+      // ouvre le dropdown d'assignation
+      await click(
+        document.querySelector(
+          '[data-test-assignee-toggle]'
+        ) as HTMLButtonElement
+      );
       // u1 est déjà assigné (loadAssignees), on l'enlève et on ajoute u2
       await click(
         document.querySelector(

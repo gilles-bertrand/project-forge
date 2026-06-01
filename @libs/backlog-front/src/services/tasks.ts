@@ -2,7 +2,7 @@ import Service from '@ember/service';
 import { service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 import type { Store } from '@warp-drive/core';
-import { authFetchJson } from '@libs/shared-front/utils/auth-fetch';
+import { authFetch, authFetchJson } from '@libs/shared-front/utils/auth-fetch';
 import type {
   Task,
   TaskStatus,
@@ -167,21 +167,28 @@ export default class TasksService extends Service {
     return (json.data ?? []).map((a) => ({ id: a.id, ...a.attributes }));
   }
 
+  // Idempotent : un 409 (déjà assigné) est l'état désiré → on l'ignore.
   async addAssignee(taskId: string, userId: string): Promise<void> {
-    await this.store.request({
-      url: `/api/v1/tasks/${taskId}/assignees`,
+    const res = await authFetch(`/api/v1/tasks/${taskId}/assignees`, {
       method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         data: { type: 'task-assignees', attributes: { userId } },
       }),
     });
+    if (!res.ok && res.status !== 409) {
+      throw new Error(await extractApiError(res, 'addAssignee'));
+    }
   }
 
+  // Idempotent : un 404 (déjà absent) est l'état désiré → on l'ignore.
   async removeAssignee(taskId: string, userId: string): Promise<void> {
-    await this.store.request({
-      url: `/api/v1/tasks/${taskId}/assignees/${userId}`,
+    const res = await authFetch(`/api/v1/tasks/${taskId}/assignees/${userId}`, {
       method: 'DELETE',
     });
+    if (!res.ok && res.status !== 404) {
+      throw new Error(await extractApiError(res, 'removeAssignee'));
+    }
   }
 
   // Membres du projet (source des assignés possibles). backlog-front ne dépend pas
@@ -220,6 +227,21 @@ export default class TasksService extends Service {
       ...toAdd.map((id) => this.addAssignee(taskId, id)),
       ...toRemove.map((id) => this.removeAssignee(taskId, id)),
     ]);
+  }
+}
+
+// Extrait le `detail` JSON:API d'une réponse d'erreur (ex. 422 non-membre).
+async function extractApiError(
+  res: Response,
+  fallback: string
+): Promise<string> {
+  try {
+    const json = (await res.json()) as { errors?: Array<{ detail?: string }> };
+    return (
+      json.errors?.[0]?.detail ?? `${fallback} failed: ${String(res.status)}`
+    );
+  } catch {
+    return `${fallback} failed: ${String(res.status)}`;
   }
 }
 

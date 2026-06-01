@@ -72,6 +72,8 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
   @tracked points = 0;
   @tracked userStoryId: string | null = null;
   @tracked assigneeIds: string[] = [];
+  @tracked assigneeSearch = '';
+  @tracked assigneeDropdownOpen = false;
   private initialAssigneeIds: string[] = [];
 
   constructor(owner: unknown, args: TaskDetailModalSignature['Args']) {
@@ -157,6 +159,24 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
     return this.assignedMembers.length > 0;
   }
 
+  // Membres filtrés par la recherche du dropdown d'assignation.
+  get filteredMembers(): MemberLite[] {
+    const q = this.assigneeSearch.trim().toLowerCase();
+    if (!q) return this.projectMembers;
+    return this.projectMembers.filter((m) =>
+      `${m.firstName} ${m.lastName}`.toLowerCase().includes(q)
+    );
+  }
+
+  get assigneeSummaryLabel(): string {
+    const n = this.assigneeIds.length;
+    return n === 0
+      ? this.intl.t('backlog.modal.taskDetail.meta.assignPlaceholder')
+      : this.intl.t('backlog.modal.taskDetail.meta.assigneeCount', {
+          count: n,
+        });
+  }
+
   get canSave(): boolean {
     return !this.submitting && this.title.trim().length > 0;
   }
@@ -234,6 +254,12 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
     const v = (e.target as HTMLSelectElement).value;
     this.userStoryId = v === '' ? null : v;
     this.dirty = true;
+  }
+  @action toggleAssigneeDropdown() {
+    this.assigneeDropdownOpen = !this.assigneeDropdownOpen;
+  }
+  @action onAssigneeSearch(e: Event) {
+    this.assigneeSearch = (e.target as HTMLInputElement).value;
   }
   @action onAssigneeToggle(userId: string, e: Event) {
     const checked = (e.target as HTMLInputElement).checked;
@@ -467,25 +493,64 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
                   {{/unless}}
                 {{/if}}
                 {{#if this.isEditing}}
-                  <div
-                    class="mt-2 space-y-1 max-h-40 overflow-y-auto"
-                    data-test-assignee-select
-                  >
-                    {{#each this.projectMembers as |member|}}
-                      <label
-                        class="label cursor-pointer justify-start gap-2 py-0"
+                  <div class="relative mt-2 w-full" data-test-assignee-dropdown>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-block justify-between font-normal"
+                      aria-haspopup="listbox"
+                      aria-expanded={{if
+                        this.assigneeDropdownOpen
+                        "true"
+                        "false"
+                      }}
+                      {{on "click" this.toggleAssigneeDropdown}}
+                      data-test-assignee-toggle
+                    >
+                      <span>{{this.assigneeSummaryLabel}}</span>
+                      <span class="opacity-50">▾</span>
+                    </button>
+                    {{#if this.assigneeDropdownOpen}}
+                      <div
+                        class="absolute z-10 mt-1 w-full space-y-1 rounded-box bg-base-100 p-2 shadow max-h-60 overflow-y-auto"
+                        data-test-assignee-select
                       >
                         <input
-                          type="checkbox"
-                          class="checkbox checkbox-sm"
-                          checked={{this.isAssigneeSelected member.id}}
-                          {{on "change" (fn this.onAssigneeToggle member.id)}}
-                          data-test-assignee-checkbox={{member.id}}
+                          type="text"
+                          class="input input-sm input-bordered mb-1 w-full"
+                          placeholder={{t
+                            "backlog.modal.taskDetail.meta.assigneeSearch"
+                          }}
+                          aria-label={{t
+                            "backlog.modal.taskDetail.meta.assigneeSearch"
+                          }}
+                          value={{this.assigneeSearch}}
+                          {{on "input" this.onAssigneeSearch}}
+                          data-test-assignee-search
                         />
-                        <span class="label-text">{{member.firstName}}
-                          {{member.lastName}}</span>
-                      </label>
-                    {{/each}}
+                        {{#each this.filteredMembers as |member|}}
+                          <label
+                            class="label cursor-pointer justify-start gap-2 py-1"
+                          >
+                            <input
+                              type="checkbox"
+                              class="checkbox checkbox-sm"
+                              checked={{this.isAssigneeSelected member.id}}
+                              {{on
+                                "change"
+                                (fn this.onAssigneeToggle member.id)
+                              }}
+                              data-test-assignee-checkbox={{member.id}}
+                            />
+                            <span class="label-text">{{member.firstName}}
+                              {{member.lastName}}</span>
+                          </label>
+                        {{else}}
+                          <p class="px-1 text-xs italic opacity-60">{{t
+                              "backlog.modal.taskDetail.meta.noMembers"
+                            }}</p>
+                        {{/each}}
+                      </div>
+                    {{/if}}
                   </div>
                 {{/if}}
               </div>

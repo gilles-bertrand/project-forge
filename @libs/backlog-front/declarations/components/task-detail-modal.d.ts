@@ -37,6 +37,8 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
     points: number;
     userStoryId: string | null;
     assigneeIds: string[];
+    assigneeSearch: string;
+    assigneeDropdownOpen: boolean;
     private initialAssigneeIds;
     constructor(owner: unknown, args: TaskDetailModalSignature['Args']);
     private resetFieldsFromTask;
@@ -50,6 +52,8 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
     get createdAtFormatted(): string;
     get assignedMembers(): MemberLite[];
     get hasAssignees(): boolean;
+    get filteredMembers(): MemberLite[];
+    get assigneeSummaryLabel(): string;
     get canSave(): boolean;
     get cannotSave(): boolean;
     get statusOptions(): {
@@ -77,6 +81,8 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
     onDescriptionInput(e: Event): void;
     onPointsChange(e: Event): void;
     onUSChange(e: Event): void;
+    toggleAssigneeDropdown(): void;
+    onAssigneeSearch(e: Event): void;
     onAssigneeToggle(userId: string, e: Event): void;
     save(e: Event): Promise<void>;
     logTime(): void;
