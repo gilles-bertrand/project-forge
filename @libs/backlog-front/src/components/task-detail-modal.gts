@@ -323,8 +323,14 @@ export default class TaskDetailModal extends Component<TaskDetailModalSignature>
         this.assigneeIds,
         this.initialAssigneeIds
       );
-      // recharge les assignés affichés
-      this.assignees = await this.tasks.loadAssignees(taskId);
+      // recharge les assignés ET l'historique (l'audit serveur a généré de
+      // nouvelles entrées sur ce save) pour que l'onglet soit à jour sans reload.
+      const [assignees, history] = await Promise.all([
+        this.tasks.loadAssignees(taskId),
+        this.tasks.loadHistory(taskId),
+      ]);
+      this.assignees = assignees;
+      this.history = history;
       this.syncAssigneeIdsFromAssignees();
       this.dirty = false;
       this.isEditing = false;

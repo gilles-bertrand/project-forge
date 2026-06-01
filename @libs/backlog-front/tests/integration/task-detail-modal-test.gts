@@ -101,11 +101,13 @@ class FakeCurrentUserService extends Service {
 class FakeTasksService extends Service {
   updateCalls: Array<{ id: string; partial: Record<string, unknown> }> = [];
   syncCalls: Array<{ id: string; desired: string[]; current: string[] }> = [];
+  loadHistoryCalls = 0;
 
   loadComments() {
     return Promise.resolve([]);
   }
   loadHistory() {
+    this.loadHistoryCalls += 1;
     return Promise.resolve([
       {
         id: 'h1',
@@ -312,6 +314,8 @@ describe('Integration | TaskDetailModal', function () {
       expect(tasks.updateCalls[0]?.partial['title']).toBe('Titre modifié');
       expect(tasks.updateCalls[0]?.partial['status']).toBe('in-progress');
       expect(tasks.updateCalls[0]?.partial['priority']).toBe('Haute');
+      // l'historique est rechargé après save (1× à l'ouverture + 1× après save)
+      expect(tasks.loadHistoryCalls).toBe(2);
     }
   );
 
