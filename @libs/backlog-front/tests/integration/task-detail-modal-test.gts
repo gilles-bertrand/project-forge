@@ -263,6 +263,11 @@ describe('Integration | TaskDetailModal', function () {
       document.querySelector('[data-test-tab-content="comments"]')
         ?.textContent ?? '';
     expect(content).toContain('Mon nouveau commentaire');
+    // le champ doit être vidé après le post
+    const input = document.querySelector(
+      '[data-test-comment-new-input]'
+    ) as HTMLTextAreaElement;
+    expect(input.value).toBe('');
   });
 
   // T6 (bloquant) — bascule en édition, modifie le titre, save → tasks.update appelé
