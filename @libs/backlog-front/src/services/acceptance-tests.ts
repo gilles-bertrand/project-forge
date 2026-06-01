@@ -43,12 +43,52 @@ export default class AcceptanceTestsService extends Service {
     }
   }
 
+  async loadByTask(taskId: string): Promise<AcceptanceTest[]> {
+    this.loading = true;
+    try {
+      const { content } = await this.store.request<{
+        data: AcceptanceTest[];
+        meta?: { total: number };
+      }>({
+        url: `/api/v1/tasks/${taskId}/acceptance-tests`,
+        method: 'GET',
+        cacheOptions: { reload: true },
+      });
+      return content.data ?? [];
+    } finally {
+      this.loading = false;
+    }
+  }
+
   async create(
     userStoryId: string,
     payload: NewAcceptanceTestPayload
   ): Promise<AcceptanceTest> {
     const { content } = await this.store.request<{ data: AcceptanceTest }>({
       url: `/api/v1/user-stories/${userStoryId}/acceptance-tests`,
+      method: 'POST',
+      body: JSON.stringify({
+        data: {
+          type: 'acceptance-tests',
+          attributes: {
+            name: payload.name,
+            description: payload.description ?? '',
+            state: payload.state ?? 'to-check',
+            rank: payload.rank ?? 0,
+            createdById: payload.createdById ?? null,
+          },
+        },
+      }),
+    });
+    return content.data;
+  }
+
+  async createOnTask(
+    taskId: string,
+    payload: NewAcceptanceTestPayload
+  ): Promise<AcceptanceTest> {
+    const { content } = await this.store.request<{ data: AcceptanceTest }>({
+      url: `/api/v1/tasks/${taskId}/acceptance-tests`,
       method: 'POST',
       body: JSON.stringify({
         data: {

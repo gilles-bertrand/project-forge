@@ -1,12 +1,11 @@
 import Component from '@glimmer/component';
 import { type IntlService } from 'ember-intl';
-import type { Store } from '@warp-drive/core';
 import type TasksService from '../services/tasks.ts';
 import type UserStoriesService from '../services/user-stories.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
 import type CurrentUserService from '@libs/users-front/services/current-user';
 import type { TaskType, TaskNature, TaskPriority } from '../schemas/tasks.ts';
-import type { TaskAssignee } from '../services/tasks.ts';
+import type { MemberLite } from './assignee-avatar-stack';
 interface AddTaskModalSignature {
     Args: {
         onClose: () => void;
@@ -19,7 +18,6 @@ export default class AddTaskModal extends Component<AddTaskModalSignature> {
     currentProject: CurrentProjectService;
     currentUser: CurrentUserService;
     intl: IntlService;
-    store: Store;
     title: string;
     description: string;
     type: TaskType;
@@ -29,11 +27,11 @@ export default class AddTaskModal extends Component<AddTaskModalSignature> {
     estimatedHours: number;
     userStoryId: string | null;
     assigneeIds: string[];
-    availableUsers: TaskAssignee[];
+    members: MemberLite[];
     submitting: boolean;
     error: string;
     constructor(owner: unknown, args: AddTaskModalSignature['Args']);
-    private loadUsers;
+    private loadMembers;
     get canSubmit(): boolean;
     get cannotSubmit(): boolean;
     get typeOptions(): {

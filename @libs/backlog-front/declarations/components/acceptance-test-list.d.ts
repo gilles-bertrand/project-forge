@@ -5,7 +5,8 @@ import type CurrentUserService from '@libs/users-front/services/current-user';
 import type { AcceptanceTest, AcceptanceTestState } from '../schemas/acceptance-tests.ts';
 interface AcceptanceTestListSignature {
     Args: {
-        userStoryId: string;
+        ownerType: 'task' | 'user-story';
+        ownerId: string;
     };
 }
 export default class AcceptanceTestList extends Component<AcceptanceTestListSignature> {

@@ -15,7 +15,8 @@ import type {
 
 interface AcceptanceTestListSignature {
   Args: {
-    userStoryId: string;
+    ownerType: 'task' | 'user-story';
+    ownerId: string;
   };
 }
 
@@ -56,9 +57,10 @@ export default class AcceptanceTestList extends Component<AcceptanceTestListSign
     this.loading = true;
     this.error = '';
     try {
-      const items = await this.acceptanceTests.loadByStory(
-        this.args.userStoryId
-      );
+      const items =
+        this.args.ownerType === 'task'
+          ? await this.acceptanceTests.loadByTask(this.args.ownerId)
+          : await this.acceptanceTests.loadByStory(this.args.ownerId);
       this.items = [...(items ?? [])].sort((a, b) => a.rank - b.rank);
     } catch (err) {
       this.error = err instanceof Error ? err.message : String(err);
@@ -114,12 +116,16 @@ export default class AcceptanceTestList extends Component<AcceptanceTestListSign
         this.items.length === 0
           ? 0
           : Math.max(...this.items.map((it) => it.rank)) + 1;
-      const created = await this.acceptanceTests.create(this.args.userStoryId, {
+      const payload = {
         name,
         description: '',
         rank: nextRank,
         createdById: this.currentUser.user?.id ?? null,
-      });
+      };
+      const created =
+        this.args.ownerType === 'task'
+          ? await this.acceptanceTests.createOnTask(this.args.ownerId, payload)
+          : await this.acceptanceTests.create(this.args.ownerId, payload);
       this.items = [...this.items, created];
       this.newName = '';
     } catch (err) {

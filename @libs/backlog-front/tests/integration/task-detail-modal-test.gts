@@ -2,8 +2,10 @@ import { describe, expect as hardExpect } from 'vitest';
 import { renderingTest } from 'ember-vitest';
 import { click, fillIn, render } from '@ember/test-helpers';
 import Service from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 import TaskDetailModal from '#src/components/task-detail-modal.gts';
 import type { Task } from '#src/schemas/tasks.ts';
+import type Owner from '@ember/owner';
 import { initializeTestApp, TestApp } from '../app.ts';
 
 const expect = hardExpect.soft;
@@ -64,11 +66,42 @@ class FakeAttachmentsService extends Service {
   }
 }
 
+class FakeAcceptanceTestsService extends Service {
+  loadByTask() {
+    return Promise.resolve([]);
+  }
+  loadByStory() {
+    return Promise.resolve([]);
+  }
+  createOnTask() {
+    return Promise.resolve({});
+  }
+  create() {
+    return Promise.resolve({});
+  }
+  update() {
+    return Promise.resolve({});
+  }
+  remove() {
+    return Promise.resolve();
+  }
+}
+
+class FakeUserStoriesService extends Service {
+  @tracked list: { id: string; title: string }[] = [];
+  loadByProject() {
+    return Promise.resolve([]);
+  }
+}
+
 class FakeCurrentUserService extends Service {
   user = { id: 'user-2' };
 }
 
 class FakeTasksService extends Service {
+  updateCalls: Array<{ id: string; partial: Record<string, unknown> }> = [];
+  syncCalls: Array<{ id: string; desired: string[]; current: string[] }> = [];
+
   loadComments() {
     return Promise.resolve([]);
   }
@@ -86,10 +119,45 @@ class FakeTasksService extends Service {
     ]);
   }
   loadAssignees() {
+    // Forme réelle du serializer task-assignees.
     return Promise.resolve([
-      { id: 'u1', email: 'a@b.c', firstName: 'Alice', lastName: 'Dupont' },
+      {
+        id: 'ta1',
+        taskId: 'task-test',
+        userId: 'u1',
+        assignedAt: '2025-01-01',
+      },
     ]);
   }
+  loadProjectMembers() {
+    return Promise.resolve([
+      { id: 'u1', firstName: 'Alice', lastName: 'Dupont', color: null },
+      { id: 'u2', firstName: 'Bob', lastName: 'Martin', color: null },
+    ]);
+  }
+  update(id: string, partial: Record<string, unknown>) {
+    this.updateCalls.push({ id, partial });
+    return Promise.resolve({ id, ...partial });
+  }
+  syncAssignees(id: string, desired: string[], current: string[]) {
+    this.syncCalls.push({ id, desired, current });
+    return Promise.resolve();
+  }
+  addAssignee() {
+    return Promise.resolve();
+  }
+  removeAssignee() {
+    return Promise.resolve();
+  }
+}
+
+function registerServices(owner: Owner) {
+  owner.register('service:tasks', FakeTasksService);
+  owner.register('service:comments', FakeCommentsService);
+  owner.register('service:attachments', FakeAttachmentsService);
+  owner.register('service:acceptance-tests', FakeAcceptanceTestsService);
+  owner.register('service:user-stories', FakeUserStoriesService);
+  owner.register('service:current-user', FakeCurrentUserService);
 }
 
 function fakeTask(extra: Record<string, unknown> = {}): Task {
@@ -122,10 +190,7 @@ describe('Integration | TaskDetailModal', function () {
 
   renderingTest('renders details tab by default', async function ({ context }) {
     initializeTestApp(context.owner);
-    context.owner.register('service:tasks', FakeTasksService);
-    context.owner.register('service:comments', FakeCommentsService);
-    context.owner.register('service:attachments', FakeAttachmentsService);
-    context.owner.register('service:current-user', FakeCurrentUserService);
+    registerServices(context.owner);
     const noop = () => {};
     const task = fakeTask();
     await render(
@@ -141,10 +206,7 @@ describe('Integration | TaskDetailModal', function () {
 
   renderingTest('switches to comments tab', async function ({ context }) {
     initializeTestApp(context.owner);
-    context.owner.register('service:tasks', FakeTasksService);
-    context.owner.register('service:comments', FakeCommentsService);
-    context.owner.register('service:attachments', FakeAttachmentsService);
-    context.owner.register('service:current-user', FakeCurrentUserService);
+    registerServices(context.owner);
     const noop = () => {};
     const task = fakeTask();
     await render(
@@ -165,10 +227,7 @@ describe('Integration | TaskDetailModal', function () {
 
   renderingTest('switches to history tab', async function ({ context }) {
     initializeTestApp(context.owner);
-    context.owner.register('service:tasks', FakeTasksService);
-    context.owner.register('service:comments', FakeCommentsService);
-    context.owner.register('service:attachments', FakeAttachmentsService);
-    context.owner.register('service:current-user', FakeCurrentUserService);
+    registerServices(context.owner);
     const noop = () => {};
     const task = fakeTask();
     await render(
@@ -187,10 +246,7 @@ describe('Integration | TaskDetailModal', function () {
 
   renderingTest('posts a new comment', async function ({ context }) {
     initializeTestApp(context.owner);
-    context.owner.register('service:tasks', FakeTasksService);
-    context.owner.register('service:comments', FakeCommentsService);
-    context.owner.register('service:attachments', FakeAttachmentsService);
-    context.owner.register('service:current-user', FakeCurrentUserService);
+    registerServices(context.owner);
     const noop = () => {};
     const task = fakeTask();
     await render(
@@ -208,4 +264,86 @@ describe('Integration | TaskDetailModal', function () {
         ?.textContent ?? '';
     expect(content).toContain('Mon nouveau commentaire');
   });
+
+  // T6 (bloquant) — bascule en édition, modifie le titre, save → tasks.update appelé
+  renderingTest(
+    'enters edit mode, edits title, saves → tasks.update called with payload',
+    async function ({ context }) {
+      initializeTestApp(context.owner);
+      registerServices(context.owner);
+      const tasks = context.owner.lookup(
+        'service:tasks'
+      ) as unknown as FakeTasksService;
+      const noop = () => {};
+      const task = fakeTask();
+      await render(
+        <template>
+          <TaskDetailModal @task={{task}} @onClose={{noop}} />
+        </template>
+      );
+
+      // pas de bouton save tant qu'on n'est pas en édition
+      expect(document.querySelector('[data-test-task-save]')).toBeNull();
+
+      await click(
+        document.querySelector('[data-test-task-edit]') as HTMLButtonElement
+      );
+      // badge mode édition + input titre visibles
+      expect(
+        document.querySelector('[data-test-edit-mode-badge]')
+      ).toBeTruthy();
+      await fillIn('[data-test-task-title-input]', 'Titre modifié');
+      await click(
+        document.querySelector('[data-test-task-save]') as HTMLButtonElement
+      );
+
+      expect(tasks.updateCalls.length).toBe(1);
+      expect(tasks.updateCalls[0]?.id).toBe('task-test');
+      expect(tasks.updateCalls[0]?.partial['title']).toBe('Titre modifié');
+      expect(tasks.updateCalls[0]?.partial['status']).toBe('in-progress');
+      expect(tasks.updateCalls[0]?.partial['priority']).toBe('Haute');
+    }
+  );
+
+  // T7 (bloquant) — ajout/retrait d'un assigné → syncAssignees calcule le bon diff
+  renderingTest(
+    'toggling assignees computes the right add/remove diff on save',
+    async function ({ context }) {
+      initializeTestApp(context.owner);
+      registerServices(context.owner);
+      const tasks = context.owner.lookup(
+        'service:tasks'
+      ) as unknown as FakeTasksService;
+      const noop = () => {};
+      const task = fakeTask();
+      await render(
+        <template>
+          <TaskDetailModal @task={{task}} @onClose={{noop}} />
+        </template>
+      );
+
+      await click(
+        document.querySelector('[data-test-task-edit]') as HTMLButtonElement
+      );
+      // u1 est déjà assigné (loadAssignees), on l'enlève et on ajoute u2
+      await click(
+        document.querySelector(
+          '[data-test-assignee-checkbox="u1"]'
+        ) as HTMLInputElement
+      );
+      await click(
+        document.querySelector(
+          '[data-test-assignee-checkbox="u2"]'
+        ) as HTMLInputElement
+      );
+      await click(
+        document.querySelector('[data-test-task-save]') as HTMLButtonElement
+      );
+
+      expect(tasks.syncCalls.length).toBe(1);
+      const call = tasks.syncCalls[0]!;
+      expect(call.current).toEqual(['u1']);
+      expect([...call.desired].sort()).toEqual(['u2']);
+    }
+  );
 });

@@ -24,6 +24,15 @@ class FakeTasksService extends Service {
   loadAllByProject() {
     return Promise.resolve([]);
   }
+  loadProjectMembers() {
+    return Promise.resolve([
+      { id: 'u1', firstName: 'Alice', lastName: 'Dupont', color: null },
+      { id: 'u2', firstName: 'Bob', lastName: 'Martin', color: null },
+    ]);
+  }
+  syncAssignees() {
+    return Promise.resolve();
+  }
 }
 
 class FakeUserStoriesService extends Service {

@@ -7,7 +7,8 @@ export interface AcceptanceTest extends WithLegacy<{
     [Type]: 'acceptance-tests';
 }> {
     id: string;
-    userStoryId: string;
+    userStoryId: string | null;
+    taskId: string | null;
     name: string;
     description: string;
     state: AcceptanceTestState;
