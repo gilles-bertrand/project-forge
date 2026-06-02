@@ -17,3 +17,7 @@ attachments:
   uploading: 'Envoi…'
   downloadAria: 'Télécharger'
   deleteAria: 'Supprimer la pièce jointe'
+  dropHint: 'Glissez un fichier ici ou cliquez (max {max})'
+  tooLarge: 'Fichier trop volumineux (max {max}).'
+  uploadFailed: "Échec de l'envoi du fichier."
+  progressAria: "Progression de l'envoi"

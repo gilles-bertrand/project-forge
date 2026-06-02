@@ -1,6 +1,8 @@
 const SESSION_KEY = 'ember_simple_auth-session';
 
-function readAccessToken(): string | null {
+// Exported so XHR-based uploads (which need an upload-progress event that
+// `fetch` cannot provide) can attach the same Bearer token as authFetch.
+export function readAccessToken(): string | null {
   try {
     const raw = localStorage.getItem(SESSION_KEY);
     if (!raw) return null;

@@ -26,6 +26,23 @@ export default defineConfig({
       'ember-source/@ember/component/index.js',
       'ember-source/@ember/template-factory/index.js',
       '@warp-drive/legacy/model/migration-support',
+      // Rendering-test deps: render()/triggerEvent() from @ember/test-helpers
+      // pull these in at runtime, missed by the static scan → cold-cache
+      // reload. Pre-bundling keeps integration render tests stable in CI.
+      '@ember/test-helpers',
+      'ember-vitest',
+      'ember-source/@ember/service/index.js',
+      'ember-source/@ember/component/template-only.js',
+      'ember-source/@ember/routing/router.js',
+      'ember-source/@glimmer/tracking/index.js',
+      'ember-strict-application-resolver',
+      'ember-strict-application-resolver/build-registry',
+      '@warp-drive/json-api',
+      '@warp-drive/legacy',
+      '@warp-drive/ember/install',
+      'ember-cli-flash/services/flash-messages',
+      'ember-page-title/services/page-title',
+      'decorator-transforms/runtime-esm',
     ],
   },
   test: {
