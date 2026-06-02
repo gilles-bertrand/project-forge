@@ -12,6 +12,7 @@ function at(
   return {
     id,
     userStoryId: "us-x",
+    taskId: null,
     name: `AT ${id}`,
     description: "",
     state,

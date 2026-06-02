@@ -8,6 +8,7 @@ const AcceptanceTestSchema = withDefaults({
   type: 'acceptance-tests',
   fields: [
     { name: 'userStoryId', kind: 'attribute' },
+    { name: 'taskId', kind: 'attribute' },
     { name: 'name', kind: 'attribute' },
     { name: 'description', kind: 'attribute' },
     { name: 'state', kind: 'attribute' },
@@ -26,7 +27,8 @@ export interface AcceptanceTest extends WithLegacy<{
   [Type]: 'acceptance-tests';
 }> {
   id: string;
-  userStoryId: string;
+  userStoryId: string | null;
+  taskId: string | null;
   name: string;
   description: string;
   state: AcceptanceTestState;

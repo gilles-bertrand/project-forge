@@ -283,13 +283,15 @@ export default class CommentThread extends Component<CommentThreadSignature> {
           <label class="sr-only" for="comment-thread-new">
             {{t "shared.comments.placeholder"}}
           </label>
+          {{! value lié en propriété (réactif) pour que le champ se vide après post }}
           <textarea
             id="comment-thread-new"
             class="textarea textarea-bordered w-full text-sm"
             placeholder={{t "shared.comments.placeholder"}}
+            value={{this.newComment}}
             data-test-comment-new-input
             {{on "input" this.onNewCommentInput}}
-          >{{this.newComment}}</textarea>
+          ></textarea>
           <div class="flex justify-end">
             <button
               type="submit"

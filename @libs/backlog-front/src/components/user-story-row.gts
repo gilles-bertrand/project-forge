@@ -74,7 +74,7 @@ export default class UserStoryRow extends Component<UserStoryRowSignature> {
       ...attributes
     >
       <div
-        class="flex items-center gap-2 px-3 py-2 hover:bg-base-200 rounded-lg"
+        class="flex items-center gap-2 px-3 py-3 hover:bg-base-200 rounded-lg"
       >
         <button
           type="button"
@@ -214,7 +214,7 @@ export default class UserStoryRow extends Component<UserStoryRowSignature> {
       </div>
 
       {{#if this.expanded}}
-        <div class="pl-8 pr-3 pb-2 space-y-1">
+        <div class="pl-8 pr-3 pt-1 pb-3 space-y-2">
           {{#each this.storyTasks as |task|}}
             <TaskRow
               @task={{task}}

@@ -7,7 +7,8 @@ import { AcceptanceTestStateSchema } from "#src/types.js";
 export const SerializedAcceptanceTestSchema = makeJsonApiDocumentSchema(
   "acceptance-tests",
   object({
-    userStoryId: string(),
+    userStoryId: string().nullable(),
+    taskId: string().nullable(),
     name: string(),
     description: string(),
     state: AcceptanceTestStateSchema,
@@ -25,7 +26,8 @@ export function jsonApiSerializeAcceptanceTest(
     id: at.id,
     type: "acceptance-tests" as const,
     attributes: {
-      userStoryId: at.userStoryId,
+      userStoryId: at.userStoryId ?? null,
+      taskId: at.taskId ?? null,
       name: at.name,
       description: at.description,
       state: at.state as z.infer<typeof AcceptanceTestStateSchema>,

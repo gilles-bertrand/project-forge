@@ -233,6 +233,7 @@ describe("scrum-backend serializers", () => {
     const out = jsonApiSerializeAcceptanceTest({
       id: "at1",
       userStoryId: "us1",
+      taskId: null,
       name: "Login OK",
       description: "happy path",
       state: "success",
@@ -252,6 +253,7 @@ describe("scrum-backend serializers", () => {
     const out = jsonApiSerializeAcceptanceTest({
       id: "at2",
       userStoryId: "us2",
+      taskId: null,
       name: "Fail path",
       description: "",
       state: "failed",

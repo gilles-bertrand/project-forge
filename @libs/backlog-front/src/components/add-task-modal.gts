@@ -5,13 +5,12 @@ import { action } from '@ember/object';
 import { on } from '@ember/modifier';
 import { fn } from '@ember/helper';
 import { t, type IntlService } from 'ember-intl';
-import type { Store } from '@warp-drive/core';
 import type TasksService from '../services/tasks.ts';
 import type UserStoriesService from '../services/user-stories.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
 import type CurrentUserService from '@libs/users-front/services/current-user';
 import type { TaskType, TaskNature, TaskPriority } from '../schemas/tasks.ts';
-import type { TaskAssignee } from '../services/tasks.ts';
+import type { MemberLite } from './assignee-avatar-stack.gts';
 
 interface AddTaskModalSignature {
   Args: {
@@ -51,20 +50,12 @@ const PRIORITY_VALUES: TaskPriority[] = [
 ];
 const POINT_VALUES = [1, 2, 3, 5, 8, 13, 21] as const;
 
-interface UsersJsonApiResponse {
-  data: Array<{
-    id: string;
-    attributes: { firstName: string; lastName: string; email: string };
-  }>;
-}
-
 export default class AddTaskModal extends Component<AddTaskModalSignature> {
   @service declare tasks: TasksService;
   @service declare userStories: UserStoriesService;
   @service declare currentProject: CurrentProjectService;
   @service declare currentUser: CurrentUserService;
   @service declare intl: IntlService;
-  @service declare store: Store;
 
   @tracked title = '';
   @tracked description = '';
@@ -76,29 +67,26 @@ export default class AddTaskModal extends Component<AddTaskModalSignature> {
   @tracked userStoryId: string | null =
     this.args.preselectedUserStoryId ?? null;
   @tracked assigneeIds: string[] = [];
-  @tracked availableUsers: TaskAssignee[] = [];
+  @tracked members: MemberLite[] = [];
   @tracked submitting = false;
   @tracked error = '';
 
   constructor(owner: unknown, args: AddTaskModalSignature['Args']) {
     super(owner as never, args);
-    void this.loadUsers();
+    void this.loadMembers();
   }
 
-  private async loadUsers() {
+  // Source des assignés possibles = membres du projet (pas tous les users).
+  private async loadMembers() {
+    const projectId = this.currentProject.currentProjectId;
+    if (!projectId) {
+      this.members = [];
+      return;
+    }
     try {
-      const { content } = await this.store.request<UsersJsonApiResponse>({
-        url: '/api/v1/users',
-        method: 'GET',
-      });
-      this.availableUsers = content.data.map((u) => ({
-        id: u.id,
-        email: u.attributes.email,
-        firstName: u.attributes.firstName,
-        lastName: u.attributes.lastName,
-      }));
+      this.members = await this.tasks.loadProjectMembers(projectId);
     } catch {
-      this.availableUsers = [];
+      this.members = [];
     }
   }
 
@@ -194,7 +182,7 @@ export default class AddTaskModal extends Component<AddTaskModalSignature> {
     this.submitting = true;
     this.error = '';
     try {
-      await this.tasks.create({
+      const created = await this.tasks.create({
         title: this.title.trim(),
         description: this.description.trim(),
         status: 'todo',
@@ -207,7 +195,10 @@ export default class AddTaskModal extends Component<AddTaskModalSignature> {
         userStoryId: this.userStoryId,
         createdById: this.currentUser.user?.id ?? '',
       });
-      // Note: gestion assigneeIds via POST /tasks/:id/assignees est P12 (édition globale)
+      // Persiste les assignés sélectionnés (membres du projet) sur la task créée.
+      if (created.id && this.assigneeIds.length > 0) {
+        await this.tasks.syncAssignees(created.id, this.assigneeIds, []);
+      }
       this.args.onClose();
     } catch (err: unknown) {
       this.error =
@@ -377,16 +368,16 @@ export default class AddTaskModal extends Component<AddTaskModalSignature> {
               {{t "backlog.modal.addTask.assignees"}}
             </label>
             <div class="grid grid-cols-2 gap-2">
-              {{#each this.availableUsers as |user|}}
+              {{#each this.members as |member|}}
                 <label class="label cursor-pointer justify-start gap-2">
                   <input
                     type="checkbox"
                     class="checkbox checkbox-sm"
-                    checked={{this.isAssigneeSelected user.id}}
-                    {{on "change" (fn this.onAssigneeToggle user.id)}}
+                    checked={{this.isAssigneeSelected member.id}}
+                    {{on "change" (fn this.onAssigneeToggle member.id)}}
                   />
-                  <span class="label-text">{{user.firstName}}
-                    {{user.lastName}}</span>
+                  <span class="label-text">{{member.firstName}}
+                    {{member.lastName}}</span>
                 </label>
               {{/each}}
             </div>

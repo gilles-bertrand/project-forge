@@ -326,7 +326,10 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
 
           {{#if @userStory.id}}
             <div class="space-y-4">
-              <AcceptanceTestList @userStoryId={{@userStory.id}} />
+              <AcceptanceTestList
+                @ownerType="user-story"
+                @ownerId={{@userStory.id}}
+              />
 
               <section class="border-t border-base-300 pt-4">
                 <h4 class="font-semibold mb-2 text-sm">{{t

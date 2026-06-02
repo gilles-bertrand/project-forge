@@ -3,6 +3,7 @@ import { randomUUID } from "crypto";
 import { ScrumTestModule } from "#tests/utils/setup-module.js";
 import { TaskEntity } from "#src/task/task.entity.js";
 import { ProjectTaskCounterEntity } from "#src/project/project-task-counter.entity.js";
+import { ProjectMemberEntity } from "#src/project/project-member.entity.js";
 
 let module: ScrumTestModule;
 
@@ -269,6 +270,14 @@ test("POST /tasks/:id/attachments adds", async () => {
 
 test("POST /tasks/:id/assignees → 409 on duplicate", async () => {
   const id = await seedTask();
+  // user-z doit être membre du projet de la task (p-test) pour pouvoir être assigné
+  await module.em.getRepository(ProjectMemberEntity).insert({
+    id: randomUUID(),
+    projectId: "p-test",
+    userId: "user-z",
+    role: "Developer",
+    joinedAt: new Date(),
+  });
   const r1 = await module.fastifyInstance.inject({
     method: "POST",
     url: `/tasks/${id}/assignees`,

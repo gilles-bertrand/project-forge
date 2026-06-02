@@ -5,7 +5,10 @@ export const AcceptanceTestEntity = defineEntity({
   tableName: "acceptance_tests",
   properties: {
     id: p.string().primary(),
-    userStoryId: p.string().index(),
+    // Invariant applicatif : exactement un de userStoryId / taskId est non-null
+    // (un critère appartient soit à une user story, soit à une task). Validé côté route.
+    userStoryId: p.string().nullable().index(),
+    taskId: p.string().nullable().index(),
     name: p.string(),
     description: p.string(),
     state: p.string().default("to-check"),

@@ -1,19 +1,18 @@
 import { randomUUID } from "node:crypto";
-import type {
-  ChangeSet,
-  EntityManager,
-  EventSubscriber,
-  FlushEventArgs,
-  UnitOfWork,
+import {
+  ChangeSetType,
+  type ChangeSet,
+  type EntityManager,
+  type EventSubscriber,
+  type FlushEventArgs,
+  type UnitOfWork,
 } from "@mikro-orm/core";
 import { HistoryEntryEntity } from "#src/task/history-entry.entity.js";
 import { auditContext } from "#src/audit/audit-context.js";
 
 /**
- * Maps MikroORM entity class names (the `name:` passed to `defineEntity`) to the
- * `ownerType` discriminator stored in `HistoryEntryEntity`.
- *
- * `HistoryEntry` is intentionally absent to prevent an infinite audit loop.
+ * Maps MikroORM entity class names to the `ownerType` discriminator stored in
+ * `HistoryEntryEntity`. `HistoryEntry` is absent to prevent an audit loop.
  */
 const AUDITED_ENTITIES = new Map<string, string>([
   ["Epic", "epic"],
@@ -22,83 +21,127 @@ const AUDITED_ENTITIES = new Map<string, string>([
   ["Sprint", "sprint"],
 ]);
 
-type StatusedChangeSet = ChangeSet<{ id: string; status: unknown }>;
+/** Champs scalaires (hors `status`) tracés par ownerType → entrée lisible. */
+const AUDITED_FIELDS: Record<string, { field: string; label: string }[]> = {
+  epic: [{ field: "title", label: "Titre" }],
+  story: [
+    { field: "title", label: "Titre" },
+    { field: "priority", label: "Priorité" },
+    { field: "points", label: "Points" },
+  ],
+  task: [
+    { field: "title", label: "Titre" },
+    { field: "priority", label: "Priorité" },
+    { field: "points", label: "Points" },
+  ],
+  sprint: [],
+};
 
-interface AuditTrailInputs {
+type AnyChangeSet = ChangeSet<{ id: string } & Record<string, unknown>>;
+
+interface Ctx {
   em: EntityManager;
   uow: UnitOfWork;
-  changeSet: StatusedChangeSet;
-  ownerType: string;
   userId: string;
   now: Date;
 }
 
-function readStatus(value: unknown): string | undefined {
-  return typeof value === "string" ? value : undefined;
+function formatValue(value: unknown): string {
+  if (value === null || value === undefined || value === "") return "∅";
+  if (typeof value === "string") return value;
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  return JSON.stringify(value);
 }
 
-function recordStatusChange({
-  em,
-  uow,
-  changeSet,
-  ownerType,
-  userId,
-  now,
-}: AuditTrailInputs): void {
-  const payload = changeSet.payload as Record<string, unknown>;
-  if (!("status" in payload)) return;
-
-  const to = readStatus(payload.status);
-  if (!to) return;
-  const from = readStatus(changeSet.originalEntity?.status);
-  if (from === to) return;
-
-  const entry = em.create(HistoryEntryEntity, {
+function pushEntry(
+  ctx: Ctx,
+  ownerType: string,
+  ownerId: string,
+  type: string,
+  description: string,
+  metadata: Record<string, unknown>,
+): void {
+  const entry = ctx.em.create(HistoryEntryEntity, {
     id: randomUUID(),
     ownerType,
-    ownerId: changeSet.entity.id,
-    type: "status-change",
-    description: `Status ${from ?? "∅"} → ${to}`,
-    userId,
-    metadata: { from: from ?? null, to },
-    createdAt: now,
+    ownerId,
+    type,
+    description,
+    userId: ctx.userId,
+    metadata,
+    createdAt: ctx.now,
   });
-  // Register the new entity in the current UoW so it's persisted in the same flush.
-  uow.computeChangeSet(entry);
+  // Register in the current UoW so it's persisted in the same flush.
+  ctx.uow.computeChangeSet(entry);
+}
+
+function recordStatusChange(ctx: Ctx, cs: AnyChangeSet, ownerType: string): void {
+  const payload = cs.payload as Record<string, unknown>;
+  if (!("status" in payload)) return;
+  const to = typeof payload.status === "string" ? payload.status : undefined;
+  if (!to) return;
+  const fromRaw = cs.originalEntity?.status;
+  const from = typeof fromRaw === "string" ? fromRaw : undefined;
+  if (from === to) return;
+
+  pushEntry(ctx, ownerType, cs.entity.id, "status-change", `Status ${from ?? "∅"} → ${to}`, {
+    from: from ?? null,
+    to,
+  });
+}
+
+function recordFieldChanges(ctx: Ctx, cs: AnyChangeSet, ownerType: string): void {
+  const payload = cs.payload as Record<string, unknown>;
+  const original = cs.originalEntity as Record<string, unknown> | undefined;
+  for (const { field, label } of AUDITED_FIELDS[ownerType] ?? []) {
+    if (!(field in payload)) continue;
+    const to = payload[field];
+    const from = original?.[field];
+    if (from === to) continue;
+    pushEntry(
+      ctx,
+      ownerType,
+      cs.entity.id,
+      `${field}-change`,
+      `${label} : ${formatValue(from)} → ${formatValue(to)}`,
+      { field, from: from ?? null, to: to ?? null },
+    );
+  }
+}
+
+function recordAssigneeChange(ctx: Ctx, cs: AnyChangeSet): void {
+  const e = cs.entity as unknown as { taskId: string; userId: string };
+  if (cs.type === ChangeSetType.CREATE) {
+    pushEntry(ctx, "task", e.taskId, "assignee-added", "Assigné", { userId: e.userId });
+  } else if (cs.type === ChangeSetType.DELETE) {
+    pushEntry(ctx, "task", e.taskId, "assignee-removed", "Désassigné", { userId: e.userId });
+  }
 }
 
 /**
- * Subscriber that materialises an audit trail for status transitions on
- * Epic / UserStory / Task / Sprint.
- *
- * Hooked into `onFlush` so the new `HistoryEntryEntity` rows are persisted in
- * the same UoW as the originating change. The subscriber is silent when no
- * `userId` is present in `auditContext` (seeders, CLI jobs, internal cascade
- * work).
+ * Materialises an audit trail for Epic / UserStory / Task / Sprint: status
+ * transitions, scalar edits (title, priority, points) and task assignee
+ * add/remove. Silent when no `userId` is present in `auditContext`.
  */
 export class AuditSubscriber implements EventSubscriber {
   public async onFlush(args: FlushEventArgs): Promise<void> {
     const userId = auditContext.getStore()?.userId;
     if (!userId) return;
 
-    const now = new Date();
-    const em = args.em;
-    const uow = args.uow;
+    const ctx: Ctx = { em: args.em, uow: args.uow, userId, now: new Date() };
 
-    // Snapshot change sets BEFORE we start adding new ones via uow.computeChangeSet().
-    const initial = [...uow.getChangeSets()];
-    for (const changeSet of initial) {
-      const ownerType = AUDITED_ENTITIES.get(changeSet.meta?.className ?? "");
+    // Snapshot before we add new change sets via uow.computeChangeSet().
+    const initial = [...args.uow.getChangeSets()];
+    for (const cs of initial) {
+      const className = cs.meta?.className ?? "";
+      if (className === "TaskAssignee") {
+        recordAssigneeChange(ctx, cs as unknown as AnyChangeSet);
+        continue;
+      }
+      const ownerType = AUDITED_ENTITIES.get(className);
       if (!ownerType) continue;
-
-      recordStatusChange({
-        em,
-        uow,
-        changeSet: changeSet as unknown as StatusedChangeSet,
-        ownerType,
-        userId,
-        now,
-      });
+      recordStatusChange(ctx, cs as unknown as AnyChangeSet, ownerType);
+      recordFieldChanges(ctx, cs as unknown as AnyChangeSet, ownerType);
     }
   }
 }

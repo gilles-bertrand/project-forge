@@ -87,6 +87,8 @@ import { satelliteRoutesFor } from "#src/satellite-routes.js";
 import { AcceptanceTestEntity } from "#src/acceptance-test/acceptance-test.entity.js";
 import { ListByStoryAcceptanceTestRoute } from "#src/acceptance-test/routes/list-by-story.route.js";
 import { CreateOnStoryAcceptanceTestRoute } from "#src/acceptance-test/routes/create-on-story.route.js";
+import { ListByTaskAcceptanceTestRoute } from "#src/acceptance-test/routes/list-by-task.route.js";
+import { CreateOnTaskAcceptanceTestRoute } from "#src/acceptance-test/routes/create-on-task.route.js";
 import { UpdateAcceptanceTestRoute } from "#src/acceptance-test/routes/update.route.js";
 import { DeleteAcceptanceTestRoute } from "#src/acceptance-test/routes/delete.route.js";
 import { AcceptanceTestSummaryByStoryRoute } from "#src/acceptance-test/routes/summary.route.js";
@@ -211,6 +213,8 @@ export async function mountTasks(
     new ListTaskAssigneesRoute(em),
     new AddTaskAssigneeRoute(em),
     new RemoveTaskAssigneeRoute(em),
+    new ListByTaskAcceptanceTestRoute(em),
+    new CreateOnTaskAcceptanceTestRoute(em),
   ]);
 }
 

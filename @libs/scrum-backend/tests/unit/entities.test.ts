@@ -186,6 +186,7 @@ describe("scrum-backend — entity shapes (round-trip)", () => {
     const at: AcceptanceTestEntityType = {
       id: "at-1",
       userStoryId: "us1",
+      taskId: null,
       name: "Login valide",
       description: "Submit le formulaire avec un mot de passe correct",
       state: "to-check",

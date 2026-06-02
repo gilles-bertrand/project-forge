@@ -1,6 +1,7 @@
 import Service from '@ember/service';
 import type { Store } from '@warp-drive/core';
 import type { Task, TaskStatus, TaskType, TaskNature, TaskPriority } from '#src/schemas/tasks.ts';
+import type { MemberLite } from '#src/components/assignee-avatar-stack';
 export interface NewTaskPayload {
     title: string;
     description?: string;
@@ -24,18 +25,19 @@ export interface TaskComment {
 }
 export interface TaskHistoryEvent {
     id: string;
-    taskId: string;
-    field: string;
-    oldValue: string | null;
-    newValue: string | null;
-    changedById: string;
+    ownerType: string;
+    ownerId: string;
+    type: string;
+    description: string;
+    userId: string;
+    metadata: Record<string, unknown> | null;
     createdAt: string;
 }
 export interface TaskAssignee {
     id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
+    taskId: string;
+    userId: string;
+    assignedAt: string;
 }
 export default class TasksService extends Service {
     store: Store;
@@ -53,6 +55,10 @@ export default class TasksService extends Service {
     loadComments(taskId: string): Promise<TaskComment[]>;
     loadHistory(taskId: string): Promise<TaskHistoryEvent[]>;
     loadAssignees(taskId: string): Promise<TaskAssignee[]>;
+    addAssignee(taskId: string, userId: string): Promise<void>;
+    removeAssignee(taskId: string, userId: string): Promise<void>;
+    loadProjectMembers(projectId: string): Promise<MemberLite[]>;
+    syncAssignees(taskId: string, desiredIds: string[], currentIds: string[]): Promise<void>;
 }
 declare module '@ember/service' {
     interface Registry {

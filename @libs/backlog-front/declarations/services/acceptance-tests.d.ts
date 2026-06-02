@@ -18,7 +18,9 @@ export default class AcceptanceTestsService extends Service {
     store: Store;
     loading: boolean;
     loadByStory(userStoryId: string): Promise<AcceptanceTest[]>;
+    loadByTask(taskId: string): Promise<AcceptanceTest[]>;
     create(userStoryId: string, payload: NewAcceptanceTestPayload): Promise<AcceptanceTest>;
+    createOnTask(taskId: string, payload: NewAcceptanceTestPayload): Promise<AcceptanceTest>;
     update(id: string, payload: UpdateAcceptanceTestPayload): Promise<AcceptanceTest>;
     remove(id: string): Promise<void>;
 }

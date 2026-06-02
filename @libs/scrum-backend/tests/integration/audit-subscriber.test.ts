@@ -5,6 +5,7 @@ import { HistoryEntryEntity } from "#src/task/history-entry.entity.js";
 import { TaskEntity } from "#src/task/task.entity.js";
 import { UserStoryEntity } from "#src/user-story/user-story.entity.js";
 import { SprintEntity } from "#src/sprint/sprint.entity.js";
+import { ProjectMemberEntity } from "#src/project/project-member.entity.js";
 
 let module: ScrumTestModule;
 
@@ -167,18 +168,90 @@ test("direct em.insert (no request context) does NOT create an audit entry", asy
   expect(entries.length).toBe(0);
 });
 
-test("PATCH that does not change status creates no audit entry", async () => {
+test("PATCH of a non-audited field (description) creates no audit entry", async () => {
   const id = await seedTask({ status: "todo" });
   const response = await module.fastifyInstance.inject({
     method: "PATCH",
     url: `/tasks/${id}`,
     headers: { authorization: module.generateBearerToken() },
-    payload: { data: { attributes: { title: "Renamed but same status" } } },
+    payload: { data: { attributes: { description: "Nouvelle description" } } },
   });
   expect(response.statusCode).toBe(200);
 
   const entries = await listHistory("task", id);
   expect(entries.length).toBe(0);
+});
+
+test("PATCH /tasks/:id changing title creates a title-change entry", async () => {
+  const id = await seedTask({ status: "todo" });
+  const response = await module.fastifyInstance.inject({
+    method: "PATCH",
+    url: `/tasks/${id}`,
+    headers: { authorization: module.generateBearerToken() },
+    payload: { data: { attributes: { title: "Titre renommé" } } },
+  });
+  expect(response.statusCode).toBe(200);
+
+  const entries = await listHistory("task", id);
+  expect(entries.length).toBe(1);
+  expect(entries[0]?.type).toBe("title-change");
+  expect(entries[0]?.metadata).toEqual({
+    field: "title",
+    from: "Audit Task",
+    to: "Titre renommé",
+  });
+});
+
+test("PATCH /tasks/:id changing priority and points creates two entries", async () => {
+  const id = await seedTask({ status: "todo" });
+  const response = await module.fastifyInstance.inject({
+    method: "PATCH",
+    url: `/tasks/${id}`,
+    headers: { authorization: module.generateBearerToken() },
+    payload: {
+      data: { attributes: { priority: "Haute", points: 8 } },
+    },
+  });
+  expect(response.statusCode).toBe(200);
+
+  const entries = await listHistory("task", id);
+  const types = entries.map((e) => e.type).sort();
+  expect(types).toEqual(["points-change", "priority-change"]);
+});
+
+test("POST/DELETE /tasks/:id/assignees create assignee audit entries", async () => {
+  const id = await seedTask({ status: "todo" });
+  const userId = randomUUID();
+  // l'assigné doit être membre du projet (p-audit)
+  await module.em.getRepository(ProjectMemberEntity).insert({
+    id: randomUUID(),
+    projectId: "p-audit",
+    userId,
+    role: "Developer",
+    joinedAt: new Date(),
+  });
+
+  const add = await module.fastifyInstance.inject({
+    method: "POST",
+    url: `/tasks/${id}/assignees`,
+    headers: { authorization: module.generateBearerToken() },
+    payload: { data: { attributes: { userId } } },
+  });
+  expect(add.statusCode).toBe(200);
+
+  const del = await module.fastifyInstance.inject({
+    method: "DELETE",
+    url: `/tasks/${id}/assignees/${userId}`,
+    headers: { authorization: module.generateBearerToken() },
+  });
+  expect(del.statusCode).toBe(204);
+
+  const entries = await listHistory("task", id);
+  const types = entries.map((e) => e.type);
+  expect(types).toContain("assignee-added");
+  expect(types).toContain("assignee-removed");
+  const added = entries.find((e) => e.type === "assignee-added");
+  expect(added?.metadata).toEqual({ userId });
 });
 
 test("POST /sprints/:id/start creates an audit entry (planned → active)", async () => {
