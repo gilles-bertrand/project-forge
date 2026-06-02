@@ -1,6 +1,10 @@
 import Service from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { authFetch, authFetchJson } from '#src/utils/auth-fetch.ts';
+import {
+  authFetch,
+  authFetchJson,
+  readAccessToken,
+} from '#src/utils/auth-fetch.ts';
 import type {
   Attachment,
   AttachmentOwnerType,
@@ -12,6 +16,15 @@ const OWNER_SEGMENT: Record<AttachmentOwnerType, string> = {
   'user-story': 'user-stories',
   project: 'projects',
 };
+
+// Mirror of the backend @fastify/multipart limit (25 MB, single file) so the
+// UI can reject oversize files before wasting an upload round-trip.
+export const MAX_UPLOAD_BYTES = 25 * 1024 * 1024;
+
+export interface UploadOptions {
+  onProgress?: (percent: number) => void;
+  signal?: AbortSignal;
+}
 
 type RawAttachment = { id: string; attributes: Omit<Attachment, 'id'> };
 
@@ -39,22 +52,63 @@ export default class AttachmentsService extends Service {
     }
   }
 
-  // Upload multipart via authFetch — store.request ne gère pas FormData.
-  // L'endpoint `/upload` stocke le binaire et dérive `uploadedById` du JWT.
+  // Upload multipart via XHR (not fetch): only XHR exposes upload.onprogress,
+  // which an accurate progress bar needs. store.request can't do FormData
+  // either. The `/upload` endpoint stores the binary and derives
+  // `uploadedById` from the JWT, so we attach the same Bearer as authFetch.
   async upload(
     ownerType: AttachmentOwnerType,
     ownerId: string,
-    file: File
+    file: File,
+    options: UploadOptions = {}
   ): Promise<Attachment | null> {
+    const url = `/api/v1/${OWNER_SEGMENT[ownerType]}/${ownerId}/attachments/upload`;
+    const token = readAccessToken();
     const formData = new FormData();
     formData.append('file', file);
-    const res = await authFetch(
-      `/api/v1/${OWNER_SEGMENT[ownerType]}/${ownerId}/attachments/upload`,
-      { method: 'POST', body: formData }
-    );
-    if (!res.ok) return null;
-    const json = (await res.json()) as { data: RawAttachment };
-    return flatten(json.data);
+
+    return new Promise<Attachment | null>((resolve) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', url);
+      if (token) xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+
+      if (options.onProgress) {
+        xhr.upload.addEventListener('progress', (e) => {
+          if (e.lengthComputable) {
+            options.onProgress?.(Math.round((e.loaded / e.total) * 100));
+          }
+        });
+      }
+
+      xhr.addEventListener('load', () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          try {
+            const json = JSON.parse(xhr.responseText) as {
+              data: RawAttachment;
+            };
+            resolve(flatten(json.data));
+          } catch {
+            resolve(null);
+          }
+        } else {
+          resolve(null);
+        }
+      });
+      xhr.addEventListener('error', () => {
+        resolve(null);
+      });
+      xhr.addEventListener('abort', () => {
+        resolve(null);
+      });
+
+      if (options.signal) {
+        options.signal.addEventListener('abort', () => {
+          xhr.abort();
+        });
+      }
+
+      xhr.send(formData);
+    });
   }
 
   async remove(attachmentId: string): Promise<void> {

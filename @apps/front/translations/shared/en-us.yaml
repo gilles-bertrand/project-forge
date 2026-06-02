@@ -17,3 +17,7 @@ attachments:
   uploading: 'Uploading…'
   downloadAria: 'Download'
   deleteAria: 'Delete attachment'
+  dropHint: 'Drop a file here or click (max {max})'
+  tooLarge: 'File too large (max {max}).'
+  uploadFailed: 'File upload failed.'
+  progressAria: 'Upload progress'
