@@ -33,6 +33,7 @@ export default {
     addon.appReexports(
       [
         'components/**/*.js',
+        'controllers/**/*.js',
         'helpers/**/*.js',
         'routes/**/*.js',
         'modifiers/**/*.js',

@@ -23,10 +23,10 @@ Compare the running frontend against Figma reference screenshots, produce a prio
 
 Before running:
 
-1. **Stack healthy?** — `lsof -nP -iTCP:4200 -sTCP:LISTEN` + `curl http://localhost:8000/docs`
+1. **Stack healthy?** — `lsof -nP -iTCP:4200 -sTCP:LISTEN` + `curl http://localhost:8888/docs`
 2. **Authenticated?** — If login form is not headlessly testable, inject JWT:
    ```js
-   const j = await fetch('http://localhost:8000/api/v1/auth/login', {
+   const j = await fetch('http://localhost:8888/api/v1/auth/login', {
      method:'POST', headers:{'Content-Type':'application/json'},
      body: JSON.stringify({ email:'<seed_email>', password:'<seed_password>' })
    }).then(r=>r.json());

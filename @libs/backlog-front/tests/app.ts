@@ -34,14 +34,28 @@ const BACKLOG_FR = {
   backlog: {
     title: 'Backlog',
     subtitle: 'Tâches non assignées ({count})',
+    subtitleStories: '{count} user stories',
     emptyState: 'Aucune tâche dans le backlog.',
+    emptyStateStories: 'Aucune user story dans le backlog.',
     newTask: '+ Nouvelle tâche',
+    newUserStory: '+ Nouvelle US',
+    tasksTitle: 'Tâches attachées',
+    collapseAll: 'Tout réduire',
+    expandAll: 'Tout déployer',
     newTaskDisabled: 'Disponible en P6',
     noProjectSelected: 'Sélectionnez un projet.',
     dragHint: 'Glissez vers un sprint (P8)',
+    card: {
+      tasksCount: 'tâches',
+      noEpic: 'Sans épique',
+      toggleTasksAria: 'Afficher ou masquer les tâches',
+    },
+    groupToggle: { grouped: 'Grouper par épique', flat: 'Vue à plat' },
     taskRow: { points: '{count} pts', linkedToUS: '→ {title}' },
     filters: {
       all: 'Tous',
+      allEpics: 'Toutes les épiques',
+      epicSearchPlaceholder: 'Rechercher une épique…',
       nature: {
         Bug: 'Bug',
         Feature: 'Feature',
