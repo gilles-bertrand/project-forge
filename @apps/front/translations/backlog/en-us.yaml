@@ -1,14 +1,29 @@
 title: 'Backlog'
 subtitle: 'Tasks not assigned to a sprint ({count})'
+subtitleStories: '{count} user stories'
 emptyState: 'No tasks in the backlog.'
+emptyStateStories: 'No user stories in the backlog.'
 newTask: '+ New task'
+newUserStory: '+ New US'
+tasksTitle: 'Attached tasks'
+collapseAll: 'Collapse all'
+expandAll: 'Expand all'
 noProjectSelected: 'Select a project in the header to view the backlog.'
 dragHint: 'Drag a task to a sprint to plan it (available in P8)'
+card:
+  tasksCount: 'tasks'
+  noEpic: 'No epic'
+  toggleTasksAria: 'Show or hide tasks'
+groupToggle:
+  grouped: 'Group by epic'
+  flat: 'Flat view'
 taskRow:
   points: '{count} pts'
   linkedToUS: '→ {title}'
 filters:
   all: 'All'
+  allEpics: 'All epics'
+  epicSearchPlaceholder: 'Search an epic…'
   segment:
     sandbox: 'Sandbox'
     product-backlog: 'Product Backlog'

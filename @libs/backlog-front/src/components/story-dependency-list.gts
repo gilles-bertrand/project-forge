@@ -62,6 +62,10 @@ export default class StoryDependencyList extends Component<StoryDependencyListSi
     return this.outgoing.length === 0 && this.incoming.length === 0;
   }
 
+  get isPlaceholderSelected(): boolean {
+    return this.newToStoryId === '';
+  }
+
   storyTitle = (id: string): string =>
     this.userStories.list.find((s) => s.id === id)?.title ?? id;
 
@@ -179,11 +183,11 @@ export default class StoryDependencyList extends Component<StoryDependencyListSi
           </label>
           <select
             id="dependency-target"
-            class="select select-sm select-bordered flex-1"
+            class="select select-sm select-bordered flex-1 min-w-0"
             data-test-dependency-target
             {{on "change" this.onTargetChange}}
           >
-            <option value="" selected={{this.newToStoryId}}>
+            <option value="" selected={{this.isPlaceholderSelected}}>
               {{t "backlog.dependencies.addPlaceholder"}}
             </option>
             {{#each this.candidates as |story|}}
@@ -191,7 +195,7 @@ export default class StoryDependencyList extends Component<StoryDependencyListSi
             {{/each}}
           </select>
           <select
-            class="select select-sm select-bordered"
+            class="select select-sm select-bordered w-28 shrink-0"
             aria-label={{t "backlog.dependencies.typeAria"}}
             data-test-dependency-type
             {{on "change" this.onTypeChange}}

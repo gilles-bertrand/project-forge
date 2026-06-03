@@ -16,8 +16,11 @@ import type {
   StoryPoints,
   StoryPriority,
 } from '../schemas/user-stories.ts';
+import type TasksService from '../services/tasks.ts';
+import type { Task } from '../schemas/tasks.ts';
 import AcceptanceTestList from './acceptance-test-list.gts';
 import StoryDependencyList from './story-dependency-list.gts';
+import TaskStatusBadge from './task-status-badge.gts';
 import CommentThread from '@libs/shared-front/components/comment-thread';
 import AttachmentList from '@libs/shared-front/components/attachment-list';
 
@@ -48,6 +51,7 @@ const PRIORITY_VALUES: StoryPriority[] = [
 
 export default class EditUserStoryModal extends Component<EditUserStoryModalSignature> {
   @service declare userStories: UserStoriesService;
+  @service declare tasks: TasksService;
   @service declare currentProject: CurrentProjectService;
   @service('current-user') declare currentUser: CurrentUserService;
   @service declare intl: IntlService;
@@ -59,6 +63,8 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
   @tracked priority: StoryPriority = 'Moyenne';
   @tracked submitting = false;
   @tracked error = '';
+  @tracked storyTasks: Task[] = [];
+  @tracked tasksLoading = true;
 
   constructor(owner: Owner, args: EditUserStoryModalSignature['Args']) {
     super(owner, args);
@@ -67,6 +73,25 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
     this.status = args.userStory.status;
     this.points = args.userStory.points ?? null;
     this.priority = args.userStory.priority ?? 'Moyenne';
+    void this.loadStoryTasks();
+  }
+
+  // Self-contained: loads the story's tasks via its own endpoint so the
+  // section works wherever the modal is opened, without relying on the
+  // backlog route having preloaded tasks.all.
+  private async loadStoryTasks() {
+    const usId = this.args.userStory.id;
+    if (!usId) {
+      this.tasksLoading = false;
+      return;
+    }
+    try {
+      this.storyTasks = await this.tasks.loadByUserStory(usId);
+    } catch {
+      this.storyTasks = [];
+    } finally {
+      if (!this.isDestroying && !this.isDestroyed) this.tasksLoading = false;
+    }
   }
 
   // Bound to <option value=> in the points select. Returns '' for the
@@ -295,6 +320,41 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
                 {{/each}}
               </select>
             </div>
+
+            {{#if @userStory.id}}
+              <section data-test-us-tasks>
+                <h4 class="label text-sm font-medium mb-1">{{t
+                    "backlog.tasksTitle"
+                  }}</h4>
+                {{#if this.tasksLoading}}
+                  <p class="text-xs opacity-60 italic">{{t
+                      "acceptanceTests.loading"
+                    }}</p>
+                {{else}}
+                  <ul class="space-y-1">
+                    {{#each this.storyTasks as |task|}}
+                      <li
+                        class="flex items-center gap-2 text-sm bg-base-100 rounded px-2 py-1.5"
+                        data-test-us-task={{task.id}}
+                      >
+                        <span
+                          class="opacity-50 text-xs flex-shrink-0"
+                        >#{{task.number}}</span>
+                        <span
+                          class="flex-1 min-w-0 truncate"
+                        >{{task.title}}</span>
+                        <TaskStatusBadge @status={{task.status}} />
+                      </li>
+                    {{else}}
+                      <li
+                        class="text-xs opacity-60 italic"
+                        data-test-us-tasks-empty
+                      >{{t "user-story-map.noTasks"}}</li>
+                    {{/each}}
+                  </ul>
+                {{/if}}
+              </section>
+            {{/if}}
 
             {{#if this.error}}
               <div

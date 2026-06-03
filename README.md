@@ -70,7 +70,7 @@ pnpm dev             # Start the dev server
 From `@apps/front`:
 
 - **With mocked API (default):** `pnpm start`
-- **With the real backend:** `pnpm start:with-back` (proxies `/api` to `http://localhost:8000`)
+- **With the real backend:** `pnpm start:with-back` (proxies `/api` to `http://localhost:8888`)
 
 ### 5. Or run everything from the root
 
@@ -109,4 +109,4 @@ Allowed commit types: `feat`, `fix`, `perf`, `refactor`, `style`, `test`, `build
 
 ## API Documentation
 
-When the backend is running, Swagger UI is available at [`/documentation`](http://localhost:8000/documentation).
+When the backend is running, Swagger UI is available at [`/documentation`](http://localhost:8888/documentation).

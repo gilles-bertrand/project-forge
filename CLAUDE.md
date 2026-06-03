@@ -62,10 +62,10 @@ Le `.env` du backend (`@apps/backend/.env`) contient les secrets : `SESSION_KEY`
 | Service | Port | Commande de vérification |
 |---------|------|--------------------------|
 | Frontend (Vite/Ember) | **4200** | `curl -sf http://localhost:4200 -o /dev/null && echo UP` |
-| Backend (Fastify) | **8000** | `curl -sf http://localhost:8000/docs -o /dev/null && echo UP` |
+| Backend (Fastify) | **8888** | `curl -sf http://localhost:8888/docs -o /dev/null && echo UP` |
 | PostgreSQL | 5432 | `docker compose ps` |
 
-Ne pas supposer port 3000 — le backend est sur **8000**.
+Ne pas supposer port 3000 — le backend est sur **8888**.
 
 ## Conventions code
 

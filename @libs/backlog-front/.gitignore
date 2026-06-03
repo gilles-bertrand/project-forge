@@ -1,0 +1,3 @@
+# vitest browser test artifacts (failure screenshots / attachments)
+**/__screenshots__/
+.vitest-attachments/

@@ -5,6 +5,8 @@ import type UserStoriesService from '../services/user-stories.ts';
 import type CurrentProjectService from '@libs/shell-front/services/current-project';
 import type CurrentUserService from '@libs/users-front/services/current-user';
 import type { UserStory, StoryStatus, StoryPoints, StoryPriority } from '../schemas/user-stories.ts';
+import type TasksService from '../services/tasks.ts';
+import type { Task } from '../schemas/tasks.ts';
 interface EditUserStoryModalSignature {
     Args: {
         userStory: UserStory;
@@ -13,6 +15,7 @@ interface EditUserStoryModalSignature {
 }
 export default class EditUserStoryModal extends Component<EditUserStoryModalSignature> {
     userStories: UserStoriesService;
+    tasks: TasksService;
     currentProject: CurrentProjectService;
     currentUser: CurrentUserService;
     intl: IntlService;
@@ -23,7 +26,10 @@ export default class EditUserStoryModal extends Component<EditUserStoryModalSign
     priority: StoryPriority;
     submitting: boolean;
     error: string;
+    storyTasks: Task[];
+    tasksLoading: boolean;
     constructor(owner: Owner, args: EditUserStoryModalSignature['Args']);
+    private loadStoryTasks;
     pointOptionValue: (v: StoryPoints | null) => string;
     get statusOptions(): {
         value: StoryStatus;

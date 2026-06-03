@@ -30,7 +30,7 @@ export default defineConfig({
   webServer: [
     {
       command: "pnpm --filter @apps/backend start:e2e",
-      url: "http://localhost:8000/api/v1/status",
+      url: "http://localhost:8888/api/v1/status",
       timeout: 240_000,
       reuseExistingServer: !process.env.CI,
       cwd: "../..",
@@ -44,7 +44,7 @@ export default defineConfig({
       cwd: "../front",
       env: {
         VITE_MOCK_API: "false",
-        VITE_API_URL: "http://localhost:8000",
+        VITE_API_URL: "http://localhost:8888",
       },
     },
   ],

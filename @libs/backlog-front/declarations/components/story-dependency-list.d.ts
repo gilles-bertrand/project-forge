@@ -23,6 +23,7 @@ export default class StoryDependencyList extends Component<StoryDependencyListSi
     constructor(owner: Owner, args: StoryDependencyListSignature['Args']);
     load: () => Promise<void>;
     get isEmpty(): boolean;
+    get isPlaceholderSelected(): boolean;
     storyTitle: (id: string) => string;
     typeLabelKey: (type: StoryDependencyType) => string;
     get typeOptions(): {

@@ -6,7 +6,7 @@ export const E2E_USER = {
   id: 'user-claire',
 };
 
-const API_BASE = 'http://localhost:8000/api/v1';
+const API_BASE = 'http://localhost:8888/api/v1';
 
 export async function loginViaApi(
   request: APIRequestContext,
